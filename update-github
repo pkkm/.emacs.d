@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-# Update the GitHub .emacs.d repository.
-
-git add init.el conf vendor update-github
-git commit -m "Update"
-
-git push origin master
