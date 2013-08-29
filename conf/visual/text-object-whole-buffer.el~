@@ -1,0 +1,28 @@
+;;; "Whole buffer" text object.
+
+(require 'conf/evil)
+
+;; ah -- whole buffer.
+(evil-define-text-object evil-whole-buffer (count &rest other-args)
+  "Select the whole buffer."
+  :type 'inclusive
+  (list (buffer-end -1) (buffer-end 1)))
+(define-key evil-outer-text-objects-map "h" 'evil-whole-buffer)
+
+;; ih -- from the first to the last non-whitespace character.
+(evil-define-text-object evil-whole-buffer-without-whitespace (count &rest other-args)
+  "Select from the first to the last non-whitespace character in the buffer.
+(Whitespace characters are \n and characters marked as whitespace in current syntax table.)"
+  :type 'inclusive
+  (let ((non-whitespace-regex "[^\n[:space:]]"))
+    (save-excursion
+      (list (progn (goto-char (point-min))
+                   (let ((after-non-whitespace-pos (re-search-forward non-whitespace-regex nil t)))
+(if after-non-whitespace-pos
+    (- after-non-whitespace-pos -)
+  (point-min)))
+(progn (goto-char (point-max))
+       (re-search-backward non-whitespace-regex nil t))))))
+(define-key evil-inner-text-objects-map "h" 'evil-whole-buffer-without-whitespace)
+
+(provide 'conf/visual/text-object-whole-buffer)

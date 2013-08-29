@@ -1,0 +1,96 @@
+;;; `require' my customizations based on some conditions.
+
+(require 'conf/init/check-version)
+(require 'conf/init/no-startup-message)
+(require 'conf/init/initial-scratch-message)
+
+(require 'conf/packages)
+(require 'conf/evil)
+
+(require 'conf/view/trailing-whitespace)
+(require 'conf/view/windows)
+(require 'conf/view/hl-current-line)
+(require 'conf/view/buffer-map)
+(require 'conf/view/color-theme)
+(require 'conf/view/wrapping)
+(require 'conf/view/scrolling)
+(require 'conf/view/ui-elements)
+(require 'conf/view/unique-buffer-names)
+(require 'conf/view/page-break-lines)
+(require 'conf/view/indent-guides)
+
+(when window-system
+  (require 'conf/view/gui/mouse-avoidance)
+  (require 'conf/view/gui/title)
+  (require 'conf/view/gui/font)
+  (require 'conf/view/gui/cursor)
+  (require 'conf/view/gui/fringe)
+  (require 'conf/view/gui/start-maximized)
+  (require 'conf/view/gui/focus-follows-mouse))
+
+(require 'conf/minibuffer/y-or-n-p)
+(require 'conf/minibuffer/esc-quits-prompts)
+(require 'conf/minibuffer/ido)
+(require 'conf/minibuffer/M-x)
+(require 'conf/minibuffer/default-choice)
+
+(require 'conf/visual/search-selected)
+(require 'conf/visual/expand-region)
+(require 'conf/visual/undo-in-region)
+(require 'conf/visual/text-object-whole-buffer)
+
+(require 'conf/insert-state/insert-verbatim)
+(require 'conf/insert-state/esc-alternatives)
+
+(require 'conf/motions/little-word)
+(require 'conf/motions/vim-dvorak)
+(require 'conf/motions/forward-backward-button)
+(require 'conf/motions/ace-jump)
+
+(require 'conf/editing/indentation)
+(require 'conf/editing/smartparens)
+(require 'conf/operators/hungry-delete)
+
+(require 'conf/modeline/faces)
+(require 'conf/modeline/format)
+(require 'conf/modeline/cleaner-minor-modes)
+
+(require 'conf/opening-saving/backups)
+(require 'conf/opening-saving/editorconfig)
+(require 'conf/opening-saving/save-point-position)
+(require 'conf/opening-saving/keys)
+(require 'conf/opening-saving/ido)
+(require 'conf/opening-saving/coding)
+(require 'conf/opening-saving/vim-modelines)
+(require 'conf/opening-saving/recent-files)
+
+(require 'conf/operators/insert-newline)
+(require 'conf/operators/break-line)
+(require 'conf/operators/clipboard)
+(require 'conf/operators/prefix-arguments)
+(require 'conf/operators/inc-dec-number)
+(require 'conf/operators/yank-to-eol)
+
+(require 'conf/configuring/unbound)
+(require 'conf/configuring/command-log)
+
+(require 'conf/other/enable-confusing-commands)
+(require 'conf/other/guide-key)
+(require 'conf/other/make-prefix-keys-more-convenient)
+;;(require 'conf/other/clipboard)
+(require 'conf/other/count-lines-words-chars)
+(require 'conf/other/isend)
+(require 'conf/other/writegood)
+
+(require 'conf/lang/fundamental)
+(require 'conf/lang/vimrc)
+(require 'conf/lang/elisp-and-interaction)
+(require 'conf/lang/lisps)
+(require 'conf/lang/scala)
+(require 'conf/lang/pascal)
+(require 'conf/lang/asciidoc)
+(require 'conf/lang/text)
+(require 'conf/lang/tex-and-latex)
+(require 'conf/lang/bat-cmd)
+
+(provide 'conf/-)

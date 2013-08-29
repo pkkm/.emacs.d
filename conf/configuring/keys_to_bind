@@ -1,0 +1,32 @@
+Rarely used
+===========
+X	delete one character backward
+C-y	scroll one line up
+C-g	quit
+C-j	newline
+C-k	kill line
+
+Redundant
+=========
+^	first non-blank char in line (same as H)
+C-s	save buffer
+
+Unbound
+=======
+Q
+C-;
+C-,
+C-a
+C-q
+g z
+g y
+g x
+g s
+g r
+g o
+g l
+g k
+g j
+g c
+g RET
+M-RET
