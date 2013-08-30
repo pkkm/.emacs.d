@@ -87,23 +87,27 @@
         (list evil-motion-state-map
               evil-normal-state-map))
 
+;; Unbind Evil's C-y (motion state: scroll up, insert: copy from above).
+(define-key evil-motion-state-map (kbd "C-y") nil)
+(define-key evil-insert-state-map (kbd "C-y") nil)
+
 ;; "g p" is used as a prefix for uncommon Smartparens commands.
 
 ;; Prefix arguments.
-(evil-define-key 'motion sp-keymap (kbd "g p t") #'sp-prefix-tag-object) ; Perform the next operation on an SGML tag.
-(evil-define-key 'motion sp-keymap (kbd "g p p") #'sp-prefix-pair-object) ; Perform the next operation on a balanced pair.
+(evil-define-key 'motion sp-keymap (kbd "g >") #'sp-prefix-tag-object) ; Perform the next operation on an SGML tag.
+(evil-define-key 'motion sp-keymap (kbd "g \"") #'sp-prefix-pair-object) ; Perform the next operation on a balanced pair.
 
 ;; Move by sexps, cursor at the beginning (like w/b).
-(evil-define-key 'motion sp-keymap (kbd "C-s") #'sp-next-sexp)
-(evil-define-key 'motion sp-keymap (kbd "C-y") #'sp-backward-sexp)
+(define-key sp-keymap (kbd "C-s") #'sp-next-sexp)
+(define-key sp-keymap (kbd "C-y") #'sp-backward-sexp)
 
 ;; Other movement by sexps.
 ;;(define-key sp-keymap (kbd "C-M-f") #'sp-forward-sexp)
 ;;(define-key sp-keymap (kbd "C-M-p") #'sp-previous-sexp)
 
 ;; Move up/down nested sexps.
-(evil-define-key 'motion sp-keymap (kbd "C-)") #'sp-down-sexp)
-(evil-define-key 'motion sp-keymap (kbd "C-(") #'sp-backward-up-sexp)
+(define-key sp-keymap (kbd "C-)") #'sp-down-sexp)
+(define-key sp-keymap (kbd "C-(") #'sp-backward-up-sexp)
 
 ;; Other movement up/down nested sexps.
 ;;(define-key sp-keymap (kbd "C-M-a") #'sp-backward-down-sexp)
@@ -117,8 +121,8 @@
 ;;(define-key sp-keymap (kbd "M-B") #'sp-backward-symbol)
 
 ;; Slurp and barf (move the next/previous expression inside/outside the current one).
-(evil-define-key 'normal sp-keymap (kbd "C-}") #'sp-forward-slurp-sexp)
-(evil-define-key 'normal sp-keymap (kbd "C-{") #'sp-forward-barf-sexp)
+(define-key sp-keymap (kbd "C-}") #'sp-forward-slurp-sexp)
+(define-key sp-keymap (kbd "C-{") #'sp-forward-barf-sexp)
 (evil-define-key 'normal sp-keymap (kbd "g {") #'sp-backward-slurp-sexp)
 (evil-define-key 'normal sp-keymap (kbd "g }") #'sp-backward-barf-sexp)
 
@@ -132,10 +136,11 @@
 (evil-define-key 'normal sp-keymap (kbd "g p }") #'sp-emit-sexp)
 
 ;; Add the expression after/before point to the list before/after point (like slurp forward/backward, but from the outside).
-(evil-define-key 'normal sp-keymap (kbd "g p (") #'sp-add-to-previous-sexp)
-(evil-define-key 'normal sp-keymap (kbd "g p )") #'sp-add-to-next-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g p p") #'sp-add-to-previous-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g p n") #'sp-add-to-next-sexp)
 
-;;(define-key sp-keymap (kbd "C-M-t") #'sp-transpose-sexp)
+;; Transpose sexps -- swap the next with the previous.
+(define-key sp-keymap (kbd "g p t") #'sp-transpose-sexp)
 
 ;;(define-key sp-keymap (kbd "C-M-k") #'sp-kill-sexp)
 ;;(define-key sp-keymap (kbd "C-M-w") #'sp-copy-sexp)
@@ -163,9 +168,9 @@
 ;;(define-key sp-keymap (kbd "M-<delete>") #'sp-unwrap-sexp)
 ;;(define-key sp-keymap (kbd "M-<backspace>") #'sp-backward-unwrap-sexp)
 
-(define-key sp-keymap (kbd "C-]") #'sp-select-next-thing-exchange)
-(define-key sp-keymap (kbd "C-<left_bracket>") #'sp-select-previous-thing)
-(define-key sp-keymap (kbd "C-M-]") #'sp-select-next-thing)
+;;(define-key sp-keymap (kbd "C-]") #'sp-select-next-thing-exchange)
+;;(define-key sp-keymap (kbd "C-<left_bracket>") #'sp-select-previous-thing)
+;;(define-key sp-keymap (kbd "C-M-]") #'sp-select-next-thing)
 
 ;; TODO see how useful `sp-newline' will be with evil.
 
