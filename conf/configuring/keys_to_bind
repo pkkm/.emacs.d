@@ -1,7 +1,6 @@
 Rarely used
 ===========
 X	delete one character backward
-C-y	scroll one line up
 C-g	quit
 C-j	newline
 C-k	kill line
@@ -9,7 +8,6 @@ C-k	kill line
 Redundant
 =========
 ^	first non-blank char in line (same as H)
-C-s	save buffer
 
 Unbound
 =======

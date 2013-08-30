@@ -27,7 +27,6 @@
 
 ;; Save.
 (define-key my-file-map (kbd "s") #'save-buffer)
-(define-key evil-normal-state-map (kbd "C-s") #'save-buffer)
 
 ;; Write (save as).
 (define-key my-file-map (kbd "w") #'ido-write-file)

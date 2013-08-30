@@ -7,14 +7,12 @@
   (interactive "p")
   (cl-dotimes (unused-var count)
     (evil-insert-newline-below)))
-(define-key evil-normal-state-map (kbd "] SPC") 'my-insert-line-below)
 (define-key evil-normal-state-map (kbd "g o") 'my-insert-line-below)
 
 (defun my-insert-line-above (count)
   (interactive "p")
   (cl-dotimes (unused-var count)
     (evil-insert-newline-above)))
-(define-key evil-normal-state-map (kbd "[ SPC") 'my-insert-line-above)
 (define-key evil-normal-state-map (kbd "g O") 'my-insert-line-above)
 
 (provide 'conf/operators/insert-newline)

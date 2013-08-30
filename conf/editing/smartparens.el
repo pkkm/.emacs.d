@@ -79,63 +79,48 @@
 
 ;;; Bindings.
 
-(define-key sp-keymap (kbd "C-M-f") #'sp-forward-sexp)
-(define-key sp-keymap (kbd "C-M-b") #'sp-backward-sexp)
+;; Unbind Evil's [ and ] prefixes (movement by sections is useless anyway).
+(require 'conf/evil)
+(mapcar (lambda (map)
+          (define-key map (kbd "[") nil)
+          (define-key map (kbd "]") nil))
+        (list evil-motion-state-map
+              evil-normal-state-map))
 
-(define-key sp-keymap (kbd "C-M-d") #'sp-down-sexp)
-(define-key sp-keymap (kbd "C-M-a") #'sp-backward-down-sexp)
-(define-key sp-keymap (kbd "C-S-a") #'sp-beginning-of-sexp)
-(define-key sp-keymap (kbd "C-S-d") #'sp-end-of-sexp)
+;; "g p" is used as a prefix for uncommon Smartparens commands.
 
-(define-key sp-keymap (kbd "C-M-e") #'sp-up-sexp)
-(define-key sp-keymap (kbd "C-M-u") #'sp-backward-up-sexp)
-(define-key sp-keymap (kbd "C-M-t") #'sp-transpose-sexp)
+;; Prefix arguments.
+(evil-define-key 'motion sp-keymap (kbd "g p t") #'sp-prefix-tag-object) ; Perform the next operation on an SGML tag.
+(evil-define-key 'motion sp-keymap (kbd "g p p") #'sp-prefix-pair-object) ; Perform the next operation on a balanced pair.
 
-(define-key sp-keymap (kbd "C-M-n") #'sp-next-sexp)
-(define-key sp-keymap (kbd "C-M-p") #'sp-previous-sexp)
+;; Move by sexps, cursor at the beginning (like w/b).
+(evil-define-key 'motion sp-keymap (kbd "C-s") #'sp-next-sexp)
+(evil-define-key 'motion sp-keymap (kbd "C-y") #'sp-backward-sexp)
 
-(define-key sp-keymap (kbd "C-M-k") #'sp-kill-sexp)
-(define-key sp-keymap (kbd "C-M-w") #'sp-copy-sexp)
+;; Other movement by sexps.
+;;(define-key sp-keymap (kbd "C-M-f") #'sp-forward-sexp)
+;;(define-key sp-keymap (kbd "C-M-p") #'sp-previous-sexp)
 
-;;(define-key sp-keymap (kbd "M-<delete>") #'sp-unwrap-sexp)
-;;(define-key sp-keymap (kbd "M-<backspace>") #'sp-backward-unwrap-sexp)
+;; Move up/down nested sexps.
+(evil-define-key 'motion sp-keymap (kbd "C-)") #'sp-down-sexp)
+(evil-define-key 'motion sp-keymap (kbd "C-(") #'sp-backward-up-sexp)
 
-(define-key sp-keymap (kbd "C-<right>") #'sp-forward-slurp-sexp)
-(define-key sp-keymap (kbd "C-<left>") #'sp-forward-barf-sexp)
-(define-key sp-keymap (kbd "C-M-<left>") #'sp-backward-slurp-sexp)
-(define-key sp-keymap (kbd "C-M-<right>") #'sp-backward-barf-sexp)
+;; Other movement up/down nested sexps.
+;;(define-key sp-keymap (kbd "C-M-a") #'sp-backward-down-sexp)
+;;(define-key sp-keymap (kbd "C-M-e") #'sp-up-sexp)
 
-(define-key sp-keymap (kbd "M-D") #'sp-splice-sexp)
-;;(define-key sp-keymap (kbd "C-M-<delete>") #'sp-splice-sexp-killing-forward)
-;;(define-key sp-keymap (kbd "C-M-<backspace>") #'sp-splice-sexp-killing-backward)
-;;(define-key sp-keymap (kbd "C-S-<backspace>") #'sp-splice-sexp-killing-around)
+;; Beginning/end of sexp.
+(evil-define-key 'motion sp-keymap (kbd "[") #'sp-beginning-of-sexp)
+(evil-define-key 'motion sp-keymap (kbd "]") #'sp-end-of-sexp)
 
-(define-key sp-keymap (kbd "C-]") #'sp-select-next-thing-exchange)
-(define-key sp-keymap (kbd "C-<left_bracket>") #'sp-select-previous-thing)
-(define-key sp-keymap (kbd "C-M-]") #'sp-select-next-thing)
+;;(define-key sp-keymap (kbd "M-F") #'sp-forward-symbol)
+;;(define-key sp-keymap (kbd "M-B") #'sp-backward-symbol)
 
-(define-key sp-keymap (kbd "M-F") #'sp-forward-symbol)
-(define-key sp-keymap (kbd "M-B") #'sp-backward-symbol)
-
-;; TODO see how useful `sp-newline' will be with evil.
-
-;;; Other bindings.
-
-(defvar my-smartparens-map (make-sparse-keymap)
-  "Keymap for rarely used Smartparens commands.")
-(define-prefix-command 'my-smartparens-map)
-(define-key evil-normal-state-map (kbd "g p") #'my-smartparens-map)
-
-(define-key my-smartparens-map (kbd "t") #'sp-prefix-tag-object) ; Perform the next operation on an SGML tag.
-(define-key my-smartparens-map (kbd "p") #'sp-prefix-pair-object) ; Perform the next operation on a balanced pair.
-
-;; Splice sexp, killing backward. Then wrap the enclosing sexp with the killed one.
-;; Example (| -- cursor):
-;;  (let ((stuff 1))            |(while (we-are-good)
-;;    (while (we-are-good)  ->     (let ((stuff 1))
-;;     |(do-thing 1)                 (do-thing 1)
-;;      (do-thing 2)))               (do-thing 2)))
-(define-key my-smartparens-map (kbd "c") #'sp-convolute-sexp)
+;; Slurp and barf (move the next/previous expression inside/outside the current one).
+(evil-define-key 'normal sp-keymap (kbd "C-}") #'sp-forward-slurp-sexp)
+(evil-define-key 'normal sp-keymap (kbd "C-{") #'sp-forward-barf-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g {") #'sp-backward-slurp-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g }") #'sp-backward-barf-sexp)
 
 ;; Absorb -- move the sexp before the one we're in into it, at the cursor position.
 ;; Emit -- the reverse.
@@ -143,18 +128,45 @@
 ;;  (do-stuff 1)                  (save-excursion
 ;;  (save-excursion  --absorb-->   |(do-stuff 1)
 ;;   |(do-stuff 2))                 (do-stuff 2))
-(define-key my-smartparens-map (kbd "a") #'sp-absorb-sexp)
-(define-key my-smartparens-map (kbd "e") #'sp-emit-sexp)
-(define-key my-smartparens-map (kbd "A") #'sp-emit-sexp)
-(define-key my-smartparens-map (kbd "E") #'sp-absorb-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g p {") #'sp-absorb-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g p }") #'sp-emit-sexp)
 
 ;; Add the expression after/before point to the list before/after point (like slurp forward/backward, but from the outside).
-(define-key my-smartparens-map (kbd "p") #'sp-add-to-previous-sexp)
-(define-key my-smartparens-map (kbd "n") #'sp-add-to-next-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g p (") #'sp-add-to-previous-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g p )") #'sp-add-to-next-sexp)
+
+;;(define-key sp-keymap (kbd "C-M-t") #'sp-transpose-sexp)
+
+;;(define-key sp-keymap (kbd "C-M-k") #'sp-kill-sexp)
+;;(define-key sp-keymap (kbd "C-M-w") #'sp-copy-sexp)
+
+;; Splice (remove the delimiters of enclosing sexp).
+(evil-define-key 'normal sp-keymap (kbd "g s") #'sp-splice-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g DEL") #'sp-splice-sexp-killing-backward)
+(evil-define-key 'normal sp-keymap (kbd "g M-DEL") #'sp-splice-sexp-killing-forward)
+(evil-define-key 'normal sp-keymap (kbd "g p DEL") #'sp-splice-sexp-killing-around)
+
+;; Convolute -- splice sexp, killing backward. Then wrap the enclosing sexp with the killed one.
+;; Example (| -- cursor):
+;;  (let ((stuff 1))            |(while (we-are-good)
+;;    (while (we-are-good)  ->     (let ((stuff 1))
+;;     |(do-thing 1)                 (do-thing 1)
+;;      (do-thing 2)))               (do-thing 2)))
+(evil-define-key 'normal sp-keymap (kbd "g p c") #'sp-convolute-sexp)
 
 ;; Join, split.
-(define-key my-smartparens-map (kbd "j") #'sp-join-sexp)
-(define-key my-smartparens-map (kbd "T") #'sp-join-sexp)
-(define-key my-smartparens-map (kbd "s") #'sp-split-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g p s") #'sp-split-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g p j") #'sp-join-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g p T") #'sp-join-sexp) ; For consistency with my non-standard binding for "join line".
+
+;; Unwrap (remove the delimiters of previous/next sexp).
+;;(define-key sp-keymap (kbd "M-<delete>") #'sp-unwrap-sexp)
+;;(define-key sp-keymap (kbd "M-<backspace>") #'sp-backward-unwrap-sexp)
+
+(define-key sp-keymap (kbd "C-]") #'sp-select-next-thing-exchange)
+(define-key sp-keymap (kbd "C-<left_bracket>") #'sp-select-previous-thing)
+(define-key sp-keymap (kbd "C-M-]") #'sp-select-next-thing)
+
+;; TODO see how useful `sp-newline' will be with evil.
 
 (provide 'conf/editing/smartparens)
