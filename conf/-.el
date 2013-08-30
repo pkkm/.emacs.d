@@ -76,7 +76,7 @@
 
 (require 'conf/other/enable-confusing-commands)
 (require 'conf/other/guide-key)
-(require 'conf/other/make-prefix-keys-more-convenient)
+(require 'conf/other/convenient-prefix-keys)
 ;;(require 'conf/other/clipboard)
 (require 'conf/other/count-lines-words-chars)
 (require 'conf/other/isend)

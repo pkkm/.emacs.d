@@ -17,7 +17,7 @@
 (face-spec-reset-face 'sp-show-pair-enclosing)
 (setq blink-matching-paren nil) ; Don't move the cursor to the matching paren.
 
-;; Highlighting.
+;; Other.
 (setq sp-highlight-pair-overlay nil) ; Don't highlight the currently edited expression.
 (setq sp-highlight-wrap-overlay t) ; ???.
 (setq sp-highlight-wrap-tag-overlay t) ; ???.
@@ -47,7 +47,7 @@
 
 ;; What to consider a sexp.
 (setq sp-navigate-comments-as-sexps t) ; Consider comments to be sexps.
-(setq sp-navigate-consider-symbols t) ; Consider symbols outside balanced expressions to be sexps.
+(setq sp-navigate-consider-symbols t) ; Consider symbols outside balanced expressions to be sexps. ; WARNING! SETTING THIS TO NIL CAUSES SEXP DELETION ON BACKWARD-UP-SEXP! ; TODO check if warning still applies, after a few days.
 (setq sp-navigate-consider-sgml-tags ; In which modes to consider SGML tags to be sexps.
       '(sgml-mode html-mode xml-mode nxml-mode scala-mode))
 (setq sp-navigate-consider-stringlike-sexp '(latex-mode)) ; In which modes to consider string-like sexps (like "*bold text*") to be sexps.
@@ -72,7 +72,8 @@
 
 ;; Sexp cleanups done on `sp-up-sexp'.
 (setq sp-navigate-close-if-unbalanced nil) ; Don't insert closing delimiter of unmatched pairs.
-(setq sp-navigate-reindent-after-up '((interactive emacs-lisp-mode))) ; In which modes sexps should be reindented. With 'interactive, the sexp will be reindented only if `sp-up-sexp' was called interactively. With 'always, always.
+(setq sp-navigate-reindent-after-up ; In which modes sexps should be reindented.
+      '((interactive emacs-lisp-mode lisp-interaction-mode))) ;; With 'interactive, reindent only if called interactively. With 'always, always.
 
 ;; Include some mode-specific pairs (for Lisp, LaTeX and HTML).
 (require 'smartparens-config)
@@ -95,7 +96,7 @@
 
 ;; Prefix arguments.
 (evil-define-key 'motion sp-keymap (kbd "g >") #'sp-prefix-tag-object) ; Perform the next operation on an SGML tag.
-(evil-define-key 'motion sp-keymap (kbd "g \"") #'sp-prefix-pair-object) ; Perform the next operation on a balanced pair.
+(evil-define-key 'motion sp-keymap (kbd "g \"") #'sp-prefix-pair-object) ; Perform the next operation on a balanced pair. (Use this to skip symbols when moving by sexps.)
 
 ;; Move by sexps, cursor at the beginning (like w/b).
 (define-key sp-keymap (kbd "C-s") #'sp-next-sexp)
@@ -114,6 +115,8 @@
 ;;(define-key sp-keymap (kbd "C-M-e") #'sp-up-sexp)
 
 ;; Beginning/end of sexp.
+;; With non-numeric prefix, beginning/end of enclosing sexp.
+;; With prefix ARG, beginning/end of ARGth next sexp (ARG can be negative).
 (evil-define-key 'motion sp-keymap (kbd "[") #'sp-beginning-of-sexp)
 (evil-define-key 'motion sp-keymap (kbd "]") #'sp-end-of-sexp)
 
@@ -121,6 +124,7 @@
 ;;(define-key sp-keymap (kbd "M-B") #'sp-backward-symbol)
 
 ;; Slurp and barf (move the next/previous expression inside/outside the current one).
+;; With non-numeric prefix, slurp/barf as many as possible.
 (define-key sp-keymap (kbd "C-}") #'sp-forward-slurp-sexp)
 (define-key sp-keymap (kbd "C-{") #'sp-forward-barf-sexp)
 (evil-define-key 'normal sp-keymap (kbd "g {") #'sp-backward-slurp-sexp)
@@ -140,18 +144,21 @@
 (evil-define-key 'normal sp-keymap (kbd "g p n") #'sp-add-to-next-sexp)
 
 ;; Transpose sexps -- swap the next with the previous.
-(define-key sp-keymap (kbd "g p t") #'sp-transpose-sexp)
+;; With prefix ARG, drag the sexp before point that many sexps forward (ARG can be negative).
+(evil-define-key 'normal sp-keymap (kbd "g p t") #'sp-transpose-sexp)
 
 ;;(define-key sp-keymap (kbd "C-M-k") #'sp-kill-sexp)
 ;;(define-key sp-keymap (kbd "C-M-w") #'sp-copy-sexp)
 
 ;; Splice (remove the delimiters of enclosing sexp).
+;; With prefix ARG, splice the sexp that many levels up.
 (evil-define-key 'normal sp-keymap (kbd "g s") #'sp-splice-sexp)
 (evil-define-key 'normal sp-keymap (kbd "g DEL") #'sp-splice-sexp-killing-backward)
 (evil-define-key 'normal sp-keymap (kbd "g M-DEL") #'sp-splice-sexp-killing-forward)
 (evil-define-key 'normal sp-keymap (kbd "g p DEL") #'sp-splice-sexp-killing-around)
 
 ;; Convolute -- splice sexp, killing backward. Then wrap the enclosing sexp with the killed one.
+;; With prefix ARG, move that many sexps up before wrapping.
 ;; Example (| -- cursor):
 ;;  (let ((stuff 1))            |(while (we-are-good)
 ;;    (while (we-are-good)  ->     (let ((stuff 1))
@@ -160,8 +167,8 @@
 (evil-define-key 'normal sp-keymap (kbd "g p c") #'sp-convolute-sexp)
 
 ;; Join, split.
-(evil-define-key 'normal sp-keymap (kbd "g p s") #'sp-split-sexp)
-(evil-define-key 'normal sp-keymap (kbd "g p j") #'sp-join-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g p s") #'sp-split-sexp) ; With non-numeric prefix, split all the sexps in current one into separate sexps.
+(evil-define-key 'normal sp-keymap (kbd "g p j") #'sp-join-sexp) ; With prefix ARG, join with that many following expressions (ARG can be negative).
 (evil-define-key 'normal sp-keymap (kbd "g p T") #'sp-join-sexp) ; For consistency with my non-standard binding for "join line".
 
 ;; Unwrap (remove the delimiters of previous/next sexp).

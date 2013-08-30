@@ -70,8 +70,8 @@ FUNCTION should accept and return a key vector."
 (defun maps-with-bound-key (key)
   (delq nil
         (mapcar (lambda (keymap-bc9d50da) ; The name is weird so that we can ignore it when looking for the variable to which this keymap is bound. This could be eliminated by using 2 passes of `mapatoms', an additional variable, or an uninterned symbol and `eval'.
-                  (let ((binding (lookup-key keymap-bc9d50da key)))
-                    (if binding
+                  (if binding
+                      (let ((binding (lookup-key keymap-bc9d50da key)))
                         (let ((keymap-name nil))
                           (mapatoms (lambda (symbol)
                                       (when (and (not (eq symbol 'keymap-bc9d50da))
@@ -80,7 +80,7 @@ FUNCTION should accept and return a key vector."
                                         (message (symbol-name symbol))
                                         (setq keymap-name symbol))))
                           keymap-name)
-                      nil)))
+                        nil)))
                 (current-active-maps))))
 
 (provide 'conf/utils/keys)
