@@ -179,6 +179,12 @@
 ;;(define-key sp-keymap (kbd "C-<left_bracket>") #'sp-select-previous-thing)
 ;;(define-key sp-keymap (kbd "C-M-]") #'sp-select-next-thing)
 
+(evil-define-text-object evil-sp-a-sexp (count &rest other-args)
+  "Text object for the enclosing sexp."
+  (let ((enclosing-sexp-info (sp--next-thing-selection 0 '(16))))
+    (sp-get enclosing-sexp-info (list :beg :end))))
+(define-key evil-outer-text-objects-map "e" 'evil-sp-a-sexp)
+
 ;; TODO see how useful `sp-newline' will be with evil.
 
 (provide 'conf/editing/smartparens)
