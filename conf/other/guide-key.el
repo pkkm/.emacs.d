@@ -5,7 +5,6 @@
 (guide-key-mode 1)
 
 (setq guide-key/guide-key-sequence '("e RET"
-                                     "e C-n"
-                                     "e @"))
+                                     "e C-n"))
 
 (provide 'conf/other/guide-key)

@@ -89,7 +89,7 @@
 (define-key evil-motion-state-map (kbd "C-y") nil)
 (define-key evil-insert-state-map (kbd "C-y") nil)
 
-;; "g p" is used as a prefix for uncommon Smartparens commands.
+;; "g p" will be used as a prefix for uncommon Smartparens commands.
 
 ;; Prefix arguments.
 (evil-define-key 'motion sp-keymap (kbd "g >") #'sp-prefix-tag-object) ; Perform the next operation on an SGML tag.
@@ -99,18 +99,18 @@
 (define-key sp-keymap (kbd "C-s") #'sp-next-sexp)
 (define-key sp-keymap (kbd "C-y") #'sp-backward-sexp)
 
-;; Other movement by sexps.
+;; Other movement by sexps (cursor at the end, like e/ge).
 ;;(define-key sp-keymap (kbd "C-M-f") #'sp-forward-sexp)
 ;;(define-key sp-keymap (kbd "C-M-p") #'sp-previous-sexp)
 
-;; Move up/down nested sexps.
+;; Move up/down nested sexps (cursor at the beginning).
 (define-key sp-keymap (kbd "C-)") #'sp-down-sexp)
 (define-key sp-keymap (kbd "C-(") #'sp-backward-up-sexp)
-(when (eq window-system 'w32) ; Windows incorrectly interprets C-( and C-) with my Portable Keyboard Layout config.
+(when (eq window-system 'w32) ; C-( and C-) are incorrectly interpreted with my Portable Keyboard Layout config.
   (define-key sp-keymap (kbd "C-2") #'sp-down-sexp)
   (define-key sp-keymap (kbd "C-1") #'sp-backward-up-sexp))
 
-;; Other movement up/down nested sexps.
+;; Other movement up/down nested sexps (cursor at the end).
 ;;(define-key sp-keymap (kbd "C-M-a") #'sp-backward-down-sexp)
 ;;(define-key sp-keymap (kbd "C-M-e") #'sp-up-sexp)
 
@@ -127,7 +127,7 @@
 ;; With non-numeric prefix, slurp/barf as many as possible.
 (define-key sp-keymap (kbd "C-}") #'sp-forward-slurp-sexp)
 (define-key sp-keymap (kbd "C-{") #'sp-forward-barf-sexp)
-(when (eq window-system 'w32) ; Windows incorrectly interprets C-( and C-) with my Portable Keyboard Layout config.
+(when (eq window-system 'w32) ; C-( and C-) are incorrectly interpreted with my Portable Keyboard Layout config.
   (define-key sp-keymap (kbd "C-3") #'sp-forward-slurp-sexp)
   (define-key sp-keymap (kbd "C-5") #'sp-forward-barf-sexp))
 (evil-define-key 'normal sp-keymap (kbd "g {") #'sp-backward-slurp-sexp)
@@ -142,24 +142,6 @@
 (evil-define-key 'normal sp-keymap (kbd "g p {") #'sp-absorb-sexp)
 (evil-define-key 'normal sp-keymap (kbd "g p }") #'sp-emit-sexp)
 
-;; Add the expression after/before point to the list before/after point (like slurp forward/backward, but from the outside).
-(evil-define-key 'normal sp-keymap (kbd "g p p") #'sp-add-to-previous-sexp)
-(evil-define-key 'normal sp-keymap (kbd "g p n") #'sp-add-to-next-sexp)
-
-;; Transpose sexps -- swap the next with the previous.
-;; With prefix ARG, drag the sexp before point that many sexps forward (ARG can be negative).
-(evil-define-key 'normal sp-keymap (kbd "g p t") #'sp-transpose-sexp)
-
-;;(define-key sp-keymap (kbd "C-M-k") #'sp-kill-sexp)
-;;(define-key sp-keymap (kbd "C-M-w") #'sp-copy-sexp)
-
-;; Splice (remove the delimiters of enclosing sexp).
-;; With prefix ARG, splice the sexp that many levels up.
-(evil-define-key 'normal sp-keymap (kbd "g s") #'sp-splice-sexp)
-(evil-define-key 'normal sp-keymap (kbd "g DEL") #'sp-splice-sexp-killing-backward)
-(evil-define-key 'normal sp-keymap (kbd "g M-DEL") #'sp-splice-sexp-killing-forward)
-(evil-define-key 'normal sp-keymap (kbd "g p DEL") #'sp-splice-sexp-killing-around)
-
 ;; Convolute -- splice sexp, killing backward. Then wrap the enclosing sexp with the killed one.
 ;; With prefix ARG, move that many sexps up before wrapping.
 ;; Example (| -- cursor):
@@ -169,24 +151,46 @@
 ;;      (do-thing 2)))               (do-thing 2)))
 (evil-define-key 'normal sp-keymap (kbd "g p c") #'sp-convolute-sexp)
 
-;; Join, split.
-(evil-define-key 'normal sp-keymap (kbd "g p s") #'sp-split-sexp) ; With non-numeric prefix, split all the sexps in current one into separate sexps.
-(evil-define-key 'normal sp-keymap (kbd "g p j") #'sp-join-sexp) ; With prefix ARG, join with that many following expressions (ARG can be negative).
-(evil-define-key 'normal sp-keymap (kbd "g p T") #'sp-join-sexp) ; For consistency with my non-standard binding for "join line".
+;; Add the expression after/before point to the list before/after point (like slurp forward/backward, but from the outside).
+(evil-define-key 'normal sp-keymap (kbd "g p p") #'sp-add-to-previous-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g p n") #'sp-add-to-next-sexp)
+
+;; Transpose sexps -- swap the next with the previous.
+;; With prefix ARG, drag the sexp before point that many sexps forward (ARG can be negative).
+(evil-define-key 'normal sp-keymap (kbd "g p t") #'sp-transpose-sexp)
+
+;; Splice (remove the delimiters of enclosing sexp).
+;; With prefix ARG, splice the sexp that many levels up.
+(evil-define-key 'normal sp-keymap (kbd "g s") #'sp-splice-sexp)
+(evil-define-key 'normal sp-keymap (kbd "g DEL") #'sp-splice-sexp-killing-backward)
+(evil-define-key 'normal sp-keymap (kbd "g M-DEL") #'sp-splice-sexp-killing-forward)
+(evil-define-key 'normal sp-keymap (kbd "g p DEL") #'sp-splice-sexp-killing-around)
 
 ;; Unwrap (remove the delimiters of previous/next sexp).
 ;;(define-key sp-keymap (kbd "M-<delete>") #'sp-unwrap-sexp)
 ;;(define-key sp-keymap (kbd "M-<backspace>") #'sp-backward-unwrap-sexp)
 
+;; Join, split.
+(evil-define-key 'normal sp-keymap (kbd "g p s") #'sp-split-sexp) ; With non-numeric prefix, split all the sexps in current one into separate sexps.
+(evil-define-key 'normal sp-keymap (kbd "g p j") #'sp-join-sexp) ; With prefix ARG, join with that many following expressions (ARG can be negative).
+(evil-define-key 'normal sp-keymap (kbd "g p T") #'sp-join-sexp) ; For consistency with my non-standard binding for "join line".
+
+(evil-define-text-object evil-sp-a-sexp (count &rest other-args)
+  "Text object for the enclosing sexp. With COUNT, use the COUNTth sexp up."
+  (sp-get (sp-get-enclosing-sexp count) (list :beg :end))) ; `sp-get-enclosing-sexp' can take ARG to return the expression that many times up.
+(define-key evil-outer-text-objects-map "e" 'evil-sp-a-sexp)
+
+(evil-define-text-object evil-sp-inner-sexp (count &rest other-args)
+  "Text object for the enclosing sexp, without delimiters. With COUNT, use the COUNTth sexp up."
+  (sp-get (sp-get-enclosing-sexp count) (list :beg-in :end-in))) ; `sp-get-enclosing-sexp' can take ARG to return the expression that many times up.
+(define-key evil-inner-text-objects-map "e" 'evil-sp-inner-sexp)
+
+;; Not needed due to the operator/motion nature of evil and text objects.
+;;(define-key sp-keymap (kbd "C-M-k") #'sp-kill-sexp)
+;;(define-key sp-keymap (kbd "C-M-w") #'sp-copy-sexp)
 ;;(define-key sp-keymap (kbd "C-]") #'sp-select-next-thing-exchange)
 ;;(define-key sp-keymap (kbd "C-<left_bracket>") #'sp-select-previous-thing)
 ;;(define-key sp-keymap (kbd "C-M-]") #'sp-select-next-thing)
-
-(evil-define-text-object evil-sp-a-sexp (count &rest other-args)
-  "Text object for the enclosing sexp."
-  (let ((enclosing-sexp-info (sp--next-thing-selection 0 '(16))))
-    (sp-get enclosing-sexp-info (list :beg :end))))
-(define-key evil-outer-text-objects-map "e" 'evil-sp-a-sexp)
 
 ;; TODO see how useful `sp-newline' will be with evil.
 
