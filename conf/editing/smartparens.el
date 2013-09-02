@@ -17,10 +17,8 @@
 (face-spec-reset-face 'sp-show-pair-enclosing)
 (setq blink-matching-paren nil) ; Don't move the cursor to the matching paren.
 
-;; Other.
-(setq sp-highlight-pair-overlay nil) ; Don't highlight the currently edited expression.
-(setq sp-highlight-wrap-overlay t) ; ???.
-(setq sp-highlight-wrap-tag-overlay t) ; ???.
+;; Don't underline the currently edited expression.
+(setq sp-highlight-pair-overlay nil)
 
 ;;; Autoinsert and autoskip.
 
@@ -37,8 +35,7 @@
 (setq sp-autoinsert-quote-if-followed-by-closing-pair t)
 
 ;; Skip closing pair instead of inserting it.
-(setq sp-autoskip-closing-pair t)
-(setq sp-cancel-autoskip-on-backward-movement nil)
+(setq sp-autoskip-closing-pair 'always)
 
 ;; Don't put an "undo-boundary" before each inserted pair.
 (setq sp-undo-pairs-separately nil)
@@ -71,7 +68,7 @@
 (setq sp-autodelete-wrap nil) ; No special behavior for most recent wrapping.
 
 ;; Sexp cleanups done on `sp-up-sexp'.
-(setq sp-navigate-close-if-unbalanced nil) ; Don't insert closing delimiter of unmatched pairs.
+(setq sp-navigate-close-if-unbalanced nil) ; Don't insert the closing delimiter of unmatched pairs.
 (setq sp-navigate-reindent-after-up ; In which modes sexps should be reindented.
       '((interactive emacs-lisp-mode lisp-interaction-mode))) ;; With 'interactive, reindent only if called interactively. With 'always, always.
 
@@ -109,6 +106,9 @@
 ;; Move up/down nested sexps.
 (define-key sp-keymap (kbd "C-)") #'sp-down-sexp)
 (define-key sp-keymap (kbd "C-(") #'sp-backward-up-sexp)
+(when (eq window-system 'w32) ; Windows incorrectly interprets C-( and C-) with my Portable Keyboard Layout config.
+  (define-key sp-keymap (kbd "C-2") #'sp-down-sexp)
+  (define-key sp-keymap (kbd "C-1") #'sp-backward-up-sexp))
 
 ;; Other movement up/down nested sexps.
 ;;(define-key sp-keymap (kbd "C-M-a") #'sp-backward-down-sexp)
@@ -127,6 +127,9 @@
 ;; With non-numeric prefix, slurp/barf as many as possible.
 (define-key sp-keymap (kbd "C-}") #'sp-forward-slurp-sexp)
 (define-key sp-keymap (kbd "C-{") #'sp-forward-barf-sexp)
+(when (eq window-system 'w32) ; Windows incorrectly interprets C-( and C-) with my Portable Keyboard Layout config.
+  (define-key sp-keymap (kbd "C-3") #'sp-forward-slurp-sexp)
+  (define-key sp-keymap (kbd "C-5") #'sp-forward-barf-sexp))
 (evil-define-key 'normal sp-keymap (kbd "g {") #'sp-backward-slurp-sexp)
 (evil-define-key 'normal sp-keymap (kbd "g }") #'sp-backward-barf-sexp)
 
