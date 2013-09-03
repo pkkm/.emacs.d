@@ -2,8 +2,8 @@
 
 # Update the GitHub .emacs.d repository.
 
-git add init.el conf vendor update-github.sh
-git add -u
+git add --all init.el conf vendor update-github.sh
+git add --all -u
 
 git commit -m "Update"
 
