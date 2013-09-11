@@ -38,8 +38,7 @@
           messages
           "\n"))))
 
-(when (or (< emacs-major-version 24)
-          (and (= emacs-major-version 24) (< emacs-minor-version 3)))
+(when (version< emacs-version "24.3")
   (nuclear-error "This config requires Emacs 24.3+." (concat "Current version: " emacs-version "."))
   (error (concat "This config requires Emacs 24.3+. Current version: " emacs-version)))
 

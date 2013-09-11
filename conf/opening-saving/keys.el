@@ -50,4 +50,9 @@
   "Keymap for diff commands.")
 (define-prefix-command 'my-diff-map)
 
+;; Ag -- like grep, but far better.
+(require 'conf/opening-saving/ag)
+(define-key my-file-map (kbd "a") #'ag)
+(define-key my-file-map (kbd "A") #'ag-project)
+
 (provide 'conf/opening-saving/keys)

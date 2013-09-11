@@ -200,4 +200,7 @@
 
 ;; TODO see how useful `sp-newline' will be with evil.
 
+(package-ensure-installed 'ag)
+(package-ensure-installed 'ack-and-a-half)
+
 (provide 'conf/editing/smartparens)
