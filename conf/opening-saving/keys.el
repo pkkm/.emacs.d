@@ -39,9 +39,9 @@
 (define-key my-file-map (kbd "v") #'revert-buffer)
 
 ;; Rename/delete file (and buffer).
-(require 'conf/opening-saving/rename-delete)
+(require 'conf/opening-saving/move-delete)
 (define-key my-file-map (kbd "d") #'delete-this-buffer-and-file)
-(define-key my-file-map (kbd "r") #'rename-this-buffer-and-file)
+(define-key my-file-map (kbd "m") #'move-this-buffer-and-file)
 
 ;; Diff
 ;; TODO

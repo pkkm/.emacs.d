@@ -7,15 +7,9 @@
 (define-prefix-command 'my-buffer-map)
 (define-key evil-motion-state-map (kbd "-") 'my-buffer-map)
 
-;; Virtual (closed, but remembered) buffers.
-(setq ido-use-virtual-buffers t) ; Remember past buffers.
-(defun buffer-virtual-p (buffer-name)
-  "Is the buffer named BUFFER-NAME a virtual buffer (doesn't exist)?"
-  (not (get-buffer buffer-name)))
-
 ;; Switch.
-(setq ido-ignore-buffers '("\\` " "\\`\\*" buffer-virtual-p))
-(define-key my-buffer-map (kbd "SPC") 'ido-switch-buffer)
+(setq ido-ignore-buffers '("\\` " "\\`\\*"))
+(define-key my-buffer-map (kbd "SPC") #'ido-switch-buffer)
 
 ;; Switch without ignoring any buffers.
 (defun ido-switch-buffer-without-ignored ()
@@ -23,12 +17,12 @@
   (interactive)
   (let ((ido-ignore-buffers '()))
     (ido-switch-buffer)))
-(define-key my-buffer-map (kbd "b") 'ido-switch-buffer-without-ignored)
+(define-key my-buffer-map (kbd "b") #'ido-switch-buffer-without-ignored)
 
 ;; IBuffer -- advanced buffer switcher (distributed with Emacs).
-(define-key my-buffer-map (kbd "C-SPC") 'ibuffer)
-(define-key my-buffer-map (kbd "M-SPC") 'ibuffer)
-(define-key my-buffer-map (kbd "C-b") 'ibuffer)
+(define-key my-buffer-map (kbd "C-SPC") #'ibuffer)
+(define-key my-buffer-map (kbd "M-SPC") #'ibuffer)
+(define-key my-buffer-map (kbd "C-b") #'ibuffer)
 
 ;; Switch to the most recently used buffer.
 (define-key my-buffer-map (kbd "-") (lambda ()
@@ -36,15 +30,15 @@
                                       (switch-to-buffer (other-buffer))))
 
 ;; Previous/next.
-(define-key my-buffer-map (kbd "h") 'previous-buffer)
-(define-key my-buffer-map (kbd "s") 'next-buffer)
+(define-key my-buffer-map (kbd "h") #'previous-buffer)
+(define-key my-buffer-map (kbd "s") #'next-buffer)
 
 ;; Open in a split.
-(define-key my-buffer-map (kbd "D") 'evil-split-next-buffer)
-(define-key my-buffer-map (kbd "_") 'evil-split-next-buffer)
+(define-key my-buffer-map (kbd "D") #'evil-split-next-buffer)
+(define-key my-buffer-map (kbd "_") #'evil-split-next-buffer)
 
 ;; Open all buffers in a window.
-(define-key my-buffer-map (kbd "a") 'display-all-buffers-in-windows)
+(define-key my-buffer-map (kbd "a") #'display-all-buffers-in-windows)
 (require 'conf/utils/buffers) ; Used: buffers-opened-in-windows.
 (defun display-all-file-buffers-in-windows ()
   "Display all buffers that are visiting a file in windows."
@@ -57,10 +51,10 @@
     (balance-windows)))
 
 ;; Delete (close/kill).
-(define-key my-buffer-map (kbd "c") 'kill-this-buffer) ; To also close the window with the buffer, use `kill-buffer-and-window' (or `evil-delete-buffer').
+(define-key my-buffer-map (kbd "c") #'kill-this-buffer) ; To also close the window with the buffer, use `kill-buffer-and-window' (or `evil-delete-buffer').
 (define-key my-buffer-map (kbd "C") (lambda () ; Delete without confirmation for unsaved changes.
                                       (interactive)
                                       (evil-delete-buffer (current-buffer) t)))
-(define-key my-buffer-map (kbd "k") 'ido-kill-buffer)
+(define-key my-buffer-map (kbd "k") #'ido-kill-buffer)
 
 (provide 'conf/view/buffer-map)

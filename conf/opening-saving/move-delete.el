@@ -1,7 +1,7 @@
-;;; Rename/delete file.
+;;; Move/delete file.
 
-(defun rename-this-buffer-and-file ()
-  "Renames the current buffer and the file it is visiting (after saving it)."
+(defun move-this-buffer-and-file ()
+  "Moves (renames) the current buffer and the file it is visiting (after saving it)."
   (interactive)
   (save-buffer)
   (let ((filename (buffer-file-name)))
@@ -33,4 +33,4 @@
         (unless (file-exists-p filename)
           (kill-buffer))))))
 
-(provide 'conf/opening-saving/rename-delete)
+(provide 'conf/opening-saving/move-delete)
