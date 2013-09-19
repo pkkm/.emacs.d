@@ -58,6 +58,7 @@
 (require 'conf/opening-saving/backups)
 (require 'conf/opening-saving/move-delete)
 (require 'conf/opening-saving/ag)
+(require 'conf/opening-saving/auto-revert)
 (require 'conf/opening-saving/editorconfig)
 (require 'conf/opening-saving/save-point-position)
 (require 'conf/opening-saving/keys)
