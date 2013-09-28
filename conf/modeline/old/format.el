@@ -11,7 +11,8 @@
 (defalias 'ml-separator-right 'powerline-nil-left)
 (add-hook 'after-load-theme-hook #'powerline-reset t) ; Reset separator colors after a theme has been loaded.
 
-(defun append-to-face-property (text new-face)
+(defun append-face-in-text (text new-face)
+  "Like (propertize text 'face new-face), but instead of overriding the previous face, appends to the list of faces."
   (let ((new-face-as-list (if (listp new-face)
                               new-face
                             (list new-face))))
@@ -20,7 +21,7 @@
                            (cond
                             ((listp face) (append face new-face-as-list))
                             (face (append (list face) new-face-as-list))
-                            (t )))
+                            (t new-face-as-list)))
                          text))
   text)
 
@@ -45,7 +46,7 @@ Similarly for MARGINS-POS."
                                  (list (propertize " " 'face face)
                                        (ml-separator-right face sep-margin-face))))
               (propertized-parts (mapcar (lambda (part)
-                                           (append-to-face-property part face))
+                                           (append-face-in-text part face))
                                          (-interpose (propertize " " 'face face)
                                                      non-empty-parts))))
           (append margin-left
@@ -109,8 +110,8 @@ Similarly for MARGINS-POS."
 
          (ml-evil-state-face
           (cl-case evil-state
-            ('normal ml-face-1)
-            ('motion ml-face-1)
+            ('normal "black")
+            ('motion "black")
             ('insert "blue")
             ('visual "orange")
             ('operator "purple")
@@ -175,7 +176,7 @@ Similarly for MARGINS-POS."
                                    ml-major-mode
                                    ml-process
                                    ml-global-mode-string)
-                  (ml-make-segment (list 'warning ml-face-1) ml-face-2 'both nil
+                  (ml-make-segment (list ml-face-1) ml-face-2 'both nil
                                    ml-evil-state)
                   (ml-make-segment ml-face-2 ml-face-2 nil 'left
                                    ml-minor-modes
