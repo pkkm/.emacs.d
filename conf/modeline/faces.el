@@ -43,8 +43,8 @@
   "Calculate the modeline \"helper\" faces that depend on colors in other faces."
   (set-face-foreground 'ml-shadow
                        (if window-system
-                           (color-mix (face-foreground 'ml-active-1 nil t) 0.6
-                                      (face-background 'ml-active-1 nil t) 0.4)
+                           (color-mix (or (face-foreground 'ml-active-1 nil t) (face-foreground 'default)) 0.6
+                                      (or (face-background 'ml-active-1 nil t) (face-foreground 'default)) 0.4)
                          (face-foreground 'ml-active-1 nil t))))
 (add-hook 'after-load-theme-hook #'set-mode-line-helper-faces t) ; Add to end (because `set-mode-line-base-faces' should run first).
 (set-mode-line-helper-faces)
@@ -99,7 +99,7 @@
   :group 'modeline)
 
 (defface ml-evil-state '((t (:weight bold)))
-  "Face for the major mode in the modeline."
+  "Face for the evil state in the modeline."
   :group 'modeline)
 
 (defface ml-minor-modes '((t ()))

@@ -7,14 +7,21 @@
   "Run `after-load-theme-hook'."
   (run-hooks 'after-load-theme-hook))
 
-;;(require 'conf/packages)
-;;(package-ensure-installed 'solarized-theme)
-;;(load-theme 'solarized-dark t)
+;; Dark, with many greens and browns.
+;;(load-theme 'wombat)
+;;(set-cursor-color "navajo white")
 
-(load-theme 'wombat)
+;; Dark, with many blues and violets.
+(require 'conf/packages)
+(package-ensure-installed 'ample-theme)
+(load-theme 'ample t)
+
+;; Light, beige.
+;;(require 'conf/packages)
+;;(package-ensure-installed 'soft-morning-theme)
+;;(load-theme 'soft-morning t)
 
 ;; Cursor color.
-(set-cursor-color "navajo white")
 (require 'conf/evil)
 (setq evil-default-cursor nil)
 

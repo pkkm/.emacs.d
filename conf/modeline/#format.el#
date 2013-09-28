@@ -12,35 +12,47 @@
 (add-hook 'after-load-theme-hook #'powerline-reset t) ; Reset separator colors after a theme has been loaded.
 
 (defun append-to-face-property (text new-face)
-  (alter-text-property 0 (length text) 'face
-                       (lambda (face)
-                         (cond
-                          ((listp face) (append face (list new-face)))
-                          (face (list face new-face))
-                          (t new-face)))
-                       text))
+  (let ((new-face-as-list (if (listp new-face)
+                              new-face
+                            (list new-face))))
+    (alter-text-property 0 (length text) 'face
+                         (lambda (face)
+                           (cond
+                            ((listp face) (append face new-face-as-list))
+                            (face (append (list face) new-face-as-list))
+                            (t )))
+                         text))
+  text)
 
 (require 'cl-lib)
 (package-ensure-installed 'dash) (require 'dash) ; Used: -interpose.
-;; TODO document this, write comments (and possibly `let's).
-(defun ml-make-segment (face sep-padding-face separator padding &rest parts)
+(defun ml-make-segment (face sep-margin-face separators-pos margins-pos &rest parts)
+  "Make a powerline-like modeline segment.
+FACE is the face used for text in PARTS.
+SEP-MARGIN-FACE is the face used for the separators and margins-pos.
+SEPARATORS-POS determines on which sides the segment will have separators. It can be 'left, 'right or 'both.
+Similarly for MARGINS-POS."
   (let ((non-empty-parts (delq nil (delq "" parts))))
     (if non-empty-parts
-        (append (when (member padding '(left both))
-                 (list (propertize " " 'face sep-padding-face)))
-               (when (member separator '(left both))
-                 (list (ml-separator-left sep-padding-face face)
-                       (propertize " " 'face face)))
-               (mapcar (lambda (part)
-                         (append-to-face-property part face)
-                         part)
-                       (-interpose (propertize " " 'face face)
-                                   non-empty-parts))
-               (when (member separator '(right both))
-                 (list (propertize " " 'face face)
-                       (ml-separator-right face sep-padding-face)))
-               (when (member padding '(right both))
-                 (list (propertize " " 'face sep-padding-face))))
+        (let ((margin-left (when (member margins-pos '(left both))
+                             (list (propertize " " 'face sep-margin-face))))
+              (margin-right (when (member margins-pos '(right both))
+                              (list (propertize " " 'face sep-margin-face))))
+              (separator-left (when (member separators-pos '(left both))
+                                (list (ml-separator-left sep-margin-face face)
+                                      (propertize " " 'face face))))
+              (separator-right (when (member separators-pos '(right both))
+                                 (list (propertize " " 'face face)
+                                       (ml-separator-right face sep-margin-face))))
+              (propertized-parts (mapcar (lambda (part)
+                                           (append-to-face-property part face))
+                                         (-interpose (propertize " " 'face face)
+                                                     non-empty-parts))))
+          (append margin-left
+                  separator-left
+                  propertized-parts
+                  separator-right
+                  margin-right))
       nil)))
 
 (defun ml-format ()
@@ -95,9 +107,21 @@
                                      'ml-recursive-edit-braces-active
                                    'ml-recursive-edit-braces-inactive)))
 
+         (ml-evil-state-face
+          (cl-case evil-state
+            ('normal ml-face-1)
+            ('motion ml-face-1)
+            ('insert "blue")
+            ('visual "orange")
+            ('operator "purple")
+            ('emacs "green")
+            (nil "red")))
+
          (ml-evil-state
-          (propertize (capitalize (symbol-name evil-state))
-                      'face '))
+          (propertize (if evil-state
+                          (upcase (substring (symbol-name evil-state) 0 1))
+                        "Nil")
+                      'face 'ml-evil-state))
 
          (ml-major-mode
           (propertize (format-mode-line mode-name)
@@ -151,7 +175,7 @@
                                    ml-major-mode
                                    ml-process
                                    ml-global-mode-string)
-                  (ml-make-segment ml-face-1 ml-face-2 'both nil
+                  (ml-make-segment (list 'warning ml-face-1) ml-face-2 'both nil
                                    ml-evil-state)
                   (ml-make-segment ml-face-2 ml-face-2 nil 'left
                                    ml-minor-modes
