@@ -10,9 +10,9 @@
 (ido-ubiquitous-mode 1)
 
 ;; Flex matching. On low-end machines, use the builtin algorithm; elsewhere, use a better, memory-hungry one.
-(if (eq (getenv "LOW_END_MACHINE") "true")
-    (setq ido-enable-flex-matching t)
-  (package-ensure-installed 'flx-ido)
+(setq ido-enable-flex-matching t)
+(package-ensure-installed 'flx-ido)
+(unless (eq (getenv "LOW_END_MACHINE") "true")
   (flx-ido-mode 1))
 
 ;; Savefile.

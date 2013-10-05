@@ -25,4 +25,11 @@ Modifier can be one of: `meta', `control', `shift', `hyper', `super', `alt'."
                                      (key-description (vector event)))))
     (car (vector-to-list (kbd new-key-description)))))
 
+(defun event-inverted-modifier (modifier event)
+  "Return EVENT with the state of the modifier key MODIFIER inverted.
+Modifier can be one of: `meta', `control', `shift', `hyper', `super', `alt'."
+  (if (memq modifier (event-modifiers event))
+      (event-without-modifier modifier event)
+    (event-with-modifier modifier event)))
+
 (provide 'conf/utils/events)

@@ -17,7 +17,6 @@
 (require 'conf/view/ui-elements)
 (require 'conf/view/unique-buffer-names)
 (require 'conf/view/page-break-lines)
-(require 'conf/view/indent-guides)
 
 (when window-system
   (require 'conf/view/gui/mouse-avoidance)

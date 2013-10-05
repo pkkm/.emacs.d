@@ -8,13 +8,8 @@
   (run-hooks 'after-load-theme-hook))
 
 ;; Dark, with many greens and browns.
-;;(load-theme 'wombat)
-;;(set-cursor-color "navajo white")
-
-;; Dark, with many blues and violets.
-(require 'conf/packages)
-(package-ensure-installed 'ample-theme)
-(load-theme 'ample t)
+(load-theme 'wombat)
+(set-cursor-color "navajo white")
 
 ;; Light, beige.
 ;;(require 'conf/packages)

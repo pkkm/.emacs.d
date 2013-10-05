@@ -51,20 +51,16 @@ Flattens nested keymaps."
                (setq result (append nested-keymap-key-binding-alist result)))
            ;; Add (key . binding) to `result'.
            (setq result (cons (cons key binding) result)))))
-     keymap)
+     (keymap-canonicalize keymap)) ; Canonicalize the keymap, so that when a binding shadows another, only one in effect is returned.
     result))
 
-(defun map-bindings-between-keymaps (source-keymap dest-keymap function)
-  "Apply FUNCTION to each key sequence in SOURCE-KEYMAP and bind the result in DEST-KEYMAP.
-FUNCTION should accept and return a key vector."
+(defun map-key-sequences-in-keymap (keymap function)
+  "Execute FUNCTION for each non-prefix binding in KEYMAP, passing the key and the function bound to it."
   (mapc
    (lambda (key-and-binding-cell)
      (destructuring-bind (key . binding) key-and-binding-cell
-       (define-key dest-keymap (funcall function key) binding)))
-   (keymap-to-key-binding-alist source-keymap)))
-
-(setq symbol 'evil-normal-state-map)
-(setq keymap evil-normal-state-map)
+       (funcall function key binding)))
+   (keymap-to-key-binding-alist keymap)))
 
 ;; TODO make this less hackish
 (defun maps-with-bound-key (key)
