@@ -43,7 +43,7 @@
 
 (require 'conf/motions/little-word)
 (require 'conf/motions/vim-dvorak)
-(require 'conf/motions/forward-backward-button)
+(require 'conf/motions/g-TAB-as-TAB)
 (require 'conf/motions/ace-jump)
 
 (require 'conf/editing/indentation)
@@ -85,6 +85,7 @@
 (require 'conf/other/writegood)
 
 (require 'conf/lang/fundamental)
+(require 'conf/lang/org)
 (require 'conf/lang/vimrc)
 (require 'conf/lang/elisp-and-interaction)
 (require 'conf/lang/lisps)

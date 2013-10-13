@@ -204,9 +204,6 @@
 ;; This is necessary for bindings defined using `evil-define-key' to be active before the first Evil state change.
 ;; See <https://bitbucket.org/lyro/evil/issue/301/evil-define-key-for-minor-mode-does-not>.
 (require 'conf/utils/hooks) ; Used: add-one-shot-hook.
-(defun interactive-evil-normalize-keymaps ()
-  (interactive)
-  (evil-normalize-keymaps))
-(add-one-shot-hook 'smartparens-mode-hook #'interactive-evil-normalize-keymaps)
+(add-one-shot-hook 'smartparens-mode-hook #'evil-normalize-keymaps)
 
 (provide 'conf/editing/smartparens)

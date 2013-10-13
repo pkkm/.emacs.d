@@ -5,6 +5,7 @@
 (defvar my-window-map (make-sparse-keymap)
   "Keymap for my window-related commands.")
 (define-prefix-command 'my-window-map)
+(define-key evil-motion-state-map (kbd "<tab>") 'my-window-map)
 (define-key evil-motion-state-map (kbd "TAB") 'my-window-map)
 
 ;; Split (with count: leave COUNT lines in the initially-selected window).
