@@ -51,10 +51,8 @@
     (balance-windows)))
 
 ;; Delete (close/kill).
-(define-key my-buffer-map (kbd "c") #'kill-this-buffer) ; To also close the window with the buffer, use `kill-buffer-and-window' (or `evil-delete-buffer').
-(define-key my-buffer-map (kbd "C") (lambda () ; Delete without confirmation for unsaved changes.
-                                      (interactive)
-                                      (evil-delete-buffer (current-buffer) t)))
+(define-key my-buffer-map (kbd "c") #'evil-delete-buffer) ; Delete buffer and window.
+(define-key my-buffer-map (kbd "C") #'kill-this-buffer) ; Only delete the buffer.
 (define-key my-buffer-map (kbd "k") #'ido-kill-buffer)
 
 (provide 'conf/view/buffer-map)

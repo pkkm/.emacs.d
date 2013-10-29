@@ -43,7 +43,7 @@
   (set-face-background 'ml-active-evil-replace-state (color-mix "blue" 0.1 (face-background 'mode-line nil t) 0.9))
   (set-face-background 'ml-active-evil-visual-state (color-mix "green" 0.1 (face-background 'mode-line nil t) 0.9))
   (set-face-background 'ml-active-evil-operator-state nil)
-  (set-face-background 'ml-active-evil-emacs-state (color-mix (face-background 'fringe nil t) 0.7 (face-background 'mode-line nil t) 0.3))
+  (set-face-background 'ml-active-evil-emacs-state (color-mix "black" 0.4 (face-background 'mode-line nil t) 0.6))
   (set-face-background 'ml-active-evil-nil-state (color-mix (face-background 'fringe nil t) 0.7 (face-background 'mode-line nil t) 0.3)))
 (add-hook 'after-load-theme-hook #'set-mode-line-backgrounds)
 (set-mode-line-backgrounds)
