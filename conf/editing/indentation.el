@@ -1,7 +1,20 @@
 ;;; Indentation.
 
-(setq-default indent-tabs-mode t) ; In indentation, replace `tab-width' spaces with a TAB.
-(setq-default tab-width 4) ; Width of a TAB.
+;; By default, use spaces and mode's default configuration.
+(setq-default indent-tabs-mode nil)
+
+;; For specific languages, use Smart Tabs -- indent with tabs, align with spaces.
+;; To enable for a language:
+;;   (smart-tabs-insinuate 'language)
+;;   (add-hook 'language-mode-hook (lambda () (setq indent-tabs-mode t) (smart-tabs-mode 1)))
+;; For modes without configuration in smart-tabs-mode, also use:
+;;   (smart-tabs-add-language-support c++ c++-mode-hook
+;;     ((c-indent-line . c-basic-offset)
+;;      (c-indent-region . c-basic-offset)))
+(require 'conf/packages)
+(package-ensure-installed 'smart-tabs-mode)
+
+(setq-default tab-width 4)
 
 ;; Make a tabstop every `tab-width' characters.
 ;; (Tabstops -- positions to align to in the Fundamental mode.)

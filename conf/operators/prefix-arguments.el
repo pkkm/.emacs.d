@@ -6,10 +6,8 @@
 (define-key evil-motion-state-map (kbd "_") #'evil-negative-argument)
 
 (defvar evil-universal-argument-map (make-sparse-keymap)
-  "Replacement for `universal-argument-map' to use when `universal-argument' is used as an Evil command.")
+  "Replacement for `universal-argument-map' to use with `evil-universal-argument' and `evil-negative-argument'.")
 (define-key evil-universal-argument-map [?N] #'universal-argument-more)
-(define-key evil-universal-argument-map [t] #'universal-argument-other-key)
-(define-key evil-universal-argument-map (vector meta-prefix-char t) #'universal-argument-other-key)
 
 (defun evil-universal-argument ()
   "Like `universal-argument', but expects to be bound to N instead of C-u and doesn't add special handling for following digits and \"-\"."

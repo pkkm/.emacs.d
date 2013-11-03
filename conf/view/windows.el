@@ -19,6 +19,7 @@
 ;; Close.
 (define-key my-window-map (kbd "c") 'delete-window)
 (define-key my-window-map (kbd "o") 'delete-other-windows)
+(define-key my-window-map (kbd "k") 'evil-delete-buffer) ; Kill buffer and window.
 
 ;; Move focus.
 (define-key my-window-map (kbd "h") 'evil-window-left)

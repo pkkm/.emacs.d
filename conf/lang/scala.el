@@ -4,13 +4,11 @@
 (require 'conf/packages)
 (package-ensure-installed 'scala-mode2)
 
-(require 'conf/utils/hooks) ; Used: add-one-shot-hook.
-(add-one-shot-hook
- 'scala-mode-hook
- (lambda ()
-   ;; Indentation: If `indent-tabs-mode' is non-nil, use one TAB, otherwise `tab-width' spaces.
-   (defvaralias 'scala-indent:step 'tab-width)
-   (kill-local-variable indent-tabs-mode)))
+;; Indentation (Smart Tabs).
+(smart-tabs-add-language-support scala scala-mode-hook
+  ((scala-indent:indent-line . scala-indent:step)))
+(smart-tabs-insinuate 'scala)
+(add-hook 'scala-mode-hook (lambda () (setq indent-tabs-mode 1)))
 
 (defun scala-repl ()
   "Open the Scala REPL in `term'.

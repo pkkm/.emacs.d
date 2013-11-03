@@ -62,21 +62,27 @@ Flattens nested keymaps."
        (funcall function key binding)))
    (keymap-to-key-binding-alist keymap)))
 
+(defmacro variables-with-value (value)
+  "Returns a list of names of variables that are `eq' to VALUE.
+Doesn't see some variables!"
+  (let ((return-value-var (make-symbol "return-value")))
+    `(let ((,return-value-var (list)))
+       (mapatoms (lambda (symbol)
+                   (when (and (boundp symbol)
+                              (eq (symbol-value symbol) ,value))
+                     (add-to-list ',return-value-var symbol))))
+       ,return-value-var)))
+
 ;; TODO make this less hackish
+(require 'cl-lib)
 (defun maps-with-bound-key (key)
-  (delq nil
-        (mapcar (lambda (keymap-bc9d50da) ; The name is weird so that we can ignore it when looking for the variable to which this keymap is bound. This could be eliminated by using 2 passes of `mapatoms', an additional variable, or an uninterned symbol and `eval'.
-                  (if binding
-                      (let ((binding (lookup-key keymap-bc9d50da key)))
-                        (let ((keymap-name nil))
-                          (mapatoms (lambda (symbol)
-                                      (when (and (not (eq symbol 'keymap-bc9d50da))
-                                                 (boundp symbol)
-                                                 (eq (symbol-value symbol) keymap-bc9d50da))
-                                        (message (symbol-name symbol))
-                                        (setq keymap-name symbol))))
-                          keymap-name)
-                        nil)))
-                (current-active-maps))))
+  "Returns a list of keymaps that have KEY defined in them."
+  (cl-mapcan (lambda (keymap-bc9d50da) ; The name is weird so that we can ignore it when looking for the variable to which this keymap is bound. This could be eliminated by using 2 passes of `mapatoms', an additional variable, or an uninterned symbol and `eval'.
+               (when (lookup-key keymap-bc9d50da key)
+                 (delq 'keymap-bc9d50da
+                       (variables-with-value keymap-bc9d50da))))
+             (current-active-maps)))
+
+(maps-with-bound-key (kbd "RET"))
 
 (provide 'conf/utils/keys)

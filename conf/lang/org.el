@@ -5,10 +5,18 @@
 (package-ensure-installed 'org)
 
 (require 'conf/utils/hooks)
-(add-one-shot-hook 'org-mode-hook #'configure-org-mode-bindings)
+(add-hook 'org-mode-hook #'my-org-mode-customization)
+(add-one-shot-hook 'org-mode-hook #'my-org-mode-bindings)
 
-(defun configure-org-mode-bindings ()
-  "Add some useful bindings to Org-Mode's map."
+(defun my-org-mode-customization ()
+  "Customizations that should be applied every time Org-mode is enabled."
+  ;; Don't use a changed definition of a paragraph.
+  (kill-local-variable 'paragraph-start)
+  (kill-local-variable 'paragraph-separate))
+
+(defun my-org-mode-bindings ()
+  "Add some bindings to Org-mode's keymap.
+This function needs to be run only once in an Emacs session."
   ;; Move/promote/demote headline.
   (define-key org-mode-map (kbd "M-h") #'org-metaleft) ; Shadows org-mark-element.
   (define-key org-mode-map (kbd "M-t") #'org-metadown)
@@ -50,17 +58,15 @@
   (interactive)
   (org-end-of-line)
   (call-interactively #'org-insert-heading)
-  (evil-append 1))
+  (unless (evil-insert-state-p)
+    (evil-append 1)))
 
 (defun evil-org-insert-todo-heading ()
   "Insert a TODO heading in Org-Mode and switch to Evil's insert state."
   (interactive)
   (org-end-of-line)
   (call-interactively #'org-insert-todo-heading)
-  (evil-append 1))
-
-(package-ensure-installed 'org-trello)
-;;(defadvice orgtrello-proxy/start (around disable-org-trello-proxy activate)
-;;  nil)
+  (unless (evil-insert-state-p)
+    (evil-append 1)))
 
 (provide 'conf/lang/org)

@@ -77,6 +77,7 @@
 (require 'conf/configuring/command-log)
 
 (require 'conf/other/enable-confusing-commands)
+(require 'conf/other/emmet)
 (require 'conf/other/guide-key)
 (require 'conf/other/convenient-prefix-keys)
 ;;(require 'conf/other/clipboard)
@@ -90,10 +91,10 @@
 (require 'conf/lang/elisp-and-interaction)
 (require 'conf/lang/lisps)
 (require 'conf/lang/scala)
+(require 'conf/lang/sgml)
 (require 'conf/lang/pascal)
 (require 'conf/lang/asciidoc)
 (require 'conf/lang/text)
-(require 'conf/lang/tex-and-latex)
 (require 'conf/lang/bat-cmd)
 
 (provide 'conf/-)
