@@ -1,8 +1,7 @@
 ;;; Font.
 
 (require 'conf/packages)
-(package-ensure-installed 'dash)
-(require 'dash)
+(package-ensure-installed 'dash) (require 'dash)
 
 (defun first-available-font (&rest fonts)
   "Return the first available font among the font names in FONTS."

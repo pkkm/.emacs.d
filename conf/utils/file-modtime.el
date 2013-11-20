@@ -8,14 +8,14 @@ If FILE cannot be read, return nil."
         (nth 5 attributes)
       nil)))
 
-(defun file-modified-later-p (file-a file-b)
-  "Return t if FILE-A was modified later than FILE-B.
-If FILE-B cannot be read, return t. If FILE-A cannot be read, nil."
-  (let ((modtime-a (file-modtime file-a))
-        (modtime-b (file-modtime file-b)))
-    (cond
-     ((not modtime-b) t)
-     ((not modtime-a) nil)
-     (t (time-less-p modtime-b modtime-a)))))
+(package-ensure-installed 'dash) (require 'dash) ; Used: -any?.
+(defun any-file-in-directory-newer-than-p (directory time)
+  "Returns t if any file in DIRECTORY has been modified later than TIME, otherwise nil."
+  (-any? (lambda (file)
+           (unless (member (file-relative-name file directory) (list "." ".."))
+             (if (file-directory-p file)
+                 (any-file-in-directory-newer-than-p file time)
+               (time-less-p time (file-modtime file)))))
+         (directory-files directory 'absolute-file-names)))
 
 (provide 'conf/utils/file-modtime)

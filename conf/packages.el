@@ -1,6 +1,7 @@
 ;;; Package system.
 
-(package-initialize) ; Load package.el and all packages now. This normally happens after loading the init file.
+;; Initialize packages now, instead of after init.
+(package-initialize) ; This normally happens after loading the init file.
 (setq package-enable-at-startup nil) ; Don't load the packages the second time after the init file.
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")

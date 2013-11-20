@@ -30,7 +30,7 @@
   (when hl-line-before-entering-visual-state (hl-line-mode 1)))
 
 ;; Use my face for the line with point. Set its background dynamically, based on the 'hl-line face.
-(defface my-hl-line-face `((t)) "My face for hl-line." :group 'hl-line)
+(defface my-hl-line-face `((t)) "My face for hl-line.")
 (setq hl-line-face 'my-hl-line-face)
 
 (if window-system

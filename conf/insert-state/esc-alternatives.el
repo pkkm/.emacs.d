@@ -8,7 +8,7 @@
 (package-ensure-installed 'key-chord)
 (require 'conf/utils/ignore-messages)
 (ignore-specific-messages '("Key Chord mode on")
- (key-chord-mode 1))
+                          (key-chord-mode 1))
 (setq key-chord-one-key-delay 0.3) ; Delay when the chord is a key repeated 2 times.
 (setq key-chord-two-keys-delay 0.3) ; Delay when the chord consists of 2 different keys.
 
@@ -17,11 +17,9 @@
 (key-chord-define evil-replace-state-map "hh" #'evil-normal-state)
 
 ;; C-SPC and S-SPC.
-(mapcar
- (lambda (key)
-   (define-key evil-insert-state-map key #'evil-normal-state)
-   (define-key evil-replace-state-map key #'evil-normal-state))
- (list (kbd "C-SPC")
-       (kbd "S-SPC")))
+(dolist (key (list (kbd "C-SPC")
+                   (kbd "S-SPC")))
+  (define-key evil-insert-state-map key #'evil-normal-state)
+  (define-key evil-replace-state-map key #'evil-normal-state))
 
 (provide 'conf/insert-state/esc-alternatives)

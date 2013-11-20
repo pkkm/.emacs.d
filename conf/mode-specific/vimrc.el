@@ -8,4 +8,4 @@
 (add-to-list 'auto-mode-alist '("vimrc\\'" . vimrc-mode))
 (add-to-list 'auto-mode-alist '(".pentadactylrc\\'" . vimrc-mode))
 
-(provide 'conf/lang/vimrc)
+(provide 'conf/mode-specific/vimrc)

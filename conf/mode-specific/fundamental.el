@@ -2,4 +2,4 @@
 
 (setq sentence-end-double-space nil)
 
-(provide 'conf/lang/fundamental)
+(provide 'conf/mode-specific/fundamental)

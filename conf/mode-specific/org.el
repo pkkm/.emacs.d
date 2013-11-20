@@ -51,7 +51,10 @@ This function needs to be run only once in an Emacs session."
   ;; Make RET also indent in insert mode.
   (define-key org-mode-map [remap org-return] #'org-return-indent)
 
-  (evil-normalize-keymaps)) ; Necessary for the `evil-define-key' bindings to take effect immediately.
+  ;; Normalize keymaps.
+  ;; This is necessary for bindings defined using `evil-define-key' to be active before the first Evil state change.
+  ;; See <https://bitbucket.org/lyro/evil/issue/301/evil-define-key-for-minor-mode-does-not>.
+  (evil-normalize-keymaps))
 
 (defun evil-org-insert-heading ()
   "Insert a heading in Org-Mode and switch to Evil's insert state."
@@ -69,4 +72,8 @@ This function needs to be run only once in an Emacs session."
   (unless (evil-insert-state-p)
     (evil-append 1)))
 
-(provide 'conf/lang/org)
+;; org-hide-leading-stars org-src-fontify-natively
+
+(setq org-fontify-done-headline t) ; Mark the whole headline of a DONE task with a different face.
+
+(provide 'conf/mode-specific/org)

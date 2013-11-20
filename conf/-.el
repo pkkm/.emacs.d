@@ -1,6 +1,8 @@
 ;;; `require' my customizations based on some conditions.
 
 (require 'conf/init/check-version)
+(require 'conf/utils/repl)
+(require 'conf/utils/load-history)
 (require 'conf/init/no-startup-message)
 (require 'conf/init/initial-scratch-message)
 
@@ -74,10 +76,10 @@
 (require 'conf/operators/yank-to-eol)
 
 (require 'conf/configuring/unbound)
+(require 'conf/configuring/flatten-conf)
 (require 'conf/configuring/command-log)
 
 (require 'conf/other/enable-confusing-commands)
-(require 'conf/other/emmet)
 (require 'conf/other/guide-key)
 (require 'conf/other/convenient-prefix-keys)
 ;;(require 'conf/other/clipboard)
@@ -85,16 +87,19 @@
 (require 'conf/other/isend)
 (require 'conf/other/writegood)
 
-(require 'conf/lang/fundamental)
-(require 'conf/lang/org)
-(require 'conf/lang/vimrc)
-(require 'conf/lang/elisp-and-interaction)
-(require 'conf/lang/lisps)
-(require 'conf/lang/scala)
-(require 'conf/lang/sgml)
-(require 'conf/lang/pascal)
-(require 'conf/lang/asciidoc)
-(require 'conf/lang/text)
-(require 'conf/lang/bat-cmd)
+(require 'conf/mode-specific/fundamental)
+(require 'conf/mode-specific/c-and-c++)
+(require 'conf/mode-specific/compilation)
+(require 'conf/mode-specific/org)
+(require 'conf/mode-specific/vimrc)
+(require 'conf/mode-specific/elisp-and-interaction)
+(require 'conf/mode-specific/lisps)
+(require 'conf/mode-specific/scala)
+(require 'conf/mode-specific/sgml)
+(require 'conf/mode-specific/pascal)
+(require 'conf/mode-specific/asciidoc)
+(require 'conf/mode-specific/text)
+(require 'conf/mode-specific/term)
+(require 'conf/mode-specific/bat-cmd)
 
 (provide 'conf/-)

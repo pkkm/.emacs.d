@@ -1,5 +1,14 @@
 ;;; Utilities for key sequences and keymaps.
 
+;;; Evil.
+
+(require 'conf/evil) ; Used: evil-define-key.
+(defun evil-define-key-in-states (states keymap key def)
+  "Like `evil-define-key', but takes a list of states instead of a single state."
+  (mapc (lambda (state)
+          (evil-define-key state keymap key def))
+        states))
+
 ;;; Key sequences.
 
 (defun key-as-vector (key)

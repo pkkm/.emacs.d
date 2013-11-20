@@ -18,4 +18,4 @@
 
 ;; For further customization, see M-x customize-group RET adoc.
 
-(provide 'conf/lang/asciidoc)
+(provide 'conf/mode-specific/asciidoc)

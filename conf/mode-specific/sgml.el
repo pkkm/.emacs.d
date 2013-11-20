@@ -1,7 +1,19 @@
-;;; Emmet (formerly Zen Coding) -- expand abbreviations into structures of SGML tags.
+;;; SGML (parent of HTML).
 
-(require 'conf/packages)
+;;; Indentation (Smart Tabs).
+(require 'conf/editing/indentation)
+(smart-tabs-add-language-support sgml sgml-mode-hook
+  ((sgml-indent-line . sgml-basic-offset)))
+(smart-tabs-insinuate 'sgml)
+(add-hook 'sgml-mode-hook #'enable-indent-tabs-mode)
+
+;;; Emmet (formerly Zen Coding) -- expand abbreviations.
+
 (package-ensure-installed 'emmet-mode)
+
+(add-hook 'sgml-mode-hook (lambda () (emmet-mode 1)))
+
+;; Default binding: C-j
 
 ;; Emmet uses its own (braindead) indent code instead of the major mode's.
 ;; Let's use `indent-region' on every change to the buffer contents made by Emmet.
@@ -15,14 +27,11 @@
   "Indent the changed region. To be called from the `after-change-functions' hook."
   (indent-region start end))
 
-(setq emmet-move-cursor-after-expanding nil) ; Don't move the cursor, as the positions will be incorrect anyway due to the indent code above.
+(setq emmet-move-cursor-after-expanding nil) ; Don't move the cursor, as the positions will be incorrect anyway due to the indent hack above.
 (setq emmet-preview-default nil) ; Expand immediately, instead of asking for confirmation.
 
-;; Disable the stupid highlight.
-;; The variable that's supposed to do this doesn't work.
+;; Disable the stupid highlight. The variable that's supposed to do this doesn't work.
 (defadvice emmet-insert-and-flash (after remove-overlay activate)
   (emmet-remove-flash-ovl (current-buffer)))
 
-;; Default binding for expand: C-j
-
-(provide 'conf/other/emmet)
+(provide 'conf/mode-specific/sgml)

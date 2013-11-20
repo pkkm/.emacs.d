@@ -1,5 +1,7 @@
 ;;; Smartparens -- a modern alternative to paredit.
 
+(require 'conf/utils/keys) ; Used: evil-define-key-in-states.
+
 (require 'conf/packages)
 (package-ensure-installed 'smartparens)
 
@@ -36,6 +38,7 @@
 
 ;; Skip closing pair instead of inserting it.
 (setq sp-autoskip-closing-pair 'always)
+(setq sp-cancel-autoskip-on-backward-movement nil)
 
 ;; Don't put an "undo-boundary" before each inserted pair.
 (setq sp-undo-pairs-separately nil)
@@ -79,11 +82,10 @@
 
 ;; Unbind Evil's [ and ] prefixes (movement by sections is useless anyway).
 (require 'conf/evil)
-(mapcar (lambda (map)
-          (define-key map (kbd "[") nil)
-          (define-key map (kbd "]") nil))
-        (list evil-motion-state-map
-              evil-normal-state-map))
+(dolist (keymap (list evil-motion-state-map
+                      evil-normal-state-map))
+  (define-key keymap (kbd "[") nil)
+  (define-key keymap (kbd "]") nil))
 
 ;; Unbind Evil's C-y (motion state: scroll up, insert: copy from above).
 (define-key evil-motion-state-map (kbd "C-y") nil)
@@ -100,8 +102,8 @@
 ;;   double prefix -- operate on the enclosing expression.
 
 ;; Move by sexps, cursor at the beginning (like w/b).
-(define-key sp-keymap (kbd "C-s") #'sp-next-sexp)
-(define-key sp-keymap (kbd "C-y") #'sp-backward-sexp)
+(evil-define-key 'motion sp-keymap (kbd "C-s") #'sp-next-sexp)
+(evil-define-key 'motion sp-keymap (kbd "C-y") #'sp-backward-sexp)
 
 ;; Other movement by sexps (cursor at the end, like e/ge).
 ;;(define-key sp-keymap (kbd "C-M-f") #'sp-forward-sexp)
@@ -111,8 +113,8 @@
 (define-key sp-keymap (kbd "C-)") #'sp-down-sexp)
 (define-key sp-keymap (kbd "C-(") #'sp-backward-up-sexp)
 (when (eq window-system 'w32) ; C-( and C-) are incorrectly interpreted with my Portable Keyboard Layout config.
-  (define-key sp-keymap (kbd "C-2") #'sp-down-sexp)
-  (define-key sp-keymap (kbd "C-1") #'sp-backward-up-sexp))
+  (evil-define-key 'motion sp-keymap (kbd "C-2") #'sp-down-sexp)
+  (evil-define-key 'motion sp-keymap (kbd "C-1") #'sp-backward-up-sexp))
 
 ;; Other movement up/down nested sexps (cursor at the end).
 ;;(define-key sp-keymap (kbd "C-M-a") #'sp-backward-down-sexp)
@@ -127,13 +129,16 @@
 ;;(define-key sp-keymap (kbd "M-F") #'sp-forward-symbol)
 ;;(define-key sp-keymap (kbd "M-B") #'sp-backward-symbol)
 
+;; Delete to the end of sexp.
+(evil-define-key 'motion sp-keymap (kbd "M-d") #'sp-kill-hybrid-sexp)
+
 ;; Slurp and barf (move the next/previous expression inside/outside the current one).
 ;; With non-numeric prefix, slurp/barf as many as possible.
 (define-key sp-keymap (kbd "C-}") #'sp-forward-slurp-sexp)
 (define-key sp-keymap (kbd "C-{") #'sp-forward-barf-sexp)
 (when (eq window-system 'w32) ; C-( and C-) are incorrectly interpreted with my Portable Keyboard Layout config.
-  (define-key sp-keymap (kbd "C-3") #'sp-forward-slurp-sexp)
-  (define-key sp-keymap (kbd "C-5") #'sp-forward-barf-sexp))
+  (evil-define-key 'motion sp-keymap (kbd "C-3") #'sp-forward-slurp-sexp)
+  (evil-define-key 'motion sp-keymap (kbd "C-5") #'sp-forward-barf-sexp))
 (evil-define-key 'normal sp-keymap (kbd "g {") #'sp-backward-slurp-sexp)
 (evil-define-key 'normal sp-keymap (kbd "g }") #'sp-backward-barf-sexp)
 

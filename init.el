@@ -25,15 +25,14 @@
 (let ((default-directory main-dir))
   (normal-top-level-add-to-load-path '(".")))
 
-(defvar profile-init-p nil
-  "Should -.el be profiled on Emacs startup?")
+;; Load the flattened configuration file if we're running from my USB drive.
+(defvar load-flattened-conf (not (not (getenv "BUNDLE_ROOT"))) ; Double negation so that the variable is t or nil.
+  "Should Emacs configuration be loaded from `flattened-conf-file' instead of the conf/ directory?")
+(setq flattened-conf-file (expand-file-name "conf-flattened.el" main-dir))
 
-(if profile-init-p
-    (progn
-      (require 'pod) ; pod.elc is in my-vendor-dir.
-      (pod-reset-results)
-      (pod-load-file (expand-file-name "-.el" (expand-file-name "conf" main-dir)))
-      (pod-display-results))
+(if (and load-flattened-conf
+         (file-exists-p flattened-conf-file))
+    (load (file-name-sans-extension flattened-conf-file))
   (require 'conf/-))
 
 ;; Previously used method of organizing my config:

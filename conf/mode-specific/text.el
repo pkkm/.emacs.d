@@ -7,4 +7,4 @@
     ;; Highlight bad writing style.
     (writegood-mode 1)))
 
-(provide 'conf/lang/text)
+(provide 'conf/mode-specific/text)

@@ -25,7 +25,7 @@
     (insert ";;; \n"
             "\n"
             "(provide '" new-feature-name ")\n")
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (call-interactively #'evil-append-line)))
 
 (defun search-longest-prefix (string)
@@ -34,7 +34,7 @@
     (loop for num-chars from 1 to (length string)
           until (null match-pos)
           do
-          (beginning-of-buffer)
+          (goto-char (point-min))
           (setq prev-match-pos match-pos)
           (setq match-pos (search-forward (substring string 0 num-chars) nil t)))
     (goto-char prev-match-pos)))

@@ -3,11 +3,12 @@
 (require 'conf/utils/hooks) ; Used: add-one-shot-hook.
 
 ;; Indentation (Smart Tabs).
+(require 'conf/editing/indentation)
 (smart-tabs-add-language-support pascal pascal-mode-hook
   ((pascal-indent-line . pascal-indent-level)))
-(smart-tabs-insinuate 'pascal)
-(add-hook 'pascal-mode-hook (lambda () (setq indent-tabs-mode 1)))
 (defvaralias 'pascal-case-indent 'pascal-indent-level) ; Indent case statements same as everything else.
+(smart-tabs-insinuate 'pascal)
+(add-hook 'pascal-mode-hook #'enable-indent-tabs-mode)
 
 (add-one-shot-hook
  'pascal-mode-hook
@@ -32,4 +33,4 @@
    ;; Disable DEL -- delete and convert the deleted tabs to spaces.
    (define-key pascal-mode-map (kbd "DEL") nil)))
 
-(provide 'conf/lang/pascal)
+(provide 'conf/mode-specific/pascal)

@@ -6,13 +6,22 @@
 ;; For specific languages, use Smart Tabs -- indent with tabs, align with spaces.
 ;; To enable for a language:
 ;;   (smart-tabs-insinuate 'language)
-;;   (add-hook 'language-mode-hook (lambda () (setq indent-tabs-mode t) (smart-tabs-mode 1)))
+;;   (add-hook 'language-mode-hook #'enable-indent-tabs-mode)
 ;; For modes without configuration in smart-tabs-mode, also use:
 ;;   (smart-tabs-add-language-support c++ c++-mode-hook
 ;;     ((c-indent-line . c-basic-offset)
 ;;      (c-indent-region . c-basic-offset)))
 (require 'conf/packages)
 (package-ensure-installed 'smart-tabs-mode)
+(require 'smart-tabs-mode) ; TODO needed?
+
+;; Utility functions for easy adding to hooks.
+(defun enable-indent-tabs-mode ()
+  "Set `indent-tabs-mode' to t in the current buffer."
+  (setq indent-tabs-mode t))
+(defun disable-indent-tabs-mode ()
+  "Set `indent-tabs-mode' to t in the current buffer."
+  (setq indent-tabs-mode nil))
 
 (setq-default tab-width 4)
 

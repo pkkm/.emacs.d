@@ -8,9 +8,9 @@
 
 (defmacro add-one-shot-hook (hook function)
   "Add FUNCTION to HOOK. Remove it after its first execution."
-  (let ((wrapper-function (make-symbol "wrapper-function")))
+  (let ((wrapper-function (make-symbol "add-one-shot-hook--wrapper-function")))
     `(progn
-       (require 'cl) ; Used: lexical-let.
+       (eval-when-compile (require 'cl)) ; Used: lexical-let.
        (lexical-let ((hook* ,hook) ; Create a closure.
                      (function* ,function))
          (defun ,wrapper-function ()

@@ -6,4 +6,4 @@
   "Major mode for editing Dos scripts."
   t) ; Interactive.
 
-(provide 'conf/lang/bat-cmd)
+(provide 'conf/mode-specific/bat-cmd)

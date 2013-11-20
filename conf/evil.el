@@ -19,20 +19,24 @@
 (define-key evil-motion-state-map (kbd "C-u") 'evil-scroll-up)
 
 ;; In insert state, auto-indent the new line on a press of "RET" (or similar).
-(mapcar (lambda (fun-to-remap)
-          (define-key evil-insert-state-map (vector 'remap fun-to-remap) #'evil-ret-and-indent))
-        '(newline newline-and-indent evil-ret))
+(dolist (fun-to-remap
+         '(newline newline-and-indent evil-ret))
+  (define-key evil-insert-state-map (vector 'remap fun-to-remap) #'evil-ret-and-indent))
 
 (setq evil-want-C-w-delete t) ; Delete word in insert state with C-w.
 
 (setq evil-echo-state nil) ; Don't echo state in the echo area (minibuffer).
 
 ;; Initial states in various modes.
-(require 'cl-lib) ; Used: cl-loop.
-(cl-loop for (mode state)
-         in '((debugger-mode normal)
-              (package-menu-mode normal))
-         do (evil-set-initial-state mode state))
+(evil-set-initial-state 'debugger-mode 'normal)
+(evil-set-initial-state 'package-menu-mode 'normal)
+(evil-set-initial-state 'compilation-mode 'motion)
+(evil-set-initial-state 'term-mode 'emacs)
+
+;; Don't allow any keymap to shadow Evil bindings.
+(setq evil-overriding-maps '()) ; `evil-overriding-maps' get elevated to the "overriding" status -- above global state keymap, but below the local one.
+(setq evil-pending-overriding-maps '()) ; No idea what the "pending" version is for, but setting only the above doesn't seem to work, for example in compilation-mode.
+;;(setq evil-intercept-maps '()) ; `evil-intercept-maps' get elevated to the "intercept" status -- above all others. This is useful when debugging.
 
 ;; Unset keys that I'll later use as prefix keys.
 (define-key evil-motion-state-map (kbd "SPC") nil)

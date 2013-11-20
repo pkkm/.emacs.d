@@ -18,21 +18,21 @@
 
 ;; Active modeline in various Evil states.
 (defface ml-active-evil-normal-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is Normal.")
+  "Face for the active modeline when the Evil state is Normal." :group 'modeline)
 (defface ml-active-evil-motion-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is Motion.")
+  "Face for the active modeline when the Evil state is Motion." :group 'modeline)
 (defface ml-active-evil-insert-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is Insert.")
+  "Face for the active modeline when the Evil state is Insert." :group 'modeline)
 (defface ml-active-evil-replace-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is Replace.")
+  "Face for the active modeline when the Evil state is Replace." :group 'modeline)
 (defface ml-active-evil-visual-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is Visual.")
+  "Face for the active modeline when the Evil state is Visual." :group 'modeline)
 (defface ml-active-evil-operator-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is Operator.")
+  "Face for the active modeline when the Evil state is Operator." :group 'modeline)
 (defface ml-active-evil-emacs-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is Emacs.")
+  "Face for the active modeline when the Evil state is Emacs." :group 'modeline)
 (defface ml-active-evil-nil-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is nil.")
+  "Face for the active modeline when the Evil state is nil." :group 'modeline)
 
 (require 'cl-lib)
 (defun set-mode-line-backgrounds ()
@@ -51,7 +51,8 @@
 ;;; "Helper" faces to inherit from.
 
 (defface ml-shadow `((t ())) ; Foreground: mix the foreground and background of 'ml-active (below).
-  "Face for de-emphasized parts of the modeline.")
+  "Face for de-emphasized parts of the modeline."
+  :group 'modeline)
 
 (defun set-mode-line-helper-faces ()
   "Calculate the modeline \"helper\" faces that depend on colors in other faces."

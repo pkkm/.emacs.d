@@ -12,7 +12,7 @@
    ((and (eq type 'line)
          (= (point-max) end)
          (/= (point-min) start))
-    (delete-region (1 - start) end))
+    (delete-region (1- start) end))
    (t
     (delete-region start end)))
   (when (eq type 'line)
