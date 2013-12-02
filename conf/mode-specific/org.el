@@ -72,8 +72,8 @@ This function needs to be run only once in an Emacs session."
   (unless (evil-insert-state-p)
     (evil-append 1)))
 
-;; org-hide-leading-stars org-src-fontify-natively
-
+(setq org-src-fontify-natively t) ; Fontify code blocks.
+(setq org-hide-leading-stars t) ; Make leading stars of headlines background color.
 (setq org-fontify-done-headline t) ; Mark the whole headline of a DONE task with a different face.
 
 (provide 'conf/mode-specific/org)

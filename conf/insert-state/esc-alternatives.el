@@ -16,9 +16,8 @@
 (key-chord-define evil-insert-state-map "hh" #'evil-normal-state)
 (key-chord-define evil-replace-state-map "hh" #'evil-normal-state)
 
-;; C-SPC and S-SPC.
-(dolist (key (list (kbd "C-SPC")
-                   (kbd "S-SPC")))
+;; C-SPC in GUI and terminals
+(dolist (key (list (kbd "C-SPC") (kbd "C-@")))
   (define-key evil-insert-state-map key #'evil-normal-state)
   (define-key evil-replace-state-map key #'evil-normal-state))
 

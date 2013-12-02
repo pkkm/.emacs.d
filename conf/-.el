@@ -85,7 +85,6 @@
 ;;(require 'conf/other/clipboard)
 (require 'conf/other/count-lines-words-chars)
 (require 'conf/other/isend)
-(require 'conf/other/writegood)
 
 (require 'conf/mode-specific/fundamental)
 (require 'conf/mode-specific/c-and-c++)
