@@ -5,4 +5,7 @@
 
 (global-page-break-lines-mode 1)
 
+(require 'conf/modeline/cleaner-minor-modes)
+(diminish 'page-break-lines-mode "")
+
 (provide 'conf/view/page-break-lines)

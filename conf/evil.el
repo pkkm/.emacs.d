@@ -41,4 +41,8 @@
 ;; Unset keys that I'll later use as prefix keys.
 (define-key evil-motion-state-map (kbd "SPC") nil)
 
+;; Don't display undo-tree-mode (used by evil) in the modeline.
+(require 'conf/modeline/cleaner-minor-modes)
+(diminish 'undo-tree-mode "")
+
 (provide 'conf/evil)

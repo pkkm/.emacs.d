@@ -1,8 +1,6 @@
 ;;; `require' my customizations based on some conditions.
 
 (require 'conf/init/check-version)
-(require 'conf/utils/repl)
-(require 'conf/utils/load-history)
 (require 'conf/init/no-startup-message)
 (require 'conf/init/initial-scratch-message)
 
@@ -10,20 +8,20 @@
 (require 'conf/evil)
 
 (require 'conf/view/trailing-whitespace)
+(require 'conf/view/automatic-window-splitting)
 (require 'conf/view/windows)
 (require 'conf/view/hl-current-line)
 (require 'conf/view/buffer-map)
 (require 'conf/view/color-theme)
 (require 'conf/view/wrapping)
 (require 'conf/view/scrolling)
-(require 'conf/view/ui-elements)
+(require 'conf/view/ui-elements) ;;!!!
 (require 'conf/view/unique-buffer-names)
 (require 'conf/view/page-break-lines)
 
 (when window-system
-  (require 'conf/view/gui/mouse-avoidance)
   (require 'conf/view/gui/title)
-  (require 'conf/view/gui/font)
+  (require 'conf/view/gui/font) ;;!!!
   (require 'conf/view/gui/cursor)
   (require 'conf/view/gui/fringe)
   (require 'conf/view/gui/start-maximized)

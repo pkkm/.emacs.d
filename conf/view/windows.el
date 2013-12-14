@@ -1,4 +1,4 @@
-;;; Keys for managing windows.
+;;; Windows.
 
 (require 'conf/evil)
 

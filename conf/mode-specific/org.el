@@ -40,6 +40,9 @@ This function needs to be run only once in an Emacs session."
   (define-key org-mode-map (kbd "M-o") #'evil-org-insert-heading)
   (define-key org-mode-map (kbd "C-M-o") #'evil-org-insert-todo-heading)
 
+  ;; Show all TODOs.
+  (define-key org-mode-map (kbd "C-c M-t") #'org-show-todo-tree)
+
   ;; Navigation (with conf/other/convenient-prefix-keys active):
   ;;   SPC u -- up heading.
   ;;   SPC f -- forward heading (same level).
@@ -72,8 +75,17 @@ This function needs to be run only once in an Emacs session."
   (unless (evil-insert-state-p)
     (evil-append 1)))
 
+;; Display.
 (setq org-src-fontify-natively t) ; Fontify code blocks.
 (setq org-hide-leading-stars t) ; Make leading stars of headlines background color.
 (setq org-fontify-done-headline t) ; Mark the whole headline of a DONE task with a different face.
+
+;; Agenda.
+(setq org-agenda-files
+      (list (when (file-exists-p "~/Org") "~/Org")))
+(global-set-key (kbd "C-x C-a") #'org-agenda)
+
+;; Logging.
+(setq org-log-repeat nil) ; Don't log shifting forward the date of a repeating task.
 
 (provide 'conf/mode-specific/org)

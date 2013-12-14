@@ -7,6 +7,10 @@
 
 (smartparens-global-mode 1)
 
+;; Don't show Smartparens in the modeline.
+(require 'conf/modeline/cleaner-minor-modes)
+(diminish 'smartparens-mode "")
+
 ;; Modes where smartparens mode is inactive.
 (setq sp-ignore-modes-list '()) ; Add minibuffer-inactive-mode to disable SP in the minibuffer.
 
@@ -113,8 +117,8 @@
 (define-key sp-keymap (kbd "C-)") #'sp-down-sexp)
 (define-key sp-keymap (kbd "C-(") #'sp-backward-up-sexp)
 (when (eq window-system 'w32) ; C-( and C-) are incorrectly interpreted with my Portable Keyboard Layout config.
-  (evil-define-key 'motion sp-keymap (kbd "C-2") #'sp-down-sexp)
-  (evil-define-key 'motion sp-keymap (kbd "C-1") #'sp-backward-up-sexp))
+  (define-key sp-keymap (kbd "C-2") #'sp-down-sexp)
+  (define-key sp-keymap (kbd "C-1") #'sp-backward-up-sexp))
 
 ;; Other movement up/down nested sexps (cursor at the end).
 ;;(define-key sp-keymap (kbd "C-M-a") #'sp-backward-down-sexp)
@@ -137,8 +141,8 @@
 (define-key sp-keymap (kbd "C-}") #'sp-forward-slurp-sexp)
 (define-key sp-keymap (kbd "C-{") #'sp-forward-barf-sexp)
 (when (eq window-system 'w32) ; C-( and C-) are incorrectly interpreted with my Portable Keyboard Layout config.
-  (evil-define-key 'motion sp-keymap (kbd "C-3") #'sp-forward-slurp-sexp)
-  (evil-define-key 'motion sp-keymap (kbd "C-5") #'sp-forward-barf-sexp))
+  (define-key sp-keymap (kbd "C-3") #'sp-forward-slurp-sexp)
+  (define-key sp-keymap (kbd "C-5") #'sp-forward-barf-sexp))
 (evil-define-key 'normal sp-keymap (kbd "g {") #'sp-backward-slurp-sexp)
 (evil-define-key 'normal sp-keymap (kbd "g }") #'sp-backward-barf-sexp)
 
