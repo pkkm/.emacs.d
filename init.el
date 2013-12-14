@@ -1,5 +1,9 @@
 ;;; Main file of this Emacs config.
 
+;; TEMPORARY HACK/BUGFIX
+;; TODO remove after updating emacs.
+(setq windmove-window-distance-delta 2)
+
 ;; Directories of this Emacs distribution.
 (defvar main-dir (file-name-directory load-file-name) ; The directory of this file.
   "The root directory of my Emacs distribution.")
