@@ -64,6 +64,7 @@
 (require 'conf/opening-saving/ido)
 (require 'conf/opening-saving/coding)
 (require 'conf/opening-saving/vim-modelines)
+(require 'conf/opening-saving/version-control)
 (require 'conf/opening-saving/recent-files)
 
 (require 'conf/operators/insert-newline)
