@@ -89,4 +89,7 @@ This function needs to be run only once in an Emacs session."
 ;; Logging.
 (setq org-log-repeat nil) ; Don't log shifting forward the date of a repeating task.
 
+;; Completion.
+(setq org-completion-use-ido t)
+
 (provide 'conf/mode-specific/org)
