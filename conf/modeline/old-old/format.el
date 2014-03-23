@@ -59,30 +59,17 @@ Similarly for MARGINS-POS."
 (defun ml-format ()
   (let* ((window-active (powerline-selected-window-active))
 
-         ;; Face based on the Evil state.
+         ;; "Base" faces.
 
-         (ml-active-face
-          (cl-case evil-state
-            ('normal 'ml-active-evil-normal-state)
-            ('motion 'ml-active-evil-motion-state)
-            ('insert 'ml-active-evil-insert-state)
-            ('replace 'ml-active-evil-replace-state)
-            ('visual 'ml-active-evil-visual-state)
-            ('operator 'ml-active-evil-operator-state)
-            ('emacs 'ml-active-evil-emacs-state)
-            (nil 'ml-active-evil-nil-state)))
-
-         ;; "Base" faces for modeline segments and the spacers between them.
-
-         (ml-face-text
+         (ml-face-1
           (if window-active
-              ml-active-face
-            'ml-inactive))
+              'ml-active-1
+            'ml-inactive-1))
 
-         (ml-face-spacers
+         (ml-face-2
           (if window-active
-              ml-active-face
-            'ml-inactive))
+              'ml-active-2
+            'ml-inactive-2))
 
          ;; Modeline sections.
 
@@ -120,6 +107,22 @@ Similarly for MARGINS-POS."
           (propertize "%]" 'face (if window-active
                                      'ml-recursive-edit-braces-active
                                    'ml-recursive-edit-braces-inactive)))
+
+         (ml-evil-state-face
+          (cl-case evil-state
+            ('normal "black")
+            ('motion "black")
+            ('insert "blue")
+            ('visual "orange")
+            ('operator "purple")
+            ('emacs "green")
+            (nil "red")))
+
+         (ml-evil-state
+          (propertize (if evil-state
+                          (upcase (substring (symbol-name evil-state) 0 1))
+                        "Nil")
+                      'face 'ml-evil-state))
 
          (ml-major-mode
           (propertize (format-mode-line mode-name)
@@ -160,41 +163,46 @@ Similarly for MARGINS-POS."
          ;; Left, center and right parts of the modeline.
 
          (left (append
-                (list (propertize " " 'face ml-face-text)) ; Spacing from the window edge.
-                (ml-make-segment ml-face-text ml-face-spacers 'right nil
-                                 ml-dir-and-name
+                (list (propertize " " 'face ml-face-1)) ; Spacing from the window edge.
+                (ml-make-segment ml-face-1 ml-face-2 'right nil
+                                 ml-dir-and-name)
+                (ml-make-segment ml-face-2 ml-face-2 nil 'left
                                  ml-modified-ro
                                  ml-is-narrowed)))
 
          (center (append
-                  (ml-make-segment ml-face-text ml-face-spacers nil 'left
+                  (ml-make-segment ml-face-2 ml-face-2 nil 'right
                                    ml-recursive-edit-open-braces
                                    ml-major-mode
                                    ml-process
-                                   ml-global-mode-string
+                                   ml-global-mode-string)
+                  (ml-make-segment (list ml-face-1) ml-face-2 'both nil
+                                   ml-evil-state)
+                  (ml-make-segment ml-face-2 ml-face-2 nil 'left
                                    ml-minor-modes
                                    ml-recursive-edit-close-braces)))
 
          (right (append
-                 (ml-make-segment ml-face-text ml-face-spacers 'left nil
-                                  ml-coding
+                 (ml-make-segment ml-face-2 ml-face-2 nil 'right
+                                  ml-coding)
+                 (ml-make-segment ml-face-1 ml-face-2 'left nil
                                   ml-position
                                   ml-line-column)
-                 (list (propertize " " 'face ml-face-text))))) ; Spacing from the window edge.
+                 (list (propertize " " 'face ml-face-1))))) ; Spacing from the window edge.
 
     ;; Rendering the modeline.
     (concat
      (powerline-render left)
-     (powerline-fill-center ml-face-spacers (/ (powerline-width center) 2.0))
+     (powerline-fill-center ml-face-2 (/ (powerline-width center) 2.0))
      (powerline-render center)
-     (powerline-fill ml-face-spacers (powerline-width right))
+     (powerline-fill ml-face-2 (powerline-width right))
      (powerline-render right))))
 
 (require 'conf/modeline/faces)
 (setq-default mode-line-format
               '((:eval
                  (ignore-specific-messages '("pl/ generating new separator")
-                                           (ml-format)))))
+                  (ml-format)))))
 
 ;; TODO improve this and move to conf/utils.
 (defun shorten-directory (dir max-length)

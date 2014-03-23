@@ -72,8 +72,14 @@
 (define-key my-window-map (kbd "r") #'evil-window-rotate-downwards)
 (define-key my-window-map (kbd "R") #'evil-window-rotate-upwards)
 
+;; Undo (restore previous window configuration).
+(winner-mode 1) ; winner-mode is included with Emacs.
+(setq winner-mode-map (make-sparse-keymap)) ; Disable winner-mode's default bindings.
+(define-key my-window-map (kbd "u") #'winner-undo)
+(define-key my-window-map (kbd "C-r") #'winner-redo)
 
-;;; Relatively unused.
+
+;;; Rarely unused.
 
 ;; Split and open new file (with count: leave COUNT lines in the initially-selected window).
 (define-key my-window-map (kbd "D") #'evil-window-vnew) ; Horizontally.

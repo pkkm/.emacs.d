@@ -1,56 +1,41 @@
 ;;; Faces for various parts of the modeline.
 
 (require 'conf/utils/colors) ; Used: color-mix.
-(require 'conf/utils/hooks) ; Used: add-hooks.
-(require 'conf/evil)
 
 ;;; "Base" faces.
 
-(defface ml-active
+(defface ml-active-1
+  '((t (:inherit mode-line))) ; Foreground and background: from the 'fringe face (set below).
+  "Powerline face 1."
+  :group 'powerline)
+
+(defface ml-active-2
   '((t (:inherit mode-line)))
-  "Base face for the active modeline."
-  :group 'modeline)
+  "Powerline face 2."
+  :group 'powerline)
 
-(defface ml-inactive
+(defface ml-inactive-1
+  '((t (:inverse-video t :inherit mode-line-inactive)))
+  "Powerline face 1."
+  :group 'powerline)
+
+(defface ml-inactive-2
   '((t (:inherit mode-line-inactive)))
-  "Base face for the inactive modeline."
-  :group 'modeline)
+  "Powerline face 2."
+  :group 'powerline)
 
-;; Active modeline in various Evil states.
-(defface ml-active-evil-normal-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is Normal." :group 'modeline)
-(defface ml-active-evil-motion-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is Motion." :group 'modeline)
-(defface ml-active-evil-insert-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is Insert." :group 'modeline)
-(defface ml-active-evil-replace-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is Replace." :group 'modeline)
-(defface ml-active-evil-visual-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is Visual." :group 'modeline)
-(defface ml-active-evil-operator-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is Operator." :group 'modeline)
-(defface ml-active-evil-emacs-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is Emacs." :group 'modeline)
-(defface ml-active-evil-nil-state '((t (:inherit 'ml-active)))
-  "Face for the active modeline when the Evil state is nil." :group 'modeline)
-
-(require 'cl-lib)
-(defun set-mode-line-backgrounds ()
-  "Calculate the modeline backgrounds for various Evil states."
-  (set-face-background 'ml-active-evil-normal-state nil)
-  (set-face-background 'ml-active-evil-motion-state nil)
-  (set-face-background 'ml-active-evil-insert-state (color-mix "blue" 0.1 (face-background 'mode-line nil t) 0.9))
-  (set-face-background 'ml-active-evil-replace-state (color-mix "blue" 0.1 (face-background 'mode-line nil t) 0.9))
-  (set-face-background 'ml-active-evil-visual-state (color-mix "green" 0.1 (face-background 'mode-line nil t) 0.9))
-  (set-face-background 'ml-active-evil-operator-state nil)
-  (set-face-background 'ml-active-evil-emacs-state (color-mix "black" 0.4 (face-background 'mode-line nil t) 0.6))
-  (set-face-background 'ml-active-evil-nil-state (color-mix (face-background 'fringe nil t) 0.7 (face-background 'mode-line nil t) 0.3)))
-(add-hook 'after-load-theme-hook #'set-mode-line-backgrounds)
-(set-mode-line-backgrounds)
+(defun set-mode-line-base-faces ()
+  "Calculate the modeline \"base\" faces that depend on colors in other faces."
+  (set-face-foreground 'ml-active-1
+                       (face-foreground 'fringe nil t))
+  (set-face-background 'ml-active-1
+                       (face-background 'fringe nil t)))
+(add-hook 'after-load-theme-hook #'set-mode-line-base-faces)
+(set-mode-line-base-faces)
 
 ;;; "Helper" faces to inherit from.
 
-(defface ml-shadow `((t ())) ; Foreground: mix the foreground and background of 'ml-active (below).
+(defface ml-shadow `((t ())) ; Foreground: mix the foreground and background of 'ml-active-1 (below).
   "Face for de-emphasized parts of the modeline."
   :group 'modeline)
 
@@ -58,9 +43,9 @@
   "Calculate the modeline \"helper\" faces that depend on colors in other faces."
   (set-face-foreground 'ml-shadow
                        (if window-system
-                           (color-mix (or (face-foreground 'mode-line nil t) (face-foreground 'default)) 0.6
-                                      (or (face-background 'mode-line nil t) (face-foreground 'default)) 0.4)
-                         (face-foreground 'mode-line nil t))))
+                           (color-mix (or (face-foreground 'ml-active-1 nil t) (face-foreground 'default)) 0.6
+                                      (or (face-background 'ml-active-1 nil t) (face-foreground 'default)) 0.4)
+                         (face-foreground 'ml-active-1 nil t))))
 (add-hook 'after-load-theme-hook #'set-mode-line-helper-faces t) ; Add to end (because `set-mode-line-base-faces' should run first).
 (set-mode-line-helper-faces)
 
@@ -88,7 +73,7 @@
   "Face for the indicator of file being read only in the modeline."
   :group 'modeline)
 
-(defface ml-narrowed '((t (:underline t)))
+(defface ml-narrowed '((t ())) ; (:box t)
   "Face for the indicator of buffer being narrowed in the modeline."
   :group 'modeline)
 
@@ -111,6 +96,10 @@
 
 (defface ml-global-mode-string '((t ()))
   "Face for the global mode string (see help for global-mode-string) in the modeline."
+  :group 'modeline)
+
+(defface ml-evil-state '((t (:weight bold)))
+  "Face for the evil state in the modeline."
   :group 'modeline)
 
 (defface ml-minor-modes '((t ()))
