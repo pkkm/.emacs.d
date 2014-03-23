@@ -36,4 +36,7 @@
     (number-sequence tab-width (* tab-width count) tab-width)))
 (setq tab-stop-list (my-generate-tab-stops))
 
+;; Don't convert tabs to spaces on backspace.
+(setq backward-delete-char-untabify-method nil)
+
 (provide 'conf/editing/indentation)

@@ -1,5 +1,9 @@
 ;;; Remember recently opened files and allow quick access to them.
 
+;; Save in `my-savefile-dir'/recentf.
+(setq recentf-save-file
+      (expand-file-name "recentf" my-savefile-dir))
+
 (setq recentf-max-saved-items 200)
 
 (setq recentf-auto-cleanup 45) ; Clean up the list after 45 s of idle. See also `recentf-cleanup' for manually triggering it.

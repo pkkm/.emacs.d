@@ -32,7 +32,7 @@
 ;; Load the flattened configuration file if we're running from my USB drive.
 (defvar load-flattened-conf (not (not (getenv "BUNDLE_ROOT"))) ; Double negation so that the variable is t or nil.
   "Should Emacs configuration be loaded from `flattened-conf-file' instead of the conf/ directory?")
-(setq flattened-conf-file (expand-file-name "conf-flattened.el" main-dir))
+(setq flattened-conf-file (expand-file-name "conf-flattened.el" my-savefile-dir))
 
 (if (and load-flattened-conf
          (file-exists-p flattened-conf-file))

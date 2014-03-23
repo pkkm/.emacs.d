@@ -28,10 +28,12 @@
 (setq evil-echo-state nil) ; Don't echo state in the echo area (minibuffer).
 
 ;; Initial states in various modes.
+;; TODO move to files with the configuration for the modes.
 (evil-set-initial-state 'debugger-mode 'normal)
 (evil-set-initial-state 'package-menu-mode 'normal)
 (evil-set-initial-state 'compilation-mode 'motion)
 (evil-set-initial-state 'term-mode 'emacs)
+(evil-set-initial-state 'compilation-mode 'emacs)
 
 ;; Don't allow any keymap to shadow Evil bindings.
 (setq evil-overriding-maps '()) ; `evil-overriding-maps' get elevated to the "overriding" status -- above global state keymap, but below the local one.

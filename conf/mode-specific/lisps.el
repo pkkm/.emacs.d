@@ -8,5 +8,7 @@
 
 (add-hooks '(lisp-mode-hook lisp-interaction-mode-hook emacs-lisp-mode-hook)
            #'disable-indent-tabs-mode)
+(add-hooks '(lisp-mode-hook lisp-interaction-mode-hook emacs-lisp-mode-hook)
+           #'indent-guide-mode)
 
 (provide 'conf/mode-specific/lisps)

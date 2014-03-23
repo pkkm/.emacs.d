@@ -8,6 +8,7 @@
 (require 'conf/evil)
 
 (require 'conf/view/trailing-whitespace)
+(require 'conf/view/indent-guides)
 (require 'conf/view/automatic-window-splitting)
 (require 'conf/view/windows)
 (require 'conf/view/hl-current-line)
@@ -15,19 +16,19 @@
 (require 'conf/view/color-theme)
 (require 'conf/view/wrapping)
 (require 'conf/view/scrolling)
-(require 'conf/view/ui-elements) ;;!!!
+(require 'conf/view/ui-elements)
 (require 'conf/view/unique-buffer-names)
 (require 'conf/view/page-break-lines)
 
 (when window-system
   (require 'conf/view/gui/title)
-  (require 'conf/view/gui/font) ;;!!!
+  (require 'conf/view/gui/font)
   (require 'conf/view/gui/cursor)
   (require 'conf/view/gui/fringe)
   (require 'conf/view/gui/start-maximized)
   (require 'conf/view/gui/focus-follows-mouse))
 
-(require 'conf/minibuffer/y-or-n-p)
+(require 'conf/minibuffer/confirmations)
 (require 'conf/minibuffer/esc-quits-prompts)
 (require 'conf/minibuffer/ido)
 (require 'conf/minibuffer/M-x)
@@ -47,6 +48,7 @@
 (require 'conf/motions/ace-jump)
 
 (require 'conf/editing/indentation)
+(require 'conf/editing/auto-completion)
 (require 'conf/editing/smartparens)
 (require 'conf/operators/hungry-delete)
 
@@ -58,6 +60,7 @@
 (require 'conf/opening-saving/move-delete)
 (require 'conf/opening-saving/ag)
 (require 'conf/opening-saving/auto-revert)
+(require 'conf/opening-saving/auto-save)
 (require 'conf/opening-saving/editorconfig)
 (require 'conf/opening-saving/save-point-position)
 (require 'conf/opening-saving/keys)
@@ -79,7 +82,9 @@
 (require 'conf/configuring/command-log)
 
 (require 'conf/other/enable-confusing-commands)
+(require 'conf/other/eshell)
 (require 'conf/other/guide-key)
+(require 'conf/other/games)
 (require 'conf/other/convenient-prefix-keys)
 ;;(require 'conf/other/clipboard)
 (require 'conf/other/count-lines-words-chars)
@@ -92,6 +97,7 @@
 (require 'conf/mode-specific/vimrc)
 (require 'conf/mode-specific/elisp-and-interaction)
 (require 'conf/mode-specific/lisps)
+(require 'conf/mode-specific/latex)
 (require 'conf/mode-specific/scala)
 (require 'conf/mode-specific/sgml)
 (require 'conf/mode-specific/pascal)

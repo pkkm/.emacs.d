@@ -2,7 +2,13 @@
 ;; Lisp Interaction mode inherits hooks, etc. from Emacs Lisp mode, but doesn't inherit its keymaps.
 
 (require 'conf/evil)
-(require 'conf/utils/hooks) ; Used: add-one-shot-hooks.
+
+;;; Indentation.
+
+(defun my-elisp-indentation ()
+  (setq tab-width 8) ; For reading ancient Lisp code.
+  (setq indent-tabs-mode nil))
+(add-hook 'emacs-lisp-mode-hook #'my-elisp-indentation)
 
 ;;; Elisp evaluation bindings.
 
@@ -18,7 +24,7 @@
   (local-set-key (kbd "C-c C-p") #'pp-eval-expression)) ; Prompt for an expression to eval.
 
 (add-hook 'emacs-lisp-mode-hook #'my-elisp-bindings)
-;; `add-hook' is used instead of `add-one-shot-hooks' because `emacs-lisp-mode-hook' is ran in Lisp Interaction mode, but `emacs-lisp-mode-map' is not inherited by this mode.
+;; `add-hook' is used instead of `add-one-shot-hook' so that the bindings are available both in Emacs Lisp mode and Lisp Interaction mode. Explanation: `emacs-lisp-mode-hook' is ran in Lisp Interaction mode, but `emacs-lisp-mode-map' is not inherited by this mode. This means that using `add-one-shot-hook' would the cause the bindings to be added only to the mode that runs first.
 
 (defun evil-eval-region (region-start region-end)
   "Evaluate region and exit Evil's visual state."
@@ -27,8 +33,14 @@
   (evil-exit-visual-state))
 
 ;;; Eldoc mode -- show function arguments in minibuffer.
+;; Included with Emacs.
 (setq eldoc-idle-delay 0.1)
 (setq eldoc-echo-area-use-multiline-p 'truncate-sym-name-if-fit)
 (add-hook 'emacs-lisp-mode-hook #'turn-on-eldoc-mode)
+
+;;; Highlight known symbols.
+(require 'conf/packages)
+(package-ensure-installed 'highlight-defined)
+(add-hook 'emacs-lisp-mode-hook #'highlight-defined-mode)
 
 (provide 'conf/mode-specific/elisp-and-interaction)
