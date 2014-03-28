@@ -55,16 +55,13 @@
 
 (defun set-mode-line-helper-faces ()
   "Calculate the modeline \"helper\" faces that depend on colors in other faces."
-  (set-face-foreground 'ml-shadow
-                       (if window-system
-                           (color-mix (face-foreground 'mode-line nil t) 0.6 (face-background 'mode-line nil t) 0.4)
-                         (face-foreground 'mode-line nil t))))
+  (set-face-foreground 'ml-shadow (face-foreground 'mode-line-inactive)))
 (add-hook 'after-load-theme-hook #'set-mode-line-helper-faces)
 (set-mode-line-helper-faces)
 
 ;;; Left.
 
-(defface ml-directory '((t (:inherit mode-line-inactive)))
+(defface ml-directory '((t (:inherit ml-shadow)))
   "Face for the folder name in the modeline."
   :group 'modeline)
 

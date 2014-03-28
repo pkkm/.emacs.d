@@ -12,8 +12,17 @@
         (awk-mode . "awk")
         (other . "linux")))
 
-(add-one-shot-hook 'c-mode-common-hook
-                   (lambda ()
-                     ))
+;; Default compilation and execution commands.
+(require 'conf/other/compiling)
+(defun set-c-compile-run-commands ()
+  (interactive)
+  (let* ((input-file-name (file-name-nondirectory (buffer-file-name)))
+         (output-file-name (concat (file-name-sans-extension input-file-name)
+                                   (if (eq window-system 'w32) ".exe" ""))))
+    (setq compile-command (concat "gcc -O2 -Wall --std=c99"
+                                  " " (shell-quote-argument input-file-name)
+                                  " -o " (shell-quote-argument output-file-name)))
+    (setq run-command (concat "./" (shell-quote-argument output-file-name)))))
+(add-hook 'c-mode-hook #'set-c-compile-run-commands)
 
 (provide 'conf/mode-specific/c-and-c++)

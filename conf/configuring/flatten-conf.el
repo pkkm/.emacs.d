@@ -33,7 +33,6 @@
           (conf-load-order))))
 
 (require 'conf/utils/file-modtime) ; Used: any-file-in-directory-newer-than-p, file-modtime.
-(require 'cl-lib) ; Used: cl-case.
 (defun reflatten-and-recompile-conf ()
   "If any file in conf/ is newer than the file `flattened-conf-file', re-flatten the configuration.
 Then, byte-recompile the file."
@@ -51,7 +50,7 @@ Then, byte-recompile the file."
       (message "Compiling flattened conf/...")
       (if (byte-compile-file flattened-conf-file)
           (message "Compiling flattened conf/... done.")
-        (message "Compiling flattened conf/... there were errors.")))))
+        (message "Compiling flattened conf/... error.")))))
 
 ;; Run the above each time Emacs is idle for a certain amount of time.
 (defvar reflatten-and-recompile-conf-idle-timeout 60
