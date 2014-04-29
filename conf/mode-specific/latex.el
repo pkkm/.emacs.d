@@ -3,6 +3,11 @@
 (require 'conf/packages)
 (package-ensure-installed 'auctex)
 
+;; Completion.
+(require 'conf/editing/completion)
+;;(setq ac-modes (append TeX-modes ac-modes))
+(add-to-list 'ac-modes 'TeX-mode)
+
 ;; Indentation: smart tabs.
 (require 'conf/editing/indentation)
 (smart-tabs-add-language-support LaTeX LaTeX-mode-hook

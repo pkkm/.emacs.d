@@ -9,10 +9,9 @@
 (setq tab-always-indent 'complete)
 (add-to-list 'completion-styles 'initials t)
 
-;; `completion-at-point' -- when TAB is pressed and the current line is already properly indented.
+;; `completion-at-point' -- when TAB is pressed and the current line is already properly indented (and `auto-complete' is not active -- otherwise the TAB binding from `ac-completing-map' would be used):
 ;;   * If there's a complete snippet name before point, expand it using YASnippet (if YASnippet minor mode is active).
 ;;   * Otherwise, launch `auto-complete'.
-;; Note that this won't be used when `auto-complete' is displayed (the TAB binding from `ac-completing-map' will be used instead).
 (require 'conf/editing/snippets)
 (defun yas-expand-if-active ()
   "Call `yas-expand' if YASnippet minor mode is active."
@@ -32,7 +31,14 @@
 
 (setq ac-completing-map (make-sparse-keymap)) ; There is also `ac-menu-map', for when the menu is active.
 
-;; Selecting a candidate and completing.
+;; Cycle candidates with C-n and C-p, or activate `auto-complete' if it's not active.
+(require 'conf/evil)
+(define-key evil-insert-state-map (kbd "C-n") #'auto-complete)
+(define-key evil-insert-state-map (kbd "C-p") #'auto-complete)
+(define-key ac-completing-map (kbd "C-n") #'ac-next)
+(define-key ac-completing-map (kbd "C-p") #'ac-previous)
+
+;; Completing.
 (define-key ac-completing-map (kbd "TAB") #'ac-expand) ; Expand; cycle candidates when pressed repeatedly.
 (define-key ac-completing-map (kbd "<backtab>") #'ac-previous)
 (define-key ac-completing-map (kbd "RET") #'ac-complete) ; Choose the current candidate and perform its associated action.
