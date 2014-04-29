@@ -48,8 +48,9 @@
 (require 'conf/motions/ace-jump)
 
 (require 'conf/editing/indentation)
-(require 'conf/editing/auto-completion)
+(require 'conf/editing/completion)
 (require 'conf/editing/smartparens)
+(require 'conf/editing/snippets)
 (require 'conf/operators/hungry-delete)
 
 (require 'conf/modeline/faces)
@@ -88,12 +89,14 @@
 (require 'conf/other/games)
 (require 'conf/other/convenient-prefix-keys)
 (require 'conf/other/compiling)
+;; TODO
 ;;(require 'conf/other/clipboard)
 (require 'conf/other/count-lines-words-chars)
 (require 'conf/other/isend)
 
 (require 'conf/mode-specific/fundamental)
 (require 'conf/mode-specific/c-and-c++)
+(require 'conf/mode-specific/calc)
 (require 'conf/mode-specific/compilation)
 (require 'conf/mode-specific/org)
 (require 'conf/mode-specific/vimrc)

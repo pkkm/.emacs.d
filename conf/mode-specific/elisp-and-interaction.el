@@ -3,12 +3,23 @@
 
 (require 'conf/evil)
 
+
 ;;; Indentation.
 
 (defun my-elisp-indentation ()
   (setq tab-width 8) ; For reading ancient Lisp code.
   (setq indent-tabs-mode nil))
 (add-hook 'emacs-lisp-mode-hook #'my-elisp-indentation)
+
+
+;;; Completion
+
+;; Add elisp-specific completion sources.
+(require 'conf/editing/completion)
+(let ((my-elisp-ac-sources '(ac-source-functions ac-source-variables ac-source-symbols ac-source-features)))
+  (add-to-list 'my-major-mode-ac-sources `(emacs-lisp-mode . ,my-elisp-ac-sources))
+  (add-to-list 'my-major-mode-ac-sources `(lisp-interaction-mode . ,my-elisp-ac-sources)))
+
 
 ;;; Elisp evaluation bindings.
 
@@ -32,6 +43,7 @@
   (eval-region region-start region-end)
   (evil-exit-visual-state))
 
+
 ;;; Eldoc mode -- show function arguments in minibuffer.
 ;; Included with Emacs.
 (setq eldoc-idle-delay 0.1)
@@ -42,5 +54,6 @@
 (require 'conf/packages)
 (package-ensure-installed 'highlight-defined)
 (add-hook 'emacs-lisp-mode-hook #'highlight-defined-mode)
+
 
 (provide 'conf/mode-specific/elisp-and-interaction)

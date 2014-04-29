@@ -8,8 +8,18 @@
   (run-hooks 'after-load-theme-hook))
 
 ;; Dark, with many greens and browns.
-(load-theme 'wombat)
-(set-cursor-color "navajo white")
+;;(load-theme 'wombat)
+;;(set-cursor-color "navajo white")
+
+;; Dark, mainly blues and greens.
+;;(require 'conf/packages)
+;;(package-ensure-installed 'ample-theme)
+;;(add-to-list 'custom-safe-themes "ed81411169b1b3e3d4cfc39b09d68ea13e0ff7708dc5b9d0bedb319e071968ad")
+;;(load-theme 'ample)
+
+;; Dark, with light blues.
+;; Installed in `my-vendor-dir'.
+;;(load-theme 'deeper-blue)
 
 ;; Different colors for Org headline levels with the Wombat theme.
 ;; (Wombat has the same colors for Org headlines with levels 1 and 2, and also 6 and 7.)
@@ -21,11 +31,12 @@
   (setq org-n-level-faces 6))
 
 ;; Light, beige.
-;;(require 'conf/packages)
-;;(package-ensure-installed 'soft-morning-theme)
-;;(load-theme 'soft-morning t)
+(require 'conf/packages)
+(package-ensure-installed 'soft-morning-theme)
+(add-to-list 'custom-safe-themes "a30d5f217d1a697f6d355817ac344d906bb0aae3e888d7abaa7595d5a4b7e2e3")
+(load-theme 'soft-morning t)
 
-;; Cursor color.
+;; Don't let Evil set the cursor color.
 (require 'conf/evil)
 (setq evil-default-cursor nil)
 

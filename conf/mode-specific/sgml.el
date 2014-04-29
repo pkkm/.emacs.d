@@ -7,11 +7,17 @@
 (smart-tabs-insinuate 'sgml)
 (add-hook 'sgml-mode-hook #'enable-indent-tabs-mode)
 
+;;; Misc.
+
+(defun my-sgml-mode-customizations ()
+  "My customizations to apply when `sgml-mode' is activated."
+  (sgml-electric-tag-pair-mode 1)) ; When editing an opening tag, automatically update the closing tag.
+(add-hook 'sgml-mode-hook #'my-sgml-mode-customizations)
+
 ;;; Emmet (formerly Zen Coding) -- expand abbreviations.
 
 (package-ensure-installed 'emmet-mode)
-
-(add-hook 'sgml-mode-hook (lambda () (emmet-mode 1)))
+(add-hook 'sgml-mode-hook #'emmet-mode)
 
 ;; Default binding: C-j
 

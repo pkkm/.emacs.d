@@ -1,9 +1,10 @@
 Rarely used
 ===========
 X	delete one character backward
-C-g	quit
 C-j	newline
 C-k	kill line
+C-t indent
+C-d outdent
 
 Redundant
 =========
@@ -14,7 +15,6 @@ Unbound
 Q
 C-;
 C-,
-C-a
 C-q
 g z
 g y
@@ -25,4 +25,3 @@ g k
 g j
 g c
 g RET
-M-RET

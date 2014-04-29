@@ -5,14 +5,7 @@
 (package-ensure-installed 'org)
 
 (require 'conf/utils/hooks)
-(add-hook 'org-mode-hook #'my-org-mode-customization)
 (add-one-shot-hook 'org-mode-hook #'my-org-mode-bindings)
-
-(defun my-org-mode-customization ()
-  "Customizations that should be applied every time Org-mode is enabled."
-  ;; Don't use a changed definition of a paragraph.
-  (kill-local-variable 'paragraph-start)
-  (kill-local-variable 'paragraph-separate))
 
 (defun my-org-mode-bindings ()
   "Add some bindings to Org-mode's keymap.
@@ -34,6 +27,9 @@ This function needs to be run only once in an Emacs session."
   (define-key org-mode-map (kbd "C-M-t") #'org-shiftdown)
   (define-key org-mode-map (kbd "C-M-n") #'org-shiftup)
   (define-key org-mode-map (kbd "C-M-s") #'org-shiftright)
+
+  ;; Mark element (to mark a subtree, use C-c @).
+  (define-key org-mode-map (kbd "M-v") #'org-mark-element) ; Normally would be M-h, but shadowed by previous binding.
 
   ;; Insert heading.
   (evil-define-key 'normal org-mode-map (kbd "C-c RET") #'evil-org-insert-heading)

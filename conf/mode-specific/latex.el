@@ -3,12 +3,20 @@
 (require 'conf/packages)
 (package-ensure-installed 'auctex)
 
-;; Indentation: use smart tabs.
+;; Indentation: smart tabs.
 (require 'conf/editing/indentation)
 (smart-tabs-add-language-support LaTeX LaTeX-mode-hook
-  ((LaTeX-indent-line . LaTex-indent-level)))
+  ((LaTeX-indent-line . LaTeX-indent-level)))
 (smart-tabs-insinuate 'LaTeX)
 (add-hook 'LaTeX-mode-hook #'enable-indent-tabs-mode)
+
+;; Indentation: other.
+(defvaralias 'LaTeX-left-right-indent-level 'LaTeX-indent-level) ; Indent \left and \right normally.
+(setq LaTeX-item-indent 0) ; Don't indent \item additionally (the `itemize' environment will already have its own indentation).
+(setq LaTeX-document-regexp nil) ; Indent the `document' environment too.
+
+;; Don't touch the inside of comments when indenting.
+(setq LaTeX-syntactic-comments nil)
 
 ;; Use the XeTeX engine by default.
 (setq-default TeX-engine 'xetex)

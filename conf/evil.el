@@ -27,6 +27,13 @@
 
 (setq evil-echo-state nil) ; Don't echo state in the echo area (minibuffer).
 
+;; Don't allow modes to change the definition of paragraph used by { and }.
+(defun kill-local-paragraph-definitions ()
+  "Kill the local values of `paragraph-start' and `paragraph-separate'."
+  (kill-local-variable 'paragraph-start)
+  (kill-local-variable 'paragraph-separate))
+(add-hook 'after-change-major-mode-hook #'kill-local-paragraph-definitions)
+
 ;; Initial states in various modes.
 ;; TODO move to files with the configuration for the modes.
 (evil-set-initial-state 'debugger-mode 'normal)
@@ -42,6 +49,9 @@
 
 ;; Unset keys that I'll later use as prefix keys.
 (define-key evil-motion-state-map (kbd "SPC") nil)
+
+;; Unset other useless keys.
+(define-key evil-insert-state-map (kbd "C-e") nil)
 
 ;; Don't display undo-tree-mode (used by evil) in the modeline.
 (require 'conf/modeline/cleaner-minor-modes)
