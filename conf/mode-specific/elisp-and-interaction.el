@@ -50,10 +50,27 @@
 (setq eldoc-echo-area-use-multiline-p 'truncate-sym-name-if-fit)
 (add-hook 'emacs-lisp-mode-hook #'turn-on-eldoc-mode)
 
+
 ;;; Highlight known symbols.
 (require 'conf/packages)
 (package-ensure-installed 'highlight-defined)
 (add-hook 'emacs-lisp-mode-hook #'highlight-defined-mode)
+
+
+;;; Delete elc file when saving an el file.
+(defun my-remove-elc-if-exists ()
+  "If this buffer is editing an .el file and there's an .elc file with the same name without extension, delete the .elc file."
+  (interactive)
+  (when (string= (file-name-extension buffer-file-name) "el")
+    (let ((elc-file-name (concat buffer-file-name "c")))
+      (when (file-exists-p elc-file-name)
+        (delete-file elc-file-name)
+        (message "Deleted compiled file: %s" elc-file-name)))))
+(defun my-remove-elc-on-save ()
+  "When saving an .el file, remove the associated .elc file."
+  (make-local-variable 'after-save-hook)
+  (add-hook 'after-save-hook #'my-remove-elc-if-exists))
+(add-hook 'emacs-lisp-mode-hook #'my-remove-elc-on-save)
 
 
 (provide 'conf/mode-specific/elisp-and-interaction)

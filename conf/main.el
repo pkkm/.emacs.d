@@ -58,6 +58,8 @@
 (require 'conf/modeline/cleaner-minor-modes)
 
 (require 'conf/opening-saving/backups)
+(require 'conf/opening-saving/tramp)
+(require 'conf/opening-saving/pastebin)
 (require 'conf/opening-saving/move-delete)
 (require 'conf/opening-saving/ag)
 (require 'conf/opening-saving/auto-revert)
@@ -89,8 +91,7 @@
 (require 'conf/other/games)
 (require 'conf/other/convenient-prefix-keys)
 (require 'conf/other/compiling)
-;; TODO
-;;(require 'conf/other/clipboard)
+(require 'conf/other/clipboard)
 (require 'conf/other/count-lines-words-chars)
 (require 'conf/other/isend)
 
@@ -111,4 +112,4 @@
 (require 'conf/mode-specific/term)
 (require 'conf/mode-specific/bat-cmd)
 
-(provide 'conf/-)
+(provide 'conf/main)

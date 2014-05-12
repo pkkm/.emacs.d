@@ -33,7 +33,7 @@
 (defface my-hl-line-face `((t)) "My face for hl-line." :group 'hl-line)
 (setq hl-line-face 'my-hl-line-face)
 
-(if window-system
+(if (display-graphic-p)
     ;; Make the highlight more pronounced in insert state, and less in other states.
     (progn
       (defvar hl-line-insert-background nil)

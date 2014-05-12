@@ -42,7 +42,7 @@
 (defun set-mode-line-helper-faces ()
   "Calculate the modeline \"helper\" faces that depend on colors in other faces."
   (set-face-foreground 'ml-shadow
-                       (if window-system
+                       (if (display-graphic-p)
                            (color-mix (or (face-foreground 'ml-active-1 nil t) (face-foreground 'default)) 0.6
                                       (or (face-background 'ml-active-1 nil t) (face-foreground 'default)) 0.4)
                          (face-foreground 'ml-active-1 nil t))))

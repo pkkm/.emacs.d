@@ -116,6 +116,9 @@
 ;; Move up/down nested sexps (cursor at the beginning).
 (define-key sp-keymap (kbd "C-)") #'sp-down-sexp)
 (define-key sp-keymap (kbd "C-(") #'sp-backward-up-sexp)
+(when (not (display-graphic-p)) ; Versions with the Meta key, for terminals which don't support the above characters.
+  (define-key sp-keymap (kbd "M-)") #'sp-down-sexp)
+  (define-key sp-keymap (kbd "M-(") #'sp-backward-up-sexp))
 (when (eq window-system 'w32) ; C-( and C-) are incorrectly interpreted with my Portable Keyboard Layout config.
   (define-key sp-keymap (kbd "C-2") #'sp-down-sexp)
   (define-key sp-keymap (kbd "C-1") #'sp-backward-up-sexp))
@@ -140,6 +143,9 @@
 ;; With non-numeric prefix, slurp/barf as many as possible.
 (define-key sp-keymap (kbd "C-}") #'sp-forward-slurp-sexp)
 (define-key sp-keymap (kbd "C-{") #'sp-forward-barf-sexp)
+(when (not (display-graphic-p)) ; Versions with the Meta key, for terminals which don't support the above characters.
+  (define-key sp-keymap (kbd "M-}") #'sp-forward-slurp-sexp)
+  (define-key sp-keymap (kbd "M-{") #'sp-forward-barf-sexp))
 (when (eq window-system 'w32) ; C-( and C-) are incorrectly interpreted with my Portable Keyboard Layout config.
   (define-key sp-keymap (kbd "C-3") #'sp-forward-slurp-sexp)
   (define-key sp-keymap (kbd "C-5") #'sp-forward-barf-sexp))

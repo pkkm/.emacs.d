@@ -19,7 +19,7 @@
 ;;   Configuration is in conf/. The parent directory of conf/ is in the load path.
 ;;   (This enables configuration files to have feature names with a common prefix,
 ;;   for example 'conf/evil for evil.el, without the file names actually being prefixed.)
-;;   .el files are `require`d in -.el and in each other (when there are dependencies).
+;;   .el files are `require`d in main.el/g and in each other (when there are dependencies).
 
 ;; Add main-dir (the parent directory of conf/) to the load path.
 (let ((default-directory main-dir))
@@ -33,7 +33,7 @@
 (if (and load-flattened-conf
          (file-exists-p flattened-conf-file))
     (load (file-name-sans-extension flattened-conf-file))
-  (require 'conf/-))
+  (require 'conf/main))
 
 ;; Previously used method of organizing my config:
 ;;   Organize in conf/ (and subdirectories) and use the below function to load in glob order.

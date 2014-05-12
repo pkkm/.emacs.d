@@ -3,7 +3,7 @@
 (defun new-config-file ()
   "Create a new config file:
   1. Prompt for the name of the file (in \"conf/\")
-  2. Add the appropriate `require' to \"conf/-.el\"
+  2. Add the appropriate `require' to \"conf/main.el\"
   3. Fill the new file with a simple template."
   (interactive)
   (let* ((new-file-name (ido-read-file-name "New file: " (expand-file-name "conf" main-dir)))
@@ -11,8 +11,8 @@
     (when (file-exists-p new-file-name)
       (error (concat new-file-name " already exists")))
 
-    ;; Add the appropriate `require' to "conf/-.el".
-    (find-file (expand-file-name "-.el" (expand-file-name "conf" main-dir)))
+    ;; Add the appropriate `require' to "conf/main.el".
+    (find-file (expand-file-name "main.el" (expand-file-name "conf" main-dir)))
     (search-longest-prefix new-feature-name)
     (end-of-line)
     (newline-and-indent)

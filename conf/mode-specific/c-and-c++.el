@@ -25,12 +25,15 @@
          (output-file-name (concat (file-name-sans-extension input-file-name)
                                    (if (eq window-system 'w32) ".exe" "")))
          (input-file-name-quoted (shell-quote-argument input-file-name))
-         (output-file-name-quoted (shell-quote-argument output-file-name)))
+         (output-file-name-quoted (shell-quote-argument output-file-name))
+         (compiler (if (executable-find "clang") "clang" "gcc"))) ; Use clang if available, otherwise gcc.
     (set (make-local-variable 'compile-command)
-         (concat "gcc --std=c99 -O2" ; Compile using the C99 standard and optimize.
+         (concat compiler " --std=c99 -O2" ; Compile using the C99 standard and optimize.
                  " -Wall -Wextra" ; Essential warnings.
-                 " -Werror=implicit-function-declaration" ; Calling a non-defined function should be an error.
-                 " -Wstrict-overflow=5 -ftrapv" ; Warn on possible signed overflow; abort the program when signed integer overflow occurs.
+                 " -Werror=implicit-function-declaration" ; Calling an undefined function should be an error.
+                 " -Wstrict-overflow=5" ; Warn on possible signed overflow.
+                 " -ftrapv" ; Add runtime checks for undefined behavior (hurts performance).
+                 (if (string= compiler "clang") " -fsanitize=undefined-trap -fsanitize-undefined-trap-on-error" "") ; Clang-specific runtime undefined behavior checks.
                  ;;" -fmudflap -lmudflap" ; Add runtime checks to catch buffer overflows.
                  " " input-file-name-quoted " -o " output-file-name-quoted))
     (set (make-local-variable 'run-command) (concat "./" output-file-name-quoted))

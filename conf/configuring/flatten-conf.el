@@ -5,8 +5,8 @@
 (require 'conf/utils/strings) ; Used: string-starts-with.
 (require 'conf/utils/load-history) ; Used: feature-requires-recursively.
 (defun conf-load-order ()
-  "Returns a list of features required by 'conf/-, loaded in this Emacs session, topologically sorted."
-  (->> (feature-requires-recursively 'conf/-)
+  "Returns a list of features required by 'conf/main, loaded in this Emacs session, topologically sorted."
+  (->> (feature-requires-recursively 'conf/main)
     (-filter (lambda (feature)
                (string-starts-with (symbol-name feature) "conf/")))
     (-uniq)))
@@ -16,7 +16,7 @@
   "Name of the file in which to store the flattened contents of the conf/ directory.")
 
 (defun flatten-conf ()
-  "Write the code in conf/ that gets executed when 'conf/- is required to `flattened-conf-file'."
+  "Write the code in conf/ that gets executed when 'conf/main is required to `flattened-conf-file'."
   (interactive)
   (with-temp-file flattened-conf-file
     (insert ";; -*- byte-compile-warnings: (not free-vars unresolved) -*-") (newline)
