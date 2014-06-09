@@ -22,7 +22,9 @@
 
 (defmacro evil-enclose-ace-jump (&rest body)
   `(let ((old-mark (mark))
-         (ace-jump-mode-scope 'window))
+         (ace-jump-mode-scope 'window)
+         (ace-jump-mode-end-hook ace-jump-mode-end-hook))
+     (add-hook 'ace-jump-mode-end-hook #'exit-recursive-edit)
      (remove-hook 'pre-command-hook #'evil-visual-pre-command t)
      (remove-hook 'post-command-hook #'evil-visual-post-command t)
      (unwind-protect
@@ -35,8 +37,6 @@
              (add-hook 'post-command-hook #'evil-visual-post-command nil t)
              (set-mark old-mark))
          (push-mark old-mark)))))
-
-(add-hook 'ace-jump-mode-end-hook 'exit-recursive-edit)
 
 (evil-define-motion evil-ace-jump-char (count)
   :type exclusive

@@ -78,8 +78,14 @@
 (define-key my-window-map (kbd "u") #'winner-undo)
 (define-key my-window-map (kbd "C-r") #'winner-redo)
 
+;; Ace-jump for windows.
+(require 'conf/packages)
+(package-ensure-installed 'ace-window)
+(define-key my-window-map (kbd "RET") #'ace-window)
+(setq aw-keys (string-to-list "htnsdueoaigcrlfp.,;y"))
 
-;;; Rarely unused.
+
+;;; Rarely used.
 
 ;; Split and open new file (with count: leave COUNT lines in the initially-selected window).
 (define-key my-window-map (kbd "D") #'evil-window-vnew) ; Horizontally.

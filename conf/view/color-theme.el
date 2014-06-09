@@ -8,8 +8,8 @@
   (run-hooks 'after-load-theme-hook))
 
 ;; Dark, with many greens and browns.
-;;(load-theme 'wombat)
-;;(set-cursor-color "navajo white")
+(load-theme 'wombat)
+(set-cursor-color "navajo white")
 
 ;; Dark, mainly blues and greens.
 ;;(require 'conf/packages)
@@ -31,10 +31,10 @@
   (setq org-n-level-faces 6))
 
 ;; Light, beige.
-(require 'conf/packages)
-(package-ensure-installed 'soft-morning-theme)
-(add-to-list 'custom-safe-themes "a30d5f217d1a697f6d355817ac344d906bb0aae3e888d7abaa7595d5a4b7e2e3")
-(load-theme 'soft-morning t)
+;;(require 'conf/packages)
+;;(package-ensure-installed 'soft-morning-theme)
+;;(add-to-list 'custom-safe-themes "a30d5f217d1a697f6d355817ac344d906bb0aae3e888d7abaa7595d5a4b7e2e3")
+;;(load-theme 'soft-morning t)
 
 ;; Don't let Evil set the cursor color.
 (require 'conf/evil)

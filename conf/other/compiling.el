@@ -1,5 +1,10 @@
 ;;; Driving compilers using Emacs.
 
+;; Variable for additional compiler arguments.
+(defvar my-additional-compile-args ""
+  "Additional arguments to pass to the compiler.")
+(make-variable-buffer-local 'my-additional-compile-args)
+
 ;; Define a `run' command to run the current program using `compile'.
 ;; Use `run-command' instead of `compile-command' and `run-read-command' instead of `compile-read-command'.
 (defvar run-command nil

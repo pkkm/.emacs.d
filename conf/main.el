@@ -14,13 +14,14 @@
 (require 'conf/view/hl-current-line)
 (require 'conf/view/buffer-map)
 (require 'conf/view/color-theme)
+(require 'conf/view/color-identifiers)
 (require 'conf/view/wrapping)
 (require 'conf/view/scrolling)
 (require 'conf/view/ui-elements)
 (require 'conf/view/unique-buffer-names)
 (require 'conf/view/page-break-lines)
 
-(when window-system
+(when (display-graphic-p)
   (require 'conf/view/gui/title)
   (require 'conf/view/gui/font)
   (require 'conf/view/gui/cursor)
@@ -49,9 +50,9 @@
 
 (require 'conf/editing/indentation)
 (require 'conf/editing/completion)
+(require 'conf/editing/comments)
 (require 'conf/editing/smartparens)
 (require 'conf/editing/snippets)
-(require 'conf/operators/hungry-delete)
 
 (require 'conf/modeline/faces)
 (require 'conf/modeline/format)
@@ -80,6 +81,7 @@
 (require 'conf/operators/prefix-arguments)
 (require 'conf/operators/inc-dec-number)
 (require 'conf/operators/yank-to-eol)
+(require 'conf/operators/hungry-delete)
 
 (require 'conf/configuring/unbound)
 (require 'conf/configuring/flatten-conf)

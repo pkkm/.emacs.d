@@ -26,16 +26,17 @@
                                    (if (eq window-system 'w32) ".exe" "")))
          (input-file-name-quoted (shell-quote-argument input-file-name))
          (output-file-name-quoted (shell-quote-argument output-file-name))
-         (compiler (if (executable-find "clang") "clang" "gcc"))) ; Use clang if available, otherwise gcc.
+         (compiler "gcc"))
     (set (make-local-variable 'compile-command)
-         (concat compiler " --std=c99 -O2" ; Compile using the C99 standard and optimize.
+         (concat compiler " " input-file-name-quoted " -o " output-file-name-quoted
+                 (if (string= my-additional-compile-args "") "" " ")
+                 my-additional-compile-args ; Defined in 'conf/other/compiling. To be used as a file-local variable.
+                 " --std=c99 -O2" ; Compile using the C99 standard and optimize.
                  " -Wall -Wextra" ; Essential warnings.
                  " -Werror=implicit-function-declaration" ; Calling an undefined function should be an error.
                  " -Wstrict-overflow=5" ; Warn on possible signed overflow.
                  " -ftrapv" ; Add runtime checks for undefined behavior (hurts performance).
-                 (if (string= compiler "clang") " -fsanitize=undefined-trap -fsanitize-undefined-trap-on-error" "") ; Clang-specific runtime undefined behavior checks.
-                 ;;" -fmudflap -lmudflap" ; Add runtime checks to catch buffer overflows.
-                 " " input-file-name-quoted " -o " output-file-name-quoted))
+                 (if (string= compiler "clang") " -fsanitize=undefined-trap -fsanitize-undefined-trap-on-error" ""))) ; Clang-specific runtime undefined behavior checks.
     (set (make-local-variable 'run-command) (concat "./" output-file-name-quoted))
     (set (make-local-variable 'clean-command) (concat "rm " output-file-name-quoted))))
 (add-hook 'c-mode-hook #'set-c-compile-run-clean-commands)

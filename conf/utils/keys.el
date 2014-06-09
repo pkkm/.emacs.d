@@ -51,7 +51,7 @@ Flattens nested keymaps."
                (setq result (append nested-keymap-key-binding-alist result)))
            ;; Add (key . binding) to `result'.
            (setq result (cons (cons key binding) result)))))
-     (keymap-canonicalize keymap)) ; Canonicalize the keymap, so that when a binding shadows another, only one in effect is returned.
+     (keymap-canonicalize keymap)) ; Canonicalize the keymap, so that when a binding shadows another, only the one in effect is returned.
     result))
 
 (defun map-key-sequences-in-keymap (keymap function)

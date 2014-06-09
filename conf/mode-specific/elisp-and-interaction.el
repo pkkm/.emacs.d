@@ -1,6 +1,7 @@
 ;;; Emacs Lisp and Lisp Interaction modes.
 ;; Lisp Interaction mode inherits hooks, etc. from Emacs Lisp mode, but doesn't inherit its keymaps.
 
+(require 'conf/packages)
 (require 'conf/evil)
 
 
@@ -52,16 +53,33 @@
 
 
 ;;; Highlight known symbols.
-(require 'conf/packages)
 (package-ensure-installed 'highlight-defined)
 (add-hook 'emacs-lisp-mode-hook #'highlight-defined-mode)
+
+
+;;; SLIME-like navigation in Elisp.
+;; `C-c .', `C-c ,' -- go to definition of symbol at point, go back. `C-c t' -- describe thing at point.
+(package-ensure-installed 'elisp-slime-nav)
+(add-hook 'emacs-lisp-mode-hook #'turn-on-elisp-slime-nav-mode)
+(setq elisp-slime-nav-mode-map
+      (let ((map (make-sparse-keymap)))
+        (define-key map (kbd "C-c .") #'elisp-slime-nav-find-elisp-thing-at-point)
+        (define-key map (kbd "C-c ,") #'pop-tag-mark)
+        (define-key map (kbd "C-c C-t") #'elisp-slime-nav-describe-elisp-thing-at-point)
+        map))
+;; Don't show the mode in the modeline.
+(require 'conf/modeline/cleaner-minor-modes)
+(add-hook 'elisp-slime-nav-mode-hook #'diminish-elisp-slime-nav-mode)
+(defun diminish-elisp-slime-nav-mode ()
+  (diminish 'elisp-slime-nav-mode ""))
 
 
 ;;; Delete elc file when saving an el file.
 (defun my-remove-elc-if-exists ()
   "If this buffer is editing an .el file and there's an .elc file with the same name without extension, delete the .elc file."
   (interactive)
-  (when (string= (file-name-extension buffer-file-name) "el")
+  (when (and (stringp buffer-file-name)
+             (string= (file-name-extension buffer-file-name) "el"))
     (let ((elc-file-name (concat buffer-file-name "c")))
       (when (file-exists-p elc-file-name)
         (delete-file elc-file-name)

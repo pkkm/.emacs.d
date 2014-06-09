@@ -45,7 +45,7 @@
                 (propertize " " 'face 'linum))))
 
 ;; Use the default font for line numbers, even if the buffer uses a variable-pitch font.
-(when window-system
+(when (display-multi-font-p)
   (defun linum-use-default-font ()
     "Use the default font, not the buffer-local font, for line numbers."
     (set-face-font 'linum (face-font 'default)))
