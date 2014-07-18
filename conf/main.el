@@ -45,7 +45,7 @@
 
 (require 'conf/motions/little-word)
 (require 'conf/motions/vim-dvorak)
-(require 'conf/motions/g-TAB-as-TAB)
+(require 'conf/motions/passthrough-keys)
 (require 'conf/motions/ace-jump)
 
 (require 'conf/editing/indentation)

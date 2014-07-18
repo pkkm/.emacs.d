@@ -1,4 +1,5 @@
 ;;; Keys for buffers.
+;; When selecting a buffer using Ido (- SPC or - b), press C-k to kill the highlighted buffer.
 
 (require 'conf/evil)
 
@@ -20,38 +21,34 @@
 (define-key my-buffer-map (kbd "b") #'ido-switch-buffer-without-ignored)
 
 ;; IBuffer -- advanced buffer switcher (distributed with Emacs).
-(define-key my-buffer-map (kbd "C-SPC") #'ibuffer)
-(define-key my-buffer-map (kbd "M-SPC") #'ibuffer)
 (define-key my-buffer-map (kbd "C-b") #'ibuffer)
 
 ;; Switch to the most recently used buffer.
-(define-key my-buffer-map (kbd "-") (lambda ()
-                                      (interactive)
-                                      (switch-to-buffer (other-buffer))))
+(defun switch-to-other-buffer ()
+  (interactive)
+  (switch-to-buffer (other-buffer)))
+(define-key my-buffer-map (kbd "-") #'switch-to-other-buffer)
 
 ;; Previous/next.
 (define-key my-buffer-map (kbd "h") #'previous-buffer)
 (define-key my-buffer-map (kbd "s") #'next-buffer)
 
-;; Open in a split.
-(define-key my-buffer-map (kbd "D") #'evil-split-next-buffer)
-(define-key my-buffer-map (kbd "_") #'evil-split-next-buffer)
-
-;; Open all buffers in a window.
-(define-key my-buffer-map (kbd "a") #'display-all-buffers-in-windows)
+;; Open all buffers in windows.
+(define-key my-buffer-map (kbd "a") #'display-all-file-buffers-in-windows)
 (require 'conf/utils/buffers) ; Used: buffers-opened-in-windows.
+(require 'conf/packages) (package-ensure-installed 'dash) (require 'dash) ; Used: -->, -difference, -filter, -map.
 (defun display-all-file-buffers-in-windows ()
   "Display all buffers that are visiting a file in windows."
   (interactive)
-  (let (buffers-in-windows (buffers-opened-in-windows))
-    (dolist (buffer (buffer-list))
-      (when (and (buffer-file-name buffer) ; Buffer is visiting a file.
-                 (not (memq buffer buffers-in-windows))) ; FIXME: should prevent buffers that are already open from being opened again.
-        (set-window-buffer (split-window (get-largest-window)) buffer)))
-    (balance-windows)))
+  (->> (-difference (buffer-list) (buffers-opened-in-windows))
+    (-filter (lambda (buffer) (buffer-file-name buffer))) ; Only buffers that are visiting a file.
+    (-map (lambda (buffer)
+            (let ((new-window (funcall split-window-preferred-function (get-largest-window))))
+              (when new-window ;; If the splitting was successful (there was enough space to sensibly split)...
+                (set-window-buffer new-window buffer))))))
+  (balance-windows))
 
 ;; Delete (close/kill).
 (define-key my-buffer-map (kbd "c") #'kill-this-buffer) ; Only delete the buffer.
-(define-key my-buffer-map (kbd "k") #'ido-kill-buffer)
 
 (provide 'conf/view/buffer-map)

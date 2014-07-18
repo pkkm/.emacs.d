@@ -7,14 +7,19 @@
 ;; Highlight only in the active window.
 (setq hl-line-sticky-flag nil)
 
+;; Don't highlight on displays with a small amount of colors.
+(defvar my-hl-line-enabled (>= (display-color-cells) 16)
+  "Non-nil if the current line should be highlighted.")
+
 ;; Enable hl-line-mode in all buffers, with the exception of some modes.
 (defvar hl-line-disable-in-modes
   '(minibuffer-inactive-mode term-mode)
   "A list of modes in which the current line should not be highlighted.")
-(add-hook 'after-change-major-mode-hook #'my-hl-line-enable)
-(defun my-hl-line-enable ()
-  "Enable `hl-line-mode' unless the current mode is in `hl-line-disable-in-modes'."
-  (unless (member major-mode hl-line-disable-in-modes)
+(add-hook 'after-change-major-mode-hook #'my-hl-line-maybe-enable)
+(defun my-hl-line-maybe-enable ()
+  "Enable `hl-line-mode' unless the current mode is in `hl-line-disable-in-modes' or `my-hl-line-enabled' is nil."
+  (when (and my-hl-line-enabled
+             (not (member major-mode hl-line-disable-in-modes)))
     (hl-line-mode 1)))
 
 ;; Disable highlighting in visual state (to see the selection better).

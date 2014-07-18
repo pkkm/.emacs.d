@@ -84,8 +84,11 @@
                       'face 'ml-global-mode-string))
 
          (ml-coding
-          (propertize (symbol-name buffer-file-coding-system)
-                      'face 'ml-coding))
+          (if (memq buffer-file-coding-system
+                    '(utf-8-unix prefer-utf-8-unix undecided-unix))
+              "" ; Don't display the encoding if it is or will be turned into UTF-8 with UNIX line endings.
+            (propertize (symbol-name buffer-file-coding-system)
+                        'face 'ml-coding)))
 
          (ml-position
           (propertize "%p" 'face 'ml-position))

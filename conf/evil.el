@@ -39,6 +39,7 @@
 (evil-set-initial-state 'debugger-mode 'normal)
 (evil-set-initial-state 'package-menu-mode 'normal)
 (evil-set-initial-state 'compilation-mode 'motion)
+(evil-set-initial-state 'occur-mode 'motion)
 (evil-set-initial-state 'term-mode 'emacs)
 (evil-set-initial-state 'compilation-mode 'emacs)
 

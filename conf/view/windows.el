@@ -8,6 +8,7 @@
 (defadvice split-window-internal (after record-window activate)
   (setq most-recently-created-window ad-return-value))
 
+;; Commands to delete the most recently created window.
 (defun delete-most-recently-created-window ()
   "Delete the window that was most recently created."
   (interactive)
@@ -18,7 +19,15 @@
   (select-window most-recently-created-window)
   (kill-buffer-and-window))
 
-(global-set-key (kbd "<f5>") #'show-most-recently-created-window)
+;; Split window, focus it and display the next buffer in it.
+(defun my-split-window-right ()
+  (interactive)
+  (select-window (call-interactively #'split-window-right))
+  (switch-to-buffer (other-buffer)))
+(defun my-split-window-below ()
+  (interactive)
+  (select-window (call-interactively #'split-window-below))
+  (switch-to-buffer (other-buffer)))
 
 (defvar my-window-map (make-sparse-keymap)
   "Keymap for my window-related commands.")
@@ -27,24 +36,16 @@
 (define-key evil-motion-state-map (kbd "TAB") 'my-window-map)
 
 
-;;; Frequently used.
-
 ;; Split (with count: leave COUNT lines in the initially-selected window).
-(define-key my-window-map (kbd "d") #'split-window-horizontally)
-(define-key my-window-map (kbd "-") #'split-window-vertically)
+(define-key my-window-map (kbd "d") #'my-split-window-right)
+(define-key my-window-map (kbd "-") #'my-split-window-below)
 
 ;; Close.
 (define-key my-window-map (kbd "o") #'delete-other-windows)
 (define-key my-window-map (kbd "c") #'delete-window)
-(define-key my-window-map (kbd "C") #'delete-most-recently-created-window)
 (define-key my-window-map (kbd "k") #'evil-delete-buffer) ; Kill buffer and window.
+(define-key my-window-map (kbd "C") #'delete-most-recently-created-window)
 (define-key my-window-map (kbd "K") #'kill-most-recently-created-window-and-buffer)
-
-;; Move focus.
-(define-key my-window-map (kbd "h") #'evil-window-left)
-(define-key my-window-map (kbd "t") #'evil-window-down)
-(define-key my-window-map (kbd "n") #'evil-window-up)
-(define-key my-window-map (kbd "s") #'evil-window-right)
 
 ;; Next, previous.
 (define-key my-window-map (kbd "TAB") #'evil-window-next)
@@ -53,7 +54,13 @@
 ;; Select the window with the most recently used buffer.
 (define-key my-window-map (kbd "SPC") #'evil-window-mru)
 
-;; Move.
+;; Move focus directionally.
+(define-key my-window-map (kbd "h") #'evil-window-left)
+(define-key my-window-map (kbd "t") #'evil-window-down)
+(define-key my-window-map (kbd "n") #'evil-window-up)
+(define-key my-window-map (kbd "s") #'evil-window-right)
+
+;; Move window.
 (define-key my-window-map (kbd "H") #'evil-window-move-far-left)
 (define-key my-window-map (kbd "T") #'evil-window-move-very-bottom)
 (define-key my-window-map (kbd "N") #'evil-window-move-very-top)
@@ -83,21 +90,6 @@
 (package-ensure-installed 'ace-window)
 (define-key my-window-map (kbd "RET") #'ace-window)
 (setq aw-keys (string-to-list "htnsdueoaigcrlfp.,;y"))
-
-
-;;; Rarely used.
-
-;; Split and open new file (with count: leave COUNT lines in the initially-selected window).
-(define-key my-window-map (kbd "D") #'evil-window-vnew) ; Horizontally.
-(define-key my-window-map (kbd "_") #'evil-window-new) ; Vertically.
-
-;; Set width/height to COUNT.
-(define-key my-window-map (kbd "M-t") #'evil-window-set-height)
-(define-key my-window-map (kbd "M-s") #'evil-window-set-width)
-
-;; First (top-left), last (bottom-right).
-(define-key my-window-map (kbd "f") #'evil-window-top-left)
-(define-key my-window-map (kbd "l") #'evil-window-bottom-right)
 
 
 (provide 'conf/view/windows)

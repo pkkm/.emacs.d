@@ -19,20 +19,14 @@ Also observe the lower limits on window size: `my-split-window/min-width', `my-s
          (can-split-below (>= (/ height 2) my-split-window/min-height))
          (form-factor-split-right (>= width (* my-split-window/form-factor height))))
     (cond
-     ((and form-factor-split-right
-           can-split-right)
-      (with-selected-window window
-        (split-window-right)))
-     ((and (not form-factor-split-right)
-           can-split-below)
-      (with-selected-window window
-        (split-window-below)))
+     ((and form-factor-split-right can-split-right)
+      (with-selected-window window (split-window-right)))
+     ((and (not form-factor-split-right) can-split-below)
+      (with-selected-window window (split-window-below)))
      (can-split-right
-      (with-selected-window window
-        (split-window-right)))
+      (with-selected-window window (split-window-right)))
      (can-split-below
-      (with-selected-window window
-        (split-window-below)))
+      (with-selected-window window (split-window-below)))
      (t
       nil))))
 
