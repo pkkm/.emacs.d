@@ -1,6 +1,7 @@
 ;;; `require' my customizations based on some conditions.
 
 (require 'conf/init/check-version)
+(require 'conf/utils/paths)
 (require 'conf/init/no-startup-message)
 (require 'conf/init/initial-scratch-message)
 

@@ -3,7 +3,7 @@
 (require 'conf/evil) ; To display the current state.
 (require 'conf/packages)
 (require 'conf/utils/ignore-messages) ; Used: ignore-specific-messages.
-(require 'cl-lib)
+(require 'conf/utils/paths) ; Used: shorten-path.
 
 (package-ensure-installed 'powerline)
 
@@ -30,43 +30,15 @@
 (set-mode-line-helper-faces)
 
 (defun ml-format () ; TODO figure out a way to determine if we're rendering the modeline for the focused window, or an unfocused one.
-  (let* (
-
-         ;; Modeline sections.
-
-         (shortened-dir
+  (let* ((shortened-dir
           (when buffer-file-name ; If the buffer is visiting a file...
-            (propertize (shorten-directory default-directory 20)
+            (propertize (shorten-path default-directory 20) ; TODO replace the hardcoded 20 with 1/3 of the modeline width or something similar.
                         'face 'ml-shadow)))
-
-         (ml-dir-and-name
-          (concat (or shortened-dir "") "%b"))
-
-         (ml-read-only
-          (when buffer-read-only
-            (propertize "RO" 'face '(:weight bold))))
-
-         (ml-modified
-          (when (buffer-modified-p)
-            (propertize "+" 'face 'warning)))
-
-         (ml-is-narrowed
-          (when (buffer-narrowed-p)
-            (propertize "Narrow" 'face '(:underline t))))
-
-         (ml-recursive-edit-open-braces
-          (propertize "%[" 'face 'ml-shadow))
 
          (ml-modes (format-mode-line '(""
                                        mode-name
                                        mode-line-process
                                        minor-mode-alist)))
-
-         (ml-recursive-edit-close-braces
-          (propertize "%]" 'face 'ml-shadow))
-
-         (ml-global-mode-string
-          (format-mode-line global-mode-string))
 
          (ml-coding
           ;; Hide the encoding if it is or will be turned into utf-8-unix.
@@ -74,31 +46,28 @@
                         '(utf-8-unix prefer-utf-8-unix undecided-unix))
             (symbol-name buffer-file-coding-system)))
 
-         (ml-position "%p")
-
-         (ml-line-column "%l:%c")
-
-         ;; Left, center and right parts of the modeline.
-
          (left (append
-                (list " ") ; Spacing from the window edge.
-                (interpose-with-spaces ml-dir-and-name
-                                       ml-read-only
-                                       ml-modified
-                                       ml-is-narrowed)))
+                (list " ") ; Spacing.
+                (interpose-with-spaces
+                 (concat (or shortened-dir "") "%b") ; Directory and buffer name.
+                 (when buffer-read-only (propertize "RO" 'face '(:weight bold))) ; Read only?
+                 (when (buffer-modified-p) (propertize "+" 'face 'warning)) ; Modified?
+                 (when (buffer-narrowed-p) (propertize "Narrow" 'face '(:underline t)))))) ; Narrowed?
 
-         (center (interpose-with-spaces ml-recursive-edit-open-braces
-                                        ml-modes
-                                        ml-global-mode-string
-                                        ml-recursive-edit-close-braces))
+         (center (interpose-with-spaces
+                  (propertize "%[" 'face 'ml-shadow) ; Recursive edit braces.
+                  ml-modes ; Major and minor modes.
+                  (format-mode-line global-mode-string) ; Used for example by `display-time'.
+                  (propertize "%]" 'face 'ml-shadow))) ; Recursive edit braces.
 
          (right (append
-                 (interpose-with-spaces ml-coding
-                                        ml-position
-                                        ml-line-column)
-                 (list " ")))) ; Spacing from the window edge.
+                 (interpose-with-spaces
+                  ml-coding ; Coding system (empty if utf-8-unix).
+                  "%p" ; Position (e.g. "56%" or "All").
+                  "%l:%c") ; Line and column.
+                 (list " ")))) ; Spacing.
 
-    ;; Rendering the modeline.
+    ;; Render the modeline.
     (concat
      (powerline-render left)
      (powerline-fill-center nil (/ (powerline-width center) 2.0))
@@ -110,19 +79,5 @@
               '((:eval (ignore-specific-messages
                         '("pl/ generating new separator")
                         (ml-format)))))
-
-;; TODO improve this and move to conf/utils.
-(defun shorten-directory (dir max-length)
-  "Shorten directory name DIR to up to MAX-LENGTH characters."
-  (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
-        (output ""))
-    (when (and path (equal "" (car path)))
-      (setq path (cdr path)))
-    (while (and path (< (length output) (- max-length 4)))
-      (setq output (concat (car path) "/" output))
-      (setq path (cdr path)))
-    (when path
-      (setq output (concat ".../" output)))
-    output))
 
 (provide 'conf/modeline/format)
