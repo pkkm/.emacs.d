@@ -42,7 +42,7 @@
 (require 'conf/visual/text-object-whole-buffer)
 
 (require 'conf/insert-state/insert-verbatim)
-(require 'conf/insert-state/esc-alternatives)
+(require 'conf/insert-state/exit-insert-state)
 
 (require 'conf/motions/little-word)
 (require 'conf/motions/vim-dvorak)
