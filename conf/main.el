@@ -31,7 +31,6 @@
   (require 'conf/view/gui/focus-follows-mouse))
 
 (require 'conf/minibuffer/confirmations)
-(require 'conf/minibuffer/esc-quits-prompts)
 (require 'conf/minibuffer/ido)
 (require 'conf/minibuffer/M-x)
 (require 'conf/minibuffer/default-choice)
