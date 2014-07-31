@@ -1,0 +1,22 @@
+\documentclass[12pt]{amsart}
+
+\usepackage[english,polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{geometry}
+\geometry{a4paper}
+
+
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+%\pagestyle{plain}
+	\maketitle
+\end{document}
+
+%% Local Variables:
+%% TeX-engine: default
+%% End:

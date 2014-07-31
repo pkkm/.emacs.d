@@ -1,0 +1,28 @@
+\documentclass[12pt]{letter}
+
+\usepackage{fontspec}
+
+\usepackage{polyglossia}
+\setmainlanguage{polish}
+\setotherlanguage[variant=british]{english}
+
+\usepackage{geometry}
+\geometry{a4paper}
+
+%\pagestyle{empty}
+
+
+\signature{}
+\address{}
+
+\begin{document}
+	\begin{letter}{}
+		\opening{}
+
+		\closing{}
+	\end{letter}
+\end{document}
+
+%% Local Variables:
+%% TeX-engine: xetex
+%% End:

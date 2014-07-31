@@ -1,0 +1,24 @@
+\documentclass[12pt]{amsart}
+
+\usepackage{fontspec}
+
+\usepackage{polyglossia}
+\setmainlanguage{polish}
+\setotherlanguage[variant=british]{english}
+
+\usepackage{geometry}
+\geometry{a4paper}
+
+
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+%\pagestyle{plain}
+	\maketitle
+\end{document}
+
+%% Local Variables:
+%% TeX-engine: xetex
+%% End:

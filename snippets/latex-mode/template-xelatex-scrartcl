@@ -1,0 +1,17 @@
+\documentclass[12pt, a4paper, parskip=full]{scrartcl} % To change the margins, use DIV=<number> (larger number -- more content).
+
+\usepackage{fontspec}
+
+\usepackage{polyglossia}
+\setmainlanguage{polish}
+\setotherlanguage[variant=british]{english}
+
+%\pagestyle{empty}
+
+
+\begin{document}
+\end{document}
+
+%% Local Variables:
+%% TeX-engine: xetex
+%% End:
