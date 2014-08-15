@@ -4,16 +4,9 @@
 
 (package-ensure-installed 'auctex)
 
-;; Completion: activate `auto-complete'.
+;; Auto-completion.
 (require 'conf/editing/completion)
 (setq ac-modes (append TeX-modes ac-modes)) ; Enable `auto-complete-mode' in AUCTeX modes.
-
-;; Completion: sources for AUCTeX.
-;; TODO: maybe use `ac-math' instad of AUCTeX?
-(package-ensure-installed 'auto-complete-auctex)
-(require 'auto-complete-auctex)
-(remove-hook 'LaTeX-mode-hook 'ac-auctex-setup) ; Revert the changes done on `require' of auto-complete-auctex.
-(add-hook 'TeX-mode-hook 'ac-auctex-setup) ; On activation of any AUCTeX mode, add sources to `auto-complete'.
 
 ;; Indentation: smart tabs.
 (require 'conf/editing/indentation)
