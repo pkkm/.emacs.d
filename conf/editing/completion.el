@@ -66,11 +66,19 @@
   "`auto-complete' sources to use in various major-modes.
 Format: '((major-mode . (ac-source ...)) ...)")
 
-(require 'cl-lib)
+(require 'dash) ; Used: -->, -map.
+(require 'conf/utils/modes) ; Used: derived-mode-hierarchy.
+(require 'cl-lib) ; Used: cl-remove-duplicates.
 (defun my-set-ac-sources ()
-  "Add `auto-complete' sources for the given major mode, based on `my-ac-major-mode-sources'."
-  (let ((mode-sources (cdr (assoc major-mode my-major-mode-ac-sources))))
-    (setq ac-sources (cl-remove-duplicates (append mode-sources ac-sources) :from-end t)))) ; If a source occurs more than once, retain the earliest occurrence.
+  "Add `auto-complete' sources from `my-ac-major-mode-sources' for the given major mode (and its parent modes)."
+  (setq ac-sources
+        (--> (derived-mode-hierarchy major-mode)
+          (-map (lambda (mode)
+                  (cdr (assoc mode my-major-mode-ac-sources)))
+                it)
+          (apply #'append it)
+          (append it ac-sources)
+          (cl-remove-duplicates it :from-end t)))) ; If a source occurs more than once, retain the earliest occurrence.
 (add-hook 'after-change-major-mode-hook #'my-set-ac-sources)
 
 
