@@ -10,9 +10,10 @@
 (when (>= (display-color-cells) 16)
   ;; Ample theme -- dark, mainly blues and greens.
   ;;(require 'conf/packages)
-  ;;(package-ensure-installed 'ample-theme)
-  ;;(add-to-list 'custom-safe-themes "ed81411169b1b3e3d4cfc39b09d68ea13e0ff7708dc5b9d0bedb319e071968ad")
-  ;;(load-theme 'ample)
+  ;;(use-package ample-theme
+  ;;  :ensure ample-theme
+  ;;  :config
+  ;;  (load-theme 'ample t))
 
   ;; Deeper Blue theme -- dark, with light blues.
   ;; Installed in `my-vendor-dir'.
@@ -20,9 +21,10 @@
 
   ;; Soft Morning theme -- light, beige.
   ;;(require 'conf/packages)
-  ;;(package-ensure-installed 'soft-morning-theme)
-  ;;(add-to-list 'custom-safe-themes "a30d5f217d1a697f6d355817ac344d906bb0aae3e888d7abaa7595d5a4b7e2e3")
-  ;;(load-theme 'soft-morning t)
+  ;;(use-package soft-morning-theme
+  ;;  :ensure soft-morning-theme
+  ;;  :config
+  ;;  (load-theme 'soft-morning t))
 
   ;; Wombat theme -- dark, with many greens and browns.
   (load-theme 'wombat)
