@@ -1,10 +1,11 @@
-;;; How to distinguish buffers that visit files with the same names.
+;;; Distinguish buffers that visit files with the same names using parts of directory name, e.g. Makefile|dir1.
 
-(require 'uniquify) ; Included with Emacs.
+(require 'conf/packages)
 
-;; Uniquify the names using parts of directory name, ex.: Makefile|dir1.
-(setq uniquify-buffer-name-style 'post-forward
-      uniquify-strip-common-suffix t ; Strip common directory suffixes (f|x/a, f|y/a -> f|x, f|y).
-      uniquify-separator "|")
+(use-package uniquify ; Included with Emacs.
+  :config
+  (setq uniquify-buffer-name-style 'post-forward
+        uniquify-strip-common-suffix t ; Strip common directory suffixes (f|x/a, f|y/a -> f|x, f|y).
+        uniquify-separator "|"))
 
 (provide 'conf/view/unique-buffer-names)
