@@ -1,18 +1,9 @@
 ;;; Command log mode.
 
-(global-set-key (kbd "C-x l") #'command-log-mode)
-(global-set-key (kbd "C-x L") #'clm/open-command-log-buffer)
+(require 'conf/packages)
 
-(autoload
-  'command-log-mode
-  "command-log-mode" ; In `my-vendor-dir'.
-  "Toggle keyboard command logging."
-  t)
-
-(autoload
-  'clm/open-command-log-buffer
-  "command-log-mode" ; In `my-vendor-dir'.
-  "Opens (and creates, if non-existant) a buffer used for logging keyboard commands."
-  t)
+(use-package command-log-mode ; Installed in `my-vendor-dir'.
+  :bind (("C-x l" . command-log-mode)
+         ("C-x L" . clm/open-command-log-buffer)))
 
 (provide 'conf/configuring/command-log)
