@@ -85,11 +85,5 @@
 (define-key my-window-map (kbd "u") #'winner-undo)
 (define-key my-window-map (kbd "C-r") #'winner-redo)
 
-;; Ace-jump for windows.
-(require 'conf/packages)
-(package-ensure-installed 'ace-window)
-(define-key my-window-map (kbd "RET") #'ace-window)
-(setq aw-keys (string-to-list "htnsdueoaigcrlfp.,;y"))
-
 
 (provide 'conf/view/windows)
