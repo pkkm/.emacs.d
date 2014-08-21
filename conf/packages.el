@@ -20,4 +20,8 @@
 (defvar package-list-refreshed-p nil
   "Was the package list refreshed in this Emacs session?")
 
+;; Use-package -- configure packages in a tidy, performance-oriented way.
+(package-ensure-installed 'use-package)
+(require 'use-package)
+
 (provide 'conf/packages)
