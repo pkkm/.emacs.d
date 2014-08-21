@@ -110,6 +110,7 @@
 (require 'conf/mode-specific/scala)
 (require 'conf/mode-specific/sgml)
 (require 'conf/mode-specific/pascal)
+(require 'conf/mode-specific/puppet)
 (require 'conf/mode-specific/asciidoc)
 (require 'conf/mode-specific/text)
 (require 'conf/mode-specific/term)
