@@ -10,14 +10,8 @@
 
   (ido-mode 1)
 
-  ;; Use Ido almost everywhere.
-  (ido-ubiquitous-mode)
-
   ;; Flex matching.
   (setq ido-enable-flex-matching t)
-  ;; On high-end machines, use a better, more memory-hungry algorithm.
-  (unless (eq (getenv "LOW_END_MACHINE") "true")
-    (flx-ido-mode 1))
 
   ;; Savefile.
   (setq ido-save-directory-list-file
@@ -75,12 +69,17 @@ This is needed for the vertical displaying of Ido completions to work."
         (backward-kill-line))))
   (add-one-shot-hook 'ido-setup-hook #'my-ido-bindings))
 
+;; Use Ido almost everywhere.
 (use-package ido-ubiquitous
   :ensure ido-ubiquitous
-  :commands ido-ubiquitous-mode)
+  :commands ido-ubiquitous-mode
+  :init (ido-ubiquitous-mode 1))
 
+;; Better, more memory-hungry flex matching (used only on high-end machines).
 (use-package flx-ido
   :ensure flx-ido
-  :commands flx-ido-mode)
+  :if (not (eq (getenv "LOW_END_MACHINE") "true"))
+  :commands flx-ido-mode
+  :init (flx-ido-mode 1))
 
 (provide 'conf/minibuffer/ido)
