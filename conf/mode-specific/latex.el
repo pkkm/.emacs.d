@@ -1,52 +1,52 @@
 ;;; LaTeX.
 
 (require 'conf/packages)
-
-(package-ensure-installed 'auctex)
-
-;; Auto-completion.
 (require 'conf/editing/completion)
-(setq ac-modes (append TeX-modes ac-modes)) ; Enable `auto-complete-mode' in AUCTeX modes.
-
-;; Indentation: smart tabs.
 (require 'conf/editing/indentation)
-(smart-tabs-add-language-support LaTeX LaTeX-mode-hook
-  ((LaTeX-indent-line . LaTeX-indent-level)))
-(smart-tabs-insinuate 'LaTeX)
-(add-hook 'LaTeX-mode-hook #'enable-indent-tabs-mode)
+(require 'conf/utils/hooks) ; Used: add-one-shot-hook.
+(require 'conf/evil)
 
-;; Indentation: other.
-(defvaralias 'LaTeX-left-right-indent-level 'LaTeX-indent-level) ; Indent \left and \right normally.
-(setq LaTeX-item-indent 0) ; Don't indent \item additionally (the `itemize' environment will already have its own indentation).
-(setq LaTeX-document-regexp nil) ; Indent the `document' environment too.
+(use-package tex-site
+  :ensure auctex
+  :defer t
+  :config
 
-;; Don't touch the inside of comments when indenting.
-(setq LaTeX-syntactic-comments nil)
+  ;; Auto-completion.
+  (setq ac-modes (append TeX-modes ac-modes)) ; Enable `auto-complete-mode' in AUCTeX modes.
 
-;; Use the XeTeX engine by default.
-(setq-default TeX-engine 'xetex)
+  ;; Indentation: smart tabs.
+  (smart-tabs-add-language-support LaTeX LaTeX-mode-hook
+    ((LaTeX-indent-line . LaTeX-indent-level)))
+  (smart-tabs-insinuate 'LaTeX)
+  (add-hook 'LaTeX-mode-hook #'enable-indent-tabs-mode)
 
-;; Output to PDF by default.
-(setq-default TeX-PDF-mode t)
+  ;; Indentation: other.
+  (defvaralias 'LaTeX-left-right-indent-level 'LaTeX-indent-level) ; Indent \left and \right normally.
+  (setq LaTeX-item-indent 0) ; Don't indent \item additionally (the `itemize' environment will already have its own indentation).
+  (setq LaTeX-document-regexp nil) ; Indent the `document' environment too.
+  (setq LaTeX-syntactic-comments nil) ; Don't touch the inside of comments when indenting.
 
-;; Auto-save before compiling.
-(setq TeX-save-query nil)
+  ;; Use the XeTeX engine by default.
+  (setq-default TeX-engine 'xetex)
 
-;; Don't ask for confirmation when deleting temporary files.
-(setq TeX-clean-confirm nil)
+  ;; Output to PDF by default.
+  (setq-default TeX-PDF-mode t)
 
-;; Use zathura for viewing PDF files.
-(defun my-LaTeX-use-zathura-for-pdf ()
-  (add-to-list 'TeX-view-program-list
-               '("zathura" ("zathura"
-                            (mode-io-correlate "--page %(outpage)")
-                            " %o")))
+  ;; Auto-save before compiling.
+  (setq TeX-save-query nil)
 
-  (add-to-list 'TeX-view-program-selection '(output-pdf "zathura")))
-(require 'conf/utils/hooks)
-(add-one-shot-hook 'LaTeX-mode-hook #'my-LaTeX-use-zathura-for-pdf)
+  ;; Don't ask for confirmation when deleting temporary files.
+  (setq TeX-clean-confirm nil)
 
-;; Make RET also indent.
-(setq TeX-newline-function #'evil-ret-and-indent)
+  ;; Use zathura for viewing PDF files.
+  (defun my-LaTeX-use-zathura-for-pdf ()
+    (add-to-list 'TeX-view-program-list
+                 '("zathura"
+                   ("zathura" (mode-io-correlate "--page %(outpage)") " %o")))
+    (add-to-list 'TeX-view-program-selection '(output-pdf "zathura")))
+  (add-one-shot-hook 'LaTeX-mode-hook #'my-LaTeX-use-zathura-for-pdf)
+
+  ;; Make RET also indent.
+  (setq TeX-newline-function #'evil-ret-and-indent))
 
 (provide 'conf/mode-specific/latex)
