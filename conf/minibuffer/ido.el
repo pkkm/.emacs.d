@@ -17,24 +17,6 @@
   (setq ido-save-directory-list-file
         (expand-file-name "ido" my-savefile-dir))
 
-  ;; Display completions vertically.
-  (setq ido-decorations '("\n- "
-                          ""
-                          "\n  "
-                          "\n  ..."
-                          "["
-                          "]"
-                          " [No match]"
-                          " [Matched]"
-                          " [Not readable]"
-                          " [Too big]"
-                          " [Confirm]"))
-  (defun disable-line-truncation ()
-    "Disable line truncation in the current buffer.
-This is needed for the vertical displaying of Ido completions to work."
-    (set (make-local-variable 'truncate-lines) nil))
-  (add-hook 'ido-minibuffer-setup-hook #'disable-line-truncation)
-
   ;; Keybindings.
   (defun my-ido-bindings ()
     ;; Ido keymaps:
@@ -68,6 +50,26 @@ This is needed for the vertical displaying of Ido completions to work."
           (ido-up-directory t)
         (backward-kill-line))))
   (add-one-shot-hook 'ido-setup-hook #'my-ido-bindings))
+
+;; Display completions vertically.
+(use-package ido-vertical-mode
+  :ensure ido-vertical-mode
+  :commands ido-vertical-mode
+  :init (ido-vertical-mode)
+  :pre-load
+  ;; For some reason, this needs to happen before `ido-vertical-mode' is loaded.
+  (setq ido-vertical-decorations
+        '("\n- " ; Left bracket around prospect list.
+          "" ; Right bracket around prospect list.
+          "\n  " ; Separator between prospects.
+          "\n  ..." ; Inserted at the end of a truncated list of prospects.
+          "[" ; Left bracket around common match string.
+          "]" ; Right bracket around common match string.
+          " [No match]"
+          " [Matched]"
+          " [Not readable]"
+          " [Too big]"
+          " [Confirm]")))
 
 ;; Use Ido almost everywhere.
 (use-package ido-ubiquitous
