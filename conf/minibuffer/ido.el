@@ -2,6 +2,7 @@
 ;;; This file is for general Ido settings -- for buffer, etc.-specific, see the respective files.
 
 (require 'conf/packages)
+(require 'conf/utils/hooks) ; Used: add-one-shot-hook.
 
 (use-package ido ; Bundled with Emacs.
   :demand t
@@ -41,8 +42,17 @@ This is needed for the vertical displaying of Ido completions to work."
   (add-hook 'ido-minibuffer-setup-hook #'disable-line-truncation)
 
   ;; Keybindings.
-  (bind-key "C-n" #'ido-next-match ido-completion-map)
-  (bind-key "C-p" #'ido-prev-match ido-completion-map))
+  (defun my-ido-bindings ()
+    ;; Ido keymaps:
+    ;;   * ido-common-completion-map -- keymap for all Ido commands
+    ;;   * ido-completion-map -- currently active keymap for Ido.
+    ;;   * ido-file-dir-completion-map, ido-file-completion-map
+    ;;   * ido-buffer-completion-map
+
+    ;; C-n, C-p -- cycle matches.
+    (bind-key "C-n" #'ido-next-match ido-common-completion-map)
+    (bind-key "C-p" #'ido-prev-match ido-common-completion-map)
+  (add-one-shot-hook 'ido-setup-hook #'my-ido-bindings))
 
 (use-package ido-ubiquitous
   :ensure ido-ubiquitous
