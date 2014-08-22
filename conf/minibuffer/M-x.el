@@ -4,6 +4,7 @@
 
 (use-package smex
   :ensure smex
+  :defer t
   :bind (("M-x" . smex)
          ("C-x m" . smex))
   :config

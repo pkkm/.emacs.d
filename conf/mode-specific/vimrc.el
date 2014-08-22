@@ -4,6 +4,7 @@
 
 (use-package vimrc-mode
   :ensure vimrc-mode
+  :defer t
   :mode ((".vim\\'" . vimrc-mode)
          ("vimrc\\'" . vimrc-mode)
          (".pentadactylrc\\'" . vimrc-mode)))

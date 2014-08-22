@@ -6,11 +6,12 @@
   :pre-load
   ;; Make Evil's > and < always indent by `tab-width'.
   ;; This has to happen before loading Evil, because Evil makes `evil-shift-width' buffer local, and therefore impossible to declare as an alias.
-  ;; I haven't found a way to reverse making variable buffer-local.
+  ;; (I haven't found a way to reverse making variable buffer-local.)
   (defvaralias 'evil-shift-width 'tab-width)
-  :config
-
+  :commands evil-mode
+  :init
   (evil-mode 1)
+  :config
 
   (setq evil-cross-lines t) ; Allow motions to cross newlines.
 
