@@ -112,7 +112,6 @@
 (require 'conf/mode-specific/pascal)
 (require 'conf/mode-specific/puppet)
 (require 'conf/mode-specific/asciidoc)
-(require 'conf/mode-specific/text)
 (require 'conf/mode-specific/term)
 (require 'conf/mode-specific/bat-cmd)
 
