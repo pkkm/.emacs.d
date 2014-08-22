@@ -52,6 +52,27 @@ This is needed for the vertical displaying of Ido completions to work."
     ;; C-n, C-p -- cycle matches.
     (bind-key "C-n" #'ido-next-match ido-common-completion-map)
     (bind-key "C-p" #'ido-prev-match ido-common-completion-map)
+
+    ;; SPC -- insert space (I haven't found any less hackish way to do this).
+    (defalias 'ido-complete-space 'self-insert-command)
+
+    ;; C-w, C-backspace -- delete the word before point.
+    (bind-key "C-w" #'backward-kill-word ido-common-completion-map)
+    (bind-key "C-w" #'ido-delete-backward-word-updir ido-file-completion-map)
+    (bind-key "C-w" #'ido-delete-backward-word-updir ido-file-dir-completion-map)
+    (bind-key "<C-backspace>" #'ido-delete-backward-word-updir ido-file-dir-completion-map)
+
+    ;; C-u -- delete to the beginning of input.
+    (bind-key "C-u" #'backward-kill-line ido-common-completion-map)
+    (bind-key "C-u" #'ido-delete-backward-line-updir ido-file-dir-completion-map)
+    (defun backward-kill-line ()
+      (interactive)
+      (kill-line 0))
+    (defun ido-delete-backward-line-updir ()
+      (interactive)
+      (if (= (minibuffer-prompt-end) (point))
+          (ido-up-directory t)
+        (backward-kill-line))))
   (add-one-shot-hook 'ido-setup-hook #'my-ido-bindings))
 
 (use-package ido-ubiquitous
