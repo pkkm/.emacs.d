@@ -12,7 +12,4 @@
       (call-interactively major-mode-TAB-binding))))
 (define-key evil-motion-state-map (kbd "g TAB") #'current-major-mode-TAB)
 
-;; Don't use the useless Evil binding for RET.
-(define-key evil-motion-state-map (kbd "RET") nil)
-
 (provide 'conf/motions/passthrough-keys)

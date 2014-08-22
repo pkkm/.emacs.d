@@ -39,6 +39,7 @@
 
   ;; Unset other useless keys.
   (bind-key "C-e" nil evil-insert-state-map)
+  (bind-key "RET" nil evil-motion-state-map)
 
   ;; Don't allow any keymap to shadow Evil bindings.
   (setq evil-overriding-maps '()) ; `evil-overriding-maps' get elevated to the "overriding" status -- above global state keymap, but below the local one.
