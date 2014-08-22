@@ -59,6 +59,7 @@
   (evil-set-initial-state 'compilation-mode 'motion)
   (evil-set-initial-state 'occur-mode 'motion)
   (evil-set-initial-state 'term-mode 'emacs)
-  (evil-set-initial-state 'compilation-mode 'emacs))
+  (evil-set-initial-state 'compilation-mode 'emacs)
+  (evil-set-initial-state 'git-commit-mode 'insert))
 
 (provide 'conf/evil)
