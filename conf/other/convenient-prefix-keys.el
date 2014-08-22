@@ -1,6 +1,6 @@
 ;;; Bind keys from some prefixes in different ones, making them more convenient.
 
-;; Key sequences starting with "C-c":
+;; Conventions for the C-c prefix:
 ;;   * Letter (upper or lower case): reserved for the user.
 ;;   * Control character, digit, :, ;, {, }, <, >: major mode.
 ;;   * Other punctuation: minor mode (or sometimes major mode).

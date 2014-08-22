@@ -62,37 +62,4 @@ Interactively, prompts for the command if the variable `clean-read-command' is n
   (set (make-local-variable 'scroll-margin) 0))
 (add-hook 'compilation-mode-hook #'disable-scroll-margin-in-buffer)
 
-;; Old approach to the `run' command: use a `defalias'-like macro to replace `compile-command' with `run-command'.
-;;(defmacro pseudo-alias-let (replaced-variable replacement-variable &rest body)
-;;  "This macro is intended to have some functionality of `defalias' with `let' semantics.
-;;
-;;It makes a backup of REPLACED-VARIABLE and binds REPLACED-VARIABLE to the value of REPLACEMENT-VARIABLE, then evals BODY. If BODY changed REPLACED-VARIABLE, the new value is saved to REPLACEMENT-VARIABLE and REPLACED-VARIABLE is restored from the backup."
-;;  (declare (indent 2))
-;;  (when (not (and (symbolp replaced-variable) (symbolp replacement-variable)))
-;;    (error "Both the variable name and binding must be symbols"))
-;;  (let ((was-replaced-variable-local-symbol (make-symbol (concat "was-" (symbol-name replaced-variable) "-local")))
-;;        (replaced-variable-backup-symbol (make-symbol (concat (symbol-name replaced-variable) "-backup"))))
-;;    `(let ((,was-replaced-variable-local-symbol (local-variable-p ',replaced-variable))
-;;           (,replaced-variable-backup-symbol ,replaced-variable)
-;;           (,replaced-variable ,replacement-variable))
-;;       (unwind-protect
-;;           ,@body
-;;         (setq ,replacement-variable ,replaced-variable)
-;;         (if (and (local-variable-p ',replaced-variable)
-;;                  (not ,was-replaced-variable-local-symbol))
-;;             (kill-local-variable ',replaced-variable)
-;;           (setq ,replaced-variable ,replaced-variable-backup-symbol))))))
-;;
-;;;; Define the command `my-run', that runs the current program using `compile'.
-;;;; The variable for the command to use is `run-command' instead of `compile-command'.
-;;(defvar run-command nil
-;;  "Like `compile-command', but used in `my-run'.")
-;;(make-variable-buffer-local 'run-command)
-;;(defun my-run ()
-;;  "Like `compile' but uses `run-command' instead of `compile-command'."
-;;  (interactive)
-;;  (pseudo-alias-let compile-command run-command
-;;    (let ((current-prefix-arg '(4)))
-;;      (call-interactively #'compile))))
-
 (provide 'conf/other/compiling)
