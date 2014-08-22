@@ -4,13 +4,20 @@
 
 (require 'conf/packages)
 (require 'conf/utils/hooks) ; Used: add-hooks.
+(require 'conf/view/indent-guides)
 
 (use-package lisp-mode ; Bundled with Emacs; contains lisp-mode, emacs-lisp-mode and lisp-interaction-mode.
   :defer t
   :config
 
+  ;; Indentation.
+  (defun my-lisp-indentation ()
+    (setq tab-width 8) ; For reading ancient Lisp code.
+    (setq indent-tabs-mode nil))
   (add-hooks '(lisp-mode-hook emacs-lisp-mode-hook)
-             #'disable-indent-tabs-mode)
+             #'my-lisp-indentation)
+
+  ;; Indent guides.
   (add-hooks '(lisp-mode-hook emacs-lisp-mode-hook)
              #'indent-guide-mode))
 

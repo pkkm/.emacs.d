@@ -5,14 +5,6 @@
 (require 'conf/evil)
 
 
-;;; Indentation.
-
-(defun my-elisp-indentation ()
-  (setq tab-width 8) ; For reading ancient Lisp code.
-  (setq indent-tabs-mode nil))
-(add-hook 'emacs-lisp-mode-hook #'my-elisp-indentation)
-
-
 ;;; Completion
 
 ;; Add elisp-specific completion sources.
