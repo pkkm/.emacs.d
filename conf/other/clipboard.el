@@ -1,4 +1,5 @@
 ;;; Integration with the system clipboard(s).
+;; FIXME: this breaks evil's C-p/C-n kill ring cycling.
 
 ;;; X Window System: Use PRIMARY for visual selection and CLIPBOARD for explicit cuts.
 (when (eq window-system 'x)
