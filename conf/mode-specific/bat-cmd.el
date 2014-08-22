@@ -1,9 +1,8 @@
 ;;; DOS batch and Windows CMD scripts.
 
-(autoload
-  'dos-mode
-  "dos" ; In `my-vendor-dir'.
-  "Major mode for editing Dos scripts."
-  t) ; Interactive.
+(require 'conf/packages)
+
+(use-package dos ; Installed in `my-vendor-dir'.
+  :commands dos-mode)
 
 (provide 'conf/mode-specific/bat-cmd)
