@@ -11,34 +11,23 @@
 (require 'conf/modeline/cleaner-minor-modes)
 (diminish 'smartparens-mode "")
 
-;; Modes where smartparens mode is inactive.
-(setq sp-ignore-modes-list '()) ; Add minibuffer-inactive-mode to disable SP in the minibuffer.
-
 ;; Highlight matching pairs (like show-paren-mode, but with user-defined pairs).
 (show-smartparens-global-mode 1)
 (setq sp-show-pair-from-inside t) ; Point can be on any side of the delimiter.
 (setq sp-show-pair-delay 0.1)
-(face-spec-reset-face 'sp-show-pair-enclosing)
 (setq blink-matching-paren nil) ; Don't move the cursor to the matching paren.
 
 ;; Don't underline the currently edited expression.
 (setq sp-highlight-pair-overlay nil)
 
-;; Disable special behavior for strings.
-(setq sp-autoescape-string-quote nil)
-(setq sp-autoinsert-quote-if-followed-by-closing-pair t)
-
 ;; Skip closing pair instead of inserting it.
-(setq sp-autoskip-closing-pair 'always)
+(setq-default sp-autoskip-closing-pair 'always) ; When the closing delimiter is typed inside a sexp, place the point after the sexp end.
 
 ;; What to consider a sexp.
 (setq sp-navigate-consider-sgml-tags ; In which modes to consider SGML tags to be sexps.
       (append sp-navigate-consider-sgml-tags
               '(sgml-mode xml-mode nxml-mode scala-mode)))
 (setq sp-navigate-consider-stringlike-sexp '(latex-mode)) ; In which modes to consider string-like sexps (like "*bold text*") to be sexps.
-
-;; If a character from "()" is deleted, delete the whole pair.
-(setq sp-autodelete-wrap nil) ; No special behavior for most recent wrapping.
 
 ;; Include some mode-specific pairs (for Lisp, LaTeX and HTML).
 (require 'smartparens-config)
