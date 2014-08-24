@@ -3,6 +3,8 @@
 (require 'conf/packages)
 (package-ensure-installed 'smartparens)
 
+(require 'conf/evil)
+
 (smartparens-global-mode 1)
 
 ;; Don't show Smartparens in the modeline.
@@ -11,8 +13,6 @@
 
 ;; Modes where smartparens mode is inactive.
 (setq sp-ignore-modes-list '()) ; Add minibuffer-inactive-mode to disable SP in the minibuffer.
-
-;;; Highlighting.
 
 ;; Highlight matching pairs (like show-paren-mode, but with user-defined pairs).
 (show-smartparens-global-mode 1)
@@ -24,8 +24,6 @@
 ;; Don't underline the currently edited expression.
 (setq sp-highlight-pair-overlay nil)
 
-;;; Autoinsert and autoskip.
-
 ;; Disable special behavior for strings.
 (setq sp-autoescape-string-quote nil)
 (setq sp-autoinsert-quote-if-followed-by-closing-pair t)
@@ -33,14 +31,11 @@
 ;; Skip closing pair instead of inserting it.
 (setq sp-autoskip-closing-pair 'always)
 
-;;; Definition of sexp.
-
 ;; What to consider a sexp.
 (setq sp-navigate-consider-sgml-tags ; In which modes to consider SGML tags to be sexps.
-      '(sgml-mode html-mode xml-mode nxml-mode scala-mode))
+      (append sp-navigate-consider-sgml-tags
+              '(sgml-mode xml-mode nxml-mode scala-mode)))
 (setq sp-navigate-consider-stringlike-sexp '(latex-mode)) ; In which modes to consider string-like sexps (like "*bold text*") to be sexps.
-
-;;; Other.
 
 ;; If a character from "()" is deleted, delete the whole pair.
 (setq sp-autodelete-wrap nil) ; No special behavior for most recent wrapping.
@@ -48,18 +43,8 @@
 ;; Include some mode-specific pairs (for Lisp, LaTeX and HTML).
 (require 'smartparens-config)
 
+
 ;;; Bindings.
-
-;; Unbind Evil's [ and ] prefixes (movement by sections is useless anyway).
-(require 'conf/evil)
-(dolist (keymap (list evil-motion-state-map
-                      evil-normal-state-map))
-  (define-key keymap (kbd "[") nil)
-  (define-key keymap (kbd "]") nil))
-
-;; Unbind Evil's C-y (motion state: scroll up, insert: copy from above).
-(define-key evil-motion-state-map (kbd "C-y") nil)
-(define-key evil-insert-state-map (kbd "C-y") nil)
 
 ;; "g p" will be used as a prefix for uncommon Smartparens commands.
 
@@ -72,6 +57,8 @@
 ;;   double prefix -- operate on the enclosing expression.
 
 ;; Move by sexps, cursor at the beginning (like w/b).
+(define-key evil-motion-state-map (kbd "C-y") nil) ; Deleted binding: scroll up.
+(define-key evil-insert-state-map (kbd "C-y") nil) ; Deleted binding: copy from above.
 (evil-define-key 'motion sp-keymap (kbd "C-s") #'sp-next-sexp)
 (evil-define-key 'motion sp-keymap (kbd "C-y") #'sp-backward-sexp)
 
@@ -96,6 +83,9 @@
 ;; Beginning/end of sexp.
 ;; With non-numeric prefix, beginning/end of enclosing sexp.
 ;; With prefix ARG, beginning/end of ARGth next sexp (ARG can be negative).
+(dolist (keymap (list evil-motion-state-map evil-normal-state-map)) ; I didn't use movement by sections anyway.
+  (define-key keymap (kbd "[") nil)
+  (define-key keymap (kbd "]") nil))
 (evil-define-key 'motion sp-keymap (kbd "[") #'sp-beginning-of-sexp)
 (evil-define-key 'motion sp-keymap (kbd "]") #'sp-end-of-sexp)
 
