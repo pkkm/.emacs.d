@@ -1,7 +1,5 @@
 ;;; Smartparens -- a modern alternative to paredit.
 
-(require 'conf/utils/keys) ; Used: evil-define-key-in-states.
-
 (require 'conf/packages)
 (package-ensure-installed 'smartparens)
 
@@ -28,56 +26,24 @@
 
 ;;; Autoinsert and autoskip.
 
-;; Autoinsert pairs (even when the point is followed by a word).
-(setq sp-autoinsert-pair t)
-(setq sp-autoinsert-if-followed-by-word t)
-
-;; If the opening and closing delimiter are the same and the enclosed expression is empty, nest the pairs (useful in modes where repeated characters are used as delimiters, for example "**text**" in Markdown). If the enclosed expression is not empty, skip the closing delimiter.
-;; TODO (FIXME) this break smartparens:
-;;(setq sp-autoinsert-if-followed-by-same 4)
-
 ;; Disable special behavior for strings.
 (setq sp-autoescape-string-quote nil)
 (setq sp-autoinsert-quote-if-followed-by-closing-pair t)
 
 ;; Skip closing pair instead of inserting it.
 (setq sp-autoskip-closing-pair 'always)
-(setq sp-cancel-autoskip-on-backward-movement nil)
-
-;; Don't put an "undo-boundary" before each inserted pair.
-(setq sp-undo-pairs-separately nil)
 
 ;;; Definition of sexp.
 
 ;; What to consider a sexp.
-(setq sp-navigate-comments-as-sexps t) ; Consider comments to be sexps.
-(setq sp-navigate-consider-symbols t) ; Consider symbols outside balanced expressions to be sexps. ; WARNING! SETTING THIS TO NIL CAUSES SEXP DELETION ON BACKWARD-UP-SEXP! ; TODO check if warning still applies, after a few days.
 (setq sp-navigate-consider-sgml-tags ; In which modes to consider SGML tags to be sexps.
       '(sgml-mode html-mode xml-mode nxml-mode scala-mode))
 (setq sp-navigate-consider-stringlike-sexp '(latex-mode)) ; In which modes to consider string-like sexps (like "*bold text*") to be sexps.
 
-;; Functions to skip over paired expression matches in given major modes.
-;; Use this for things that can both be and not be expression delimiters, for example "*" in Markdown, which can signify a list item or emphasis. If the exception is only relevant to one pair, use the :skip-match option in `sp-local-pair'.
-;;(setq sp-navigate-skip-match
-      ;;'(((emacs-lisp-mode inferior-emacs-lisp-mode lisp-interaction-mode scheme-mode lisp-mode eshell-mode slime-repl-mode nrepl-mode clojure-mode common-lisp-mode)
-         ;;. sp--elisp-skip-match)))
-
 ;;; Other.
 
-;; Wrapping.
-(setq sp-autowrap-region t) ; When pair inserted with region, wrap the region.
-(setq sp-wrap-entire-symbol 0) ; Wrap the entire symbol instead of only the part after point. 0 -- enable globally, 1 -- disable globally, list of major modes -- disable in major modes.
-
 ;; If a character from "()" is deleted, delete the whole pair.
-(setq sp-autodelete-closing-pair t)
-(setq sp-autodelete-opening-pair t)
-(setq sp-autodelete-pair t)
 (setq sp-autodelete-wrap nil) ; No special behavior for most recent wrapping.
-
-;; Sexp cleanups done on `sp-up-sexp'.
-(setq sp-navigate-close-if-unbalanced nil) ; Don't insert the closing delimiter of unmatched pairs.
-(setq sp-navigate-reindent-after-up ; In which modes sexps should be reindented.
-      '((interactive emacs-lisp-mode lisp-interaction-mode))) ;; With 'interactive, reindent only if called interactively. With 'always, always.
 
 ;; Include some mode-specific pairs (for Lisp, LaTeX and HTML).
 (require 'smartparens-config)
@@ -205,14 +171,6 @@
 (define-key evil-inner-text-objects-map "e" 'evil-sp-inner-sexp)
 
 ;; TODO equivalent of evil-surround.
-
-;; Not needed due to the operator/motion nature of evil and text objects.
-;;(define-key sp-keymap (kbd "C-M-k") #'sp-kill-sexp)
-;;(define-key sp-keymap (kbd "C-M-w") #'sp-copy-sexp)
-;;(define-key sp-keymap (kbd "C-]") #'sp-select-next-thing-exchange)
-;;(define-key sp-keymap (kbd "C-<left_bracket>") #'sp-select-previous-thing)
-;;(define-key sp-keymap (kbd "C-M-]") #'sp-select-next-thing)
-
 ;; TODO see how useful `sp-newline' will be with evil.
 
 ;; Normalize keymaps first time Smartparens mode is activated.
