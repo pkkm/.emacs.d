@@ -31,6 +31,6 @@ This will happen at most once per session, as this advice is removed when `packa
 (package-ensure-installed 'bind-key)
 (autoload 'bind-key "bind-key")
 (package-ensure-installed 'use-package)
-(autoload 'use-package "use-package")
+(require 'use-package) ; If `use-package' is autoloaded, this file produces an error when its compiled version is loaded.
 
 (provide 'conf/packages)
