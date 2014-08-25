@@ -10,15 +10,22 @@
 ;; To update installed packages, use M-x package-list-packages RET U x.
 ;; Or delete the elpa/ directory and launch Emacs for it to be recreated.
 
+;; First time that `package-install' is called in this session, refresh the package list (if it wasn't already refreshed).
+(defadvice package-install (before refresh-before-install activate)
+  "Refresh the package list before installing a new package.
+This will happen at most once per session, as this advice is removed when `package-refresh-contents' is called."
+  (package-refresh-contents))
+(defadvice package-refresh-contents (before disable-refresh-before-install activate)
+  "Remove the advice to `package-install' that refreshes the package list, then self-destruct."
+  (ad-remove-advice 'package-install 'before 'refresh-before-install)
+  (ad-update 'package-install) ; Necessary for the above change to take effect.
+  (ad-remove-advice 'package-refresh-contents 'before 'disable-refresh-before-install)
+  (ad-update 'package-refresh-contents))
+
 (defun package-ensure-installed (package)
   "Ensure the ELPA package PACKAGE is installed."
   (unless (package-installed-p package)
-    (unless package-list-refreshed-p
-      (package-refresh-contents)
-      (setq package-list-refreshed-p t))
     (package-install package)))
-(defvar package-list-refreshed-p nil
-  "Was the package list refreshed in this Emacs session?")
 
 ;; Use-package -- configure packages in a tidy, performance-oriented way.
 (package-ensure-installed 'use-package)
