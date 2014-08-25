@@ -7,4 +7,10 @@
       (add-to-list var '(initialization))
     (set var '((initialization)))))
 
+;; Make the *scratch* buffer empty.
+(setq initial-scratch-message nil)
+
+;; Don't display the startup screen.
+(setq inhibit-startup-message t)
+
 (provide 'conf/view/initial-messages)

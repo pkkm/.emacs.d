@@ -3,8 +3,6 @@
 (require 'conf/init/check-version)
 (require 'conf/utils/paths)
 (require 'conf/utils/modes)
-(require 'conf/init/no-startup-message)
-(require 'conf/init/initial-scratch-message)
 
 (require 'conf/packages)
 (require 'conf/evil)
