@@ -27,8 +27,11 @@ This will happen at most once per session, as this advice is removed when `packa
   (unless (package-installed-p package)
     (package-install package)))
 
-;; Use-package -- configure packages in a tidy, performance-oriented way.
+;; Use-package, bind-key and diminish -- configure packages in a tidy, performance-oriented way.
+(package-ensure-installed 'diminish)
+(package-ensure-installed 'bind-key)
+(autoload 'bind-key "bind-key")
 (package-ensure-installed 'use-package)
-(require 'use-package)
+(autoload 'use-package "use-package")
 
 (provide 'conf/packages)
