@@ -8,8 +8,9 @@
   :demand t
   :commands adaptive-wrap-prefix-mode
   :config
-  (define-globalized-minor-mode global-adaptive-wrap-prefix-mode
-    adaptive-wrap-prefix-mode adaptive-wrap-prefix-mode)
+  (with-no-warnings ; To disable the byte-compilation warning saying that this should be called at toplevel.
+    (define-globalized-minor-mode global-adaptive-wrap-prefix-mode
+      adaptive-wrap-prefix-mode adaptive-wrap-prefix-mode))
   (global-adaptive-wrap-prefix-mode))
 
 (provide 'conf/view/wrapping)
