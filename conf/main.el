@@ -22,6 +22,7 @@
 (require 'conf/view/ui-elements)
 (require 'conf/view/unique-buffer-names)
 (require 'conf/view/page-break-lines)
+(require 'conf/view/initial-messages)
 
 (when (display-graphic-p)
   (require 'conf/view/gui/title)
