@@ -8,6 +8,6 @@
   (interactive "<R><x><y>")
   (evil-yank beg end type register yank-handler))
 
-(define-key evil-normal-state-map (kbd "Y") #'evil-yank-to-eol)
+(define-key evil-motion-state-map (kbd "Y") #'evil-yank-to-eol)
 
 (provide 'conf/operators/yank-to-eol)
