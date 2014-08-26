@@ -53,7 +53,6 @@
 
 (require 'conf/modeline/background)
 (require 'conf/modeline/format)
-(require 'conf/modeline/cleaner-minor-modes)
 
 (require 'conf/opening-saving/backups)
 (require 'conf/opening-saving/tramp)
