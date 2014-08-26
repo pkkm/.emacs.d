@@ -24,8 +24,4 @@
   (global-set-key (kbd "C-c a") #'ag)
   (global-set-key (kbd "C-c A") #'ag-project))
 
-;; Magit -- Git interface.
-(with-eval-after-load 'magit
-  (global-set-key (kbd "C-c g") #'magit-status))
-
 (provide 'conf/opening-saving/keys)

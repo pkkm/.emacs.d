@@ -3,16 +3,11 @@
 
 ;;; Magit (git interface).
 
-(package-ensure-installed 'magit)
-
-;; Don't show magit-auto-revert-mode in the modeline.
-;; (This minor mode reverts unmodified buffers affected by git commands.)
-(require 'conf/utils/hooks)
-(add-one-shot-hooks '(magit-mode-hook magit-auto-revert-mode-hook)
-                    #'diminish-magit-auto-revert-mode)
-(defun diminish-magit-auto-revert-mode ()
-  (require 'conf/modeline/cleaner-minor-modes)
-  (diminish 'magit-auto-revert-mode))
+(use-package magit
+  :ensure magit
+  :diminish magit-auto-revert-mode
+  :commands magit-status
+  :bind ("C-c g" . magit-status))
 
 
 ;;; Disable VC-mode (the default Emacs interface for VCSes).
