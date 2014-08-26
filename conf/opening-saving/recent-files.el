@@ -6,7 +6,7 @@
 
 (setq recentf-max-saved-items 200)
 
-(setq recentf-auto-cleanup 45) ; Clean up the list after 45 s of idle. See also `recentf-cleanup' for manually triggering it.
+(setq recentf-auto-cleanup 120) ; Clean up the list after 2 minutes of idle. Use `recentf-cleanup' to manually trigger it.
 
 (defun ido-recentf-open ()
   "Use `ido-completing-read' to \\[find-file] a recent file"

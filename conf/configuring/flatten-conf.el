@@ -52,7 +52,7 @@ Then, byte-recompile the file."
         (message "Compiling flattened conf/... error.")))))
 
 ;; Run the above each time Emacs is idle for a certain amount of time.
-(defvar reflatten-and-recompile-conf-idle-timeout 60
+(defvar reflatten-and-recompile-conf-idle-timeout 240 ; 4 minutes.
   "After how many idle seconds should conf/ be flattened and compiled?")
 (run-with-idle-timer reflatten-and-recompile-conf-idle-timeout t
                      #'reflatten-and-recompile-conf)
