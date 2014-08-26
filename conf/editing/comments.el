@@ -13,11 +13,10 @@
     (setq comment-column 0)))
 (add-hook 'after-change-major-mode-hook #'my-dont-indent-right-margin-comments)
 
-;; Undefine the "z" and "Z" prefixes; I never use them  anyway (C-l is sufficient for scrolling).
-(define-key evil-normal-state-map (kbd "z") nil)
-(define-key evil-motion-state-map (kbd "z") nil)
-(define-key evil-visual-state-map (kbd "z") nil)
-(define-key evil-normal-state-map (kbd "Z") nil)
+;; Undefine the "z" and "Z" prefixes; I never use them anyway (C-l is sufficient for scrolling).
+(dolist (keymap (list evil-normal-state-map evil-motion-state-map evil-visual-state-map))
+  (bind-key "z" nil keymap))
+(bind-key "Z" nil evil-normal-state-map)
 
 ;; z -- my Evil-compatible version of comment-dwim.
 ;; If region is active, comment/uncomment it. Otherwise, insert a right-margin comment.
@@ -31,12 +30,15 @@
 (define-key evil-normal-state-map (kbd "z") #'evil-comment-dwim)
 
 ;; Z -- Evil operator to comment/uncomment a piece of text (works with region too).
-(package-ensure-installed 'evil-nerd-commenter)
-(setq evilnc-hotkey-comment-operator (kbd "Z")) ; This package has to be supplied with a key to bind to the operator. (This is just stupid, TODO submit a bug request?)
-(autoload 'evilnc-comment-operator "evil-nerd-commenter"
-  "Evil operator to comment/uncomment a piece of text.")
-;; We define the keys even though `evil-nerd-commenter' does it, so that they are defined before loading it.
-(define-key evil-normal-state-map (kbd "Z") #'evilnc-comment-operator)
-(define-key evil-visual-state-map (kbd "Z") #'evilnc-comment-operator)
+(use-package evil-nerd-commenter
+  :ensure evil-nerd-commenter
+  :commands evilnc-comment-operator
+  :pre-load
+  ;; This package has to be supplied with a key to bind to the operator. (TODO submit a bug report?)
+  (setq evilnc-hotkey-comment-operator (kbd "Z"))
+  :init
+  ;; We define the keys even though `evil-nerd-commenter' does it, so that they are defined before loading it.
+  (dolist (keymap (list evil-normal-state-map evil-visual-state-map))
+    (bind-key "Z" #'evilnc-comment-operator keymap)))
 
 (provide 'conf/editing/comments)
