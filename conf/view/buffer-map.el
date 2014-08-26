@@ -1,5 +1,4 @@
 ;;; Keys for buffers.
-;; When selecting a buffer using Ido (- SPC or - b), press C-k to kill the highlighted buffer.
 
 (require 'conf/evil)
 
@@ -9,6 +8,7 @@
 (define-key evil-motion-state-map (kbd "-") 'my-buffer-map)
 
 ;; Switch.
+;; Press C-k to kill the highlighted buffer.
 (setq ido-ignore-buffers '("\\` " "\\`\\*"))
 (define-key my-buffer-map (kbd "SPC") #'ido-switch-buffer)
 
@@ -21,6 +21,31 @@
 (define-key my-buffer-map (kbd "b") #'ido-switch-buffer-without-ignored)
 
 ;; IBuffer -- advanced buffer switcher (distributed with Emacs).
+;; Useful for doing operations on many buffers simultaneously.
+;; Marking:
+;;   m -- mark buffer at point
+;;   u -- unmark buffer at point
+;;   M-<backspace> -- unmark all
+;;   t -- invert marks
+;; Marking by predicate:
+;;   * M -- by major mode
+;;   * u -- unsaved (modified and visiting a file)
+;;   * s -- name begins and ends with *
+;;   . -- older than `ibuffer-old-time'
+;; Operations on marked buffers:
+;;   S -- save
+;;   D -- kill
+;;   A/H -- view in this/another frame
+;;   U -- replace by regexp
+;;   Q/I -- query-replace/query-replace-regexp
+;;   ! -- run a shell command on each buffer with its file name as the argument
+;;   E -- eval in each buffer
+;; Other:
+;;   RET -- view buffer at point
+;;   o -- view buffer at point in other window
+;;   g -- refresh
+;;   h -- help
+;;   q -- quit
 (define-key my-buffer-map (kbd "C-b") #'ibuffer)
 
 ;; Switch to the most recently used buffer.
