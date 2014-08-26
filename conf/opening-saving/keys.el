@@ -3,11 +3,6 @@
 (require 'conf/evil)
 (require 'conf/minibuffer/ido)
 
-;; Find (open) file.
-(require 'conf/view/buffer-map) ; To define keys in `my-buffer-map'.
-(define-key my-buffer-map (kbd "e") #'ido-find-file)
-(global-set-key (kbd "C-c e") #'ido-find-file)
-
 ;; Find (open) file in the config directory.
 (global-set-key (kbd "C-c c") #'find-file-in-conf)
 (defun find-file-in-conf ()
@@ -16,18 +11,6 @@
 
 (require 'conf/configuring/new-config-file)
 (global-set-key (kbd "C-c n") #'new-config-file)
-
-;; Insert the contents of a file into the buffer.
-(global-set-key (kbd "C-c i") #'ido-insert-file)
-
-;; Save.
-(global-set-key (kbd "C-c s") #'save-buffer)
-
-;; Write (save as).
-(global-set-key (kbd "C-c w") #'ido-write-file)
-
-;; Save region.
-(global-set-key (kbd "C-c R") #'write-region)
 
 ;; Revert.
 (global-set-key (kbd "C-c v") #'revert-buffer)
