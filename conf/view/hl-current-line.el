@@ -25,14 +25,18 @@
 (with-eval-after-load 'evil
   (defvar hl-line-before-entering-visual-state nil
     "t if hl-line-mode was enabled before entering visual state, nil otherwise.")
-  (make-variable-buffer-local 'hl-line-before-entering-visual-state)
-  (add-hook 'evil-visual-state-entry-hook #'my-hl-line-deactivate)
+  (with-no-warnings ; Don't warn about making a variable buffer local not at toplevel.
+    (make-variable-buffer-local 'hl-line-before-entering-visual-state))
+
   (defun my-hl-line-deactivate ()
     (setq hl-line-before-entering-visual-state hl-line-mode)
-    (hl-line-mode -1))
-  (add-hook 'evil-visual-state-exit-hook #'my-hl-line-activate-if-was-active)
+    (when hl-line-mode
+      (hl-line-mode -1)))
+  (add-hook 'evil-visual-state-entry-hook #'my-hl-line-deactivate)
+
   (defun my-hl-line-activate-if-was-active ()
-    (when hl-line-before-entering-visual-state (hl-line-mode 1))))
+    (when hl-line-before-entering-visual-state (hl-line-mode 1)))
+  (add-hook 'evil-visual-state-exit-hook #'my-hl-line-activate-if-was-active))
 
 ;; Use my face for the line with point, with only the background copied from the original face.
 (defface my-hl-line-face `((t)) "My face for hl-line." :group 'hl-line)
