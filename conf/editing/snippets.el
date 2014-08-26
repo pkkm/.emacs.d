@@ -14,6 +14,16 @@
   ;; Be less verbose.
   (setq yas-verbosity 1)
 
+  ;; Make `completion-at-point' try to expand a snippet before attempting any other completions.
+  (defun yas-expand-if-active () ; If this function name is changed, also change it in the code for YASnippet integration in conf/editing/completion.el.
+    "Call `yas-expand' if YASnippet minor mode is active."
+    (when yas-minor-mode
+      (yas-expand)))
+  (setq yas-fallback-behavior 'return-nil) ; So that `completion-at-point' tries the next function instead of stopping.
+  (defun add-yas-expand-to-completion-at-point ()
+    (add-to-list 'completion-at-point-functions #'yas-expand-if-active))
+  (add-hook 'yas-minor-mode-hook #'add-yas-expand-to-completion-at-point)
+
   ;; Remove YASnippet's bindings for expanding snippets (we'll use `auto-complete' and `completion-at-point' for that).
   (define-key yas-minor-mode-map (kbd "TAB") nil)
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
