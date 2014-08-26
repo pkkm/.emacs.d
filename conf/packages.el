@@ -26,10 +26,15 @@ This will happen at most once per session, as this advice is removed when `packa
   (unless (package-installed-p package)
     (package-install package)))
 
-;; Use-package, bind-key and diminish -- configure packages in a tidy, performance-oriented way.
+;; Easily disable showing certain modes in the modeline.
 (package-ensure-installed 'diminish)
+
+;; Easily define personal keybindings.
+;; Use `describe-personal-keybindings' to show all bindings defined using `bind-key'.
 (package-ensure-installed 'bind-key)
 (autoload 'bind-key "bind-key")
+
+;; Configure packages in a tidy, performance-oriented way.
 (package-ensure-installed 'use-package)
 (require 'use-package) ; If `use-package' is autoloaded, this file produces an error when its compiled version is loaded.
 
