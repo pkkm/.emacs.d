@@ -1,6 +1,6 @@
 ;;; Font.
 
-(package-ensure-installed 'dash) (require 'dash)
+(use-package dash :ensure dash)
 
 (defun first-available-font (&rest fonts)
   "Return the first available font among the font names in FONTS."
