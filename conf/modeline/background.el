@@ -41,6 +41,7 @@
                            ('emacs ml-evil-emacs-state-background)
                            (nil ml-evil-nil-state-background))))
   (add-hook 'post-command-hook #'set-mode-line-background) ; Not ideal, but usually works.
+  ;; TODO maybe use `window-configuration-change-hook'?
   (add-hook 'after-load-theme-hook #'set-mode-line-background t)) ; t -- append, so that we run after `calculate-mode-line-backgrounds'.
 
 (provide 'conf/modeline/background)
