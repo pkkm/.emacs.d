@@ -1,8 +1,14 @@
 ;;; Hungry delete -- delete all whitespace before point.
 
-(package-ensure-installed 'hungry-delete)
+(require 'conf/packages)
+(require 'conf/evil)
 
-(global-set-key (kbd "M-<backspace>") #'hungry-delete-backward)
-(global-set-key (kbd "M-DEL") #'hungry-delete-backward)
+(use-package hungry-delete
+  :ensure hungry-delete
+  :commands (hungry-delete-forward hungry-delete-backward)
+  :init
+  (dolist (keymap (list evil-normal-state-map evil-insert-state-map))
+    (bind-key "M-<backspace>" #'hungry-delete-backward keymap)
+    (bind-key "M-DEL" #'hungry-delete-backward keymap)))
 
 (provide 'conf/operators/hungry-delete)
