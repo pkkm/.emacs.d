@@ -1,6 +1,5 @@
 ;;; Increment/decrement the number at point.
 
-(require 'conf/packages)
 (package-ensure-installed 'evil-numbers)
 
 (require 'conf/evil)

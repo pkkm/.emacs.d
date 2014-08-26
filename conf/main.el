@@ -1,8 +1,7 @@
 ;;; `require' my customizations based on some conditions.
 
-(require 'conf/init/check-version)
+(require 'conf/conf-init)
 
-(require 'conf/packages)
 (require 'conf/evil)
 
 (require 'conf/view/trailing-whitespace)

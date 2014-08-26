@@ -2,7 +2,6 @@
 ;; All Lisp modes' keymaps inherit from `lisp-mode-shared-map' (there is no shared hook).
 ;; Lisp Interaction mode inherits hooks, etc. from Emacs Lisp mode, but doesn't inherit its keymaps.
 
-(require 'conf/packages)
 (require 'conf/utils/hooks) ; Used: add-hooks.
 (require 'conf/view/indent-guides)
 

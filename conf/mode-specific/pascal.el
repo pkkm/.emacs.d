@@ -1,6 +1,5 @@
 ;;; Pascal.
 
-(require 'conf/packages)
 (require 'conf/editing/indentation)
 
 (use-package pascal ; Bundled with Emacs.

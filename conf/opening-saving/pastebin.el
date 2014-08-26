@@ -1,6 +1,5 @@
 ;;; Support for the paste.debian.net pastebin.
 
-(require 'conf/packages)
 (package-ensure-installed 'debpaste)
 
 ;; C-c p -- paste region or buffer.

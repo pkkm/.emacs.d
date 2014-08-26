@@ -1,6 +1,5 @@
 ;;; Smartparens -- a modern alternative to paredit.
 
-(require 'conf/packages)
 (require 'conf/evil)
 
 (use-package smartparens-config ; Use smartparens with the default configuration (which includes some mode-specific pairs for HTML, LaTeX, etc.).

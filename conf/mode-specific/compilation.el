@@ -1,6 +1,5 @@
 ;;; Compilation-mode -- for displaying results of compilation, grep, search, etc.
 
-(require 'conf/packages)
 (require 'conf/evil)
 
 (use-package compile ; Bundled with Emacs.

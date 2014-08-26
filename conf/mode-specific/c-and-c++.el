@@ -1,6 +1,5 @@
 ;;; C and C++.
 
-(require 'conf/packages)
 (require 'conf/editing/indentation)
 (require 'conf/other/compiling)
 

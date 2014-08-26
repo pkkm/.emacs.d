@@ -1,6 +1,5 @@
 ;;; Ace jump mode -- quickly jump to word/char.
 
-(require 'conf/packages)
 (require 'conf/evil)
 
 (use-package ace-jump-mode

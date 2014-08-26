@@ -1,8 +1,6 @@
 ;;; Emacs Lisp and Lisp Interaction modes.
 ;; Lisp Interaction mode inherits hooks, etc. from Emacs Lisp mode, but doesn't inherit its keymaps.
 
-(require 'conf/packages)
-
 ;; Eldoc mode -- show function arguments in minibuffer.
 (use-package eldoc ; Included with Emacs.
   :commands turn-on-eldoc-mode

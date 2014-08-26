@@ -1,6 +1,5 @@
 ;;; LaTeX.
 
-(require 'conf/packages)
 (require 'conf/editing/completion)
 (require 'conf/editing/indentation)
 (require 'conf/utils/hooks) ; Used: add-one-shot-hook.

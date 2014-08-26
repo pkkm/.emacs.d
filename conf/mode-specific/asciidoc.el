@@ -1,7 +1,5 @@
 ;;; AsciiDoc.
 
-(require 'conf/packages)
-
 (use-package adoc-mode
   :ensure adoc-mode
   :defer t

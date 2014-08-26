@@ -1,7 +1,5 @@
 ;;; Popups with possible keys after a prefix key.
 
-(require 'conf/packages)
-
 (use-package guide-key
   :ensure guide-key
   :diminish guide-key-mode

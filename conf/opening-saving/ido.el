@@ -3,7 +3,6 @@
 (require 'conf/minibuffer/ido)
 
 ;; Sort Ido's file list by modification time.
-(require 'conf/packages)
 (package-ensure-installed 'ido-sort-mtime)
 (ido-sort-mtime-mode 1)
 (setq ido-sort-mtime-tramp-files-at-end t)

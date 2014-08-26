@@ -3,7 +3,6 @@
 
 ;;; Magit (git interface).
 
-(require 'conf/packages)
 (package-ensure-installed 'magit)
 
 ;; Don't show magit-auto-revert-mode in the modeline.

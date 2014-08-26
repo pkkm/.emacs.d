@@ -9,7 +9,6 @@
 
 (when (>= (display-color-cells) 16)
   ;; Ample theme -- dark, mainly blues and greens.
-  ;;(require 'conf/packages)
   ;;(use-package ample-theme
   ;;  :ensure ample-theme
   ;;  :config
@@ -20,7 +19,6 @@
   ;;(load-theme 'deeper-blue)
 
   ;; Soft Morning theme -- light, beige.
-  ;;(require 'conf/packages)
   ;;(use-package soft-morning-theme
   ;;  :ensure soft-morning-theme
   ;;  :config

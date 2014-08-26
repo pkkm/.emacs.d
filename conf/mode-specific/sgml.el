@@ -1,6 +1,5 @@
 ;;; SGML (parent of HTML).
 
-(require 'conf/packages)
 (require 'conf/editing/indentation)
 
 (use-package sgml-mode ; Bundled with Emacs.

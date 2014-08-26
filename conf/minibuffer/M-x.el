@@ -1,7 +1,5 @@
 ;;; Smex -- like Ido mode, for M-x.
 
-(require 'conf/packages)
-
 (use-package smex
   :ensure smex
   :defer t

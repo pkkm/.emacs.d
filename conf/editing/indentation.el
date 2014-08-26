@@ -11,7 +11,6 @@
 ;;   (smart-tabs-add-language-support c++ c++-mode-hook
 ;;     ((c-indent-line . c-basic-offset)
 ;;      (c-indent-region . c-basic-offset)))
-(require 'conf/packages)
 (package-ensure-installed 'smart-tabs-mode)
 (require 'smart-tabs-mode) ; TODO needed?
 

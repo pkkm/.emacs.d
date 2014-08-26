@@ -1,6 +1,5 @@
 ;;; Expand-region: increase selection by semantic units.
 
-(require 'conf/packages)
 (require 'conf/evil)
 
 (use-package expand-region

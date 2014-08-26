@@ -1,6 +1,5 @@
 ;;; Puppet manifests.
 
-(require 'conf/packages)
 (require 'conf/editing/indentation)
 
 (use-package puppet-mode

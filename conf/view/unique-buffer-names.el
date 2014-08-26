@@ -1,7 +1,5 @@
 ;;; Distinguish buffers that visit files with the same names using parts of directory name, e.g. Makefile|dir1.
 
-(require 'conf/packages)
-
 (use-package uniquify ; Included with Emacs.
   :config
   (setq uniquify-buffer-name-style 'post-forward

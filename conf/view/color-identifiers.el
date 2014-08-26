@@ -1,7 +1,5 @@
 ;;; Color identifiers (variables, etc.) based on their name.
 
-(require 'conf/packages)
-
 (use-package color-identifiers-mode
   :ensure color-identifiers-mode
   :if (>= (display-color-cells) 256)

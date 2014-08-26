@@ -1,8 +1,6 @@
 ;;; Ido (Interactively DO) mode -- powerful completion in the minibuffer.
 ;;; This file is for general Ido settings -- for buffer, etc.-specific, see the respective files.
 
-(require 'conf/packages)
-
 (use-package ido ; Bundled with Emacs.
   :demand t
   :config

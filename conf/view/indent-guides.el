@@ -1,6 +1,5 @@
 ;;; Indentation guides.
 
-(require 'conf/packages)
 (require 'conf/utils/colors) ; Used: color-mix.
 
 (use-package indent-guide

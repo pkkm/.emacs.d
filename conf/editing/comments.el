@@ -31,7 +31,6 @@
 (define-key evil-normal-state-map (kbd "z") #'evil-comment-dwim)
 
 ;; Z -- Evil operator to comment/uncomment a piece of text (works with region too).
-(require 'conf/packages)
 (package-ensure-installed 'evil-nerd-commenter)
 (setq evilnc-hotkey-comment-operator (kbd "Z")) ; This package has to be supplied with a key to bind to the operator. (This is just stupid, TODO submit a bug request?)
 (autoload 'evilnc-comment-operator "evil-nerd-commenter"

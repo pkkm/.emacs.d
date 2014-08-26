@@ -1,6 +1,5 @@
 ;;; Support for the EditorConfig format for defining coding styles (see editorconfig.org).
 
-(require 'conf/packages)
 (package-ensure-installed 'editorconfig)
 
 ;; The package should be initialized automatically.

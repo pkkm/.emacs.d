@@ -1,6 +1,5 @@
 ;;; Flatten the configuration in conf/ into a single .el file.
 
-(require 'conf/packages)
 (package-ensure-installed 'dash) (require 'dash) ; Used: -filter, -uniq, ->>.
 (require 'conf/utils/strings) ; Used: string-starts-with.
 (require 'conf/utils/load-history) ; Used: feature-requires-recursively.

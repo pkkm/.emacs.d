@@ -1,4 +1,9 @@
-;;; Package system.
+;;; Set up (mostly package-related) things used in almost all of my configuration.
+;; This is the first file required by main.el.
+
+;; Ensure we're on Emacs 24.3 or newer.
+(when (version< emacs-version "24.3")
+  (error (concat "This config requires Emacs 24.3+. Current version: " emacs-version)))
 
 ;; Initialize packages now, instead of after init.
 (package-initialize) ; This normally happens after loading the init file.
@@ -38,4 +43,4 @@ This will happen at most once per session, as this advice is removed when `packa
 (package-ensure-installed 'use-package)
 (require 'use-package) ; If `use-package' is autoloaded, this file produces an error when its compiled version is loaded.
 
-(provide 'conf/packages)
+(provide 'conf/conf-init)

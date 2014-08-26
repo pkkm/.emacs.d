@@ -1,6 +1,5 @@
 ;;; Snippets.
 
-(require 'conf/packages)
 (require 'conf/evil)
 
 (use-package yasnippet

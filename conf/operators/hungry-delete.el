@@ -1,6 +1,5 @@
 ;;; Hungry delete -- delete all whitespace before point.
 
-(require 'conf/packages)
 (require 'conf/evil)
 
 (use-package hungry-delete

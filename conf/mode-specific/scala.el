@@ -1,6 +1,5 @@
 ;;; Scala.
 
-(require 'conf/packages)
 (require 'conf/editing/indentation)
 (require 'conf/utils/repl) ; Used: repl-in-term.
 

@@ -1,6 +1,5 @@
 ;;; Font.
 
-(require 'conf/packages)
 (package-ensure-installed 'dash) (require 'dash)
 
 (defun first-available-font (&rest fonts)

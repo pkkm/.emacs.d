@@ -1,6 +1,5 @@
 ;;; Functions for manipuating colors.
 
-(require 'conf/packages)
 (require 'color) ; Used: color-rgb-to-hex, color-name-to-rgb, color-defined-p.
 (package-ensure-installed 'dash) (require 'dash) ; Used: -partition, -all?.
 (require 'cl-lib)

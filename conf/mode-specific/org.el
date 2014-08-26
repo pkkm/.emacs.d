@@ -1,6 +1,5 @@
 ;;; Org-mode.
 
-(require 'conf/packages)
 (require 'conf/evil)
 
 (use-package org
