@@ -1,14 +1,13 @@
 ;;; Key bindings for file-related commands.
 
-(require 'conf/evil)
-(require 'conf/minibuffer/ido)
-
 ;; Find (open) file in the config directory.
-(global-set-key (kbd "C-c c") #'find-file-in-conf)
-(defun find-file-in-conf ()
-  (interactive)
-  (ido-find-file-in-dir (expand-file-name "conf" main-dir)))
+(with-eval-after-load 'ido
+  (defun find-file-in-conf ()
+    (interactive)
+    (ido-find-file-in-dir (expand-file-name "conf" main-dir)))
+  (global-set-key (kbd "C-c c") #'find-file-in-conf))
 
+;; New config file.
 (require 'conf/configuring/new-config-file)
 (global-set-key (kbd "C-c n") #'new-config-file)
 
@@ -21,12 +20,12 @@
 (global-set-key (kbd "C-c m") #'move-this-buffer-and-file)
 
 ;; Ag -- like grep, but better for source code.
-(require 'conf/opening-saving/ag)
-(global-set-key (kbd "C-c a") #'ag)
-(global-set-key (kbd "C-c A") #'ag-project)
+(with-eval-after-load 'ag
+  (global-set-key (kbd "C-c a") #'ag)
+  (global-set-key (kbd "C-c A") #'ag-project))
 
 ;; Magit -- Git interface.
-(require 'conf/opening-saving/version-control)
-(global-set-key (kbd "C-c g") #'magit-status)
+(with-eval-after-load 'magit
+  (global-set-key (kbd "C-c g") #'magit-status))
 
 (provide 'conf/opening-saving/keys)

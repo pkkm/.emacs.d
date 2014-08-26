@@ -1,7 +1,5 @@
 ;;; Org-mode.
 
-(require 'conf/evil)
-
 (use-package org
   :ensure org
   :defer t
@@ -31,11 +29,6 @@
   ;; Mark element (to mark a subtree, use C-c @).
   (define-key org-mode-map (kbd "M-v") #'org-mark-element) ; Normally would be M-h, but shadowed by previous binding.
 
-  ;; Insert heading.
-  (evil-define-key 'normal org-mode-map (kbd "C-c RET") #'evil-org-insert-heading)
-  (define-key org-mode-map (kbd "M-o") #'evil-org-insert-heading)
-  (define-key org-mode-map (kbd "C-M-o") #'evil-org-insert-todo-heading)
-
   ;; Show all TODOs.
   (define-key org-mode-map (kbd "C-c M-t") #'org-show-todo-tree)
 
@@ -44,32 +37,38 @@
   ;;   SPC f -- forward heading (same level).
   ;;   SPC b -- backward heading (same level).
 
-  ;; Replace the normal end-of-line with an org-specific one.
-  (evil-define-key 'motion org-mode-map [remap evil-end-of-line] #'org-end-of-line)
-
-  ;; Make RET also indent in insert mode.
+  ;; Make RET also indent.
   (define-key org-mode-map [remap org-return] #'org-return-indent)
 
-  ;; Normalize keymaps.
-  ;; This is necessary for bindings defined using `evil-define-key' to be active before the first Evil state change.
-  ;; See <https://bitbucket.org/lyro/evil/issue/301/evil-define-key-for-minor-mode-does-not>.
-  (evil-normalize-keymaps)
+  (with-eval-after-load 'evil
+    ;; Insert heading.
+    (evil-define-key 'normal org-mode-map (kbd "C-c RET") #'evil-org-insert-heading)
+    (define-key org-mode-map (kbd "M-o") #'evil-org-insert-heading)
+    (define-key org-mode-map (kbd "C-M-o") #'evil-org-insert-todo-heading)
 
-  (defun evil-org-insert-heading ()
-    "Insert a heading in Org-Mode and switch to Evil's insert state."
-    (interactive)
-    (org-end-of-line)
-    (call-interactively #'org-insert-heading)
-    (unless (evil-insert-state-p)
-      (evil-append 1)))
+    ;; Replace the normal Evil end-of-line with an org-specific one.
+    (evil-define-key 'motion org-mode-map [remap evil-end-of-line] #'org-end-of-line)
 
-  (defun evil-org-insert-todo-heading ()
-    "Insert a TODO heading in Org-Mode and switch to Evil's insert state."
-    (interactive)
-    (org-end-of-line)
-    (call-interactively #'org-insert-todo-heading)
-    (unless (evil-insert-state-p)
-      (evil-append 1)))
+    ;; Normalize keymaps.
+    ;; This is necessary for bindings defined using `evil-define-key' to be active before the first Evil state change.
+    ;; See <https://bitbucket.org/lyro/evil/issue/301/evil-define-key-for-minor-mode-does-not>.
+    (evil-normalize-keymaps)
+
+    (defun evil-org-insert-heading ()
+      "Insert a heading in Org-Mode and switch to Evil's insert state."
+      (interactive)
+      (org-end-of-line)
+      (call-interactively #'org-insert-heading)
+      (unless (evil-insert-state-p)
+        (evil-append 1)))
+
+    (defun evil-org-insert-todo-heading ()
+      "Insert a TODO heading in Org-Mode and switch to Evil's insert state."
+      (interactive)
+      (org-end-of-line)
+      (call-interactively #'org-insert-todo-heading)
+      (unless (evil-insert-state-p)
+        (evil-append 1))))
 
 
   ;;; Other.

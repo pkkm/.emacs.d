@@ -1,17 +1,18 @@
 ;;; Pascal.
 
-(require 'conf/editing/indentation)
-
 (use-package pascal ; Bundled with Emacs.
   :defer t
   :config
 
   ;; Indentation (Smart Tabs).
-  (smart-tabs-add-language-support pascal pascal-mode-hook
-    ((pascal-indent-line . pascal-indent-level)))
-  (defvaralias 'pascal-case-indent 'pascal-indent-level) ; Indent case statements same as everything else.
-  (smart-tabs-insinuate 'pascal)
-  (add-hook 'pascal-mode-hook #'enable-indent-tabs-mode)
+  (with-eval-after-load 'smart-tabs-mode
+    (smart-tabs-add-language-support pascal pascal-mode-hook
+      ((pascal-indent-line . pascal-indent-level)))
+    (smart-tabs-insinuate 'pascal)
+    (add-hook 'pascal-mode-hook #'enable-indent-tabs-mode))
+
+  ;; Indent case statements same as everything else.
+  (defvaralias 'pascal-case-indent 'pascal-indent-level)
 
   ;; Electric characters:
   ;; # -- unindent if this is a CPP directive.

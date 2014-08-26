@@ -38,7 +38,7 @@
     (setq org-n-level-faces 6)))
 
 ;; Don't let Evil set the cursor color.
-(require 'conf/evil)
-(setq evil-default-cursor nil)
+(with-eval-after-load 'evil
+  (setq evil-default-cursor nil))
 
 (provide 'conf/view/color-theme)

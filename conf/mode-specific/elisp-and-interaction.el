@@ -35,13 +35,12 @@
   :init
   (add-hook 'emacs-lisp-mode-hook #'turn-on-elisp-slime-nav-mode))
 
-(require 'conf/editing/completion)
-(require 'conf/evil)
 (use-package lisp-mode ; Bundled with Emacs; contains lisp-mode, emacs-lisp-mode and lisp-interaction-mode.
   :defer t
   :config
 
   ;; Completion sources.
+  (require 'conf/editing/completion)
   (let ((my-elisp-ac-sources '(ac-source-functions ac-source-variables ac-source-symbols ac-source-features)))
     (add-to-list 'my-major-mode-ac-sources `(emacs-lisp-mode . ,my-elisp-ac-sources))
     (add-to-list 'my-major-mode-ac-sources `(lisp-interaction-mode . ,my-elisp-ac-sources)))
@@ -56,7 +55,8 @@
     (bind-key "C-c C-e" #'pp-eval-last-sexp map)
     (bind-key "C-c C-i" #'eval-print-last-sexp map) ; Insert value at point.
 
-    (bind-key "C-c C-r" #'evil-eval-region map)
+    (with-eval-after-load 'evil
+      (bind-key "C-c C-r" #'evil-eval-region map))
     (bind-key "C-c C-b" #'eval-buffer map)
     (bind-key "C-c C-d" #'eval-defun map) ; Eval the top-level form containing point (or after point)))).
 

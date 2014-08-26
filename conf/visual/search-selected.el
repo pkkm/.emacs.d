@@ -1,7 +1,5 @@
 ;;; Search for the selected text.
 
-(require 'conf/evil)
-
 (defun search-text-between (begin end forward-p)
   "Search for the text between BEGIN and END (character offsets), forward if FORWARD-P is t."
   (let ((text-to-search (buffer-substring-no-properties begin end)))
@@ -20,7 +18,8 @@
   (deactivate-mark)
   (search-text-between sel-begin sel-end nil))
 
-(define-key evil-visual-state-map (kbd "*") 'search-selection-forward)
-(define-key evil-visual-state-map (kbd "#") 'search-selection-backward)
+(with-eval-after-load 'evil
+  (define-key evil-visual-state-map (kbd "*") 'search-selection-forward)
+  (define-key evil-visual-state-map (kbd "#") 'search-selection-backward))
 
 (provide 'conf/visual/search-selected)

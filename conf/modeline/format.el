@@ -1,6 +1,5 @@
 ;;; Modeline with left, center and right aligned parts (using powerline).
 
-(require 'conf/evil) ; To display the current state.
 (require 'conf/utils/ignore-messages) ; Used: ignore-specific-messages.
 (require 'conf/utils/paths) ; Used: shorten-path.
 

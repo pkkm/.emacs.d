@@ -1,15 +1,13 @@
 ;;; C and C++.
 
-(require 'conf/editing/indentation)
-(require 'conf/other/compiling)
-
 (use-package cc-mode ; Bundled with Emacs.
   :defer t
   :config
 
   ;; Indentation (Smart Tabs).
-  (smart-tabs-insinuate 'c 'c++)
-  (add-hook 'c-mode-common-hook #'enable-indent-tabs-mode)
+  (with-eval-after-load 'smart-tabs-mode
+    (smart-tabs-insinuate 'c 'c++)
+    (add-hook 'c-mode-common-hook #'enable-indent-tabs-mode))
 
   ;; Don't redefine TAB (so that it can be used for completion).
   (defun my-kill-local-tab-binding ()
@@ -23,6 +21,7 @@
           (other . "linux")))
 
   ;; Default compilation, execution and cleaning commands.
+  (require 'conf/other/compiling)
   (defun set-c-compile-run-clean-commands ()
     (interactive)
     (when (buffer-file-name)

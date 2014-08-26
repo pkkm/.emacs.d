@@ -1,11 +1,10 @@
 ;;; Undo the last modification in region (selection).
 ;;; Does not work at end of file!
 
-(require 'conf/evil)
-
 ;; In visual state, use "u" for undoing instead of lowercasing ("g u").
 ;; ("C-r" already redoes.)
-(define-key evil-visual-state-map (kbd "u") 'undo-tree-undo)
+(with-eval-after-load 'evil
+  (define-key evil-visual-state-map (kbd "u") 'undo-tree-undo))
 
 ;; Preserve region when undoing.
 (defadvice undo-tree-undo (around keep-region activate)

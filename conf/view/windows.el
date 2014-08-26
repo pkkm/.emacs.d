@@ -1,7 +1,5 @@
 ;;; Windows.
 
-(require 'conf/evil)
-
 ;; Track the most recently created window.
 (defvar most-recently-created-window nil
   "The window that was most recently created. This variable gets set when `split-window-internal' is called.")
@@ -32,8 +30,9 @@
 (defvar my-window-map (make-sparse-keymap)
   "Keymap for my window-related commands.")
 (define-prefix-command 'my-window-map)
-(define-key evil-motion-state-map (kbd "<tab>") 'my-window-map)
-(define-key evil-motion-state-map (kbd "TAB") 'my-window-map)
+(with-eval-after-load 'evil
+  (define-key evil-motion-state-map (kbd "<tab>") 'my-window-map)
+  (define-key evil-motion-state-map (kbd "TAB") 'my-window-map))
 
 
 ;; Split (with count: leave COUNT lines in the initially-selected window).

@@ -1,11 +1,10 @@
 ;;; Keys for buffers.
 
-(require 'conf/evil)
-
 (defvar my-buffer-map (make-sparse-keymap)
   "Keymap for buffer-related commands.")
 (define-prefix-command 'my-buffer-map)
-(define-key evil-motion-state-map (kbd "-") 'my-buffer-map)
+(with-eval-after-load 'evil
+  (define-key evil-motion-state-map (kbd "-") 'my-buffer-map))
 
 ;; Switch.
 ;; Press C-k to kill the highlighted buffer.

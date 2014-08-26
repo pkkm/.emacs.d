@@ -3,7 +3,6 @@
 ;; Lisp Interaction mode inherits hooks, etc. from Emacs Lisp mode, but doesn't inherit its keymaps.
 
 (require 'conf/utils/hooks) ; Used: add-hooks.
-(require 'conf/view/indent-guides)
 
 (use-package lisp-mode ; Bundled with Emacs; contains lisp-mode, emacs-lisp-mode and lisp-interaction-mode.
   :defer t
@@ -17,7 +16,8 @@
              #'my-lisp-indentation)
 
   ;; Indent guides.
-  (add-hooks '(lisp-mode-hook emacs-lisp-mode-hook)
-             #'indent-guide-mode))
+  (with-eval-after-load 'indent-guide
+    (add-hooks '(lisp-mode-hook emacs-lisp-mode-hook)
+               #'indent-guide-mode)))
 
 (provide 'conf/mode-specific/lisps)

@@ -56,9 +56,9 @@
   (setq ac-completing-map (make-sparse-keymap)) ; There is also `ac-menu-map', for when the menu is active.
 
   ;; Cycle candidates with C-n and C-p, or activate `auto-complete' if it's not active.
-  (require 'conf/evil)
-  (evil-define-key 'insert ac-mode-map (kbd "C-n") #'auto-complete)
-  (evil-define-key 'insert ac-mode-map (kbd "C-p") #'auto-complete)
+  (with-eval-after-load 'evil
+    (evil-define-key 'insert ac-mode-map (kbd "C-n") #'auto-complete)
+    (evil-define-key 'insert ac-mode-map (kbd "C-p") #'auto-complete))
   (define-key ac-completing-map (kbd "C-n") #'ac-next)
   (define-key ac-completing-map (kbd "C-p") #'ac-previous)
 

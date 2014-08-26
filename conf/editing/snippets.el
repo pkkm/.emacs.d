@@ -1,7 +1,5 @@
 ;;; Snippets.
 
-(require 'conf/evil)
-
 (use-package yasnippet
   :ensure yasnippet
   :diminish yas-minor-mode
@@ -33,8 +31,14 @@
   (define-key yas-keymap (kbd "<tab>") nil)
 
   ;; Use C-y and C-s to navigate between fields. When no snippet is active, expand a snippet with C-s.
-  (evil-define-key 'insert yas-minor-mode-map (kbd "C-s") #'yas-expand)
+  (with-eval-after-load 'evil
+    (evil-define-key 'insert yas-minor-mode-map (kbd "C-s") #'yas-expand))
   (define-key yas-keymap (kbd "C-s") #'yas-next-field)
   (define-key yas-minor-mode-map (kbd "C-y") #'yas-prev-field)) ; Even though navigating between fields makes sense only immediately after expanding a snippet (when `yas-keymap' is active), we place the binding in `yas-minor-mode-map' so that C-y errors out instead of starting isearch.
 
 (provide 'conf/editing/snippets)
+
+
+
+
+
