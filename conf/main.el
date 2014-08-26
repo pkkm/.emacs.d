@@ -1,8 +1,6 @@
 ;;; `require' my customizations based on some conditions.
 
 (require 'conf/init/check-version)
-(require 'conf/utils/paths)
-(require 'conf/utils/modes)
 
 (require 'conf/packages)
 (require 'conf/evil)
