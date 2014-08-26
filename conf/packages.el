@@ -33,4 +33,8 @@ This will happen at most once per session, as this advice is removed when `packa
 (package-ensure-installed 'use-package)
 (require 'use-package) ; If `use-package' is autoloaded, this file produces an error when its compiled version is loaded.
 
+;; A replacement for `eval-after-load' that can depend on multiple packages/features.
+;; When used with a single package, this works like the :config argument of `use-package'.
+(autoload 'with-package "with-package") ; Installed in `my-vendor-dir'.
+
 (provide 'conf/packages)
