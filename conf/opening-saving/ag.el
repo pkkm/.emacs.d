@@ -5,4 +5,7 @@
 
 (setq ag-highlight-search t)
 
+(global-set-key (kbd "C-c a") #'ag)
+(global-set-key (kbd "C-c A") #'ag-project)
+
 (provide 'conf/opening-saving/ag)

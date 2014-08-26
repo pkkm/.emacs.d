@@ -19,9 +19,4 @@
 (global-set-key (kbd "C-c d") #'delete-this-buffer-and-file)
 (global-set-key (kbd "C-c m") #'move-this-buffer-and-file)
 
-;; Ag -- like grep, but better for source code.
-(with-eval-after-load 'ag
-  (global-set-key (kbd "C-c a") #'ag)
-  (global-set-key (kbd "C-c A") #'ag-project))
-
 (provide 'conf/opening-saving/keys)
