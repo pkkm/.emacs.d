@@ -43,4 +43,13 @@ This will happen at most once per session, as this advice is removed when `packa
 (package-ensure-installed 'use-package)
 (require 'use-package) ; If `use-package' is autoloaded, this file produces an error when its compiled version is loaded.
 
+;; Define `with-eval-after-load' if it's not present.
+;; This is for compatibility with Emacs 24.3 (`with-eval-after-load' was introduced in 24.4).
+(unless (fboundp 'with-eval-after-load)
+  (defmacro with-eval-after-load (file &rest body)
+    "Execute BODY after FILE is loaded.
+FILE is normally a feature name, but it can also be a file name, in case that file does not provide any feature."
+    (declare (indent 1) (debug t))
+    `(eval-after-load ,file (lambda () ,@body))))
+
 (provide 'conf/conf-init)
