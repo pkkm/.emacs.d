@@ -74,7 +74,6 @@
 
 (require 'conf/operators/insert-newline)
 (require 'conf/operators/break-line)
-(require 'conf/operators/clipboard)
 (require 'conf/operators/prefix-arguments)
 (require 'conf/operators/inc-dec-number)
 (require 'conf/operators/yank-to-eol)
