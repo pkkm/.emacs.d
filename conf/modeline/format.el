@@ -10,7 +10,7 @@
   (defalias 'ml-separator-right 'powerline-nil-left)
   (add-hook 'after-load-theme-hook #'powerline-reset t) ; Reset separator colors after a theme has been loaded.
 
-  (package-ensure-installed 'dash) (require 'dash) ; Used: -interpose.
+  (use-package dash :ensure dash) ; Used: -interpose.
   (defun interpose-with-spaces (&rest parts)
     "Delete empty elements from PARTS, and separate the rest with \" \"."
     (let ((non-empty-parts (delq nil (delq "" parts))))

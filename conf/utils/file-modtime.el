@@ -8,7 +8,7 @@ If FILE cannot be read, return nil."
         (nth 5 attributes)
       nil)))
 
-(package-ensure-installed 'dash) (require 'dash) ; Used: -any?.
+(use-package dash :ensure dash) ; Used: -any?.
 (defun any-file-in-directory-newer-than-p (directory time)
   "Returns t if any file in DIRECTORY has been modified later than TIME, otherwise nil."
   (-any? (lambda (file)
