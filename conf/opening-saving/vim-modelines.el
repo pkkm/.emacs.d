@@ -1,7 +1,9 @@
-;;; Read Vim modelines (like local variables in Emacs).
-;;; Example: /* vim: shiftwidth=4 expandtab: */.
+;;; Read Vim modelines (like file-local variables in Emacs).
+;; Example: /* vim: shiftwidth=4 expandtab: */.
 
-(autoload 'vim-modeline/do "vim-modeline") ; In `my-vendor-dir'.
-(add-hook 'find-file-hook #'vim-modeline/do)
+(use-package vim-modeline ; Installed in `my-vendor-dir'.
+    :commands vim-modeline/do
+    :init
+    (add-hook 'find-file-hook #'vim-modeline/do))
 
 (provide 'conf/opening-saving/vim-modelines)
