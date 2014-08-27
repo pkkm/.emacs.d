@@ -55,7 +55,7 @@
     (when (not (display-graphic-p)) ; Versions with the Meta key, for terminals which don't support the above characters.
       (define-key sp-keymap (kbd "M-)") #'sp-down-sexp)
       (define-key sp-keymap (kbd "M-(") #'sp-backward-up-sexp))
-    (when (eq window-system 'w32) ; C-( and C-) are incorrectly interpreted with my Portable Keyboard Layout config.
+    (when (eq window-system 'w32) ; C-( and C-) are interpreted by Portable Keyboard Layout as if shift was also pressed.
       (define-key sp-keymap (kbd "C-2") #'sp-down-sexp)
       (define-key sp-keymap (kbd "C-1") #'sp-backward-up-sexp))
 
@@ -85,9 +85,9 @@
     (when (not (display-graphic-p)) ; Versions with the Meta key, for terminals which don't support the above characters.
       (define-key sp-keymap (kbd "M-}") #'sp-forward-slurp-sexp)
       (define-key sp-keymap (kbd "M-{") #'sp-forward-barf-sexp))
-    (when (eq window-system 'w32) ; C-{ and C-} are incorrectly interpreted with my Portable Keyboard Layout config.
+    (when (eq window-system 'w32) ; C-{ and C-} are interpreted by Portable Keyboard Layout as if shift was also pressed.
       (define-key sp-keymap (kbd "C-3") #'sp-forward-slurp-sexp)
-      (define-key sp-keymap (kbd "C-4") #'sp-forward-barf-sexp))
+      (define-key sp-keymap (kbd "C-5") #'sp-forward-barf-sexp))
     (evil-define-key 'normal sp-keymap (kbd "g {") #'sp-backward-slurp-sexp)
     (evil-define-key 'normal sp-keymap (kbd "g }") #'sp-backward-barf-sexp)
 
