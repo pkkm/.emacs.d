@@ -1,21 +1,30 @@
 ;;; Remember recently opened files and allow quick access to them.
 
-;; Save in `my-savefile-dir'/recentf.
-(setq recentf-save-file
-      (expand-file-name "recentf" my-savefile-dir))
+(use-package recentf ; Bundled with Emacs.
+  :commands recentf-mode
 
-(setq recentf-max-saved-items 200)
+  :pre-load ; These have to be set before enabling recentf-mode.
 
-(setq recentf-auto-cleanup 120) ; Clean up the list after 2 minutes of idle. Use `recentf-cleanup' to manually trigger it.
+  ;; Clean up non-existent files from the list after 2 minutes of idle. Use `recentf-cleanup' to manually trigger this.
+  (setq recentf-auto-cleanup 120)
 
-(defun ido-recentf-open ()
-  "Use `ido-completing-read' to \\[find-file] a recent file"
-  (interactive)
-  (if (find-file (ido-completing-read "Find recent file: " recentf-list))
-      (message "Opening file...")
-    (message "Abort")))
-(global-set-key (kbd "C-c r") #'ido-recentf-open)
+  ;; Save in `my-savefile-dir'/recentf.
+  (setq recentf-save-file
+        (expand-file-name "recentf" my-savefile-dir))
 
-(recentf-mode 1) ; This can't come before setting `recentf-auto-cleanup'.
+  (setq recentf-max-saved-items 200)
+
+  :init
+
+  (recentf-mode 1)
+
+  (with-eval-after-load 'ido
+    (defun ido-recentf-open ()
+      "Use `ido-completing-read' to open a recent file."
+      (interactive)
+      (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+          (message "Opening file...")
+        (message "Abort")))
+    (global-set-key (kbd "C-c r") #'ido-recentf-open)))
 
 (provide 'conf/opening-saving/recent-files)
