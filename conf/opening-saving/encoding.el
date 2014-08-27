@@ -1,5 +1,10 @@
 ;;; Use UTF-8 by default, no matter the system we're running on.
 
+;; To specify a coding argument for the next command, use:
+;;   M-x universal-coding-system-argument RET
+;; or:
+;;   C-x RET c
+
 ;; Coding system for newly created buffers, I/O, etc.
 (prefer-coding-system 'utf-8-unix)
 (set-default-coding-systems 'utf-8-unix)
