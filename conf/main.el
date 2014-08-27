@@ -69,6 +69,7 @@
 (require 'conf/opening-saving/vim-modelines)
 (require 'conf/opening-saving/version-control)
 (require 'conf/opening-saving/recent-files)
+(require 'conf/opening-saving/diff)
 
 (require 'conf/operators/insert-newline)
 (require 'conf/operators/break-line)
