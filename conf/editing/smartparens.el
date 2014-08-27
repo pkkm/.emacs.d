@@ -17,10 +17,6 @@
   ;; Don't underline the currently edited expression.
   (setq sp-highlight-pair-overlay nil)
 
-  ;; Skip closing pair instead of inserting it.
-  ;; When the closing delimiter is typed inside a sexp, place the point after the sexp end.
-  (setq-default sp-autoskip-closing-pair 'always)
-
   ;; What to consider a sexp.
   (setq sp-navigate-consider-sgml-tags ; In which modes to consider SGML tags to be sexps.
         (append sp-navigate-consider-sgml-tags
