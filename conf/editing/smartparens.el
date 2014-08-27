@@ -49,7 +49,7 @@
     ;;(define-key sp-keymap (kbd "C-M-f") #'sp-forward-sexp)
     ;;(define-key sp-keymap (kbd "C-M-p") #'sp-previous-sexp)
 
-    ;; Move up/down nested sexps (cursor at the beginning).
+    ;; Move inside/outside nested sexps.
     (define-key sp-keymap (kbd "C-)") #'sp-down-sexp)
     (define-key sp-keymap (kbd "C-(") #'sp-backward-up-sexp)
     (when (not (display-graphic-p)) ; Versions with the Meta key, for terminals which don't support the above characters.
@@ -78,7 +78,9 @@
     ;; Delete to the end of sexp.
     (evil-define-key 'motion sp-keymap (kbd "M-d") #'sp-kill-hybrid-sexp)
 
-    ;; Slurp and barf (move the next/previous expression inside/outside the current one).
+    ;; Slurp/barf forward.
+    ;;   Slurp -- move the next sexp inside the one we're in.
+    ;;   Barf -- push out the last element of the sexp we're in.
     ;; With non-numeric prefix, slurp/barf as many as possible.
     (define-key sp-keymap (kbd "C-}") #'sp-forward-slurp-sexp)
     (define-key sp-keymap (kbd "C-{") #'sp-forward-barf-sexp)
@@ -88,10 +90,11 @@
     (when (eq window-system 'w32) ; C-{ and C-} are interpreted by Portable Keyboard Layout as if shift was also pressed.
       (define-key sp-keymap (kbd "C-3") #'sp-forward-slurp-sexp)
       (define-key sp-keymap (kbd "C-5") #'sp-forward-barf-sexp))
+    ;; Slurp/barf backward -- operate on the sexp before the one we're in.
     (evil-define-key 'normal sp-keymap (kbd "g {") #'sp-backward-slurp-sexp)
     (evil-define-key 'normal sp-keymap (kbd "g }") #'sp-backward-barf-sexp)
 
-    ;; Absorb -- move the sexp before the one we're in into it, at the cursor position.
+    ;; Absorb -- move the previous sexp inside the one we're in, at point.
     ;; Emit -- the reverse.
     ;; Example (| -- cursor):
     ;;  (do-stuff 1)                  (save-excursion
@@ -109,17 +112,18 @@
     ;;      (do-thing 2)))               (do-thing 2)))
     (evil-define-key 'normal sp-keymap (kbd "g p c") #'sp-convolute-sexp)
 
-    ;; Add the expression after/before point to the list before/after point (like slurp forward/backward, but from the outside).
-    (evil-define-key 'normal sp-keymap (kbd "g p p") #'sp-add-to-previous-sexp)
-    (evil-define-key 'normal sp-keymap (kbd "g p n") #'sp-add-to-next-sexp)
+    ;; Add the sexp after point to the one before point, or the other way around.
+    (evil-define-key 'normal sp-keymap (kbd "g p p") #'sp-add-to-previous-sexp) ; Add the next sexp to the previous one.
+    (evil-define-key 'normal sp-keymap (kbd "g p n") #'sp-add-to-next-sexp) ; Add the previous sexp to the next one.
 
     ;; Transpose sexps -- swap the next with the previous.
     ;; With prefix ARG, drag the sexp before point that many sexps forward (ARG can be negative).
     (evil-define-key 'normal sp-keymap (kbd "g p t") #'sp-transpose-sexp)
 
-    ;; Splice (remove the delimiters of enclosing sexp).
-    ;; With prefix ARG, splice the sexp that many levels up.
+    ;; Splice (remove the delimiters of current sexp).
+    ;; With numeric argument, splice the sexp that many levels up.
     (evil-define-key 'normal sp-keymap (kbd "g s") #'sp-splice-sexp)
+    ;; Splice sexp with killing. Very useful for deleting conditionals while preserving [some] sexps inside.
     (evil-define-key 'normal sp-keymap (kbd "g DEL") #'sp-splice-sexp-killing-backward)
     (evil-define-key 'normal sp-keymap (kbd "g M-DEL") #'sp-splice-sexp-killing-forward)
     (evil-define-key 'normal sp-keymap (kbd "g p DEL") #'sp-splice-sexp-killing-around)
