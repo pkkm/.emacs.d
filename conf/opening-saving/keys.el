@@ -14,9 +14,4 @@
 ;; Revert.
 (global-set-key (kbd "C-c v") #'revert-buffer)
 
-;; Rename/delete file (and buffer).
-(require 'conf/opening-saving/move-delete)
-(global-set-key (kbd "C-c d") #'delete-this-buffer-and-file)
-(global-set-key (kbd "C-c m") #'move-this-buffer-and-file)
-
 (provide 'conf/opening-saving/keys)

@@ -21,6 +21,7 @@
       (rename-buffer new-name t) ; t -- if the name is taken, pick an unique one.
       (set-visited-file-name new-name)))
   (set-buffer-modified-p nil))
+(global-set-key (kbd "C-c m") #'move-this-buffer-and-file)
 
 (defun delete-this-buffer-and-file ()
   "Removes the file visited by the current buffer and kills the buffer."
@@ -32,5 +33,6 @@
         (delete-file filename t) ; t -- move to thrash (when on Windows). Always returns `nil'.
         (unless (file-exists-p filename)
           (kill-buffer))))))
+(global-set-key (kbd "C-c d") #'delete-this-buffer-and-file)
 
 (provide 'conf/opening-saving/move-delete)
