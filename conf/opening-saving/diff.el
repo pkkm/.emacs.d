@@ -1,9 +1,6 @@
 ;;; Diff directories.
 
-(autoload
-  'ediff-trees
-  "ediff-trees" ; In `my-vendor-dir'.
-  "Starts a new ediff session that recursively compares two trees."
-  t) ; Interactive.
+(use-package ediff-trees ; Installed in `my-vendor-dir'.
+  :commands ediff-trees)
 
 (provide 'conf/opening-saving/diff)
