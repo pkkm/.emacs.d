@@ -10,10 +10,6 @@
   ;; Flex matching.
   (setq ido-enable-flex-matching t)
 
-  ;; Savefile.
-  (setq ido-save-directory-list-file
-        (expand-file-name "ido" my-savefile-dir))
-
 
   ;;; Keybindings.
 

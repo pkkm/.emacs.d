@@ -26,10 +26,6 @@
   ;; Help.
   (setq ac-quick-help-delay 1)
 
-  ;; Savefile.
-  (setq ac-comphist-file
-        (expand-file-name "auto-complete-history" my-savefile-dir))
-
   ;; Use `auto-complete' for `completion-at-point'.
   ;; `completion-at-point' is used when TAB is pressed, the current line is already properly indented and:
   ;;   * `tab-always-indent' is set to 'complete

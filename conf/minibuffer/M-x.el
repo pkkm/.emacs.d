@@ -9,7 +9,6 @@
 
   ;; History.
   (setq smex-history-length 100)
-  (setq smex-save-file (expand-file-name "M-x-history" my-savefile-dir)) ; Savefile: my-savefile-dir/smex-items.
 
   (setq smex-prompt-string "M-x "))
 

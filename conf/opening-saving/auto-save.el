@@ -1,10 +1,8 @@
 ;;; Auto-saving (to prevent loss of data).
 
-;; Save the list of auto-save files in "`my-savefile-dir'/auto-save-file-list/saves-<computer ID>".
-(use-package dash :ensure dash) ; Used: ->>.
+;; Savefiles for the lists of auto-save files.
+;; Despite `user-emacs-directory' being set in init.el to my directory for savefiles, auto-save file lists would still be stored under ~/.emacs.d/auto-save-list (something in `startup.el' seems to be responsible for this), so we have to set this manually.
 (setq auto-save-list-file-prefix
-      (->> my-savefile-dir
-        (expand-file-name "auto-save-file-list")
-        (expand-file-name "saves-")))
+      (locate-user-emacs-file "auto-save-file-list/"))
 
 (provide 'conf/opening-saving/auto-save)

@@ -11,7 +11,7 @@
     (-uniq)))
 
 (defvar flattened-conf-file
-  (expand-file-name "conf-flattened.el" my-savefile-dir)
+  (locate-user-emacs-file "conf-flattened.el")
   "Name of the file in which to store the flattened contents of the conf/ directory.")
 
 (defun flatten-conf ()

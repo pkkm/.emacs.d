@@ -8,10 +8,6 @@
   ;; Clean up non-existent files from the list after 2 minutes of idle. Use `recentf-cleanup' to manually trigger this.
   (setq recentf-auto-cleanup 120)
 
-  ;; Save in `my-savefile-dir'/recentf.
-  (setq recentf-save-file
-        (expand-file-name "recentf" my-savefile-dir))
-
   (setq recentf-max-saved-items 200)
 
   :init

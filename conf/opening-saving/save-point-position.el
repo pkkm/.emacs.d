@@ -3,8 +3,6 @@
 (use-package saveplace ; Bundled with Emacs.
   :demand t
   :config
-  (setq-default save-place t)
-  (setq save-place-file
-        (expand-file-name "point-positions" my-savefile-dir)))
+  (setq-default save-place t))
 
 (provide 'conf/opening-saving/save-point-position)

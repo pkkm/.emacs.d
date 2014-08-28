@@ -7,8 +7,10 @@
   "The directory for `package.el' packages.")
 (defvar my-vendor-dir (expand-file-name "vendor" main-dir)
   "The directory for manually installed (non-`package.el') packages.")
-(defvar my-savefile-dir (expand-file-name "savefiles" main-dir)
-  "The directory for automatically generated save/history/etc. files.")
+
+;; Make Emacs think that the `.emacs.d' directory is `main-dir'/savefiles, so that packages don't clutter `main-dir' with their savefiles.
+;; To get the path to a file inside this directory, use `locate-user-emacs-file' (this function is also used by packages to determine where they will save their files).
+(setq user-emacs-directory (expand-file-name "savefiles/" main-dir)) ; The trailing slash is mandatory.
 
 ;; Add the (non-`package.el') packages in `my-vendor-dir' to `load-path'.
 (add-to-list 'load-path my-vendor-dir)
@@ -26,7 +28,7 @@
 ;; Load the flattened configuration file if we're running from my USB drive.
 (defvar load-flattened-conf (not (not (getenv "BUNDLE_ROOT"))) ; Double negation so that the variable is t or nil.
   "Should Emacs configuration be loaded from `flattened-conf-file' instead of the conf/ directory?")
-(setq flattened-conf-file (expand-file-name "conf-flattened.el" my-savefile-dir))
+(setq flattened-conf-file (locate-user-emacs-file "conf-flattened.el"))
 
 (if (and load-flattened-conf
          (file-exists-p flattened-conf-file))

@@ -83,9 +83,7 @@
 (require 'conf/configuring/command-log)
 
 (require 'conf/other/enable-confusing-commands)
-(require 'conf/other/eshell)
 (require 'conf/other/guide-key)
-(require 'conf/other/games)
 (require 'conf/other/convenient-prefix-keys)
 (require 'conf/other/compiling)
 (require 'conf/other/clipboard)
