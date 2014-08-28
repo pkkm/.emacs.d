@@ -4,13 +4,7 @@
   :ensure smex
   :defer t
   :bind (("M-x" . smex)
-         ("C-x m" . smex))
-  :config
-
-  ;; History.
-  (setq smex-history-length 100)
-
-  (setq smex-prompt-string "M-x "))
+         ("C-x m" . smex)))
 
 ;; Unbound, interesting Smex commands:
 ;;  * smex-major-mode-commands -- limit to the commands relevant to the active major mode (try with Dired or Magit).
