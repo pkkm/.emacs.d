@@ -1,11 +1,13 @@
 ;;; Messages that are displayed when Emacs starts up.
 
-;; Don't display warnings of type "initialization".
-;; This suppresses the warning on every Emacs startup that .emacs.d is in the `load-path'.
-(dolist (var '(warning-suppress-types warning-suppress-log-types))
-  (if (boundp var)
-      (add-to-list var '(initialization))
-    (set var '((initialization)))))
+;; Suppress the warning about .emacs.d being in `load-path'.
+(require 'conf/utils/strings) ; Used: string-starts-with.
+(defadvice display-warning
+    (around no-warn-.emacs.d-in-load-path (type message &rest unused) activate)
+  "Ignore the warning about the `.emacs.d' directory being in `load-path'."
+  (unless (and (eq type 'initialization)
+               (string-starts-with message "Your `load-path' seems to contain\nyour `.emacs.d' directory"))
+    ad-do-it))
 
 ;; Start with an empty *scratch* buffer.
 (setq initial-scratch-message nil)
