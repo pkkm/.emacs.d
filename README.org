@@ -14,3 +14,4 @@
    - =ido=, =ido-ubiquitous=, =smex=, =flx-ido= :: Fuzzy completion in the minibuffer.
    - =smartparens= :: Provides shortcuts for manipulating entire s-expressions at once. Less strict than =paredit=, and its usefulness is not limited to Lisps.
    - =auto-complete=, =yasnippet= :: Completion menu with snippets. I use =auto-complete= over =company-mode= mostly because of inertia.
+   - =magit= :: An efficient and convenient Git interface.
