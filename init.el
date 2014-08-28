@@ -11,8 +11,8 @@
   "The directory for automatically generated save/history/etc. files.")
 
 ;; Add the (non-ELPA) packages in `my-vendor-dir` to `load-path`.
+(add-to-list 'load-path my-vendor-dir)
 (let ((default-directory my-vendor-dir))
-  (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
 ;; Config organization:
@@ -21,8 +21,7 @@
 ;;   .el files are `require'd in main.el and in each other (when there are dependencies).
 
 ;; Add main-dir (the parent directory of conf/) to the load path.
-(let ((default-directory main-dir))
-  (normal-top-level-add-to-load-path '(".")))
+(add-to-list 'load-path main-dir t) ; Add to the end of `load-path' so that .el files in `main-dir' don't shadow libraries.
 
 ;; Load the flattened configuration file if we're running from my USB drive.
 (defvar load-flattened-conf (not (not (getenv "BUNDLE_ROOT"))) ; Double negation so that the variable is t or nil.
