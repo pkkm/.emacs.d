@@ -40,10 +40,10 @@
   :config
 
   ;; Completion sources.
-  (require 'conf/editing/completion)
-  (let ((my-elisp-ac-sources '(ac-source-functions ac-source-variables ac-source-symbols ac-source-features)))
-    (add-to-list 'my-major-mode-ac-sources `(emacs-lisp-mode . ,my-elisp-ac-sources))
-    (add-to-list 'my-major-mode-ac-sources `(lisp-interaction-mode . ,my-elisp-ac-sources)))
+  (with-eval-after-load 'auto-complete
+    (let ((my-elisp-ac-sources '(ac-source-functions ac-source-variables ac-source-symbols ac-source-features)))
+      (add-to-list 'my-major-mode-ac-sources `(emacs-lisp-mode . ,my-elisp-ac-sources))
+      (add-to-list 'my-major-mode-ac-sources `(lisp-interaction-mode . ,my-elisp-ac-sources))))
 
   ;; Bindings for evaluating elisp.
   (defun evil-eval-region (region-start region-end)
