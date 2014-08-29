@@ -2,8 +2,9 @@
 
 (use-package color-identifiers-mode
   :ensure color-identifiers-mode
+  :defer t
   :if (>= (display-color-cells) 256)
-  :config
+  :idle
   (global-color-identifiers-mode))
 
 (provide 'conf/view/color-identifiers)
