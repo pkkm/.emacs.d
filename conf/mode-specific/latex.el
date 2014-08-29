@@ -1,6 +1,6 @@
 ;;; LaTeX.
 
-(use-package tex-site
+(use-package tex
   :ensure auctex
   :defer t
   :config
@@ -35,13 +35,10 @@
   (setq TeX-clean-confirm nil)
 
   ;; Use zathura for viewing PDF files.
-  (require 'conf/utils/hooks) ; Used: add-one-shot-hook.
-  (defun my-LaTeX-use-zathura-for-pdf ()
-    (add-to-list 'TeX-view-program-list
-                 '("zathura"
-                   ("zathura" (mode-io-correlate "--page %(outpage)") " %o")))
-    (add-to-list 'TeX-view-program-selection '(output-pdf "zathura")))
-  (add-one-shot-hook 'LaTeX-mode-hook #'my-LaTeX-use-zathura-for-pdf)
+  (add-to-list 'TeX-view-program-list
+               '("zathura"
+                 ("zathura" (mode-io-correlate "--page %(outpage)") " %o")))
+  (add-to-list 'TeX-view-program-selection '(output-pdf "zathura"))
 
   ;; Make RET also indent.
   (with-eval-after-load 'evil

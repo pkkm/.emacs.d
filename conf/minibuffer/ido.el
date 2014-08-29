@@ -2,10 +2,10 @@
 ;;; This file is for general Ido settings -- for buffer, etc.-specific, see the respective files.
 
 (use-package ido ; Bundled with Emacs.
-  :demand t
-  :config
-
+  :commands ido-mode
+  :init
   (ido-mode 1)
+  :config
 
   ;; Flex matching.
   (setq ido-enable-flex-matching t)
@@ -54,7 +54,9 @@
 (use-package ido-vertical-mode
   :ensure ido-vertical-mode
   :commands ido-vertical-mode
-  :init (ido-vertical-mode)
+  :init
+  (with-eval-after-load 'ido
+    (ido-vertical-mode))
   :pre-load
   ;; For some reason, this needs to happen before `ido-vertical-mode' is loaded.
   (setq ido-vertical-decorations
@@ -74,13 +76,17 @@
 (use-package ido-ubiquitous
   :ensure ido-ubiquitous
   :commands ido-ubiquitous-mode
-  :init (ido-ubiquitous-mode 1))
+  :init
+  (with-eval-after-load 'ido
+    (ido-ubiquitous-mode 1)))
 
 ;; Better, more memory-hungry flex matching (used only on high-end machines).
 (use-package flx-ido
   :ensure flx-ido
   :if (not (eq (getenv "LOW_END_MACHINE") "true"))
   :commands flx-ido-mode
-  :init (flx-ido-mode 1))
+  :init
+  (with-eval-after-load 'ido
+    (flx-ido-mode 1)))
 
 (provide 'conf/minibuffer/ido)

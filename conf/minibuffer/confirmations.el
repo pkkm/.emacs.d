@@ -4,7 +4,8 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Don't ask for confirmation when visiting a nonexistent file or buffer.
-(setq ido-create-new-buffer 'always)
+(with-eval-after-load 'ido
+  (setq ido-create-new-buffer 'always))
 (setq confirm-nonexistent-file-or-buffer nil)
 
 ;; Don't ask for confirmation when killing a buffer with a running process.
