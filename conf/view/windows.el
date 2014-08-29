@@ -79,10 +79,14 @@
 (define-key my-window-map (kbd "R") #'evil-window-rotate-upwards)
 
 ;; Undo (restore previous window configuration).
-(winner-mode 1) ; winner-mode is included with Emacs.
-(setq winner-mode-map (make-sparse-keymap)) ; Disable winner-mode's default bindings.
-(define-key my-window-map (kbd "u") #'winner-undo)
-(define-key my-window-map (kbd "C-r") #'winner-redo)
+(use-package winner ; Bundled with Emacs.
+  :demand t
+  :init
+  (winner-mode 1)
+  (define-key my-window-map (kbd "u") #'winner-undo)
+  (define-key my-window-map (kbd "C-r") #'winner-redo)
+  :config
+  (setq winner-mode-map (make-sparse-keymap))) ; Disable winner-mode's default bindings.
 
 
 (provide 'conf/view/windows)
