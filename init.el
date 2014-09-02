@@ -3,8 +3,7 @@
 ;; Directories of this Emacs distribution.
 (defvar main-dir user-emacs-directory
   "The root directory of my Emacs configuration.")
-(defvar package-user-dir (expand-file-name "elpa" main-dir)
-  "The directory for `package.el' packages.")
+(setq package-user-dir (expand-file-name "elpa" main-dir)) ; The directory for `package.el' packages.
 (defvar my-vendor-dir (expand-file-name "vendor" main-dir)
   "The directory for manually installed (non-`package.el') packages.")
 
