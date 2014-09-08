@@ -3,6 +3,7 @@
 
 ;; Eldoc mode -- show function arguments in minibuffer.
 (use-package eldoc ; Included with Emacs.
+  :diminish eldoc-mode
   :commands turn-on-eldoc-mode
   :init
   (add-hook 'emacs-lisp-mode-hook #'turn-on-eldoc-mode)
