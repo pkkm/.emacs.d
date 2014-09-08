@@ -24,10 +24,13 @@
 ;;   (This enables configuration files to have feature names with a common prefix, e.g. 'conf/evil for evil.el, without the file names actually being prefixed.)
 ;;   .el files are `require'd in main.el and in each other (when there are dependencies).
 
-;; Load the flattened configuration file if we're running from my USB drive.
+;; Load the flattened configuration file if we're running from my USB drive, unless --no-flattened was passed.
+(setq flattened-conf-file (locate-user-emacs-file "conf-flattened.el"))
 (defvar load-flattened-conf (not (not (getenv "BUNDLE_ROOT"))) ; Double negation so that the variable is t or nil.
   "Should Emacs configuration be loaded from `flattened-conf-file' instead of the conf/ directory?")
-(setq flattened-conf-file (locate-user-emacs-file "conf-flattened.el"))
+(when (member "--no-flattened" command-line-args) ; We look for the argument manually because `command-switch-alist' is parsed after init.
+  (setq command-line-args (delete "--no-flattened" command-line-args))
+  (setq load-flattened-conf nil))
 
 (if (and load-flattened-conf
          (file-exists-p flattened-conf-file))
