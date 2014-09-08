@@ -6,6 +6,7 @@
 
 (use-package auto-complete
   :ensure auto-complete
+  :diminish auto-complete-mode
   :commands global-auto-complete-mode
   :init
   (global-auto-complete-mode 1)
