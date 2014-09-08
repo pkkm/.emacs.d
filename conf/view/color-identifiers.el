@@ -2,6 +2,7 @@
 
 (use-package color-identifiers-mode
   :ensure color-identifiers-mode
+  :diminish color-identifiers-mode
   :defer t
   :if (>= (display-color-cells) 256)
   :idle
