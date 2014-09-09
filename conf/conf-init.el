@@ -15,16 +15,17 @@
 ;; Or delete the elpa/ directory and launch Emacs for it to be recreated.
 
 ;; First time that `package-install' is called in this session, refresh the package list (if it wasn't already refreshed).
+;; A variable is used instead of removing the advice using `ad-remove-advice' and `ad-update' because on Emacs 24.3 and earlier, removing an advice while it's executing causes an error.
+(defvar packages-refreshed-this-session-p nil
+  "Was the package list refreshed in this session?")
 (defadvice package-install (before refresh-before-install activate)
-  "Refresh the package list before installing a new package.
-This will happen at most once per session, as this advice is removed when `package-refresh-contents' is called."
-  (package-refresh-contents))
-(defadvice package-refresh-contents (before disable-refresh-before-install activate)
-  "Remove the advice to `package-install' that refreshes the package list, then self-destruct."
-  (ad-remove-advice 'package-install 'before 'refresh-before-install)
-  (ad-update 'package-install) ; Necessary for the above change to take effect.
-  (ad-remove-advice 'package-refresh-contents 'before 'disable-refresh-before-install)
-  (ad-update 'package-refresh-contents))
+  "Refresh the package list before installing a new package, if `packages-refreshed-this-session-p' is nil.
+This will happen at most once per session, as `packages-refreshed-this-session-p' is set by an advice to `package-refresh-contents'."
+  (unless packages-refreshed-this-session-p
+    (package-refresh-contents)))
+(defadvice package-refresh-contents (before set-packages-refreshed activate)
+  "Set `packages-refreshed-this-session-p' to t."
+  (setq packages-refreshed-this-session-p t))
 
 (defun package-ensure-installed (package)
   "Ensure the ELPA package PACKAGE is installed."
