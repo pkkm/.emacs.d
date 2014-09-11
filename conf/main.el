@@ -1,6 +1,7 @@
 ;;; `require' my customizations based on some conditions.
 
-(require 'conf/conf-init)
+;; The order of these `require's must not be significant.
+;; (They are treated as a DAG by my `flatten-conf' utility.)
 
 (require 'conf/evil)
 
