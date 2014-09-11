@@ -81,12 +81,12 @@
 ;; Undo (restore previous window configuration).
 (use-package winner ; Bundled with Emacs.
   :demand t
+  :pre-load
+  (setq winner-dont-bind-my-keys t) ; Don't bind C-c <left> or C-c <right>.
   :init
   (winner-mode 1)
   (define-key my-window-map (kbd "u") #'winner-undo)
-  (define-key my-window-map (kbd "C-r") #'winner-redo)
-  :config
-  (setq winner-mode-map (make-sparse-keymap))) ; Disable winner-mode's default bindings.
+  (define-key my-window-map (kbd "C-r") #'winner-redo))
 
 
 (provide 'conf/view/windows)
