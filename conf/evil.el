@@ -1,13 +1,13 @@
 ;;; Evil (Extensible VI Layer).
 
+;; Make Evil's > and < always indent by `tab-width'.
+;; This has to happen before loading Evil, because Evil makes `evil-shift-width' buffer local, and therefore impossible to declare as an alias. (I haven't found a way to reverse making variable buffer-local.)
+;; This code is before the `use-package' declaration instead of being in the `:pre-load' section because if Evil isn't present, the `:pre-load' section will be executed after it's installed, which is too late.
+(defvaralias 'evil-shift-width 'tab-width)
+
 (use-package evil
   :ensure evil
   :diminish undo-tree-mode
-  :pre-load
-  ;; Make Evil's > and < always indent by `tab-width'.
-  ;; This has to happen before loading Evil, because Evil makes `evil-shift-width' buffer local, and therefore impossible to declare as an alias.
-  ;; (I haven't found a way to reverse making variable buffer-local.)
-  (defvaralias 'evil-shift-width 'tab-width)
   :commands evil-mode
   :init
   (evil-mode 1)
