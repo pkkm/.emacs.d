@@ -9,7 +9,14 @@
   :diminish auto-complete-mode
   :commands global-auto-complete-mode
   :init
+
+  (defvar my-major-mode-ac-sources '()
+    "Additional `auto-complete' sources to use in various major-modes.
+Format: '((major-mode . (ac-source ...)) ...)")
+  ;; This has to be here because it's used by other parts of my config.
+
   (global-auto-complete-mode 1)
+
   :config
 
   ;; Don't disable auto-complete on specific faces.
@@ -81,10 +88,7 @@
                              ac-source-words-in-all-buffer
                              ac-source-filename))
 
-  (defvar my-major-mode-ac-sources '()
-    "Additional `auto-complete' sources to use in various major-modes.
-Format: '((major-mode . (ac-source ...)) ...)")
-
+  ;; Automatically add sources from `my-major-mode-ac-sources'.
   (use-package dash :ensure dash) ; Used: -->, -map.
   (require 'conf/utils/modes) ; Used: derived-mode-hierarchy.
   (require 'cl-lib) ; Used: cl-remove-duplicates.

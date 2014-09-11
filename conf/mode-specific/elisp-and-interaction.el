@@ -41,27 +41,30 @@
   :config
 
   ;; Completion sources.
+  (require 'conf/editing/completion) ; Used: my-major-mode-ac-sources.
   (with-eval-after-load 'auto-complete
     (let ((my-elisp-ac-sources '(ac-source-functions ac-source-variables ac-source-symbols ac-source-features)))
       (add-to-list 'my-major-mode-ac-sources `(emacs-lisp-mode . ,my-elisp-ac-sources))
       (add-to-list 'my-major-mode-ac-sources `(lisp-interaction-mode . ,my-elisp-ac-sources))))
 
   ;; Bindings for evaluating elisp.
+  (require 'cl) ; Used: lexical-let.
   (defun evil-eval-region (region-start region-end)
     "Evaluate region and exit Evil's visual state."
     (interactive "r") ; Needs a region.
     (eval-region region-start region-end)
     (evil-exit-visual-state))
-  (dolist (map (list lisp-interaction-mode-map emacs-lisp-mode-map))
-    (bind-key "C-c C-e" #'pp-eval-last-sexp map)
-    (bind-key "C-c C-i" #'eval-print-last-sexp map) ; Insert value at point.
+  (dolist (keymap (list lisp-interaction-mode-map emacs-lisp-mode-map))
+    (lexical-let ((map keymap)) ; This is needed so that the binding is available when the code in `with-eval-after-load' is executed.
+      (bind-key "C-c C-e" #'pp-eval-last-sexp map)
+      (bind-key "C-c C-i" #'eval-print-last-sexp map) ; Insert value at point.
 
-    (with-eval-after-load 'evil
-      (bind-key "C-c C-r" #'evil-eval-region map))
-    (bind-key "C-c C-b" #'eval-buffer map)
-    (bind-key "C-c C-d" #'eval-defun map) ; Eval the top-level form containing point (or after point)))).
+      (with-eval-after-load 'evil
+        (bind-key "C-c C-r" #'evil-eval-region map))
+      (bind-key "C-c C-b" #'eval-buffer map)
+      (bind-key "C-c C-d" #'eval-defun map) ; Eval the top-level form containing point (or after point)))).
 
-    (bind-key "C-c C-p" #'pp-eval-expression map)) ; Prompt for an expression to eval.
+      (bind-key "C-c C-p" #'pp-eval-expression map))) ; Prompt for an expression to eval.
 
   ;; Delete elc file when saving an el file.
   (defun my-remove-elc-if-exists ()
