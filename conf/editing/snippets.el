@@ -25,6 +25,9 @@
   (define-key yas-minor-mode-map (kbd "TAB") nil)
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
 
+  ;; Remove YASnippet's C-c bindings.
+  (define-key yas-minor-mode-map (kbd "C-c") nil)
+
   ;; Don't use TAB to cycle a snippet's fields.
   ;; (YASnippet uses `yas-minor-mode-map' at all times, and `yas-keymap' immediately after expanding a snippet.)
   (define-key yas-keymap (kbd "TAB") nil)
