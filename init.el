@@ -26,6 +26,16 @@
 ;; Add `main-dir' (the parent directory of conf/) to `load-path'.
 (add-to-list 'load-path main-dir t) ; Add to the end of `load-path' so that .el files in `main-dir' don't shadow libraries.
 
+;; Workaround for Windows: replace "//" with "/" in `exec-path'.
+;; (<drive-letter>://<path> causes Emacs to ignore the drive.)
+;; TODO: fix the cause of such paths (Prepare.sh?).
+(when (eq system-type 'windows-nt)
+  (defun sanitize-path (path)
+    (replace-regexp-in-string "//" "/" path))
+  (defun sanitize-paths (paths)
+    (mapcar #'sanitize-path paths))
+  (setq exec-path (sanitize-paths exec-path)))
+
 
 ;;; Package system.
 
