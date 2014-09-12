@@ -79,7 +79,9 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
     "Execute BODY after FILE is loaded.
 FILE is normally a feature name, but it can also be a file name, in case that file does not provide any feature."
     (declare (indent 1) (debug t))
-    `(eval-after-load ,file (lambda () ,@body))))
+    ;; We can't pass a lambda to `eval-after-load' because that was introduced in Emacs 24.4; earlier versions require the argument to be a quoted form. However, `lexical-let' (from cl.el) creates closures only when it sees lambdas, so lexical bindings won't work if we just pass the quoted BODY to `eval-after-load'. The solution we use is to create a lambda with BODY and pass `eval-after-load' a quoted form that will execute it.
+    `(let ((body-lambda (lambda () ,@body)))
+       (eval-after-load ,file `(funcall ',body-lambda)))))
 
 
 ;;; Loading the rest of the config.
