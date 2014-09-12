@@ -56,6 +56,7 @@
 (require 'conf/modeline/format)
 
 (require 'conf/opening-saving/backups)
+(require 'conf/opening-saving/cygwin)
 (require 'conf/opening-saving/tramp)
 (require 'conf/opening-saving/pastebin)
 (require 'conf/opening-saving/move-delete)
