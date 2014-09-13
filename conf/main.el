@@ -77,7 +77,7 @@
 (require 'conf/operators/break-line)
 (require 'conf/operators/prefix-arguments)
 (require 'conf/operators/inc-dec-number)
-(require 'conf/operators/yank-to-eol)
+(require 'conf/operators/yank)
 (require 'conf/operators/hungry-delete)
 
 (require 'conf/configuring/unbound)
