@@ -47,6 +47,7 @@
 (require 'conf/motions/ace-jump)
 
 (require 'conf/editing/indentation)
+(require 'conf/editing/refactoring)
 (require 'conf/editing/completion)
 (require 'conf/editing/comments)
 (require 'conf/editing/smartparens)
