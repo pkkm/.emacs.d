@@ -31,52 +31,52 @@
   "Keymap for my window-related commands.")
 (define-prefix-command 'my-window-map)
 (with-eval-after-load 'evil
-  (define-key evil-motion-state-map (kbd "<tab>") 'my-window-map)
-  (define-key evil-motion-state-map (kbd "TAB") 'my-window-map))
+  (bind-key "<tab>" 'my-window-map evil-motion-state-map)
+  (bind-key "TAB" 'my-window-map evil-motion-state-map))
 
 
 ;; Split (with count: leave COUNT lines in the initially-selected window).
-(define-key my-window-map (kbd "d") #'my-split-window-right)
-(define-key my-window-map (kbd "-") #'my-split-window-below)
+(bind-key "d" #'my-split-window-right my-window-map)
+(bind-key "-" #'my-split-window-below my-window-map)
 
 ;; Close.
-(define-key my-window-map (kbd "o") #'delete-other-windows)
-(define-key my-window-map (kbd "c") #'delete-window)
-(define-key my-window-map (kbd "k") #'evil-delete-buffer) ; Kill buffer and window.
-(define-key my-window-map (kbd "C") #'delete-most-recently-created-window)
-(define-key my-window-map (kbd "K") #'kill-most-recently-created-window-and-buffer)
+(bind-key "o" #'delete-other-windows my-window-map)
+(bind-key "c" #'delete-window my-window-map)
+(bind-key "k" #'evil-delete-buffer my-window-map) ; Kill buffer and window.
+(bind-key "C" #'delete-most-recently-created-window my-window-map)
+(bind-key "K" #'kill-most-recently-created-window-and-buffer my-window-map)
 
 ;; Next, previous.
-(define-key my-window-map (kbd "TAB") #'evil-window-next)
-(define-key my-window-map (kbd "<backtab>") #'evil-window-prev) ; <backtab> -- S-TAB.
+(bind-key "TAB" #'evil-window-next my-window-map)
+(bind-key "<backtab>" #'evil-window-prev my-window-map) ; <backtab> -- S-TAB.
 
 ;; Select the window with the most recently used buffer.
-(define-key my-window-map (kbd "SPC") #'evil-window-mru)
+(bind-key "SPC" #'evil-window-mru my-window-map)
 
 ;; Move focus directionally.
-(define-key my-window-map (kbd "h") #'evil-window-left)
-(define-key my-window-map (kbd "t") #'evil-window-down)
-(define-key my-window-map (kbd "n") #'evil-window-up)
-(define-key my-window-map (kbd "s") #'evil-window-right)
+(bind-key "h" #'evil-window-left my-window-map)
+(bind-key "t" #'evil-window-down my-window-map)
+(bind-key "n" #'evil-window-up my-window-map)
+(bind-key "s" #'evil-window-right my-window-map)
 
 ;; Move window.
-(define-key my-window-map (kbd "H") #'evil-window-move-far-left)
-(define-key my-window-map (kbd "T") #'evil-window-move-very-bottom)
-(define-key my-window-map (kbd "N") #'evil-window-move-very-top)
-(define-key my-window-map (kbd "S") #'evil-window-move-far-right)
+(bind-key "H" #'evil-window-move-far-left my-window-map)
+(bind-key "T" #'evil-window-move-very-bottom my-window-map)
+(bind-key "N" #'evil-window-move-very-top my-window-map)
+(bind-key "S" #'evil-window-move-far-right my-window-map)
 
 ;; Resize (with count: by COUNT columns/lines).
-(define-key my-window-map (kbd "C-h") #'evil-window-decrease-width)
-(define-key my-window-map (kbd "C-t") #'evil-window-increase-height)
-(define-key my-window-map (kbd "C-n") #'evil-window-decrease-height)
-(define-key my-window-map (kbd "C-s") #'evil-window-increase-width)
+(bind-key "C-h" #'evil-window-decrease-width my-window-map)
+(bind-key "C-t" #'evil-window-increase-height my-window-map)
+(bind-key "C-n" #'evil-window-decrease-height my-window-map)
+(bind-key "C-s" #'evil-window-increase-width my-window-map)
 
 ;; Make windows equal in size.
-(define-key my-window-map (kbd "=") #'balance-windows)
+(bind-key "=" #'balance-windows my-window-map)
 
 ;; Rotate (first -> second, ..., last -> first).
-(define-key my-window-map (kbd "r") #'evil-window-rotate-downwards)
-(define-key my-window-map (kbd "R") #'evil-window-rotate-upwards)
+(bind-key "r" #'evil-window-rotate-downwards my-window-map)
+(bind-key "R" #'evil-window-rotate-upwards my-window-map)
 
 ;; Undo (restore previous window configuration).
 (use-package winner ; Bundled with Emacs.
@@ -85,8 +85,8 @@
   (setq winner-dont-bind-my-keys t) ; Don't bind C-c <left> or C-c <right>.
   :init
   (winner-mode 1)
-  (define-key my-window-map (kbd "u") #'winner-undo)
-  (define-key my-window-map (kbd "C-r") #'winner-redo))
+  (bind-key "u" #'winner-undo my-window-map)
+  (bind-key "C-r" #'winner-redo my-window-map))
 
 
 (provide 'conf/view/windows)

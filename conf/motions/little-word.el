@@ -1,7 +1,7 @@
 ;;; "Little word" -- like `w', but for CamelCase and under_scores.
 
 (with-eval-after-load 'evil
-  (define-key evil-motion-state-map (kbd "C-w") 'evil-little-word)
+  (bind-key "C-w" 'evil-little-word evil-motion-state-map)
 
   (evil-define-motion evil-little-word (count)
     "Move by COUNT little words (words inside CamelCase or under_scores)."

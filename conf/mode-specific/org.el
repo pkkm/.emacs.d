@@ -9,28 +9,28 @@
   ;;; Keybindings.
 
   ;; Move/promote/demote headline.
-  (define-key org-mode-map (kbd "M-h") #'org-metaleft) ; Shadows org-mark-element.
-  (define-key org-mode-map (kbd "M-t") #'org-metadown)
-  (define-key org-mode-map (kbd "M-n") #'org-metaup)
-  (define-key org-mode-map (kbd "M-s") #'org-metaright)
+  (bind-key "M-h" #'org-metaleft org-mode-map) ; Shadows org-mark-element.
+  (bind-key "M-t" #'org-metadown org-mode-map)
+  (bind-key "M-n" #'org-metaup org-mode-map)
+  (bind-key "M-s" #'org-metaright org-mode-map)
 
   ;; Move/promote/demote subtree.
-  (define-key org-mode-map (kbd "M-H") #'org-shiftmetaleft)
-  (define-key org-mode-map (kbd "M-T") #'org-shiftmetadown)
-  (define-key org-mode-map (kbd "M-N") #'org-shiftmetaup)
-  (define-key org-mode-map (kbd "M-S") #'org-shiftmetaright)
+  (bind-key "M-H" #'org-shiftmetaleft org-mode-map)
+  (bind-key "M-T" #'org-shiftmetadown org-mode-map)
+  (bind-key "M-N" #'org-shiftmetaup org-mode-map)
+  (bind-key "M-S" #'org-shiftmetaright org-mode-map)
 
   ;; Set state/priority.
-  (define-key org-mode-map (kbd "C-M-h") #'org-shiftleft)
-  (define-key org-mode-map (kbd "C-M-t") #'org-shiftdown)
-  (define-key org-mode-map (kbd "C-M-n") #'org-shiftup)
-  (define-key org-mode-map (kbd "C-M-s") #'org-shiftright)
+  (bind-key "C-M-h" #'org-shiftleft org-mode-map)
+  (bind-key "C-M-t" #'org-shiftdown org-mode-map)
+  (bind-key "C-M-n" #'org-shiftup org-mode-map)
+  (bind-key "C-M-s" #'org-shiftright org-mode-map)
 
   ;; Mark element (to mark a subtree, use C-c @).
-  (define-key org-mode-map (kbd "M-v") #'org-mark-element) ; Normally would be M-h, but shadowed by previous binding.
+  (bind-key "M-v" #'org-mark-element org-mode-map) ; Normally would be M-h, but shadowed by previous binding.
 
   ;; Show all TODOs.
-  (define-key org-mode-map (kbd "C-c M-t") #'org-show-todo-tree)
+  (bind-key "C-c M-t" #'org-show-todo-tree org-mode-map)
 
   ;; Navigation (with conf/other/convenient-prefix-keys active):
   ;;   SPC u -- up heading.
@@ -38,13 +38,13 @@
   ;;   SPC b -- backward heading (same level).
 
   ;; Make RET also indent.
-  (define-key org-mode-map [remap org-return] #'org-return-indent)
+  (bind-key [remap org-return] #'org-return-indent org-mode-map)
 
   (with-eval-after-load 'evil
     ;; Insert heading.
     (evil-define-key 'normal org-mode-map (kbd "C-c RET") #'evil-org-insert-heading)
-    (define-key org-mode-map (kbd "M-o") #'evil-org-insert-heading)
-    (define-key org-mode-map (kbd "C-M-o") #'evil-org-insert-todo-heading)
+    (bind-key "M-o" #'evil-org-insert-heading org-mode-map)
+    (bind-key "C-M-o" #'evil-org-insert-todo-heading org-mode-map)
 
     ;; Replace the normal Evil end-of-line with an org-specific one.
     (evil-define-key 'motion org-mode-map [remap evil-end-of-line] #'org-end-of-line)
@@ -82,7 +82,7 @@
   ;; Agenda.
   (setq org-agenda-files
         (list (when (file-exists-p "~/Org") "~/Org")))
-  (global-set-key (kbd "C-x C-a") #'org-agenda)
+  (bind-key "C-x C-a" #'org-agenda)
 
   ;; Logging.
   (setq org-log-repeat nil) ; Don't log shifting forward the date of a repeating task.

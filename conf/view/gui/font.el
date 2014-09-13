@@ -20,7 +20,7 @@
     (set-face-font 'variable-pitch available-font)))
 
 ;; Changing font size.
-(define-key global-map (kbd "C-+") 'text-scale-increase)
-(define-key global-map (kbd "C--") 'text-scale-decrease)
+(bind-key "C-+" #'text-scale-increase)
+(bind-key "C--" #'text-scale-decrease)
 
 (provide 'conf/view/gui/font)

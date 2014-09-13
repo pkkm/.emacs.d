@@ -7,10 +7,10 @@
     :motion evil-end-of-line
     (interactive "<R><x><y>")
     (evil-yank beg end type register yank-handler))
-  (define-key evil-normal-state-map (kbd "Y") nil)
-  (define-key evil-motion-state-map (kbd "Y") #'evil-yank-to-eol)
+  (bind-key "Y" nil evil-normal-state-map)
+  (bind-key "Y" #'evil-yank-to-eol evil-motion-state-map)
 
   ;; Make "y" also work in motion state.
-  (define-key evil-motion-state-map (kbd "y") #'evil-yank))
+  (bind-key "y" #'evil-yank evil-motion-state-map))
 
 (provide 'conf/operators/yank)

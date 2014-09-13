@@ -4,12 +4,12 @@
   "Keymap for buffer-related commands.")
 (define-prefix-command 'my-buffer-map)
 (with-eval-after-load 'evil
-  (define-key evil-motion-state-map (kbd "-") 'my-buffer-map))
+  (bind-key "-" 'my-buffer-map evil-motion-state-map))
 
 ;; Switch.
 ;; Press C-k to kill the highlighted buffer.
 (setq ido-ignore-buffers '("\\` " "\\`\\*"))
-(define-key my-buffer-map (kbd "SPC") #'ido-switch-buffer)
+(bind-key "SPC" #'ido-switch-buffer my-buffer-map)
 
 ;; Switch without ignoring any buffers.
 (defun ido-switch-buffer-without-ignored ()
@@ -17,7 +17,7 @@
   (interactive)
   (let ((ido-ignore-buffers '()))
     (ido-switch-buffer)))
-(define-key my-buffer-map (kbd "b") #'ido-switch-buffer-without-ignored)
+(bind-key "b" #'ido-switch-buffer-without-ignored my-buffer-map)
 
 ;; IBuffer -- advanced buffer switcher (distributed with Emacs).
 ;; Useful for doing operations on many buffers simultaneously.
@@ -45,20 +45,20 @@
 ;;   g -- refresh
 ;;   h -- help
 ;;   q -- quit
-(define-key my-buffer-map (kbd "C-b") #'ibuffer)
+(bind-key "C-b" #'ibuffer my-buffer-map)
 
 ;; Switch to the most recently used buffer.
 (defun switch-to-other-buffer ()
   (interactive)
   (switch-to-buffer (other-buffer)))
-(define-key my-buffer-map (kbd "-") #'switch-to-other-buffer)
+(bind-key "-" #'switch-to-other-buffer my-buffer-map)
 
 ;; Previous/next.
-(define-key my-buffer-map (kbd "h") #'previous-buffer)
-(define-key my-buffer-map (kbd "s") #'next-buffer)
+(bind-key "h" #'previous-buffer my-buffer-map)
+(bind-key "s" #'next-buffer my-buffer-map)
 
 ;; Open all buffers in windows.
-(define-key my-buffer-map (kbd "a") #'display-all-file-buffers-in-windows)
+(bind-key "a" #'display-all-file-buffers-in-windows my-buffer-map)
 (require 'conf/utils/buffers) ; Used: buffers-opened-in-windows.
 (use-package dash :ensure dash) ; Used: -->, -difference, -filter, -map.
 (defun display-all-file-buffers-in-windows ()
@@ -73,6 +73,6 @@
   (balance-windows))
 
 ;; Delete (close/kill).
-(define-key my-buffer-map (kbd "c") #'kill-this-buffer) ; Only delete the buffer.
+(bind-key "c" #'kill-this-buffer my-buffer-map) ; Only delete the buffer.
 
 (provide 'conf/view/buffer-map)

@@ -40,40 +40,40 @@
     ;;   double prefix -- operate on the enclosing expression.
 
     ;; Move by sexps, cursor at the beginning (like w/b).
-    (define-key evil-motion-state-map (kbd "C-y") nil) ; Deleted binding: scroll up.
-    (define-key evil-insert-state-map (kbd "C-y") nil) ; Deleted binding: copy from above.
+    (bind-key "C-y" nil evil-motion-state-map) ; Deleted binding: scroll up.
+    (bind-key "C-y" nil evil-insert-state-map) ; Deleted binding: copy from above.
     (evil-define-key 'motion sp-keymap (kbd "C-s") #'sp-next-sexp)
     (evil-define-key 'motion sp-keymap (kbd "C-y") #'sp-backward-sexp)
 
     ;; Other movement by sexps (cursor at the end, like e/ge).
-    ;;(define-key sp-keymap (kbd "C-M-f") #'sp-forward-sexp)
-    ;;(define-key sp-keymap (kbd "C-M-p") #'sp-previous-sexp)
+    ;;(bind-key "C-M-f" #'sp-forward-sexp sp-keymap)
+    ;;(bind-key "C-M-p" #'sp-previous-sexp sp-keymap)
 
     ;; Move inside/outside nested sexps.
-    (define-key sp-keymap (kbd "C-)") #'sp-down-sexp)
-    (define-key sp-keymap (kbd "C-(") #'sp-backward-up-sexp)
+    (bind-key "C-)" #'sp-down-sexp sp-keymap)
+    (bind-key "C-(" #'sp-backward-up-sexp sp-keymap)
     (when (not (display-graphic-p)) ; Versions with the Meta key, for terminals which don't support the above characters.
-      (define-key sp-keymap (kbd "M-)") #'sp-down-sexp)
-      (define-key sp-keymap (kbd "M-(") #'sp-backward-up-sexp))
+      (bind-key "M-)" #'sp-down-sexp sp-keymap)
+      (bind-key "M-(" #'sp-backward-up-sexp sp-keymap))
     (when (eq window-system 'w32) ; C-( and C-) are interpreted by Portable Keyboard Layout as if shift was also pressed.
-      (define-key sp-keymap (kbd "C-2") #'sp-down-sexp)
-      (define-key sp-keymap (kbd "C-1") #'sp-backward-up-sexp))
+      (bind-key "C-2" #'sp-down-sexp sp-keymap)
+      (bind-key "C-1" #'sp-backward-up-sexp sp-keymap))
 
     ;; Other movement up/down nested sexps (cursor at the end).
-    ;;(define-key sp-keymap (kbd "C-M-a") #'sp-backward-down-sexp)
-    ;;(define-key sp-keymap (kbd "C-M-e") #'sp-up-sexp)
+    ;;(bind-key "C-M-a" #'sp-backward-down-sexp sp-keymap)
+    ;;(bind-key "C-M-e" #'sp-up-sexp sp-keymap)
 
     ;; Beginning/end of sexp.
     ;; With non-numeric prefix, beginning/end of enclosing sexp.
     ;; With prefix ARG, beginning/end of ARGth next sexp (ARG can be negative).
     (dolist (keymap (list evil-motion-state-map evil-normal-state-map)) ; I didn't use movement by sections anyway.
-      (define-key keymap (kbd "[") nil)
-      (define-key keymap (kbd "]") nil))
+      (bind-key "[" nil keymap)
+      (bind-key "]" nil keymap))
     (evil-define-key 'motion sp-keymap (kbd "[") #'sp-beginning-of-sexp)
     (evil-define-key 'motion sp-keymap (kbd "]") #'sp-end-of-sexp)
 
-    ;;(define-key sp-keymap (kbd "M-F") #'sp-forward-symbol)
-    ;;(define-key sp-keymap (kbd "M-B") #'sp-backward-symbol)
+    ;;(bind-key "M-F" #'sp-forward-symbol sp-keymap)
+    ;;(bind-key "M-B" #'sp-backward-symbol sp-keymap)
 
     ;; Delete to the end of sexp.
     (evil-define-key 'motion sp-keymap (kbd "M-d") #'sp-kill-hybrid-sexp)
@@ -82,14 +82,14 @@
     ;;   Slurp -- move the next sexp inside the one we're in.
     ;;   Barf -- push out the last element of the sexp we're in.
     ;; With non-numeric prefix, slurp/barf as many as possible.
-    (define-key sp-keymap (kbd "C-}") #'sp-forward-slurp-sexp)
-    (define-key sp-keymap (kbd "C-{") #'sp-forward-barf-sexp)
+    (bind-key "C-}" #'sp-forward-slurp-sexp sp-keymap)
+    (bind-key "C-{" #'sp-forward-barf-sexp sp-keymap)
     (when (not (display-graphic-p)) ; Versions with the Meta key, for terminals which don't support the above characters.
-      (define-key sp-keymap (kbd "M-}") #'sp-forward-slurp-sexp)
-      (define-key sp-keymap (kbd "M-{") #'sp-forward-barf-sexp))
+      (bind-key "M-}" #'sp-forward-slurp-sexp sp-keymap)
+      (bind-key "M-{" #'sp-forward-barf-sexp sp-keymap))
     (when (eq window-system 'w32) ; C-{ and C-} are interpreted by Portable Keyboard Layout as if shift was also pressed.
-      (define-key sp-keymap (kbd "C-3") #'sp-forward-slurp-sexp)
-      (define-key sp-keymap (kbd "C-5") #'sp-forward-barf-sexp))
+      (bind-key "C-3" #'sp-forward-slurp-sexp sp-keymap)
+      (bind-key "C-5" #'sp-forward-barf-sexp sp-keymap))
     ;; Slurp/barf backward -- operate on the sexp before the one we're in.
     (evil-define-key 'normal sp-keymap (kbd "g {") #'sp-backward-slurp-sexp)
     (evil-define-key 'normal sp-keymap (kbd "g }") #'sp-backward-barf-sexp)
@@ -129,8 +129,8 @@
     (evil-define-key 'normal sp-keymap (kbd "g p DEL") #'sp-splice-sexp-killing-around)
 
     ;; Unwrap (remove the delimiters of previous/next sexp).
-    ;;(define-key sp-keymap (kbd "M-<delete>") #'sp-unwrap-sexp)
-    ;;(define-key sp-keymap (kbd "M-<backspace>") #'sp-backward-unwrap-sexp)
+    ;;(bind-key "M-<delete>" #'sp-unwrap-sexp sp-keymap)
+    ;;(bind-key "M-<backspace>" #'sp-backward-unwrap-sexp sp-keymap)
 
     ;; Join, split.
     (evil-define-key 'normal sp-keymap (kbd "g p s") #'sp-split-sexp) ; With non-numeric prefix, split all the sexps in current one into separate sexps.
@@ -140,12 +140,12 @@
     (evil-define-text-object evil-sp-a-sexp (count &rest other-args)
       "Text object for the enclosing sexp. With COUNT, use the COUNTth sexp up."
       (sp-get (sp-get-enclosing-sexp count) (list :beg :end))) ; `sp-get-enclosing-sexp' can take ARG to return the expression that many times up.
-    (define-key evil-outer-text-objects-map "e" 'evil-sp-a-sexp)
+    (bind-key "e" 'evil-sp-a-sexp evil-outer-text-objects-map)
 
     (evil-define-text-object evil-sp-inner-sexp (count &rest other-args)
       "Text object for the enclosing sexp, without delimiters. With COUNT, use the COUNTth sexp up."
       (sp-get (sp-get-enclosing-sexp count) (list :beg-in :end-in))) ; `sp-get-enclosing-sexp' can take ARG to return the expression that many times up.
-    (define-key evil-inner-text-objects-map "e" 'evil-sp-inner-sexp)
+    (bind-key "e" 'evil-sp-inner-sexp evil-inner-text-objects-map)
 
     ;; TODO equivalent of evil-surround.
     ;; TODO see how useful `sp-newline' will be with evil.

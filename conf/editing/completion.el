@@ -63,18 +63,18 @@ Format: '((major-mode . (ac-source ...)) ...)")
   (with-eval-after-load 'evil
     (evil-define-key 'insert ac-mode-map (kbd "C-n") #'auto-complete)
     (evil-define-key 'insert ac-mode-map (kbd "C-p") #'auto-complete))
-  (define-key ac-completing-map (kbd "C-n") #'ac-next)
-  (define-key ac-completing-map (kbd "C-p") #'ac-previous)
+  (bind-key "C-n" #'ac-next ac-completing-map)
+  (bind-key "C-p" #'ac-previous ac-completing-map)
 
   ;; Completing.
-  (define-key ac-completing-map (kbd "TAB") #'ac-expand) ; Expand; cycle candidates when pressed repeatedly.
-  (define-key ac-completing-map (kbd "<backtab>") #'ac-previous)
-  (define-key ac-completing-map (kbd "RET") #'ac-complete) ; Choose the current candidate and perform its associated action.
+  (bind-key "TAB" #'ac-expand ac-completing-map) ; Expand; cycle candidates when pressed repeatedly.
+  (bind-key "<backtab>" #'ac-previous ac-completing-map)
+  (bind-key "RET" #'ac-complete ac-completing-map) ; Choose the current candidate and perform its associated action.
 
   ;; Help.
-  (define-key ac-completing-map (kbd "M-p") #'ac-quick-help-scroll-up)
-  (define-key ac-completing-map (kbd "M-n") #'ac-quick-help-scroll-down)
-  (define-key ac-completing-map (kbd "<f1>") #'ac-persist-help) ; Open help in a buffer.
+  (bind-key "M-p" #'ac-quick-help-scroll-up ac-completing-map)
+  (bind-key "M-n" #'ac-quick-help-scroll-down ac-completing-map)
+  (bind-key "<f1>" #'ac-persist-help ac-completing-map) ; Open help in a buffer.
 
 
   ;;; Sources.

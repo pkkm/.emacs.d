@@ -6,7 +6,7 @@
     "Select the whole buffer."
     :type 'inclusive
     (list (point-min) (point-max)))
-  (define-key evil-outer-text-objects-map "h" 'evil-whole-buffer)
+  (bind-key "h" #'evil-whole-buffer evil-outer-text-objects-map)
 
   ;; ih -- from the first to the last non-whitespace character.
   (evil-define-text-object evil-whole-buffer-without-whitespace (count &rest other-args)
@@ -25,6 +25,6 @@ If the buffer consists only of spaces, select the whole buffer."
           (if after-first-non-space ; If the buffer contains non-whitespace characters...
               (list (- after-first-non-space 1) after-last-non-space)
             (list (point-min) (point-max)))))))
-  (define-key evil-inner-text-objects-map "h" 'evil-whole-buffer-without-whitespace))
+  (bind-key "h" #'evil-whole-buffer-without-whitespace evil-inner-text-objects-map))
 
 (provide 'conf/visual/text-object-whole-buffer)

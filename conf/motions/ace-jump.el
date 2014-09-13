@@ -8,9 +8,9 @@
 
   (with-eval-after-load 'evil
     ;; Keybindings.
-    (define-key evil-motion-state-map (kbd "g SPC") #'evil-ace-jump-word)
-    (define-key evil-motion-state-map (kbd "g C-SPC") #'evil-ace-jump-char)
-    (global-set-key (kbd "C-x SPC") #'evil-ace-jump-line) ; Will be bound to "e SPC" by 'conf/other/make-prefix-keys-more-convenient.
+    (bind-key "g SPC" #'evil-ace-jump-word evil-motion-state-map)
+    (bind-key "g C-SPC" #'evil-ace-jump-char evil-motion-state-map)
+    (bind-key "C-x SPC" #'evil-ace-jump-line) ; Will be bound to "e SPC" by 'conf/other/make-prefix-keys-more-convenient.
 
     (defmacro evil-enclose-ace-jump (&rest body)
       `(let ((old-mark (mark))

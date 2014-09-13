@@ -9,6 +9,6 @@
            (lookup-key (current-local-map) (kbd "TAB"))))
       (when major-mode-TAB-binding
         (call-interactively major-mode-TAB-binding))))
-  (define-key evil-motion-state-map (kbd "g TAB") #'current-major-mode-TAB))
+  (bind-key "g TAB" #'current-major-mode-TAB evil-motion-state-map))
 
 (provide 'conf/motions/passthrough-keys)

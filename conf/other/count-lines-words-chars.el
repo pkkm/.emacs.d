@@ -2,6 +2,6 @@
 
 ;; g C-g: count in buffer or region, if active.
 (with-eval-after-load 'evil
-  (define-key evil-motion-state-map (kbd "g C-g") #'count-words))
+  (bind-key "g C-g" #'count-words evil-motion-state-map))
 
 (provide 'conf/other/count-lines-words-chars)

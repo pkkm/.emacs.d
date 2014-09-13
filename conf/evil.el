@@ -27,7 +27,7 @@
   ;; In insert state, auto-indent the new line on a press of "RET" (or similar).
   (dolist (fun-to-remap
            '(newline newline-and-indent evil-ret))
-    (define-key evil-insert-state-map (vector 'remap fun-to-remap) #'evil-ret-and-indent))
+    (bind-key (vector 'remap fun-to-remap) #'evil-ret-and-indent evil-insert-state-map))
 
   ;; Make C-u scroll instead of starting an argument.
   (bind-key "C-u" #'evil-scroll-up evil-motion-state-map) ; Setting `evil-want-C-u-scroll' doesn't work.

@@ -1,8 +1,8 @@
 ;;; Exit insert/replace state with C-SPC.
 
 (with-eval-after-load 'evil
-  (dolist (key (list (kbd "C-SPC") (kbd "C-@")))
-    (define-key evil-insert-state-map key #'evil-normal-state)
-    (define-key evil-replace-state-map key #'evil-normal-state)))
+  (dolist (key (list "C-SPC" "C-@"))
+    (bind-key key #'evil-normal-state evil-insert-state-map)
+    (bind-key key #'evil-normal-state evil-replace-state-map)))
 
 (provide 'conf/insert-state/exit-insert-state)

@@ -29,6 +29,6 @@
   ;;   C-c, C-u -- comment/uncomment area.
 
   ;; Don't convert tabs to spaces when pressing backspace.
-  (define-key pascal-mode-map (kbd "DEL") nil))
+  (bind-key "DEL" nil pascal-mode-map))
 
 (provide 'conf/mode-specific/pascal)

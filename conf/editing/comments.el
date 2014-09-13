@@ -26,7 +26,7 @@
       (unless (evil-insert-state-p)
         (evil-insert-state)))
     (call-interactively #'comment-dwim))
-  (define-key evil-normal-state-map (kbd "z") #'evil-comment-dwim)
+  (bind-key "z" #'evil-comment-dwim evil-normal-state-map)
 
   ;; Z -- Evil operator to comment/uncomment a piece of text (works with region too).
   (use-package evil-nerd-commenter

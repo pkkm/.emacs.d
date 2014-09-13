@@ -7,11 +7,11 @@
 
   (with-eval-after-load 'evil
     ;; Bindings: C-SPC -- expand, C-M-SPC -- contract.
-    (define-key evil-motion-state-map (kbd "C-SPC") #'er/expand-region)
-    (define-key evil-motion-state-map (kbd "C-M-SPC") #'er/contract-region)
+    (bind-key "C-SPC" #'er/expand-region evil-motion-state-map)
+    (bind-key "C-M-SPC" #'er/contract-region evil-motion-state-map)
 
     ;; The same for terminals, where C-SPC sends C-@.
-    (define-key evil-motion-state-map (kbd "C-@") #'er/expand-region)
-    (define-key evil-motion-state-map (kbd "C-M-@") #'er/contract-region)))
+    (bind-key "C-@" #'er/expand-region evil-motion-state-map)
+    (bind-key "C-M-@" #'er/contract-region evil-motion-state-map)))
 
 (provide 'conf/visual/expand-region)

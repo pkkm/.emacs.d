@@ -19,7 +19,7 @@
   (search-text-between sel-begin sel-end nil))
 
 (with-eval-after-load 'evil
-  (define-key evil-visual-state-map (kbd "*") 'search-selection-forward)
-  (define-key evil-visual-state-map (kbd "#") 'search-selection-backward))
+  (bind-key "*" #'search-selection-forward evil-visual-state-map)
+  (bind-key "#" #'search-selection-backward evil-visual-state-map))
 
 (provide 'conf/visual/search-selected)

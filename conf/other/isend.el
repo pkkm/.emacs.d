@@ -7,8 +7,8 @@
 
   ;; The key for sending the current line (or region) to the associated REPL.
   ;; Use "M-x isend-associate RET *repl-name* RET" to associate the current buffer with *repl-name*.
-  (define-key isend-mode-map (kbd "C-RET") nil)
-  (define-key isend-mode-map (kbd "M-RET") #'isend-send)
+  (bind-key "C-RET" nil isend-mode-map)
+  (bind-key "M-RET" #'isend-send isend-mode-map)
 
   ;; Delete indentation in sent regions (preserves indentation relative to the first line in region).
   (setq isend-delete-indentation t)

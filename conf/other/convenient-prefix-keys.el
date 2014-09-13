@@ -38,13 +38,13 @@ Do that by inverting the state of Control on some events (all C-letter except C-
   (defun rebind-C-x-to-e ()
     "Bind all \"C-x\" bindings in the \"e\" prefix (in `evil-motion-state-map'), with the `my-make-key-more-convenient' transformation."
     (interactive)
-    (define-key evil-motion-state-map (kbd "e") nil)
+    (bind-key "e" nil evil-motion-state-map)
     (map-key-sequences-in-keymap (key-binding (kbd "C-x"))
                                  (lambda (key binding)
                                    (define-key evil-motion-state-map
                                      (concat-keys (kbd "e") (my-make-key-more-convenient key))
                                      binding))))
-  (define-key evil-motion-state-map (kbd "C-e") #'evil-forward-word-end)
+  (bind-key "C-e" #'evil-forward-word-end evil-motion-state-map)
   (add-hook 'emacs-startup-hook #'rebind-C-x-to-e)
 
   ;; Make "SPC" a prefix for "C-c" commands.
@@ -52,7 +52,7 @@ Do that by inverting the state of Control on some events (all C-letter except C-
     "Bind all \"C-c\" bindings in the \"SPC\" prefix (in the current major mode's map), with the `my-make-key-more-convenient' transformation.
 Omit \"C-c [a-zA-Z]\" bindings, since they are not major-mode bindings, but user's custom ones."
     (interactive)
-    (define-key evil-motion-state-local-map (kbd "SPC") nil)
+    (bind-key "SPC" nil evil-motion-state-local-map)
     (map-key-sequences-in-keymap (key-binding (kbd "C-c"))
                                  (lambda (key binding)
                                    ;; Ignore the binding if KEY starts with a character from [a-zA-Z].
@@ -61,7 +61,7 @@ Omit \"C-c [a-zA-Z]\" bindings, since they are not major-mode bindings, but user
                                      (define-key evil-motion-state-local-map
                                        (concat-keys (kbd "SPC") (my-make-key-more-convenient key))
                                        binding)))))
-  (define-key evil-motion-state-map (kbd "SPC") nil)
+  (bind-key "SPC" nil evil-motion-state-map)
   (add-hook 'after-change-major-mode-hook #'rebind-C-c-to-SPC t)
   (add-hook 'emacs-startup-hook #'rebind-C-c-to-SPC))
 

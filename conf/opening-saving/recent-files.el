@@ -21,6 +21,6 @@
       (if (find-file (ido-completing-read "Find recent file: " recentf-list))
           (message "Opening file...")
         (message "Abort")))
-    (global-set-key (kbd "C-c r") #'ido-recentf-open)))
+    (bind-key "C-c r" #'ido-recentf-open)))
 
 (provide 'conf/opening-saving/recent-files)

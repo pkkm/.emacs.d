@@ -1,12 +1,12 @@
 ;;; Replacements for `universal-argument' and `negative-argument' for use in Evil.
 
 (with-eval-after-load 'evil
-  (define-key evil-motion-state-map (kbd "N") #'evil-universal-argument)
-  (define-key evil-motion-state-map (kbd "_") #'evil-negative-argument)
+  (bind-key "N" #'evil-universal-argument evil-motion-state-map)
+  (bind-key "_" #'evil-negative-argument evil-motion-state-map)
 
   (defvar evil-universal-argument-map (make-sparse-keymap)
     "Replacement for `universal-argument-map' to use with `evil-universal-argument' and `evil-negative-argument'.")
-  (define-key evil-universal-argument-map [?N] #'universal-argument-more)
+  (bind-key [?N] #'universal-argument-more evil-universal-argument-map)
 
   (defun evil-universal-argument ()
     "Like `universal-argument', but expects to be bound to N instead of C-u and doesn't add special handling for following digits and \"-\"."

@@ -46,15 +46,15 @@ Interactively, prompts for the command if the variable `clean-read-command' is n
   (shell-command command))
 
 ;; Keybindings.
-(global-set-key (kbd "<f5>") #'run) ; Run the program.
-(global-set-key (kbd "<f6>") #'previous-error)
-(global-set-key (kbd "<f7>") #'next-error)
-(global-set-key (kbd "<f8>") #'compile)
-(global-set-key (kbd "<f9>") #'clean)
+(bind-key "<f5>" #'run) ; Run the program.
+(bind-key "<f6>" #'previous-error)
+(bind-key "<f7>" #'next-error)
+(bind-key "<f8>" #'compile)
+(bind-key "<f9>" #'clean)
 
 ;; Double pressing <f5>, <f8> or <f9> should accept the default command.
 (dolist (key (list (kbd "<f5>") (kbd "<f8>") (kbd "<f9>")))
-  (define-key minibuffer-local-shell-command-map key (kbd "RET")))
+  (bind-key key (kbd "RET") minibuffer-local-shell-command-map))
 
 ;; Disable scroll margin in compilation buffers (because `next-error' and `previous-error' show which error we're currently at by scrolling to it).
 (defun disable-scroll-margin-in-buffer ()
