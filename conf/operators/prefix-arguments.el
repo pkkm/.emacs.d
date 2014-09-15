@@ -5,6 +5,18 @@
   ;; (Setting `evil-want-C-u-scroll' doesn't work when Evil is already loaded.)
   (bind-key "C-u" #'evil-scroll-up evil-motion-state-map)
 
+  ;; Make C-u in insert state kill backward to indentation.
+  (bind-key "C-u" #'kill-back-to-indentation evil-insert-state-map)
+  (defun kill-back-to-indentation ()
+    "Kill from point back to the first non-whitespace character on the line.
+If point is between the beginning of line and the first non-whitespace character, kill to beginning of line instead."
+    (interactive)
+    (let ((prev-pos (point)))
+      (back-to-indentation)
+      (when (>= (point) prev-pos)
+        (beginning-of-line))
+      (kill-region (point) prev-pos)))
+
   (bind-key "N" #'evil-universal-argument evil-motion-state-map)
   (bind-key "_" #'evil-negative-argument evil-motion-state-map)
 
