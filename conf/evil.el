@@ -29,9 +29,6 @@
            '(newline newline-and-indent evil-ret))
     (bind-key (vector 'remap fun-to-remap) #'evil-ret-and-indent evil-insert-state-map))
 
-  ;; Make C-u scroll instead of starting an argument.
-  (bind-key "C-u" #'evil-scroll-up evil-motion-state-map) ; Setting `evil-want-C-u-scroll' doesn't work.
-
   (setq evil-want-C-w-delete t) ; Delete word in insert state with C-w.
 
   ;; Unset keys that I'll later use as prefix keys.

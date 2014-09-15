@@ -1,6 +1,10 @@
 ;;; Replacements for `universal-argument' and `negative-argument' for use in Evil.
 
 (with-eval-after-load 'evil
+  ;; Make C-u scroll instead of starting an argument.
+  ;; (Setting `evil-want-C-u-scroll' doesn't work when Evil is already loaded.)
+  (bind-key "C-u" #'evil-scroll-up evil-motion-state-map)
+
   (bind-key "N" #'evil-universal-argument evil-motion-state-map)
   (bind-key "_" #'evil-negative-argument evil-motion-state-map)
 
