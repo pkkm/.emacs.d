@@ -17,6 +17,7 @@ If point is between the beginning of line and the first non-whitespace character
         (beginning-of-line))
       (kill-region (point) prev-pos)))
 
+  ;; Start an universal argument with N, and a negative argument with _.
   (bind-key "N" #'evil-universal-argument evil-motion-state-map)
   (bind-key "_" #'evil-negative-argument evil-motion-state-map)
 
