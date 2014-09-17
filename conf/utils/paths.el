@@ -4,7 +4,7 @@
   "Shorten PATH to up to MAX-LENGTH characters."
   (let ((reversed-path-list (reverse (split-string (abbreviate-file-name path) "/")))
         (output "")
-        (prefix-when-shortened ".../"))
+        (prefix-when-shortened "…/"))
     (when reversed-path-list
       (when (equal "" (car reversed-path-list)) ; Ignore trailing slash.
         (setq reversed-path-list (cdr reversed-path-list)))
