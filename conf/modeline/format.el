@@ -31,7 +31,7 @@
   (defun ml-format ()
     (let* ((shortened-dir
             (when buffer-file-name ; If the buffer is visiting a file...
-              (propertize (shorten-path default-directory
+              (propertize (shorten-path (abbreviate-file-name (file-name-directory buffer-file-name))
                                         (/ (window-total-width) 3))
                           'face 'ml-shadow)))
 
