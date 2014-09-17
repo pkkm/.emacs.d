@@ -31,7 +31,8 @@
   (defun ml-format ()
     (let* ((shortened-dir
             (when buffer-file-name ; If the buffer is visiting a file...
-              (propertize (shorten-path default-directory 20) ; TODO replace the hardcoded 20 with 1/3 of the modeline width or something similar.
+              (propertize (shorten-path default-directory
+                                        (/ (window-total-width) 3))
                           'face 'ml-shadow)))
 
            (ml-modes (format-mode-line '(""
