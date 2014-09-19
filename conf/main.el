@@ -42,6 +42,7 @@
 (require 'conf/insert-state/exit-insert-state)
 
 (require 'conf/motions/little-word)
+(require 'conf/motions/marks-registers)
 (require 'conf/motions/vim-dvorak)
 (require 'conf/motions/passthrough-keys)
 (require 'conf/motions/ace-jump)
