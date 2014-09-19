@@ -1,6 +1,10 @@
 ;;; Ido (Interactively DO) mode -- powerful completion in the minibuffer.
 ;;; This file is for general Ido settings -- for buffer, etc.-specific, see the respective files.
 
+;; Useful ido-mode default keybindings:
+;;   * C-k -- delete current match (works for buffers, files, ...)
+;;   * C-SPC -- search in the current set of results
+
 (use-package ido ; Bundled with Emacs.
   :commands ido-mode
   :init
