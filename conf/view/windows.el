@@ -88,5 +88,9 @@
   (bind-key "u" #'winner-undo my-window-map)
   (bind-key "C-r" #'winner-redo my-window-map))
 
+;; Save/restore window configuration from register.
+(bind-key "m" #'window-configuration-to-register my-window-map)
+(bind-key "'" #'jump-to-register my-window-map)
+
 
 (provide 'conf/view/windows)
