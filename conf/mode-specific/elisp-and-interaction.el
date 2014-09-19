@@ -4,9 +4,9 @@
 ;; Eldoc mode -- show function arguments in minibuffer.
 (use-package eldoc ; Included with Emacs.
   :diminish eldoc-mode
-  :commands turn-on-eldoc-mode
+  :commands eldoc-mode
   :init
-  (add-hook 'emacs-lisp-mode-hook #'turn-on-eldoc-mode)
+  (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
   :config
   (setq eldoc-idle-delay 0.1)
   (setq eldoc-echo-area-use-multiline-p 'truncate-sym-name-if-fit))
