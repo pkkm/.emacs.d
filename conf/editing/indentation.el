@@ -10,7 +10,7 @@
 ;;      (c-indent-region . c-basic-offset)))
 (use-package smart-tabs-mode
   :ensure smart-tabs-mode
-  :defer t)
+  :demand t) ; Load immediately, so that we can use (with-eval-after-load 'smart-tabs-mode) in mode-specific indentation settings.
 
 ;; By default, indent with 4 spaces.
 (setq-default indent-tabs-mode nil)
