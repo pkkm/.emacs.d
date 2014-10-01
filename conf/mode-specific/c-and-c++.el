@@ -21,28 +21,34 @@
           (other . "linux")))
 
   ;; Default compilation, execution and cleaning commands.
-  (require 'conf/other/compiling)
-  (defun set-c-compile-run-clean-commands ()
+  (require 'conf/other/compiling) ; Used: my-additional-compile-args, compile-run-clean-command-setter-alist.
+  (defun set-c-or-c++-commands ()
+    "If we're in C or C++ mode, set the appropriate compilation, running and cleaning commands."
     (interactive)
-    (when (buffer-file-name)
-      (let* ((input-file-name (file-name-nondirectory (buffer-file-name)))
-             (output-file-name (concat (file-name-sans-extension input-file-name)
-                                       (if (eq window-system 'w32) ".exe" "")))
-             (input-file-name-quoted (shell-quote-argument input-file-name))
-             (output-file-name-quoted (shell-quote-argument output-file-name))
-             (compiler "gcc"))
-        (set (make-local-variable 'compile-command)
-             (concat compiler " " input-file-name-quoted " -o " output-file-name-quoted
-                     (if (string= my-additional-compile-args "") "" " ")
-                     my-additional-compile-args ; Defined in 'conf/other/compiling. To be used as a file-local variable.
-                     " --std=c99 -O2" ; Compile using the C99 standard and optimize.
-                     " -Wall -Wextra" ; Essential warnings.
-                     " -Werror=implicit-function-declaration" ; Calling an undefined function should be an error.
-                     " -Wstrict-overflow=5" ; Warn on possible signed overflow.
-                     " -ftrapv" ; Add runtime checks for undefined behavior (hurts performance).
-                     (if (string= compiler "clang") " -fsanitize=undefined-trap -fsanitize-undefined-trap-on-error" ""))) ; Clang-specific runtime undefined behavior checks.
-        (set (make-local-variable 'run-command) (concat "./" output-file-name-quoted))
-        (set (make-local-variable 'clean-command) (concat "rm " output-file-name-quoted)))))
-  (add-hook 'c-mode-hook #'set-c-compile-run-clean-commands))
+    (when (memq major-mode '(c-mode c++-mode))
+      (when (buffer-file-name)
+        (let* ((input-file-name (file-name-nondirectory (buffer-file-name)))
+               (output-file-name (concat (file-name-sans-extension input-file-name)
+                                         (if (eq window-system 'w32) ".exe" "")))
+               (input-file-name-quoted (shell-quote-argument input-file-name))
+               (output-file-name-quoted (shell-quote-argument output-file-name))
+               (compiler (if (eq major-mode 'c++-mode) "g++" "gcc"))
+               (standard (if (eq major-mode 'c-mode) "c99" "c++03"))) ; Use the C99 or C++03 standard.
+          (set (make-local-variable 'compile-command)
+               (concat compiler " " input-file-name-quoted " -o " output-file-name-quoted
+                       (if (string= my-additional-compile-args "")
+                           ""
+                         (concat " " my-additional-compile-args))
+                       " --std=" standard
+                       " -O2" ; Optimize (often also makes the compiler perform more static checks, but makes the output of a debugger less clear).
+                       " -Wall -Wextra" ; Essential warnings.
+                       " -Werror=implicit-function-declaration" ; Calling an undefined function should be an error.
+                       " -Wstrict-overflow=5" ; Warn on possible signed overflow.
+                       " -ftrapv" ; Add runtime checks for undefined behavior (hurts performance).
+                       (if (string= compiler "clang") " -fsanitize=undefined-trap -fsanitize-undefined-trap-on-error" ""))) ; Clang-specific runtime undefined behavior checks.
+          (set (make-local-variable 'run-command) (concat "./" output-file-name-quoted))
+          (set (make-local-variable 'clean-command) (concat "rm " output-file-name-quoted))))))
+  (dolist (mode '(c-mode c++-mode))
+    (add-to-list 'compile-run-clean-command-setter-alist (cons mode #'set-c-or-c++-commands))))
 
 (provide 'conf/mode-specific/c-and-c++)
