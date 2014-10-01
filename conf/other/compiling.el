@@ -1,9 +1,28 @@
 ;;; Driving compilers using Emacs.
 
-;; Variable for additional compiler arguments.
+
+;;; Setting default compilation, execution and cleaning commands for major modes.
+
+(defvar compile-run-clean-command-setter-alist '()
+  "Alist of functions setting the compilation, running and cleaning commands in various major modes.
+Each element has the form (MODE . FUNCTION). When file-local variables are put into effect in a buffer with major mode MODE, FUNCTION will be executed.
+Mode hooks can't be used for this purpose, since they run before file-local variables are set (by `normal-mode').")
+
+;; When determining the compilation command to use, we usually check a file-local variable, but file-local variables are put into effect after the major mode is set (by `normal-mode'). Therefore, we can't just set the commands in the mode's hook. Instead, we'll set them after file-local variables are put into effect (by `hack-local-variables').
+(defun set-compile-run-clean-commands-for-mode ()
+  "Set compiling, running and cleaning commands for the current major mode by executing the appropriate function from `compile-run-clean-command-setter-alist'."
+  (interactive)
+  (let ((function-to-run
+         (cdr (assoc major-mode compile-run-clean-command-setter-alist))))
+    (when function-to-run
+      (funcall function-to-run))))
+(add-hook 'hack-local-variables-hook #'set-compile-run-clean-commands-for-mode)
+
+;; Variable for additional compiler arguments (for use in compile command setters of major modes).
 (defvar my-additional-compile-args ""
   "Additional arguments to pass to the compiler.")
 (make-variable-buffer-local 'my-additional-compile-args)
+
 
 ;; Define a `run' command to run the current program using `compile'.
 ;; Use `run-command' instead of `compile-command' and `run-read-command' instead of `compile-read-command'.
