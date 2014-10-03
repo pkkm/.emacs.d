@@ -80,8 +80,8 @@
   (setq org-fontify-done-headline t) ; Mark the whole headline of a DONE task with a different face.
 
   ;; Agenda.
-  (setq org-agenda-files
-        (list (when (file-exists-p "~/Org") "~/Org")))
+  (when (file-exists-p "~/Org")
+    (add-to-list 'org-agenda-files "~/Org"))
   (bind-key "C-x C-a" #'org-agenda)
 
   ;; Logging.
