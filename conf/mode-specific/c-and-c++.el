@@ -33,7 +33,7 @@
              (input-file-name-quoted (shell-quote-argument input-file-name))
              (output-file-name-quoted (shell-quote-argument output-file-name))
              (compiler (if (eq major-mode 'c++-mode) "g++" "gcc"))
-             (standard (if (eq major-mode 'c-mode) "c99" "c++03"))) ; Use the C99 or C++03 standard.
+             (standard (if (eq major-mode 'c-mode) "c99" "c++11"))) ; Use the C99 or C++11 standard.
         ;; Set the variables if they're not already set for this buffer.
         (when (not (local-variable-p 'compile-command))
           (set (make-local-variable 'compile-command)
