@@ -87,6 +87,7 @@
 (require 'conf/configuring/command-log)
 
 (require 'conf/other/enable-confusing-commands)
+(require 'conf/other/portable-keyboard-layout-fix)
 (require 'conf/other/guide-key)
 (require 'conf/other/convenient-prefix-keys)
 (require 'conf/other/compiling)

@@ -55,9 +55,6 @@
     (when (not (display-graphic-p)) ; Versions with the Meta key, for terminals which don't support the above characters.
       (bind-key "M-)" #'sp-down-sexp sp-keymap)
       (bind-key "M-(" #'sp-backward-up-sexp sp-keymap))
-    (when (eq window-system 'w32) ; C-( and C-) are interpreted by Portable Keyboard Layout as if shift was also pressed.
-      (bind-key "C-2" #'sp-down-sexp sp-keymap)
-      (bind-key "C-1" #'sp-backward-up-sexp sp-keymap))
 
     ;; Other movement up/down nested sexps (cursor at the end).
     ;;(bind-key "C-M-a" #'sp-backward-down-sexp sp-keymap)
@@ -87,9 +84,6 @@
     (when (not (display-graphic-p)) ; Versions with the Meta key, for terminals which don't support the above characters.
       (bind-key "M-}" #'sp-forward-slurp-sexp sp-keymap)
       (bind-key "M-{" #'sp-forward-barf-sexp sp-keymap))
-    (when (eq window-system 'w32) ; C-{ and C-} are interpreted by Portable Keyboard Layout as if shift was also pressed.
-      (bind-key "C-3" #'sp-forward-slurp-sexp sp-keymap)
-      (bind-key "C-5" #'sp-forward-barf-sexp sp-keymap))
     ;; Slurp/barf backward -- operate on the sexp before the one we're in.
     (evil-define-key 'normal sp-keymap (kbd "g {") #'sp-backward-slurp-sexp)
     (evil-define-key 'normal sp-keymap (kbd "g }") #'sp-backward-barf-sexp)
