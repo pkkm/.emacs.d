@@ -4,14 +4,9 @@
   :ensure ace-jump-mode
   :commands ace-jump-mode
 
-  :init
+  :init ; We define the motion here instead of in :config so that ace-jump-mode can be lazily loaded when `ace-jump-mode' is called.
 
   (with-eval-after-load 'evil
-    ;; Keybindings.
-    (bind-key "g SPC" #'evil-ace-jump-word evil-motion-state-map)
-    (bind-key "g C-SPC" #'evil-ace-jump-char evil-motion-state-map)
-    (bind-key "C-x SPC" #'evil-ace-jump-line) ; Will be bound to "e SPC" by 'conf/other/make-prefix-keys-more-convenient.
-
     (defmacro evil-enclose-ace-jump (&rest body)
       `(let ((old-mark (mark))
              (ace-jump-mode-scope 'window)
@@ -30,20 +25,12 @@
                  (set-mark old-mark))
              (push-mark old-mark)))))
 
-    (evil-define-motion evil-ace-jump-char (count)
-      :type exclusive
-      (evil-enclose-ace-jump
-       (ace-jump-mode 5)))
-
-    (evil-define-motion evil-ace-jump-line (count)
-      :type line
-      (evil-enclose-ace-jump
-       (ace-jump-mode 9)))
-
     (evil-define-motion evil-ace-jump-word (count)
       :type exclusive
       (evil-enclose-ace-jump
-       (ace-jump-mode 1))))
+       (ace-jump-mode 1)))
+
+    (bind-key "g SPC" #'evil-ace-jump-word evil-motion-state-map))
 
   :config
 
