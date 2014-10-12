@@ -8,4 +8,11 @@
   :config
   (setq ag-highlight-search t))
 
+;; WGrep integration.
+;; Use `wgrep-change-to-wgrep-mode' in an Ag buffer to make the buffer editable.
+;; To confirm changes, use C-x C-s (this will make changes to buffers but won't save them).
+(use-package wgrep-ag
+  :ensure wgrep-ag
+  :defer t)
+
 (provide 'conf/driving-processes/ag)
