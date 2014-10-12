@@ -10,4 +10,4 @@
   (bind-key "M" #'point-to-register evil-motion-state-map)
   (bind-key "`" #'jump-to-register evil-motion-state-map))
 
-(provide 'conf/moving/marks-registers)
+(provide 'conf/useless-without-evil/marks-registers)

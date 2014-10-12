@@ -32,7 +32,7 @@
   ;; Show all TODOs.
   (bind-key "C-c M-t" #'org-show-todo-tree org-mode-map)
 
-  ;; Navigation (with conf/other/convenient-prefix-keys active):
+  ;; Navigation (with conf/useless-without-evil/convenient-prefix-keys active):
   ;;   SPC u -- up heading.
   ;;   SPC f -- forward heading (same level).
   ;;   SPC b -- backward heading (same level).

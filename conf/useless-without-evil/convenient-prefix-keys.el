@@ -65,4 +65,4 @@ Omit \"C-c [a-zA-Z]\" bindings, since they are not major-mode bindings, but user
   (add-hook 'after-change-major-mode-hook #'rebind-C-c-to-SPC t)
   (add-hook 'emacs-startup-hook #'rebind-C-c-to-SPC))
 
-(provide 'conf/other/convenient-prefix-keys)
+(provide 'conf/useless-without-evil/convenient-prefix-keys)

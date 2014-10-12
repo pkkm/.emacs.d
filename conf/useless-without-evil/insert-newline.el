@@ -16,4 +16,4 @@
       (evil-insert-newline-above)))
   (bind-key "g O" #'my-insert-line-above evil-normal-state-map))
 
-(provide 'conf/editing/insert-newline)
+(provide 'conf/useless-without-evil/insert-newline)

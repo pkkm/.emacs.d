@@ -5,4 +5,4 @@
     (bind-key key #'evil-normal-state evil-insert-state-map)
     (bind-key key #'evil-normal-state evil-replace-state-map)))
 
-(provide 'conf/insert-state/exit-insert-state)
+(provide 'conf/useless-without-evil/exit-insert-state)

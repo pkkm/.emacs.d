@@ -4,4 +4,4 @@
   (bind-key "C-v" #'quoted-insert evil-insert-state-map)
   (bind-key "C-v" #'quoted-insert evil-replace-state-map))
 
-(provide 'conf/insert-state/insert-verbatim)
+(provide 'conf/useless-without-evil/insert-verbatim)
