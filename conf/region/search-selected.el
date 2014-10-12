@@ -22,4 +22,4 @@
   (bind-key "*" #'search-selection-forward evil-visual-state-map)
   (bind-key "#" #'search-selection-backward evil-visual-state-map))
 
-(provide 'conf/visual/search-selected)
+(provide 'conf/region/search-selected)

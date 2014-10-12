@@ -18,4 +18,4 @@
         (set-marker mark-before-undo nil))
     ad-do-it))
 
-(provide 'conf/visual/undo-in-region)
+(provide 'conf/region/undo-in-region)

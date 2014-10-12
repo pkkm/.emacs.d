@@ -35,9 +35,9 @@
 (require 'conf/minibuffer/M-x)
 (require 'conf/minibuffer/default-choice)
 
-(require 'conf/visual/search-selected)
-(require 'conf/visual/expand-region)
-(require 'conf/visual/undo-in-region)
+(require 'conf/region/search-selected)
+(require 'conf/region/expand-region)
+(require 'conf/region/undo-in-region)
 
 (require 'conf/moving/little-word)
 (require 'conf/moving/ace-jump)

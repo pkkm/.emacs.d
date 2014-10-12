@@ -14,4 +14,4 @@
     (bind-key "C-@" #'er/expand-region evil-motion-state-map)
     (bind-key "C-M-@" #'er/contract-region evil-motion-state-map)))
 
-(provide 'conf/visual/expand-region)
+(provide 'conf/region/expand-region)
