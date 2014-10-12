@@ -44,4 +44,4 @@
   ;; TODO maybe use `window-configuration-change-hook'?
   (add-hook 'after-load-theme-hook #'set-mode-line-background t)) ; t -- append, so that we run after `calculate-mode-line-backgrounds'.
 
-(provide 'conf/modeline/background)
+(provide 'conf/view/modeline/background)

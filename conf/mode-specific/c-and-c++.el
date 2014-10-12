@@ -21,7 +21,7 @@
           (other . "linux")))
 
   ;; Default compilation, execution and cleaning commands.
-  (require 'conf/other/compiling) ; Used: my-additional-compile-args, compile-run-clean-command-setter-alist.
+  (require 'conf/driving-processes/compiling) ; Used: my-additional-compile-args, compile-run-clean-command-setter-alist.
   (defun set-c-or-c++-commands ()
     "If we're in C or C++ mode, set the appropriate compilation, running and cleaning commands."
     (interactive)

@@ -14,4 +14,4 @@
 ;; Revert.
 (bind-key "C-c v" #'revert-buffer)
 
-(provide 'conf/opening-saving/keys)
+(provide 'conf/opening-saving/bindings)

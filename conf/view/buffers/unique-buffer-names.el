@@ -6,4 +6,4 @@
         uniquify-strip-common-suffix t ; Strip common directory suffixes (f|x/a, f|y/a -> f|x, f|y).
         uniquify-separator "|"))
 
-(provide 'conf/view/unique-buffer-names)
+(provide 'conf/view/buffers/unique-buffer-names)

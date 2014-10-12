@@ -40,4 +40,4 @@
   ;; Be case insensitive when choosing the [head] character.
   (setq ace-jump-mode-case-fold t))
 
-(provide 'conf/motions/ace-jump)
+(provide 'conf/moving/ace-jump)

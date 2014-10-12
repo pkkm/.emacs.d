@@ -13,4 +13,4 @@
   ;; Make "y" also work in motion state.
   (bind-key "y" #'evil-yank evil-motion-state-map))
 
-(provide 'conf/operators/yank)
+(provide 'conf/other/yank)

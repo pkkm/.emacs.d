@@ -81,4 +81,4 @@ Interactively, prompts for the command if the variable `clean-read-command' is n
   (set (make-local-variable 'scroll-margin) 0))
 (add-hook 'compilation-mode-hook #'disable-scroll-margin-in-buffer)
 
-(provide 'conf/other/compiling)
+(provide 'conf/driving-processes/compiling)

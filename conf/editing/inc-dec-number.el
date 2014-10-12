@@ -7,4 +7,4 @@
     (bind-key "C-a" #'evil-numbers/inc-at-pt evil-normal-state-map)
     (bind-key "C-M-a" #'evil-numbers/dec-at-pt evil-normal-state-map)))
 
-(provide 'conf/operators/inc-dec-number)
+(provide 'conf/editing/inc-dec-number)

@@ -32,4 +32,4 @@ Also observe the lower limits on window size: `my-split-window/min-width', `my-s
 
 (setq split-window-preferred-function #'my-split-window)
 
-(provide 'conf/view/automatic-window-splitting)
+(provide 'conf/view/windows/automatic-window-splitting)

@@ -33,4 +33,4 @@ Then, restore the saved window configuration from before launching `magit-status
 (setq vc-handled-backends '())
 
 
-(provide 'conf/opening-saving/version-control)
+(provide 'conf/driving-processes/version-control)

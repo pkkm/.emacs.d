@@ -13,4 +13,4 @@
         (search-forward-regexp "[_A-Z]\\|\\W" nil t)
         (backward-char)))))
 
-(provide 'conf/motions/little-word)
+(provide 'conf/moving/little-word)

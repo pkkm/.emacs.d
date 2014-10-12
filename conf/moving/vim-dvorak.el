@@ -32,4 +32,4 @@
   (bind-key "l" #'evil-search-next evil-motion-state-map)
   (bind-key "L" #'evil-search-previous evil-motion-state-map))
 
-(provide 'conf/motions/vim-dvorak)
+(provide 'conf/moving/vim-dvorak)

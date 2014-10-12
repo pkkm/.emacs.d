@@ -80,4 +80,4 @@
                 '((:eval (ignore-specific-messages '("pl/ generating new separator")
                                                    (ml-format))))))
 
-(provide 'conf/modeline/format)
+(provide 'conf/view/modeline/format)

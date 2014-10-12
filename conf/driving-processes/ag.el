@@ -8,4 +8,4 @@
   :config
   (setq ag-highlight-search t))
 
-(provide 'conf/opening-saving/ag)
+(provide 'conf/driving-processes/ag)

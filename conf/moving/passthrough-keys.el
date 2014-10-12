@@ -11,4 +11,4 @@
         (call-interactively major-mode-TAB-binding))))
   (bind-key "g TAB" #'current-major-mode-TAB evil-motion-state-map))
 
-(provide 'conf/motions/passthrough-keys)
+(provide 'conf/moving/passthrough-keys)

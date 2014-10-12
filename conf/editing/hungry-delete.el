@@ -9,4 +9,4 @@
       (bind-key "M-<backspace>" #'hungry-delete-backward keymap)
       (bind-key "M-DEL" #'hungry-delete-backward keymap))))
 
-(provide 'conf/operators/hungry-delete)
+(provide 'conf/editing/hungry-delete)

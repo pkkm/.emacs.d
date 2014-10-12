@@ -41,4 +41,4 @@ If point is between the beginning of line and the first non-whitespace character
   (evil-declare-not-repeat 'evil-universal-argument)
   (evil-declare-not-repeat 'evil-negative-argument))
 
-(provide 'conf/operators/prefix-arguments)
+(provide 'conf/other/prefix-arguments)

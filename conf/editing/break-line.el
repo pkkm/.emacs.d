@@ -2,4 +2,4 @@
 
 (bind-key "<C-return>" #'indent-new-comment-line) ; Works both in GUI and xterm.
 
-(provide 'conf/operators/break-line)
+(provide 'conf/editing/break-line)

@@ -26,4 +26,4 @@
 
   (setq debpaste-user-name "pkkm"))
 
-(provide 'conf/opening-saving/pastebin)
+(provide 'conf/other/pastebin)

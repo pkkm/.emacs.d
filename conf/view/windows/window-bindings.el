@@ -93,4 +93,4 @@
 (bind-key "'" #'jump-to-register my-window-map)
 
 
-(provide 'conf/view/windows)
+(provide 'conf/view/windows/window-bindings)

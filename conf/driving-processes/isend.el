@@ -16,4 +16,4 @@
   ;; Don't append (one more) empty line to everything sent.
   (setq isend-end-with-empty-line nil))
 
-(provide 'conf/other/isend)
+(provide 'conf/driving-processes/isend)
