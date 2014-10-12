@@ -80,6 +80,11 @@
     "When saving an .el file, remove the associated .elc file."
     (make-local-variable 'after-save-hook)
     (add-hook 'after-save-hook #'my-remove-elc-if-exists))
-  (add-hook 'emacs-lisp-mode-hook #'my-remove-elc-on-save))
+  (add-hook 'emacs-lisp-mode-hook #'my-remove-elc-on-save)
+
+  ;; Flycheck: don't check documentation, just code.
+  (with-eval-after-load 'flycheck
+    (setq-default flycheck-disabled-checkers
+                  (cons 'emacs-lisp-checkdoc flycheck-disabled-checkers))))
 
 (provide 'conf/mode-specific/elisp-and-interaction)

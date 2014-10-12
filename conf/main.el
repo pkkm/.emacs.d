@@ -53,6 +53,7 @@
 (require 'conf/editing/hungry-delete)
 
 (require 'conf/driving-processes/ag)
+(require 'conf/driving-processes/flycheck)
 (require 'conf/driving-processes/isend)
 (require 'conf/driving-processes/version-control)
 (require 'conf/driving-processes/compiling)
