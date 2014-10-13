@@ -43,6 +43,7 @@
 (require 'conf/moving/ace-jump)
 
 (require 'conf/editing/indentation)
+(require 'conf/editing/kill-word-with-C-w)
 (require 'conf/editing/refactoring)
 (require 'conf/editing/completion)
 (require 'conf/editing/comments)
