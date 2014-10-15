@@ -24,16 +24,29 @@
   ;;  :config
   ;;  (load-theme 'soft-morning t))
 
+  ;; Noctilux theme -- dark theme from Light Table.
+  ;;(use-package noctilux-theme
+  ;;  :ensure noctilux-theme
+  ;;  :config
+  ;;  (load-theme 'noctilux t))
+  ;; Make comments and documentation more visible.
+  ;;(require 'color) ; Used: color-lighten-name.
+  ;;(dolist (face '(font-lock-comment-face
+  ;;                font-lock-comment-delimiter-face
+  ;;                font-lock-doc-face))
+  ;;  (set-face-italic face nil)
+  ;;  (set-face-foreground face
+  ;;                       (color-lighten-name (face-foreground face) 10))))
+
   ;; Wombat theme -- dark, with many greens and browns.
   (load-theme 'wombat)
   (set-cursor-color "navajo white")
-
   ;; Different colors for Org headline levels with the Wombat theme.
   ;; (Wombat has the same colors for Org headlines with levels 1 and 2, and also 6 and 7.)
   (with-eval-after-load 'org
-    (setq org-level-faces
-          '(org-level-1 org-level-3 org-level-4 org-level-5 org-level-6 org-level-8))
-    (setq org-n-level-faces 6)))
+   (setq org-level-faces
+         '(org-level-1 org-level-3 org-level-4 org-level-5 org-level-6 org-level-8))
+   (setq org-n-level-faces 6)))
 
 ;; Don't let Evil set the cursor color.
 (with-eval-after-load 'evil
