@@ -6,6 +6,7 @@
 (require 'conf/evil)
 
 (require 'conf/view/trailing-whitespace)
+(require 'conf/view/eldoc)
 (require 'conf/view/indent-guides)
 (require 'conf/view/hl-current-line)
 (require 'conf/view/color-theme)

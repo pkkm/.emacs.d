@@ -1,16 +1,6 @@
 ;;; Emacs Lisp and Lisp Interaction modes.
 ;; Lisp Interaction mode inherits hooks, etc. from Emacs Lisp mode, but doesn't inherit its keymaps.
 
-;; Eldoc mode -- show function arguments in minibuffer.
-(use-package eldoc ; Included with Emacs.
-  :diminish eldoc-mode
-  :commands eldoc-mode
-  :init
-  (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
-  :config
-  (setq eldoc-idle-delay 0.1)
-  (setq eldoc-echo-area-use-multiline-p 'truncate-sym-name-if-fit))
-
 ;; Highlight defined symbols.
 (use-package highlight-defined
   :ensure highlight-defined
@@ -39,6 +29,10 @@
 (use-package lisp-mode ; Bundled with Emacs; contains lisp-mode, emacs-lisp-mode and lisp-interaction-mode.
   :defer t
   :config
+
+  ;; Eldoc -- show function arguments in the minibuffer.
+  ;; (Configuration is in conf/view/eldoc.el.)
+  (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
 
   ;; Completion sources.
   (require 'conf/editing/completion) ; Used: my-major-mode-ac-sources.
