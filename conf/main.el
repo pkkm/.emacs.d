@@ -99,6 +99,7 @@
 (require 'conf/other/count-lines-words-chars)
 
 (require 'conf/mode-specific/fundamental)
+(require 'conf/mode-specific/web)
 (require 'conf/mode-specific/c-and-c++)
 (require 'conf/mode-specific/calc)
 (require 'conf/mode-specific/compilation)
