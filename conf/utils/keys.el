@@ -1,5 +1,6 @@
 ;;; Utilities for key sequences and keymaps.
 
+
 ;;; Key sequences.
 
 (defun key-as-vector (key)
@@ -22,7 +23,14 @@ The result is a vector if KEY-1 or KEY-2 is a vector. Otherwise it's a string."
    ((not (or (vectorp key-2) (stringp key-2)))
     (error "KEY-2 is not a key sequence (vector or string)"))))
 
+
 ;;; Keymaps.
+
+(defun clear-keymap (keymap)
+  "Delete all bindings in KEYMAP.
+The intuitive solution, (setq keymap-name (make-sparse-keymap)), doesn't work (as of 24.4).
+Apparently Emacs copies the head of the keymap (which is a list) somewhere and uses that."
+  (setcdr keymap nil))
 
 (require 'conf/utils/lists) ; Used: recar.
 (defun prepend-keys-in-key-binding-alist (key key-binding-alist)
@@ -84,5 +92,6 @@ Doesn't see some variables!"
              (current-active-maps)))
 
 (maps-with-bound-key (kbd "RET"))
+
 
 (provide 'conf/utils/keys)

@@ -57,7 +57,9 @@ Format: '((major-mode . (ac-source ...)) ...)")
 
   ;;; Bindings.
 
-  (setq ac-completing-map (make-sparse-keymap)) ; There is also `ac-menu-map', for when the menu is active.
+  ;; Delete default bindings.
+  (require 'conf/utils/keys) ; Used: clear-keymap.
+  (clear-keymap ac-completing-map) ; There is also `ac-menu-map', for when the menu is active.
 
   ;; Cycle candidates with C-n and C-p, or activate `auto-complete' if it's not active.
   (with-eval-after-load 'evil

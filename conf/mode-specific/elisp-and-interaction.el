@@ -13,18 +13,17 @@
   :ensure elisp-slime-nav
   :diminish elisp-slime-nav-mode
   :commands turn-on-elisp-slime-nav-mode
-  :pre-load
+  :init
+  (add-hook 'emacs-lisp-mode-hook #'turn-on-elisp-slime-nav-mode)
+  :config
 
   ;; `C-c .', `C-c ,' -- go to definition of symbol at point, go back.
   ;; `C-c t' -- describe thing at point.
-  ;; For some reason, this needs to happen before `elisp-slime-nav' is loaded.
-  (setq elisp-slime-nav-mode-map (make-sparse-keymap))
+  (require 'conf/utils/keys) ; Used: clear-keymap.
+  (clear-keymap elisp-slime-nav-mode-map)
   (bind-key "C-c ." #'elisp-slime-nav-find-elisp-thing-at-point elisp-slime-nav-mode-map)
   (bind-key "C-c ," #'pop-tag-mark elisp-slime-nav-mode-map)
-  (bind-key "C-c C-t" #'elisp-slime-nav-describe-elisp-thing-at-point elisp-slime-nav-mode-map)
-
-  :init
-  (add-hook 'emacs-lisp-mode-hook #'turn-on-elisp-slime-nav-mode))
+  (bind-key "C-c C-t" #'elisp-slime-nav-describe-elisp-thing-at-point elisp-slime-nav-mode-map))
 
 (use-package lisp-mode ; Bundled with Emacs; contains lisp-mode, emacs-lisp-mode and lisp-interaction-mode.
   :defer t
