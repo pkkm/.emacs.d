@@ -7,7 +7,7 @@
 (use-package auto-complete
   :ensure auto-complete
   :diminish auto-complete-mode
-  :commands global-auto-complete-mode
+  :defer t
   :init
 
   (defvar my-major-mode-ac-sources '()
@@ -15,7 +15,16 @@
 Format: '((major-mode . (ac-source ...)) ...)")
   ;; This has to be here because it's used by other parts of my config.
 
-  (global-auto-complete-mode 1)
+  ;; Enable auto-complete everywhere (apart from the minibuffer).
+  (defun my-enable-auto-complete ()
+    "Enable auto-complete if we're not in the minibuffer."
+    (unless (minibufferp)
+      (auto-complete-mode 1)))
+  (define-globalized-minor-mode
+    my-auto-complete-everywhere-mode
+    auto-complete-mode
+    my-enable-auto-complete)
+  (my-auto-complete-everywhere-mode 1)
 
   :config
 

@@ -5,10 +5,6 @@
   :defer t
   :config
 
-  ;; Auto-completion.
-  (with-eval-after-load 'auto-complete
-    (setq ac-modes (append TeX-modes ac-modes))) ; Enable `auto-complete-mode' in AUCTeX modes.
-
   ;; Indentation: smart tabs.
   (with-eval-after-load 'smart-tabs-mode
     (smart-tabs-add-language-support LaTeX LaTeX-mode-hook
