@@ -5,9 +5,10 @@
   :defer t
   :config
 
-  ;; The key for sending the current line (or region) to the associated REPL.
+  ;; M-RET -- send the current line (or region) to the associated REPL.
   ;; Use "M-x isend-associate RET *repl-name* RET" to associate the current buffer with *repl-name*.
-  (bind-key "C-RET" nil isend-mode-map)
+  (require 'conf/utils/keys) ; Used: clear-keymap.
+  (clear-keymap isend-mode-map)
   (bind-key "M-RET" #'isend-send isend-mode-map)
 
   ;; Delete indentation in sent regions (preserves indentation relative to the first line in region).
