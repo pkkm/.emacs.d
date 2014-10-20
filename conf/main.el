@@ -94,6 +94,7 @@
 (require 'conf/other/enable-confusing-commands)
 (require 'conf/other/portable-keyboard-layout-fix)
 (require 'conf/other/guide-key)
+(require 'conf/other/gist)
 (require 'conf/other/clipboard)
 (require 'conf/other/pastebin)
 (require 'conf/other/count-lines-words-chars)
