@@ -1,6 +1,5 @@
 Rarely used
 ===========
-X	delete one character backward
 C-j	newline
 C-k	kill line
 C-t indent
