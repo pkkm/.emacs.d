@@ -10,6 +10,11 @@
   ;; (Configuration is in conf/view/eldoc.el.)
   (add-hook 'cider-mode-hook #'cider-turn-on-eldoc-mode))
 
+;; YASnippet snippets.
+(use-package clojure-snippets
+  :ensure clojure-snippets
+  :defer t)
+
 ;; Auto-complete integration.
 ;; Disabled for now, as it hangs Emacs when typing (the official solution seems to be to switch to company-mode).
 ;; (use-package ac-cider
