@@ -1,6 +1,7 @@
 ;;; Increment/decrement the number at point.
 
 (use-package evil-numbers
+  :ensure evil-numbers
   :defer t
   :init
   (with-eval-after-load 'evil
