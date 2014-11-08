@@ -1,4 +1,4 @@
-;;; Configuration for web-mode -- a mode for mixed HTML, CSS and PHP.
+;;; Configuration for web-mode -- a mode for mixed HTML, CSS, PHP and Javascript.
 
 (use-package web-mode
   :ensure web-mode
