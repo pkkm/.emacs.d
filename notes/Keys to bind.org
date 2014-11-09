@@ -1,0 +1,22 @@
+* Normal state
+  - Q
+  - g z
+  - g y
+  - g x
+  - g r
+  - g l
+  - g k
+  - g j
+  - g c
+  - g RET
+** Redundant.
+   - C-j :: Same as RET.
+   - C-k :: Kill line (same as d$).
+   - ^ :: First non-blank character in line (same as H).
+** Unused
+   - C-t :: Pop the tag mark (which I don't use).
+* Normal and insert state
+  - C-,
+  - C-;
+** Redundant
+   - C-q :: Insert a character verbatim (same as C-v in insert state).
