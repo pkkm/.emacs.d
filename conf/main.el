@@ -92,10 +92,10 @@
 (require 'conf/configuring/flatten-conf)
 (require 'conf/configuring/command-log)
 
+(require 'conf/other/discoverability)
 (require 'conf/other/enable-confusing-commands)
 (require 'conf/other/portable-keyboard-layout-fix)
 (require 'conf/other/publish-realtime-in-browser)
-(require 'conf/other/guide-key)
 (require 'conf/other/gist)
 (require 'conf/other/clipboard)
 (require 'conf/other/pastebin)

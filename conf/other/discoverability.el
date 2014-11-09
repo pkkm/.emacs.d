@@ -1,9 +1,10 @@
-;;; Popups with possible keys after a prefix key.
+;;; Discoverability features.
 
+;; When I press a prefix key, pop up a list of commands.
 (use-package guide-key
   :ensure guide-key
+  :defer t
   :diminish guide-key-mode
-  :commands guide-key-mode
   :init
   (guide-key-mode 1)
   :config
@@ -15,4 +16,4 @@
           "e RET" "C-x RET"
           "e C-n" "C-x n")))
 
-(provide 'conf/other/guide-key)
+(provide 'conf/other/discoverability)
