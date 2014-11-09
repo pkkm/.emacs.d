@@ -16,4 +16,20 @@
           "e RET" "C-x RET"
           "e C-n" "C-x n")))
 
+;; Add magit-like menus to dired and some others.
+(use-package discover
+  :ensure discover
+  :defer t
+  :init
+  (global-discover-mode 1)
+  :config
+  ;; Evil: make the menu buffer be in Emacs state.
+  (with-eval-after-load 'evil
+    (evil-set-initial-state 'makey-key-mode 'emacs)))
+
+;; C-h C-m -- show documentation for major mode commands (nicer than C-h m).
+(use-package discover-my-major
+  :ensure discover-my-major
+  :bind ("C-h C-m" . discover-my-major))
+
 (provide 'conf/other/discoverability)
