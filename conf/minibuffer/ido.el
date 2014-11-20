@@ -10,7 +10,6 @@
   :init
   (ido-mode 1)
   :config
-
   ;; Flex matching.
   (setq ido-enable-flex-matching t)
 
@@ -22,6 +21,9 @@
   (defun my-ido-bindings ()
     ;; `ido-completion-map' -- the current completion keymap.
     ;; `ido-cur-item' -- the type of item that is being read: file, dir, buffer or list.
+
+    ;; Don't complete on SPC.
+    (bind-key "SPC" nil ido-completion-map)
 
     ;; C-n, C-p -- cycle matches.
     (bind-key "C-n" #'ido-next-match ido-completion-map)
@@ -48,10 +50,7 @@
     (interactive)
     (if (= (minibuffer-prompt-end) (point))
         (ido-up-directory t)
-      (backward-kill-line)))
-
-  ;; Make SPC insert a space (I haven't found any less hackish way to do this).
-  (defalias 'ido-complete-space 'self-insert-command))
+      (backward-kill-line))))
 
 
 ;; Display completions vertically.
