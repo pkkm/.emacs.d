@@ -1,5 +1,4 @@
 * Normal state
-  - Q
   - g z
   - g y
   - g x
