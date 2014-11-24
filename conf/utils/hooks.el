@@ -6,6 +6,7 @@
           (add-hook hook function))
         hooks))
 
+;; Unused, TODO remove?
 (defmacro add-one-shot-hook (hook function)
   "Add FUNCTION to HOOK. Remove it after its first execution."
   (let ((wrapper-function (make-symbol "add-one-shot-hook--wrapper-function")))
