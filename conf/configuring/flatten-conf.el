@@ -39,8 +39,8 @@
 Then, byte-recompile the file."
   (interactive)
   (when (or (not (file-exists-p flattened-conf-file))
-            (any-file-in-directory-newer-than-p (expand-file-name "conf" main-dir)
-                                                (file-modtime flattened-conf-file)))
+            (files-newer-than-time (expand-file-name "conf" main-dir)
+                                   (file-modtime flattened-conf-file)))
     (message "Flattening conf/...")
     (flatten-conf)
     (message "Flattening conf/... done."))

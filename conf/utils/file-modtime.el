@@ -8,14 +8,12 @@ If FILE cannot be read, return nil."
         (nth 5 attributes)
       nil)))
 
-(use-package dash :ensure dash) ; Used: -any?.
-(defun any-file-in-directory-newer-than-p (directory time)
-  "Returns t if any file in DIRECTORY (recursively) has been modified after TIME, otherwise nil."
-  (-any? (lambda (file)
-           (unless (member (file-relative-name file directory) (list "." ".."))
-             (if (file-directory-p file)
-                 (any-file-in-directory-newer-than-p file time)
-               (time-less-p time (file-modtime file)))))
-         (directory-files directory 'absolute-file-names)))
+(use-package f :ensure f :commands f-files)
+(defun files-newer-than-time (directory time)
+  "Return a list of files in DIRECTORY modified after TIME."
+  (f-files directory
+           (lambda (file)
+             (time-less-p time (file-modtime file)))
+           t))
 
 (provide 'conf/utils/file-modtime)
