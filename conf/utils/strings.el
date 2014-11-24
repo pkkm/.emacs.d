@@ -1,10 +1,9 @@
 ;;; Functions for handling strings.
 
-(defun string-replace-first-regexp-match (regexp replacement string)
-  "Replace the first match of REGEXP in STRING with REPLACEMENT.
-If STRING doesn't contain REPLACEMENT, return STRING."
-  (if (string-match regexp string)
-      (replace-match replacement t t string)
+(defun string-replace-first (old new string)
+  "Replace the first occurrence of OLD with NEW in STRING."
+  (if (string-match (regexp-quote old) string)
+      (replace-match new t t string)
     string))
 
 (defun string-starts-with (string prefix)
