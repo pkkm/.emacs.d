@@ -1,7 +1,6 @@
 ;;; Messages that are displayed when Emacs starts up.
 
 ;; Suppress the warning about .emacs.d being in `load-path'.
-(require 'conf/utils/strings) ; Used: string-starts-with.
 (defadvice display-warning
     (around no-warn-.emacs.d-in-load-path (type message &rest unused) activate)
   "Ignore the warning about the `.emacs.d' directory being in `load-path'."
