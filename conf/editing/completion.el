@@ -100,7 +100,7 @@ Format: '((major-mode . (ac-source ...)) ...)")
                              ac-source-filename))
 
   ;; Automatically add sources from `my-major-mode-ac-sources'.
-  (use-package dash :ensure dash) ; Used: -->, -map.
+  (use-package dash :ensure dash :commands (--> -map))
   (require 'conf/utils/modes) ; Used: derived-mode-hierarchy.
   (require 'cl-lib) ; Used: cl-remove-duplicates.
   (defun my-set-ac-sources ()
