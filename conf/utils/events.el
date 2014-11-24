@@ -7,27 +7,31 @@
     (hyper . "H-")
     (super . "s-")
     (alt . "A-"))
-  "Association list of modifier symbols and their representations in `key-description'.") ; TODO better name than "association list"?
+  "Alist of modifier symbols and their representations in `key-description'.")
+
+(defun modifier-to-string (modifier)
+  "Convert MODIFIER (e.g. `meta', see `modifier-description-alist') to a representation used in `kbd' (e.g. \"M-\")."
+  (cdr (assq modifier modifier-description-alist)))
+
+(defun event-to-string (event)
+  "Convert EVENT to a string representation used in `kbd'."
+  (key-description (vector event)))
 
 (require 'conf/utils/strings) ; Used: string-replace-first.
 (defun event-without-modifier (modifier event)
-  "Return EVENT without the modifier key MODIFIER.
-Modifier can be one of: `meta', `control', `shift', `hyper', `super', `alt'."
-  (let ((new-key-description
-         (string-replace-first (cdr (assq modifier modifier-description-alist)) ""
-                               (key-description (vector event)))))
-    (car (vector-to-list (kbd new-key-description)))))
+  "Return EVENT without MODIFIER (e.g. `meta', see `modifier-description-alist')."
+  (let ((new-key-string
+         (string-replace-first (modifier-to-string modifier) "" (event-to-string event))))
+    (car (vector-to-list (kbd new-key-string)))))
 
 (defun event-with-modifier (modifier event)
-  "Return EVENT with the modifier key MODIFIER.
-Modifier can be one of: `meta', `control', `shift', `hyper', `super', `alt'."
-  (let ((new-key-description (concat (cdr (assq modifier modifier-description-alist))
-                                     (key-description (vector event)))))
-    (car (vector-to-list (kbd new-key-description)))))
+  "Return EVENT with MODIFIER (e.g. `meta', see `modifier-description-alist')."
+  (let ((new-key-string
+         (concat (modifier-to-string modifier) (event-to-string event))))
+    (car (vector-to-list (kbd new-key-string)))))
 
 (defun event-inverted-modifier (modifier event)
-  "Return EVENT with the state of the modifier key MODIFIER inverted.
-Modifier can be one of: `meta', `control', `shift', `hyper', `super', `alt'."
+  "Return EVENT with the state of MODIFIER inverted (e.g. `meta', see `modifier-description-alist')."
   (if (memq modifier (event-modifiers event))
       (event-without-modifier modifier event)
     (event-with-modifier modifier event)))
