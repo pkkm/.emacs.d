@@ -10,7 +10,7 @@ If FILE cannot be read, return nil."
 
 (use-package dash :ensure dash) ; Used: -any?.
 (defun any-file-in-directory-newer-than-p (directory time)
-  "Returns t if any file in DIRECTORY has been modified later than TIME, otherwise nil."
+  "Returns t if any file in DIRECTORY (recursively) has been modified after TIME, otherwise nil."
   (-any? (lambda (file)
            (unless (member (file-relative-name file directory) (list "." ".."))
              (if (file-directory-p file)
