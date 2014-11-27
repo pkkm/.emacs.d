@@ -107,6 +107,7 @@
 (require 'conf/mode-specific/javascript)
 (require 'conf/mode-specific/web)
 (require 'conf/mode-specific/c-and-c++)
+(require 'conf/mode-specific/cmake)
 (require 'conf/mode-specific/clojure)
 (require 'conf/mode-specific/calc)
 (require 'conf/mode-specific/compilation)
