@@ -25,6 +25,7 @@
 
 (when (display-graphic-p)
   (require 'conf/view/gui/title)
+  (require 'conf/view/gui/resize-pixelwise)
   (require 'conf/view/gui/font)
   (require 'conf/view/gui/cursor)
   (require 'conf/view/gui/fringe)
