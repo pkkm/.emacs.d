@@ -3,7 +3,7 @@
 
 (use-package emr
   :ensure emr
-  :commands emr-initialize
+  :defer t
   :init
   (bind-key "C-c \\" #'emr-show-refactor-menu prog-mode-map)
   (add-hook 'prog-mode-hook #'emr-initialize))

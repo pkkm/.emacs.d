@@ -7,8 +7,8 @@
 
 (use-package evil
   :ensure evil
+  :defer t
   :diminish undo-tree-mode
-  :commands evil-mode
   :init
   (evil-mode 1)
   :config

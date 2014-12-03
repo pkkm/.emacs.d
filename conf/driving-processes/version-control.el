@@ -5,8 +5,8 @@
 
 (use-package magit
   :ensure magit
+  :defer t
   :diminish magit-auto-revert-mode
-  :commands magit-status
   :bind ("C-c g" . magit-status)
   :config
 

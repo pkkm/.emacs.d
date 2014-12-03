@@ -4,8 +4,8 @@
 
 (use-package indent-guide
   :ensure indent-guide
+  :defer t
   :diminish indent-guide-mode
-  :commands indent-guide-mode
   :config
 
   ;; Use a color close to the background.

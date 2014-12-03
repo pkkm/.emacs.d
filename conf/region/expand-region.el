@@ -2,7 +2,7 @@
 
 (use-package expand-region
   :ensure expand-region
-  :commands (er/expand-region er/contract-region)
+  :defer t
   :init
 
   (with-eval-after-load 'evil

@@ -1,7 +1,7 @@
 ;;; Remember recently opened files and allow quick access to them.
 
 (use-package recentf ; Bundled with Emacs.
-  :commands recentf-mode
+  :defer t
 
   :pre-load ; These have to be set before enabling recentf-mode.
 

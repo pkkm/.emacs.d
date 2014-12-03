@@ -4,15 +4,15 @@
 ;; Highlight defined symbols.
 (use-package highlight-defined
   :ensure highlight-defined
-  :commands highlight-defined-mode
+  :defer t
   :init
   (add-hook 'emacs-lisp-mode-hook #'highlight-defined-mode))
 
 ;; SLIME-like navigation in Elisp.
 (use-package elisp-slime-nav
   :ensure elisp-slime-nav
+  :defer t
   :diminish elisp-slime-nav-mode
-  :commands turn-on-elisp-slime-nav-mode
   :init
   (add-hook 'emacs-lisp-mode-hook #'turn-on-elisp-slime-nav-mode)
   :config

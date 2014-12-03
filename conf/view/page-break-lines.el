@@ -2,8 +2,8 @@
 
 (use-package page-break-lines
   :ensure page-break-lines
+  :defer t
   :diminish page-break-lines-mode
-  :commands (page-break-lines-mode global-page-break-lines-mode)
   :init
   (global-page-break-lines-mode))
 

@@ -19,7 +19,7 @@
 ;; Disabled for now, as it hangs Emacs when typing (the official solution seems to be to switch to company-mode).
 ;; (use-package ac-cider
 ;;   :ensure t
-;;   :commands ac-cider-setup
+;;   :defer t
 ;;   :init
 ;;   (require 'conf/utils/hooks) ; Used: add-hooks.
 ;;   (with-eval-after-load 'auto-complete

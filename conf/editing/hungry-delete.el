@@ -2,7 +2,7 @@
 
 (use-package hungry-delete
   :ensure hungry-delete
-  :commands (hungry-delete-forward hungry-delete-backward)
+  :defer t
   :init
   (with-eval-after-load 'evil
     (dolist (keymap (list evil-normal-state-map evil-insert-state-map))

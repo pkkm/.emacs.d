@@ -2,7 +2,7 @@
 
 (use-package emmet-mode
   :ensure emmet-mode
-  :commands emmet-mode
+  :defer t
   :config
 
   ;; Keybindings: expand abbreviations with C-j, disable everything else.

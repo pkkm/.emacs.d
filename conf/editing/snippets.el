@@ -2,8 +2,8 @@
 
 (use-package yasnippet
   :ensure yasnippet
+  :defer t
   :diminish yas-minor-mode
-  :commands yas-global-mode
   :init
   (yas-global-mode 1)
   :config

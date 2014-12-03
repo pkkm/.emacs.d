@@ -2,7 +2,7 @@
 
 (use-package ace-jump-mode
   :ensure ace-jump-mode
-  :commands ace-jump-mode
+  :defer t
 
   :init ; We define the motion here instead of in :config so that ace-jump-mode can be lazily loaded when `ace-jump-mode' is called.
 
@@ -34,7 +34,7 @@
 
   :config
 
-  ;; Use only lowercase letters for jumping.
+  ;; Use lowercase letters for jumping.
   (setq ace-jump-mode-move-keys (number-sequence ?a ?z))
 
   ;; Be case insensitive when choosing the [head] character.
