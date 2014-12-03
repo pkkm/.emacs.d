@@ -11,6 +11,7 @@
     (setq comment-column 0)))
 (add-hook 'after-change-major-mode-hook #'my-dont-indent-right-margin-comments)
 
+(package-ensure-installed 'evil-nerd-commenter) ; So that it's installed even if Evil isn't enabled at the moment.
 (with-eval-after-load 'evil
   ;; Undefine the "z" and "Z" prefixes; I never use them anyway (C-l is sufficient for scrolling).
   (dolist (keymap (list evil-normal-state-map evil-motion-state-map evil-visual-state-map))
@@ -30,7 +31,6 @@
 
   ;; Z -- Evil operator to comment/uncomment a piece of text (works with region too).
   (use-package evil-nerd-commenter
-    :ensure evil-nerd-commenter
     :commands evilnc-comment-operator
     :pre-load
     ;; This package has to be supplied with a key to bind to the operator. (TODO submit a bug report?)

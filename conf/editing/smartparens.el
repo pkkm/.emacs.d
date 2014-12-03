@@ -1,9 +1,9 @@
 ;;; Smartparens -- a modern alternative to paredit.
 
-(use-package smartparens-config ; Use smartparens with the default configuration (which includes some mode-specific pairs for HTML, LaTeX, etc.).
+(use-package smartparens-config ; Use Smartparens with the default configuration (which includes some mode-specific pairs for HTML, LaTeX, etc.).
   :ensure smartparens
+  :commands smartparens-global-mode ; For some reason, using `:defer' instead of `:commands' breaks `diminish' for Smartparens.
   :diminish smartparens-mode
-  :commands smartparens-global-mode
   :init
   (smartparens-global-mode 1)
   :config

@@ -1,6 +1,7 @@
 ;;; Color theme.
 
 ;; Create `after-load-theme-hook'.
+;; TODO submit this upstream?
 (defvar after-load-theme-hook nil
   "Hook run after a color theme is loaded using `load-theme'.")
 (defadvice load-theme (after run-after-load-theme-hook activate)
