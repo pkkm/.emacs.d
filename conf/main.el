@@ -73,7 +73,7 @@
 (require 'conf/useless-without-evil/vim-dvorak)
 (require 'conf/useless-without-evil/g-TAB-as-TAB)
 (require 'conf/useless-without-evil/insert-verbatim)
-(require 'conf/useless-without-evil/exit-insert-state)
+(require 'conf/useless-without-evil/C-SPC-exits-insert-and-visual)
 (require 'conf/useless-without-evil/text-object-whole-buffer)
 
 (require 'conf/opening-saving/backups)
