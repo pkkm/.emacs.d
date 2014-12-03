@@ -1,4 +1,4 @@
-;;; Customizations for yanking.
+;;; Make "y" and "Y" work as expected.
 
 (with-eval-after-load 'evil
   ;; Make "Y" yank to the end of line instead of yanking the whole line.
@@ -13,4 +13,4 @@
   ;; Make "y" also work in motion state.
   (bind-key "y" #'evil-yank evil-motion-state-map))
 
-(provide 'conf/useless-without-evil/yank)
+(provide 'conf/useless-without-evil/yank-fixes)

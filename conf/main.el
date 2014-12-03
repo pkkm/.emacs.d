@@ -68,7 +68,7 @@
 (require 'conf/useless-without-evil/replace-symbol-operator)
 (require 'conf/useless-without-evil/convenient-prefix-keys)
 (require 'conf/useless-without-evil/prefix-arguments)
-(require 'conf/useless-without-evil/yank)
+(require 'conf/useless-without-evil/yank-fixes)
 (require 'conf/useless-without-evil/marks-registers)
 (require 'conf/useless-without-evil/vim-dvorak)
 (require 'conf/useless-without-evil/g-TAB-as-TAB)
