@@ -56,13 +56,10 @@ Then, byte-recompile the file."
 ;; Run the above each time Emacs is idle for 4 minutes.
 (defun reflatten-recompile-conf-idle-handler ()
   "Run `reflatten-recompile-conf'. On error, cancel its idle timer."
-  (let ((executed-successfully-p nil))
-    (unwind-protect
-        (progn
-          (reflatten-recompile-conf)
-          (setq executed-successfully-p t))
-      (unless executed-successfully-p
-        (cancel-timer reflatten-recompile-conf-timer)))))
+  (condition-case nil
+      (reflatten-recompile-conf)
+    ('error
+     (cancel-timer reflatten-recompile-conf-timer))))
 (setq reflatten-recompile-conf-timer
       (run-with-idle-timer 240 t #'reflatten-recompile-conf-idle-handler))
 
