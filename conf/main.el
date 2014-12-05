@@ -47,6 +47,7 @@
 (require 'conf/moving/ace-jump)
 
 (require 'conf/editing/indentation)
+(require 'conf/editing/abbrev)
 (require 'conf/editing/emmet)
 (require 'conf/editing/kill-word-with-C-w)
 (require 'conf/editing/refactoring)
