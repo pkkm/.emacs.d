@@ -34,7 +34,7 @@
           (conf-load-order))))
 
 (require 'conf/utils/file-modtime) ; Used: any-file-in-directory-newer-than-p, file-modtime.
-(defun reflatten-and-recompile-conf ()
+(defun reflatten-recompile-conf ()
   "If any file in conf/ is newer than the file `flattened-conf-file', re-flatten the configuration.
 Then, byte-recompile the file."
   (interactive)
@@ -51,12 +51,19 @@ Then, byte-recompile the file."
       (message "Compiling flattened conf/...")
       (if (byte-compile-file flattened-conf-file)
           (message "Compiling flattened conf/... done.")
-        (message "Compiling flattened conf/... error.")))))
+        (error "Compiling flattened conf/... error")))))
 
-;; Run the above each time Emacs is idle for a certain amount of time.
-(defvar reflatten-and-recompile-conf-idle-timeout 240 ; 4 minutes.
-  "After how many idle seconds should conf/ be flattened and compiled?")
-(run-with-idle-timer reflatten-and-recompile-conf-idle-timeout t
-                     #'reflatten-and-recompile-conf)
+;; Run the above each time Emacs is idle for 4 minutes.
+(defun reflatten-recompile-conf-idle-handler ()
+  "Run `reflatten-recompile-conf'. On error, cancel its idle timer."
+  (let ((executed-successfully-p nil))
+    (unwind-protect
+        (progn
+          (reflatten-recompile-conf)
+          (setq executed-successfully-p t))
+      (unless executed-successfully-p
+        (cancel-timer reflatten-recompile-conf-timer)))))
+(setq reflatten-recompile-conf-timer
+      (run-with-idle-timer 240 t #'reflatten-recompile-conf-idle-handler))
 
 (provide 'conf/configuring/flatten-conf)
