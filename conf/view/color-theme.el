@@ -43,7 +43,13 @@
     :ensure color-theme-sanityinc-tomorrow
     :defer t
     :init
-    (load-theme 'sanityinc-tomorrow-night t)))
+    (load-theme 'sanityinc-tomorrow-night t)
+    ;; Disable italics.
+    (dolist (face '(font-lock-comment-delimiter-face
+                    font-lock-comment-face mode-line-emphasis))
+      (set-face-attribute face nil :slant 'normal))
+    (with-eval-after-load 'rhtml-fonts
+      (set-face-attribute 'erb-comment-face nil :slant 'normal))))
 
 ;; Don't let Evil set the cursor color.
 (with-eval-after-load 'evil
