@@ -79,6 +79,7 @@
 
 (require 'conf/opening-saving/backups)
 (require 'conf/opening-saving/cygwin)
+(require 'conf/opening-saving/create-nonexistent-dirs)
 (require 'conf/opening-saving/tramp)
 (require 'conf/opening-saving/move-delete)
 (require 'conf/opening-saving/auto-revert)
