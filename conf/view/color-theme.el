@@ -18,13 +18,6 @@
   ;;  :init
   ;;  (load-theme 'ample t))
 
-  ;; Tomorrow Night -- dark; mainly cold colors.
-  ;; (use-package color-theme-sanityinc-tomorrow
-  ;;   :ensure color-theme-sanityinc-tomorrow
-  ;;   :defer t
-  ;;   :init
-  ;;   (load-theme 'sanityinc-tomorrow-night t))
-
   ;; Monokai -- dark; mainly warm colors.
   ;; (use-package monokai-theme
   ;;   :ensure monokai-theme
@@ -33,17 +26,24 @@
   ;;   (load-theme 'monokai t))
 
   ;; Wombat -- dark; some warm and some cold colors.
-  (use-package wombat ; Bundled with Emacs.
+  ;; (use-package wombat ; Bundled with Emacs.
+  ;;   :defer t
+  ;;   :init
+  ;;   (load-theme 'wombat)
+  ;;   (set-cursor-color "navajo white")
+  ;;   ;; Different colors for Org headline levels with the Wombat theme.
+  ;;   ;; (Wombat has the same colors for Org headlines with levels 1 and 2, and also 6 and 7.)
+  ;;   (with-eval-after-load 'org
+  ;;     (setq org-level-faces
+  ;;           '(org-level-1 org-level-3 org-level-4 org-level-5 org-level-6 org-level-8))
+  ;;     (setq org-n-level-faces 6)))
+
+  ;; Tomorrow Night -- dark; mainly cold colors.
+  (use-package color-theme-sanityinc-tomorrow
+    :ensure color-theme-sanityinc-tomorrow
     :defer t
     :init
-    (load-theme 'wombat)
-    (set-cursor-color "navajo white")
-    ;; Different colors for Org headline levels with the Wombat theme.
-    ;; (Wombat has the same colors for Org headlines with levels 1 and 2, and also 6 and 7.)
-    (with-eval-after-load 'org
-      (setq org-level-faces
-            '(org-level-1 org-level-3 org-level-4 org-level-5 org-level-6 org-level-8))
-      (setq org-n-level-faces 6))))
+    (load-theme 'sanityinc-tomorrow-night t)))
 
 ;; Don't let Evil set the cursor color.
 (with-eval-after-load 'evil
