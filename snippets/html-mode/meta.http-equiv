@@ -1,7 +1,0 @@
-# Copied from the YASnippet package and fixed ("<meta name" -> "<meta http-equiv") by pkkm.
-# TODO delete when https://github.com/AndreaCrotti/yasnippet-snippets/pull/61 is merged.
-#contributor : Jimmy Wu <frozenthrone88@gmail.com>
-#name : <meta http-equiv="..." content="..." />
-#group : meta
-# --
-<meta http-equiv="${1:Content-Type}" content="${2:text/html; charset=UTF-8}" />
