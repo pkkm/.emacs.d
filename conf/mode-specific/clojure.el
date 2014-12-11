@@ -25,4 +25,21 @@
 ;;   (with-eval-after-load 'auto-complete
 ;;     (add-hooks '(cider-mode-hook cider-repl-mode-hook) 'ac-cider-setup)))
 
+;; Clojure cheatsheet.
+;; Usage: M-x clojure-cheatsheet.
+(use-package clojure-cheatsheet
+  :ensure clojure-cheatsheet
+  :defer t)
+
+;; Refactoring.
+;; Prefix: C-c C-m (overrides the binding for macroexpand).
+(use-package clj-refactor
+  :ensure clj-refactor
+  :defer t
+  :diminish clj-refactor-mode
+  :init
+  (add-hook 'clojure-mode-hook #'clj-refactor-mode)
+  :config
+  (cljr-add-keybindings-with-prefix "C-c C-m"))
+
 (provide 'conf/mode-specific/clojure)
