@@ -43,7 +43,6 @@
 (require 'conf/region/undo-in-region)
 
 (require 'conf/moving/little-word)
-(require 'conf/moving/prev-next-symbol)
 (require 'conf/moving/ace-jump)
 
 (require 'conf/editing/indentation)
