@@ -97,6 +97,7 @@
 (require 'conf/configuring/command-log)
 
 (require 'conf/other/discoverability)
+(require 'conf/other/disable-suspending)
 (require 'conf/other/enable-confusing-commands)
 (require 'conf/other/portable-keyboard-layout-fix)
 (require 'conf/other/publish-realtime-in-browser)
