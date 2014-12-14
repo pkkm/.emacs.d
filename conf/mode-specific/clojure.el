@@ -25,11 +25,20 @@
 ;;   (with-eval-after-load 'auto-complete
 ;;     (add-hooks '(cider-mode-hook cider-repl-mode-hook) 'ac-cider-setup)))
 
-;; Clojure cheatsheet.
-;; Usage: M-x clojure-cheatsheet.
+;; Clojure cheatsheet (C-c M-h).
 (use-package clojure-cheatsheet
   :ensure clojure-cheatsheet
-  :defer t)
+  :defer t
+  :init
+  (with-eval-after-load 'clojure-mode
+    (defun clojure-cheatsheet-or-error ()
+      "Start `clojure-cheatsheet' if there's a nREPL connection (which it needs). Otherwise, error out."
+      (interactive)
+      (if (and (functionp 'nrepl-current-connection-buffer) ; Future-proofing in case the function name changes.
+               (not (nrepl-current-connection-buffer t)))
+          (error "An nREPL connection is needed!")
+        (call-interactively #'clojure-cheatsheet)))
+    (bind-key "C-c M-h" #'clojure-cheatsheet-or-error clojure-mode-map)))
 
 ;; Refactoring.
 ;; Prefix: C-c C-m (overrides the binding for macroexpand).
