@@ -29,9 +29,6 @@
            '(newline newline-and-indent evil-ret))
     (bind-key (vector 'remap fun-to-remap) #'evil-ret-and-indent evil-insert-state-map))
 
-  ;; Delete word in insert state with C-w.
-  (setq evil-want-C-w-delete t)
-
   ;; Unset other useless keys.
   (bind-key "C-e" nil evil-insert-state-map)
   (bind-key "RET" nil evil-motion-state-map)
