@@ -13,7 +13,8 @@
   (evil-mode 1)
   :config
 
-  (setq evil-cross-lines t) ; Allow motions to cross newlines.
+  (setq evil-cross-lines t) ; Allow "f" and similar motions to cross newlines.
+  (setq evil-move-cursor-back nil) ; Allow cursor at end of line, don't move it back when exiting insert state.
 
   ;; Search.
   (setq evil-regexp-search nil) ; Don't use regexes for / and ?.
