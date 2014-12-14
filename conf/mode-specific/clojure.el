@@ -34,6 +34,7 @@
 ;;     (add-hooks '(cider-mode-hook cider-repl-mode-hook) 'ac-cider-setup)))
 
 ;; Clojure cheatsheet (C-c M-h).
+;; See also: CIDER's "C-c C-d g" binding to look up symbol in Grimoire (online Clojure reference).
 (use-package clojure-cheatsheet
   :ensure clojure-cheatsheet
   :defer t
