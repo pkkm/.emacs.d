@@ -75,4 +75,4 @@
 ;; Delete (close/kill).
 (bind-key "c" #'kill-this-buffer my-buffer-map) ; Only delete the buffer.
 
-(provide 'conf/view/buffers/buffer-bindings)
+(provide 'conf/view/buffer-bindings)
