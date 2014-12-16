@@ -16,8 +16,7 @@
              #'my-lisp-indentation)
 
   ;; Indent guides.
-  (with-eval-after-load 'indent-guide
-    (add-hooks '(lisp-mode-hook emacs-lisp-mode-hook)
-               #'indent-guide-mode)))
+  ;; We don't use `with-eval-after-load' because `indent-guide-mode' is autoloaded, so it would never load.
+  (add-hooks '(lisp-mode-hook emacs-lisp-mode-hook) #'indent-guide-mode))
 
 (provide 'conf/mode-specific/lisps)
