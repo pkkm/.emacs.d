@@ -105,6 +105,7 @@
 (require 'conf/other/count-lines-words-chars)
 
 (require 'conf/mode-specific/fundamental)
+(require 'conf/mode-specific/xml)
 (require 'conf/mode-specific/javascript)
 (require 'conf/mode-specific/web)
 (require 'conf/mode-specific/c-and-c++)
