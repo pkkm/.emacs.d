@@ -18,7 +18,6 @@
 (require 'conf/view/initial-messages)
 (require 'conf/view/windows/automatic-window-splitting)
 (require 'conf/view/windows/window-bindings)
-(require 'conf/view/buffers/unique-buffer-names)
 (require 'conf/view/buffers/buffer-bindings)
 (require 'conf/view/modeline/background)
 (require 'conf/view/modeline/format)
