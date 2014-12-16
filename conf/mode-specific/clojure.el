@@ -1,6 +1,6 @@
 ;;; Clojure-specific configuration.
 
-;; Clojure IDE (automatically installs clojure-mode).
+;; Clojure IDE.
 (use-package cider
   :ensure cider
   :defer t
@@ -9,6 +9,14 @@
   ;; Eldoc -- show function arguments in the minibuffer.
   ;; (Configuration is in conf/view/eldoc.el.)
   (add-hook 'cider-mode-hook #'cider-turn-on-eldoc-mode))
+
+(use-package clojure-mode ; Installed by CIDER.
+  :defer t
+  :config
+
+  ;; Indent guides.
+  ;; We don't use `with-eval-after-load' because `indent-guide-mode' is autoloaded, so it would never load.
+  (add-hook 'clojure-mode-hook #'indent-guide-mode))
 
 ;; YASnippet snippets.
 (use-package clojure-snippets
