@@ -2,6 +2,7 @@
 
 (use-package nxml-mode ; Bundled with Emacs.
   :defer t
+  :mode "\\.xsd\\'" ; Use for XML Schema files.
   :config
 
   ;; Indentation (Smart Tabs).
