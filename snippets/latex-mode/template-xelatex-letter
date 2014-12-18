@@ -1,16 +1,13 @@
 \documentclass[12pt]{letter}
-
-\usepackage{fontspec}
+\usepackage[a4paper]{geometry}
 
 \usepackage{polyglossia}
 \setmainlanguage{polish}
 \setotherlanguage[variant=british]{english}
 
-\usepackage{geometry}
-\geometry{a4paper}
+%\usepackage{parskip} % Space between paragraphs instead of indent.
 
 %\pagestyle{empty}
-
 
 \signature{}
 \address{}
@@ -23,6 +20,6 @@
 	\end{letter}
 \end{document}
 
-%% Local Variables:
-%% TeX-engine: xetex
-%% End:
+% Local Variables:
+% TeX-engine: xetex
+% End:

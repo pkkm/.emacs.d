@@ -1,5 +1,10 @@
-\documentclass[12pt]{amsart}
+\documentclass[12pt]{article}
 \usepackage[a4paper]{geometry}
+
+% Math.
+\usepackage{amsmath} % Improved math (e.g. \`text', for text inside math mode).
+\usepackage{tabu} % Replacement of \`tabular' with more features (e.g. auto-detecting if inside math mode).
+\usepackage{amsfonts}
 
 \usepackage{polyglossia}
 \setmainlanguage{polish}

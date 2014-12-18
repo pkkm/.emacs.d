@@ -1,24 +1,20 @@
 \documentclass[12pt]{article}
-
-\usepackage{fontspec}
+\usepackage[a4paper]{geometry}
 
 \usepackage{polyglossia}
 \setmainlanguage{polish}
 \setotherlanguage[variant=british]{english}
 
-\usepackage{geometry}
-\geometry{a4paper}
-
+%\usepackage{parskip} % Space between paragraphs instead of indent.
 
 \title{}
 \author{}
 \date{}
 
 \begin{document}
-%\pagestyle{plain}
 	\maketitle
 \end{document}
 
-%% Local Variables:
-%% TeX-engine: xetex
-%% End:
+% Local Variables:
+% TeX-engine: xetex
+% End:
