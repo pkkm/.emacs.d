@@ -1,11 +1,10 @@
 \documentclass[12pt]{amsart}
 \usepackage[a4paper]{geometry}
+%\usepackage{parskip} % Space between paragraphs instead of indent.
 
 \usepackage[english,polish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-
-%\usepackage{parskip} % Space between paragraphs instead of indent.
 
 \title{}
 \author{}

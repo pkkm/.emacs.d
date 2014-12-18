@@ -1,11 +1,10 @@
 \documentclass[12pt]{letter}
 \usepackage[a4paper]{geometry}
+%\usepackage{parskip} % Space between paragraphs instead of indent.
 
 \usepackage{polyglossia}
 \setmainlanguage{polish}
 \setotherlanguage[variant=british]{english}
-
-%\usepackage{parskip} % Space between paragraphs instead of indent.
 
 %\pagestyle{empty}
 

@@ -1,5 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage[a4paper]{geometry}
+%\usepackage{parskip} % Space between paragraphs instead of indent.
 
 % Math.
 \usepackage{amsmath} % Improved math, e.g. \`text' for text inside math mode; \`align', which should always be used instead of \`eqnarray'.
@@ -9,8 +10,6 @@
 \usepackage{polyglossia}
 \setmainlanguage{polish}
 \setotherlanguage[variant=british]{english}
-
-%\usepackage{parskip} % Space between paragraphs instead of indent.
 
 \title{}
 \author{}
