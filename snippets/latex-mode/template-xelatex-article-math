@@ -2,7 +2,7 @@
 \usepackage[a4paper]{geometry}
 
 % Math.
-\usepackage{amsmath} % Improved math (e.g. \`text', for text inside math mode).
+\usepackage{amsmath} % Improved math, e.g. \`text' for text inside math mode; \`align', which should always be used instead of \`eqnarray'.
 \usepackage{tabu} % Replacement of \`tabular' with more features (e.g. auto-detecting if inside math mode).
 \usepackage{amsfonts}
 
