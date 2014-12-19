@@ -1,11 +1,13 @@
+\RequirePackage[l2tabu, orthodox]{nag} % Warn about obsolete macros in .log file (grep for "nag").
+
 \documentclass[12pt]{article}
 \usepackage[a4paper]{geometry}
 %\usepackage{parskip} % Space between paragraphs instead of indent.
 
 % Math.
-\usepackage{amsmath} % Improved math, e.g. \`text' for text inside math mode; \`align', which should always be used instead of \`eqnarray'.
-\usepackage{tabu} % Replacement of \`tabular' with more features (e.g. auto-detecting if inside math mode).
-\usepackage{amsfonts}
+\usepackage[all]{onlyamsmath} % Add improved math macros, disable standard ones.
+\usepackage{amsfonts} % Math fonts, e.g. \`mathbb'.
+\usepackage{tabu} % Replacement of \`tabular' with extra features (e.g. auto-detecting if inside math mode).
 
 \usepackage{polyglossia}
 \setmainlanguage{polish}
