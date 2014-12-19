@@ -3,11 +3,12 @@
 \documentclass[12pt]{article}
 \usepackage[a4paper]{geometry}
 %\usepackage{parskip} % Space between paragraphs instead of indent.
+\usepackage{microtype} % Better typography. Use after fonts.
 
 % Math.
 \usepackage[all]{onlyamsmath} % Add improved math macros, disable standard ones.
 \usepackage{amsfonts} % Math fonts, e.g. \`mathbb'.
-\usepackage{tabu} % Replacement of \`tabular' with extra features (e.g. auto-detecting if inside math mode).
+%\usepackage{tabu} % \`tabular' replacement with more features (e.g. auto-detecting if inside math mode).
 
 \usepackage{polyglossia}
 \setmainlanguage{polish}

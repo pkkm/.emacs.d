@@ -3,6 +3,7 @@
 \documentclass[12pt]{amsart}
 \usepackage[a4paper]{geometry}
 %\usepackage{parskip} % Space between paragraphs instead of indent.
+\usepackage{microtype} % Better typography. Use after fonts.
 
 \usepackage{polyglossia}
 \setmainlanguage{polish}

@@ -1,8 +1,7 @@
 \RequirePackage[l2tabu, orthodox]{nag} % Warn about obsolete macros in .log file (grep for "nag").
 
 \documentclass[12pt, a4paper, parskip=full]{scrartcl} % To change the margins, use DIV=<number> (larger number -- more content).
-
-\usepackage{fontspec}
+\usepackage{microtype} % Better typography. Use after fonts.
 
 \usepackage{polyglossia}
 \setmainlanguage{polish}
