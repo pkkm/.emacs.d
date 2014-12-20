@@ -22,8 +22,12 @@
   (cl-flet ((line-concat (&rest lines) (mapconcat #'identity (delq nil lines) "\n")))
     (yas-expand-snippet
      (line-concat
+
+      ;; Warnings.
       "\\RequirePackage[l2tabu, orthodox]{nag} % Warn about obsolete macros in .log file (grep for \"nag\")."
       ""
+
+      ;; Document type, margins, etc.
       (pcase document-class
         ("scrartcl" "\\documentclass[12pt, a4paper, parskip=full]{scrartcl} % Margins: DIV=<number> (larger number: more content).")
         ((or "article" "amsart" "letter") (concat "\\documentclass[12pt]{" document-class "}"))
@@ -33,6 +37,8 @@
                      "\\usepackage{parskip} % Space between paragraphs instead of indent."))
       "\\usepackage{microtype} % Better typography. Use after fonts."
       ""
+
+      ;; Language.
       (if (equal engine "XeTeX")
           (line-concat "\\usepackage{polyglossia}"
                        "\\setmainlanguage{${polish}}"
@@ -41,18 +47,26 @@
       (when (equal engine "pdfTeX")
         (line-concat "\\usepackage[utf8]{inputenc}"
                      "\\usepackage[T1]{fontenc}"))
-      (when math?
-        (line-concat ""
-                     "\\usepackage[all]{onlyamsmath} % Add improved math macros, disable standard ones."
-                     "\\usepackage{amsfonts} % Math fonts, e.g. \\`mathbb'."))
-      (when tables?
-        (line-concat ""
-                     "\\usepackage{tabu} % \\`tabular' replacement with more features (e.g. auto-detecting if inside math mode)."
-                     "\\usepackage{booktabs} % Better-looking tables (use \\\\{top,mid,bottom}rule instead of \\hline; no \\vline)."))
-      (pcase document-class
-        ("amsart" (line-concat "" "%\\pagestyle{empty}"))
-        ("letter" (line-concat "" "\\pagestyle{empty}")))
       ""
+
+      ;; Math.
+      (when math?
+        (line-concat "\\usepackage[all]{onlyamsmath} % Add improved math macros, disable standard ones."
+                     "\\usepackage{amsfonts} % Math fonts, e.g. \\`mathbb'."
+                     ""))
+
+      ;; Tables.
+      (when tables? ; Overview of table packages: <http://tex.stackexchange.com/questions/12672/which-tabular-packages-do-which-tasks-and-which-packages-conflict>.
+        (line-concat "\\usepackage{tabu} % \\`tabular' replacement with more features (e.g. auto-detecting if inside math mode)."
+                     "\\usepackage{booktabs} % Professional-looking tables (use \\\\{top,mid,bottom}rule instead of \\hline; no \\vline)."
+                     "")) ; `booktabs' examples: <http://www.howtotex.com/packages/improve-your-tables-with-booktabs/>.
+
+      ;; Disable page numbers?
+      (pcase document-class
+        ("amsart" (line-concat "%\\pagestyle{empty} % No page numbers." ""))
+        ("letter" (line-concat "\\pagestyle{empty} % No page numbers." "")))
+
+      ;; Title, author, etc.
       (pcase document-class
         ("letter" (line-concat "\\signature{${`(user-full-name)`}}"
                                "\\address{${}}"))
@@ -60,6 +74,8 @@
                         "\\author{${`(user-full-name)`}}"
                         "%\\date{}")))
       ""
+
+      ;; Document body.
       "\\begin{document}"
       (pcase document-class
         ("letter" (line-concat "\\begin{letter}{${Destination address}}"
@@ -68,11 +84,12 @@
                                "\\closing{Yours Respectfully,}"
                                "\\end{letter}"))
         (_ (line-concat "\\maketitle"
-                        ""
                         "$0")))
       "\\end{document}"
+      ""
+
+      ;; AUCTeX data.
       (when engine-auctex
-        (line-concat ""
-                     "% Local Variables:"
+        (line-concat "% Local Variables:"
                      (concat "% TeX-engine: " engine-auctex)
-                     "% End:"))))))
+                     "% End:" ""))))))
