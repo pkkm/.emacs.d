@@ -1,0 +1,78 @@
+# -*- mode: snippet -*-
+# key: template
+# name: Template (my skeleton for various LaTeX documents)
+# type: command
+# --
+;; Documentation: <https://capitaomorte.github.io/yasnippet/snippet-development.html>.
+
+(require 'cl-lib)
+(let* ((yas-good-grace nil) ; Don't catch errors.
+       (engine (completing-read "TeX engine: "
+                                '("XeTeX" "pdfTeX")
+                                nil nil nil nil "XeTeX"))
+       (document-class (completing-read "Document class: "
+                                        '("article" "scrartcl" "amsart" "letter")
+                                        nil nil nil nil "article"))
+       (math? (unless (eq document-class "letter")
+                (y-or-n-p "Include math packages?")))
+       (tables? (y-or-n-p "Include table packages?"))
+       (engine-auctex (pcase engine
+                        ("XeTeX" "xetex")
+                        ("pdfTeX" "default"))))
+  (cl-flet ((line-concat (&rest lines) (mapconcat #'identity (delq nil lines) "\n")))
+    (yas-expand-snippet
+     (line-concat
+      "\\RequirePackage[l2tabu, orthodox]{nag} % Warn about obsolete macros in .log file (grep for \"nag\")."
+      ""
+      (pcase document-class
+        ("scrartcl" "\\documentclass[12pt, a4paper, parskip=full]{scrartcl} % Margins: DIV=<number> (larger number: more content).")
+        ((or "article" "amsart" "letter") (concat "\\documentclass[12pt]{" document-class "}"))
+        (_ (concat "\\documentclass{" document-class "}")))
+      (when (not (equal document-class "amsart"))
+        (line-concat "\\usepackage[a4paper]{geometry}"
+                     "\\usepackage{parskip} % Space between paragraphs instead of indent."))
+      "\\usepackage{microtype} % Better typography. Use after fonts."
+      ""
+      (if (equal engine "XeTeX")
+          (line-concat "\\usepackage{polyglossia}"
+                       "\\setmainlanguage{${polish}}"
+                       "\\setotherlanguage{${english}}")
+        (line-concat "\\usepackage[${polish},${english}]{babel}"))
+      (when (equal engine "pdfTeX")
+        (line-concat "\\usepackage[utf8]{inputenc}"
+                     "\\usepackage[T1]{fontenc}"))
+      (when math?
+        (line-concat ""
+                     "\\usepackage[all]{onlyamsmath} % Add improved math macros, disable standard ones."
+                     "\\usepackage{amsfonts} % Math fonts, e.g. \\`mathbb'."))
+      (when tables?
+        (line-concat ""
+                     "\\usepackage{tabu} % \\`tabular' replacement with more features (e.g. auto-detecting if inside math mode)."
+                     "\\usepackage{booktabs} % Better-looking tables (use \\\\{top,mid,bottom}rule instead of \\hline; no \\vline)."))
+      (pcase document-class
+        ("amsart" (line-concat "" "%\\pagestyle{empty}"))
+        ("letter" (line-concat "" "\\pagestyle{empty}")))
+      ""
+      (pcase document-class
+        ("letter" (line-concat "\\signature{${`(user-full-name)`}}"
+                               "\\address{${}}"))
+        (_ (line-concat "\\title{${Document title}}"
+                        "\\author{${`(user-full-name)`}}"
+                        "%\\date{}")))
+      ""
+      "\\begin{document}"
+      (pcase document-class
+        ("letter" (line-concat "\\begin{letter}{${Destination address}}"
+                               "\\opening{${Dear Sir or Madam,}}"
+                               "`yas-selected-text`$0"
+                               "\\closing{Yours Respectfully,}"
+                               "\\end{letter}"))
+        (_ (line-concat "\\maketitle"
+                        ""
+                        "$0")))
+      "\\end{document}"
+      (when engine-auctex
+        (line-concat ""
+                     "% Local Variables:"
+                     (concat "% TeX-engine: " engine-auctex)
+                     "% End:"))))))
