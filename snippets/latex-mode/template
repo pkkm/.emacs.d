@@ -1,11 +1,15 @@
-# -*- mode: snippet -*-
+# -*- mode: emacs-lisp -*-
 # key: template
 # name: Template (my skeleton for various LaTeX documents)
 # type: command
 # --
-;; Documentation: <https://capitaomorte.github.io/yasnippet/snippet-development.html>.
+;; Snippet format: <https://capitaomorte.github.io/yasnippet/snippet-development.html>.
 
-(require 'cl-lib)
+;; Useful LaTeX links:
+;;   * Nice font combinations: <http://tex.stackexchange.com/questions/9533/what-best-combination-of-fonts-for-serif-sans-and-mono-do-you-recommend>.
+;;   * Some style tips: <http://tex.stackexchange.com/questions/82376/why-are-these-commands-considered-as-bad-practice>.
+
+(require 'cl-lib) ; Used: cl-flet.
 (let* ((yas-good-grace nil) ; Don't catch errors.
        (engine (completing-read "TeX engine: "
                                 '("XeTeX" "pdfTeX")
@@ -33,14 +37,14 @@
         ((or "article" "amsart" "letter") (concat "\\documentclass[12pt]{" document-class "}"))
         (_ (concat "\\documentclass{" document-class "}")))
       (when (not (equal document-class "amsart"))
-        (line-concat "\\usepackage[a4paper]{geometry}"
+        (line-concat "\\usepackage[a4paper]{geometry} % Setting margins: \"top=5cm\", \"left=2in\" (later options have more priority)."
                      "\\usepackage{parskip} % Space between paragraphs instead of indent."))
-      "\\usepackage{microtype} % Better typography. Use after fonts."
+      "\\usepackage{microtype} % Better typography." ; No longer needs to be loaded after fonts and babel (unless using "babel=true"). See <http://tex.stackexchange.com/questions/162137/loading-microtype-before-or-after-the-font>.
       ""
 
       ;; Language.
       (if (equal engine "XeTeX")
-          (line-concat "\\usepackage{polyglossia}"
+          (line-concat "\\usepackage{polyglossia}" ; Just to be safe, load it near the beginning of the preamble (see <http://tex.stackexchange.com/questions/150788/should-babel-package-call-be-placed-at-the-end-of-the-preamble>).
                        "\\setmainlanguage{${polish}}"
                        "\\setotherlanguage{${english}}")
         (line-concat "\\usepackage[${polish},${english}]{babel}"))
