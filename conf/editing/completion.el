@@ -70,12 +70,9 @@ Format: '((major-mode . (ac-source ...)) ...)")
   (require 'conf/utils/keys) ; Used: clear-keymap.
   (clear-keymap ac-completing-map) ; There is also `ac-menu-map', for when the menu is active.
 
-  ;; Cycle candidates with C-n and C-p, or activate `auto-complete' if it's not active.
-  (with-eval-after-load 'evil
-    (evil-define-key 'insert ac-mode-map (kbd "C-n") #'auto-complete)
-    (evil-define-key 'insert ac-mode-map (kbd "C-p") #'auto-complete))
-  (bind-key "C-n" #'ac-next ac-completing-map)
-  (bind-key "C-p" #'ac-previous ac-completing-map)
+  ;; Cycle candidates with arrow keys.
+  (bind-key "<down>" #'ac-next ac-completing-map)
+  (bind-key "<up>" #'ac-previous ac-completing-map)
 
   ;; Completing.
   (bind-key "TAB" #'ac-expand ac-completing-map) ; Expand; cycle candidates when pressed repeatedly.
