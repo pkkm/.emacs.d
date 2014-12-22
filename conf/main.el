@@ -116,6 +116,7 @@
 (require 'conf/mode-specific/org)
 (require 'conf/mode-specific/vimrc)
 (require 'conf/mode-specific/elisp-and-interaction)
+(require 'conf/mode-specific/ediff)
 (require 'conf/mode-specific/lisps)
 (require 'conf/mode-specific/latex)
 (require 'conf/mode-specific/scala)
