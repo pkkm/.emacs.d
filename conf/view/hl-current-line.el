@@ -21,40 +21,6 @@
     (set-face-background 'my-hl-line-face (face-background 'hl-line nil t)))
   (my-hl-line-update-background)
   (add-hook 'after-load-theme-hook #'my-hl-line-update-background)
-  (setq hl-line-face 'my-hl-line-face)
-
-  ;; If we're running on a graphical display, make the highlight more pronounced in insert state, and less in other states.
-  (require 'conf/utils/colors) ; Used: color-mix.
-  (when (display-graphic-p)
-    (with-eval-after-load 'evil
-      (remove-hook 'after-load-theme-hook #'hl-line-update-background) ; We'll replace it with a more advanced version.
-
-      (defvar hl-line-insert-background nil)
-      (defvar hl-line-normal-background nil)
-
-      (defun hl-line-update-backgrounds ()
-        "Update the background colors for the line with point inside and outside Insert state."
-        (setq hl-line-insert-background (face-background 'hl-line nil t))
-        (setq hl-line-normal-background (color-mix (face-background 'hl-line nil t) 0.6
-                                                   (face-background 'default nil t) 0.4)))
-      (hl-line-update-backgrounds)
-      (add-hook 'after-load-theme-hook #'hl-line-update-backgrounds)
-
-      (defun set-hl-line-insert-background ()
-        (set-face-background hl-line-face hl-line-insert-background))
-      (defun set-hl-line-normal-background ()
-        (set-face-background hl-line-face hl-line-normal-background))
-      (add-hook 'evil-insert-state-entry-hook #'set-hl-line-insert-background)
-      (add-hook 'evil-replace-state-entry-hook #'set-hl-line-insert-background)
-      (add-hook 'evil-insert-state-exit-hook #'set-hl-line-normal-background)
-      (add-hook 'evil-replace-state-exit-hook #'set-hl-line-normal-background)
-
-      (defun set-hl-line-background ()
-        (if (or (evil-insert-state-p)
-                (evil-replace-state-p))
-            (set-hl-line-insert-background)
-          (set-hl-line-normal-background)))
-      (set-hl-line-background)
-      (add-hook 'after-load-theme-hook #'set-hl-line-background t))))
+  (setq hl-line-face 'my-hl-line-face))
 
 (provide 'conf/view/hl-current-line)
