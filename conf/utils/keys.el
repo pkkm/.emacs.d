@@ -81,17 +81,15 @@ Doesn't see some variables!"
                      (add-to-list ',return-value-var symbol))))
        ,return-value-var)))
 
-;; TODO make this less hackish
-(require 'cl-lib)
-(defun maps-with-bound-key (key)
-  "Returns a list of keymaps that have KEY defined in them."
-  (cl-mapcan (lambda (keymap-bc9d50da) ; The name is weird so that we can ignore it when looking for the variable to which this keymap is bound. This could be eliminated by using 2 passes of `mapatoms', an additional variable, or an uninterned symbol and `eval'.
-               (when (lookup-key keymap-bc9d50da key)
-                 (delq 'keymap-bc9d50da
-                       (variables-with-value keymap-bc9d50da))))
-             (current-active-maps)))
-
-(maps-with-bound-key (kbd "RET"))
+(defun keymaps-with-key (key)
+  "Returns a list of names of keymaps that have KEY defined in them."
+  (let ((keymaps (list)))
+    (mapatoms (lambda (symbol)
+                (when (and (boundp symbol)
+                           (keymapp (symbol-value symbol))
+                           (lookup-key (symbol-value symbol) key))
+                  (push symbol keymaps))))
+    keymaps))
 
 
 (provide 'conf/utils/keys)
