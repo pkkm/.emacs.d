@@ -17,22 +17,21 @@
     (unless (member major-mode hl-line-disable-in-modes)
       (hl-line-mode 1)))
 
-  ;; Disable highlighting in visual state (to see the selection better).
-  (with-eval-after-load 'evil
-    (defvar hl-line-before-entering-visual-state nil
-      "t if hl-line-mode was enabled before entering visual state, nil otherwise.")
-    (with-no-warnings ; Don't warn about making a variable buffer local not at toplevel.
-      (make-variable-buffer-local 'hl-line-before-entering-visual-state))
-
-    (defun my-hl-line-deactivate ()
-      (setq hl-line-before-entering-visual-state hl-line-mode)
-      (when hl-line-mode
-        (hl-line-mode -1)))
-    (add-hook 'evil-visual-state-entry-hook #'my-hl-line-deactivate)
-
-    (defun my-hl-line-activate-if-was-active ()
-      (when hl-line-before-entering-visual-state (hl-line-mode 1)))
-    (add-hook 'evil-visual-state-exit-hook #'my-hl-line-activate-if-was-active))
+  ;; Disable highlighting when region is active (to see it better).
+  (defvar my-hl-line-before-region-p nil
+    "Was hl-line-mode enabled before activating region?")
+  (with-no-warnings ; Don't warn about making a variable buffer local not at toplevel.
+    (make-variable-buffer-local 'hl-line-before-region-p))
+  (defun my-hl-line-update ()
+    (cond
+     ((and (region-active-p) hl-line-mode)
+      (hl-line-mode -1)
+      (setq my-hl-line-before-region-p t))
+     ((and (not (region-active-p)) my-hl-line-before-region-p)
+      (hl-line-mode 1)
+      (setq my-hl-line-before-region-p nil))))
+  (require 'conf/utils/hooks) ; Used: add-hooks.
+  (add-hooks '(activate-mark-hook deactivate-mark-hook) #'my-hl-line-update)
 
   ;; Use my face for the line with point, with only the background copied from the original face.
   (defface my-hl-line-face `((t)) "My face for hl-line." :group 'hl-line)
