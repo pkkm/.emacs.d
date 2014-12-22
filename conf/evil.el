@@ -38,6 +38,10 @@
   (bind-key "C-t" nil evil-insert-state-map)
   (bind-key "C-d" nil evil-insert-state-map)
 
+  ;; Unset bindings for completion (I use another package for that).
+  (bind-key "C-n" nil evil-insert-state-map)
+  (bind-key "C-p" nil evil-insert-state-map)
+
   ;; Don't allow any keymap to shadow Evil bindings.
   (setq evil-overriding-maps '()) ; `evil-overriding-maps' get elevated to the "overriding" status -- above global state keymap, but below the local one.
   (setq evil-pending-overriding-maps '()) ; No idea what the "pending" version is for, but setting only the above doesn't seem to work, for example in compilation-mode.
