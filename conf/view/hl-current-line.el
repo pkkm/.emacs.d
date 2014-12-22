@@ -2,44 +2,26 @@
 
 (use-package hl-line ; Bundled with Emacs.
   :if (>= (display-color-cells) 16)
-  :demand t ; So that its faces can be customized.
+  :defer t
+  :init
+  (global-hl-line-mode 1)
   :config
 
-  ;; Highlight only in the active window.
-  (setq hl-line-sticky-flag nil)
+  ;; Disable in some modes and when region is active.
+  (defvar hl-line-disable-in-modes '(term-mode)
+    "Modes in which the current line should not be highlighted.")
+  (defadvice global-hl-line-highlight (around disable-in-modes-or-region activate)
+    (unless (or (region-active-p)
+                (memq major-mode hl-line-disable-in-modes))
+      ad-do-it))
 
-  ;; Enable hl-line-mode in all buffers, with the exception of some modes.
-  (defvar hl-line-disable-in-modes '(minibuffer-inactive-mode term-mode)
-    "A list of modes in which the current line should not be highlighted.")
-  (add-hook 'after-change-major-mode-hook #'my-hl-line-maybe-enable)
-  (defun my-hl-line-maybe-enable ()
-    "Enable `hl-line-mode' unless the current mode is in `hl-line-disable-in-modes'."
-    (unless (member major-mode hl-line-disable-in-modes)
-      (hl-line-mode 1)))
-
-  ;; Disable highlighting when region is active (to see it better).
-  (defvar my-hl-line-before-region-p nil
-    "Was hl-line-mode enabled before activating region?")
-  (with-no-warnings ; Don't warn about making a variable buffer local not at toplevel.
-    (make-variable-buffer-local 'hl-line-before-region-p))
-  (defun my-hl-line-update ()
-    (cond
-     ((and (region-active-p) hl-line-mode)
-      (hl-line-mode -1)
-      (setq my-hl-line-before-region-p t))
-     ((and (not (region-active-p)) my-hl-line-before-region-p)
-      (hl-line-mode 1)
-      (setq my-hl-line-before-region-p nil))))
-  (require 'conf/utils/hooks) ; Used: add-hooks.
-  (add-hooks '(activate-mark-hook deactivate-mark-hook) #'my-hl-line-update)
-
-  ;; Use my face for the line with point, with only the background copied from the original face.
+  ;; Don't allow themes to change other properties than the background.
   (defface my-hl-line-face `((t)) "My face for hl-line." :group 'hl-line)
+  (defun my-hl-line-update-background ()
+    (set-face-background 'my-hl-line-face (face-background 'hl-line nil t)))
+  (my-hl-line-update-background)
+  (add-hook 'after-load-theme-hook #'my-hl-line-update-background)
   (setq hl-line-face 'my-hl-line-face)
-  (defun hl-line-update-background ()
-    (set-face-background hl-line-face (face-background 'hl-line nil t)))
-  (hl-line-update-background)
-  (add-hook 'after-load-theme-hook #'hl-line-update-background)
 
   ;; If we're running on a graphical display, make the highlight more pronounced in insert state, and less in other states.
   (require 'conf/utils/colors) ; Used: color-mix.
