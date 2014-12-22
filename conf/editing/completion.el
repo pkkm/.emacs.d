@@ -88,7 +88,7 @@ Format: '((major-mode . (ac-source ...)) ...)")
   ;;; Sources.
 
   (require 'auto-complete-config) ; Used: ac-source-yasnippet.
-  (setq-default ac-sources '(;;ac-source-semantic
+  (setq-default ac-sources '(ac-source-semantic
                              ac-source-words-in-buffer
                              ac-source-yasnippet
                              ac-source-dictionary
