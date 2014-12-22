@@ -43,9 +43,9 @@
   (bind-key "C-p" nil evil-insert-state-map)
 
   ;; Don't allow any keymap to shadow Evil bindings.
-  (setq evil-overriding-maps '()) ; `evil-overriding-maps' get elevated to the "overriding" status -- above global state keymap, but below the local one.
-  (setq evil-pending-overriding-maps '()) ; No idea what the "pending" version is for, but setting only the above doesn't seem to work, for example in compilation-mode.
-  ;;(setq evil-intercept-maps '()) ; `evil-intercept-maps' get elevated to the "intercept" status -- above all others. This is useful when debugging.
+  (setq evil-overriding-maps '()) ; Keymaps above global state keymap, but below the local one.
+  (setq evil-pending-overriding-maps '()) ; No idea what it's for, but setting only the above doesn't seem to work e.g. in compilation-mode.
+  ;;(setq evil-intercept-maps '()) ; Keymaps above all others (useful when debugging).
 
 
   ;; Don't allow modes to change the definition of paragraph used by { and }.
