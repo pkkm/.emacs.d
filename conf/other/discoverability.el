@@ -16,6 +16,11 @@
           "e RET" "C-x RET"
           "e C-n" "C-x n")))
 
+;; Lots of additional help functionality (e.g. `describe-keymap').
+(use-package help-fns+
+  :ensure help-fns+
+  :bind ("C-h M-k" . describe-keymap)) ; For autoloading.
+
 ;; Add magit-like menus to dired and some others.
 (use-package discover
   :ensure discover
