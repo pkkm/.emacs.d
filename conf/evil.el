@@ -23,30 +23,33 @@
   (setq evil-echo-state nil) ; Don't echo state in the echo area (minibuffer).
 
 
-  ;;; Keybindings.
+  ;;; Unsetting keybindings.
+
+  (bind-key "C-e" nil evil-insert-state-map)
+  (bind-key "RET" nil evil-motion-state-map)
+
+  ;; Manual indentation in insert state (I usually use automatic indentation).
+  (bind-key "C-t" nil evil-insert-state-map)
+  (bind-key "C-d" nil evil-insert-state-map)
+
+  ;; Completion (I use another package for that).
+  (bind-key "C-n" nil evil-insert-state-map)
+  (bind-key "C-p" nil evil-insert-state-map)
+
+  ;; Vim bindings in the ":" prompt (inconsistent with bindings in other prompts).
+  (dolist (key '("C-a" "C-b" "C-c" "C-d" "C-k" "C-l" "C-r" "C-u" "C-v" "C-w"))
+    (bind-key key nil evil-ex-completion-map))
+
 
   ;; In insert state, auto-indent the new line on a press of "RET" (or similar).
   (dolist (fun-to-remap
            '(newline newline-and-indent evil-ret))
     (bind-key (vector 'remap fun-to-remap) #'evil-ret-and-indent evil-insert-state-map))
 
-  ;; Unset other useless keys.
-  (bind-key "C-e" nil evil-insert-state-map)
-  (bind-key "RET" nil evil-motion-state-map)
-
-  ;; Unset bindings for manual indentation in insert state (I almost always use automatic indentation).
-  (bind-key "C-t" nil evil-insert-state-map)
-  (bind-key "C-d" nil evil-insert-state-map)
-
-  ;; Unset bindings for completion (I use another package for that).
-  (bind-key "C-n" nil evil-insert-state-map)
-  (bind-key "C-p" nil evil-insert-state-map)
-
   ;; Don't allow any keymap to shadow Evil bindings.
   (setq evil-overriding-maps '()) ; Keymaps above global state keymap, but below the local one.
   (setq evil-pending-overriding-maps '()) ; No idea what it's for, but setting only the above doesn't seem to work e.g. in compilation-mode.
   ;;(setq evil-intercept-maps '()) ; Keymaps above all others (useful when debugging).
-
 
   ;; Don't allow modes to change the definition of paragraph used by { and }.
   (defun kill-local-paragraph-definitions ()
