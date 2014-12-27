@@ -1,6 +1,7 @@
-;;; Disable suspending frame with C-z.
-;; Every time I used this, it was by accident, and led to lost windows when using i3 -- it hides minimized windows, with no way to restore them.
+;;; Disable minimizing graphical frames (bound to C-z, C-x C-z, etc.).
+;; Every time I used this, it was by accident, and led to lost windows (i3 hides minimized windows, with no way to restore them).
 
-(bind-key "C-z" nil)
+(defadvice iconify-frame (around disable-iconifying activate)
+  (message "Not minimizing frame."))
 
 (provide 'conf/other/disable-suspending)
