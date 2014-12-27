@@ -32,6 +32,7 @@
   (require 'conf/view/gui/focus-follows-mouse))
 
 (require 'conf/minibuffer/confirmations)
+(require 'conf/minibuffer/helm)
 (require 'conf/minibuffer/lacarte)
 (require 'conf/minibuffer/ido)
 (require 'conf/minibuffer/M-x)
