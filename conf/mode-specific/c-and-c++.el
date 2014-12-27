@@ -20,6 +20,10 @@
           (awk-mode . "awk")
           (other . "linux")))
 
+  ;; Toggle between header and implementation with M-o.
+  (dolist (keymap (list c-mode-map c++-mode-map))
+    (bind-key "M-o" #'ff-find-other-file keymap))
+
   ;; Default compilation, execution and cleaning commands.
   (require 'conf/driving-processes/compiling) ; Used: my-additional-compile-args, compile-run-clean-command-setter-alist.
   (defun set-c-or-c++-commands ()
