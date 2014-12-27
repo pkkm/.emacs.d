@@ -15,9 +15,9 @@
     "Make the key vector KEY more convenient to hit after a prefix starting with a non-modified keypress.
 Do that by inverting the state of Control on some events (all C-letter except C-h (help), C-m (RET), C-i (TAB))."
     (let ((first-event-of-key (first (vector-to-list key)))
-          ;; Invert Control on all C-letters except C-h (help), C-m (RET), C-i (TAB).
+          ;; Invert Control on all C-letters except C-h (help), C-m (RET), C-i (TAB), C-g (quit).
           (control-inverted-events (cl-set-difference (number-sequence ?a ?z)
-                                                      '(?h ?m ?i))))
+                                                      '(?h ?m ?i ?g))))
       (cond
        ;; If KEY starts with C-`char' or `char', with `char' in `control-inverted-events',
        ;; invert Control state on all events in KEY that are in `control-inverted-events'.
@@ -52,6 +52,7 @@ Do that by inverting the state of Control on some events (all C-letter except C-
     "Bind all \"C-c\" bindings in the \"SPC\" prefix (in the current major mode's map), with the `my-make-key-more-convenient' transformation.
 Omit \"C-c [a-zA-Z]\" bindings, since they are not major-mode bindings, but user's custom ones."
     (interactive)
+    (bind-key "SPC" nil evil-motion-state-map)
     (bind-key "SPC" nil evil-motion-state-local-map)
     (map-key-sequences-in-keymap (key-binding (kbd "C-c"))
                                  (lambda (key binding)
@@ -61,7 +62,6 @@ Omit \"C-c [a-zA-Z]\" bindings, since they are not major-mode bindings, but user
                                      (define-key evil-motion-state-local-map
                                        (concat-keys (kbd "SPC") (my-make-key-more-convenient key))
                                        binding)))))
-  (bind-key "SPC" nil evil-motion-state-map)
   (add-hook 'after-change-major-mode-hook #'rebind-C-c-to-SPC t)
   (add-hook 'emacs-startup-hook #'rebind-C-c-to-SPC))
 
