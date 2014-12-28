@@ -24,6 +24,9 @@
   (dolist (keymap (list c-mode-map c++-mode-map))
     (bind-key "M-o" #'ff-find-other-file keymap))
 
+  ;; Unbind C-c . to make space for my binding for Semantic's go-to-definiton.
+  (bind-key "C-c ." nil c-mode-base-map)
+
   ;; Default compilation, execution and cleaning commands.
   (require 'conf/driving-processes/compiling) ; Used: my-additional-compile-args, compile-run-clean-command-setter-alist.
   (defun set-c-or-c++-commands ()

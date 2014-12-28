@@ -96,6 +96,7 @@
 (require 'conf/configuring/command-log)
 
 (require 'conf/other/discoverability)
+(require 'conf/other/semantic)
 (require 'conf/other/disable-suspending)
 (require 'conf/other/enable-confusing-commands)
 (require 'conf/other/portable-keyboard-layout-fix)
