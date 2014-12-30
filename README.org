@@ -1,5 +1,5 @@
 * My Emacs configuration
-  I like modal editing and Vim's keybindings. I also really like Lisp and the unparalleled extensibility that it enables in Emacs. This is my attempt to combine (what I consider to be) the advantages of both editors.
+  I like modal editing and Vim's keybindings. I also really like Lisp and the extensibility it enables in Emacs. This is my attempt to combine (what I consider to be) the advantages of both editors.
 
   Note that it is written with my particular use-cases in mind (for example, keybindings are optimized for the [[http://www.kaufmann.no/roland/dvorak/][Programmer Dvorak]] keyboard layout). You probably don't want to use this configuration verbatim; instead, copy parts of it into your own.
 
