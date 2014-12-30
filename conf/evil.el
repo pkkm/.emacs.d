@@ -41,11 +41,6 @@
     (bind-key key nil evil-ex-completion-map))
 
 
-  ;; In insert state, auto-indent the new line on a press of "RET" (or similar).
-  (dolist (fun-to-remap
-           '(newline newline-and-indent evil-ret))
-    (bind-key (vector 'remap fun-to-remap) #'evil-ret-and-indent evil-insert-state-map))
-
   ;; Don't allow any keymap to shadow Evil bindings.
   (setq evil-overriding-maps '()) ; Keymaps above global state keymap, but below the local one.
   (setq evil-pending-overriding-maps '()) ; No idea what it's for, but setting only the above doesn't seem to work e.g. in compilation-mode.
