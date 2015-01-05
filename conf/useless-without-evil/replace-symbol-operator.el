@@ -16,7 +16,7 @@ When called without region and there's symbol at point, use it."
                 (line-range (concat (number-to-string (line-number-at-pos beg)) ","
                                     (number-to-string (line-number-at-pos end)))))
             (ex-before-after (concat line-range "s/" replaced "/")
-                             "/g"))
+                             "/gI")) ; I -- turn off case insensitivity.
         ;; When we were called in visual state or there's no symbol at point, insert an empty place for a symbol.
         (let ((range (if (use-region-p) "'<,'>" "")))
           (ex-before-after (concat range "s/" (rx symbol-start))
