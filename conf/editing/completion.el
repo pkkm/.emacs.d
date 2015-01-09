@@ -53,15 +53,14 @@ Format: '((major-mode . (ac-source ...)) ...)")
     (when auto-complete-mode
       (auto-complete)))
   (defun insert-after-index (list-name index newelt)
-    (push newelt (cdr (nthcdr index (symbol-value list-name))))
-    (symbol-value list-name))
-  (defun set-auto-complete-as-completion-at-point ()
-    (if (memq #'yas-expand-if-active completion-at-point-functions) ; Integration with conf/editing/snippets.el.
-        (insert-after-index 'completion-at-point-functions
-                            (cl-position #'yas-expand-if-active completion-at-point-functions)
-                            #'auto-complete-if-active)
-      (add-to-list 'completion-at-point-functions #'auto-complete-if-active)))
-  (add-hook 'auto-complete-mode-hook #'set-auto-complete-as-completion-at-point)
+    (push newelt (cdr (nthcdr index (symbol-value list-name)))))
+  (defun add-ac-to-completion-at-point ()
+    (unless (memq #'auto-complete-if-active completion-at-point-functions)
+      (let ((position (cl-position #'yas-expand-if-active completion-at-point-functions)))
+        (if position
+            (insert-after-index 'completion-at-point-functions position #'auto-complete-if-active)
+          (push #'auto-complete-if-active completion-at-point-functions)))))
+  (add-hook 'auto-complete-mode-hook #'add-ac-to-completion-at-point)
 
 
   ;;; Bindings.
