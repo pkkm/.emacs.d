@@ -81,14 +81,21 @@ Doesn't see some variables!"
                      (add-to-list ',return-value-var symbol))))
        ,return-value-var)))
 
-(defun keymaps-with-key (key)
+(defun keymaps-with-key (key &optional display-in-buffer-p)
   "Returns a list of names of keymaps that have KEY defined in them."
+  (interactive "kDisplay keymaps with this key bound: \np")
   (let ((keymaps (list)))
     (mapatoms (lambda (symbol)
                 (when (and (boundp symbol)
                            (keymapp (symbol-value symbol))
                            (lookup-key (symbol-value symbol) key))
                   (push symbol keymaps))))
+    (when display-in-buffer-p
+      (with-output-to-temp-buffer "*Keymaps with key*"
+        (princ (concat "Keymaps with key " (key-description key) " bound in them:\n"))
+        (mapc (lambda (keymap)
+                (princ (concat" * `" (symbol-name keymap) "'\n")))
+              keymaps)))
     keymaps))
 
 
