@@ -22,15 +22,16 @@
   :bind ("C-h M-k" . describe-keymap)) ; For autoloading.
 
 ;; Add magit-like menus to dired and some others.
-(use-package discover
-  :ensure discover
-  :defer t
-  :init
-  (global-discover-mode 1)
-  :config
-  ;; Evil: make the menu buffer be in Emacs state.
-  (with-eval-after-load 'evil
-    (evil-set-initial-state 'makey-key-mode 'emacs)))
+;; Disabled because it was too intrusive (e.g. bound M-s to its own command in every major mode's map) and I haven't found a way to override its bindings.
+;;(use-package discover
+;;  :ensure discover
+;;  :defer t
+;;  :init
+;;  (global-discover-mode 1)
+;;  :config
+;;  ;; Evil: make the menu buffer be in Emacs state.
+;;  (with-eval-after-load 'evil
+;;    (evil-set-initial-state 'makey-key-mode 'emacs)))
 
 ;; C-h C-m -- show documentation for major mode commands (nicer than C-h m).
 (use-package discover-my-major
