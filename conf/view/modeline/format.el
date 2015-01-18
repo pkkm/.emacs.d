@@ -10,13 +10,6 @@
   (defalias 'ml-separator-right 'powerline-nil-left)
   (add-hook 'after-load-theme-hook #'powerline-reset t) ; Reset separator colors after a theme has been loaded.
 
-  (use-package dash :ensure dash :commands -interpose)
-  (defun interpose-with-spaces (&rest parts)
-    "Delete empty elements from PARTS, and separate the rest with \" \"."
-    (let ((non-empty-parts (delq nil (delq "" parts))))
-      (when non-empty-parts
-        (-interpose " " non-empty-parts))))
-
   ;; "Helper" face for less important parts of the modeline.
   (defface ml-shadow `((t ())) ; Foreground of `mode-line-inactive'.
     "Face for de-emphasized parts of the modeline."
@@ -28,6 +21,7 @@
   (set-mode-line-helper-faces)
 
   (require 'conf/utils/paths) ; Used: shorten-path.
+  (require 'conf/utils/lists) ; Used: interpose-nonempty.
   (defun ml-format ()
     (let* ((shortened-dir
             (when buffer-file-name ; If the buffer is visiting a file...
@@ -48,23 +42,23 @@
 
            (left (append
                   (list " ") ; Spacing.
-                  (interpose-with-spaces
-                   (concat (or shortened-dir "") "%b") ; Directory and buffer name.
-                   (when buffer-read-only (propertize "RO" 'face '(:weight bold))) ; Read only?
-                   (when (buffer-modified-p) (propertize "+" 'face 'warning)) ; Modified?
-                   (when (buffer-narrowed-p) (propertize "Narrow" 'face '(:underline t)))))) ; Narrowed?
+                  (interpose-nonempty " "
+                    (concat (or shortened-dir "") "%b") ; Directory and buffer name.
+                    (when buffer-read-only (propertize "RO" 'face '(:weight bold))) ; Read only?
+                    (when (buffer-modified-p) (propertize "+" 'face 'warning)) ; Modified?
+                    (when (buffer-narrowed-p) (propertize "Narrow" 'face '(:underline t)))))) ; Narrowed?
 
-           (center (interpose-with-spaces
-                    (propertize "%[" 'face 'ml-shadow) ; Recursive edit braces.
-                    ml-modes ; Major and minor modes.
-                    (format-mode-line global-mode-string) ; Used for example by `display-time'.
-                    (propertize "%]" 'face 'ml-shadow))) ; Recursive edit braces.
+           (center (interpose-nonempty " "
+                     (propertize "%[" 'face 'ml-shadow) ; Recursive edit braces.
+                     ml-modes ; Major and minor modes.
+                     (format-mode-line global-mode-string) ; Used for example by `display-time'.
+                     (propertize "%]" 'face 'ml-shadow))) ; Recursive edit braces.
 
            (right (append
-                   (interpose-with-spaces
-                    ml-coding ; Coding system (empty if utf-8-unix).
-                    "%p" ; Position (e.g. "56%" or "All").
-                    "%l:%c") ; Line and column.
+                   (interpose-nonempty " "
+                     ml-coding ; Coding system (empty if utf-8-unix).
+                     "%p" ; Position (e.g. "56%" or "All").
+                     "%l:%c") ; Line and column.
                    (list " ")))) ; Spacing.
 
       ;; Render the modeline.

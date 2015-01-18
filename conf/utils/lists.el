@@ -12,4 +12,16 @@
   "Convert VECTOR to a list."
   (append vector '()))
 
+(use-package dash :ensure dash :commands -interpose)
+(defun interpose-nonempty (separator &rest parts)
+  "Return a list with nonempty (not nil or \"\") elements of PARTS separated with SEPARATOR."
+  (declare (indent defun))
+  (-interpose separator (delq nil (delete "" parts))))
+
+(use-package s :ensure s :commands s-join)
+(defun join-nonempty (separator &rest parts)
+  "Return a string with nonempty (not nil or \"\") elements of PARTS joined with SEPARATOR."
+  (declare (indent defun))
+  (s-join separator (delq nil (delete "" parts))))
+
 (provide 'conf/utils/lists)
