@@ -26,7 +26,7 @@ Mode hooks can't be used for this purpose, since they run before file-local vari
 
 ;; Define a `run' command to run the current program using `compile'.
 ;; Use `run-command' instead of `compile-command' and `run-read-command' instead of `compile-read-command'.
-(defvar run-command nil
+(defvar run-command ""
   "Like `compile-command', but used in `my-run'.")
 (defvar run-read-command t
   "Like `compile-read-command', but used in `run'.")
@@ -49,7 +49,7 @@ If this is run in a Compilation mode buffer, re-use the arguments from the origi
     (apply #'compilation-start (or compilation-arguments `(,(eval run-command) t)))))
 
 ;; Define a `clean' command, which reads a command and executes it (`clean-command' by default).
-(defvar clean-command nil
+(defvar clean-command ""
   "Command used in `clean'.")
 (defvar clean-read-command t
   "Like `compile-read-command', but used in `run'.")
@@ -74,6 +74,12 @@ Interactively, prompts for the command if the variable `clean-read-command' is n
 ;; Double pressing <f5>, <f8> or <f9> should accept the default command.
 (dolist (key (list (kbd "<f5>") (kbd "<f8>") (kbd "<f9>")))
   (bind-key key (kbd "RET") minibuffer-local-shell-command-map))
+
+;; Keybindings for repeating compilation/running.
+;; TODO unify with the above bindings using something like "Compile Do What I Mean" from <www.emacswiki.org/emacs/CompileCommand>.
+(with-eval-after-load 'evil
+  (bind-key "g c" #'recompile evil-motion-state-map)
+  (bind-key "g r" #'rerun evil-motion-state-map))
 
 ;; Disable scroll margin in compilation buffers (because `next-error' and `previous-error' show which error we're currently at by scrolling to it).
 (defun disable-scroll-margin-in-buffer ()
