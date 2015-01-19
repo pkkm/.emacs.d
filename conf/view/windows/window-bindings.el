@@ -92,5 +92,7 @@
 (bind-key "m" #'window-configuration-to-register my-window-map)
 (bind-key "'" #'jump-to-register my-window-map)
 
+;; Find file in a new window (useful because it starts in the current window's directory).
+(bind-key "f" #'find-file-other-window my-window-map)
 
 (provide 'conf/view/windows/window-bindings)
