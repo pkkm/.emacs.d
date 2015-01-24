@@ -40,7 +40,7 @@
       (add-to-list 'my-major-mode-ac-sources `(emacs-lisp-mode . ,my-elisp-ac-sources))
       (add-to-list 'my-major-mode-ac-sources `(lisp-interaction-mode . ,my-elisp-ac-sources))))
 
-  ;; Bindings for evaluating elisp.
+  ;; Evaluation bindings.
   (require 'cl) ; Used: lexical-let.
   (defun evil-eval-region (region-start region-end)
     "Evaluate region and exit Evil's visual state."
@@ -75,9 +75,12 @@
     (add-hook 'after-save-hook #'my-remove-elc-if-exists))
   (add-hook 'emacs-lisp-mode-hook #'my-remove-elc-on-save)
 
-  ;; Flycheck: don't check documentation, just code.
+  ;; Disable Flycheck (on typical Emacs configs, produces far more false positives than useful warnings).
+  (use-package dash :ensure dash :commands -uniq ->>)
   (with-eval-after-load 'flycheck
-    (setq-default flycheck-disabled-checkers
-                  (cons 'emacs-lisp-checkdoc flycheck-disabled-checkers))))
+    (->> (default-value 'flycheck-disabled-checkers)
+         (append '(emacs-lisp emacs-lisp-checkdoc))
+         (-uniq)
+         (setq-default flycheck-disabled-checkers))))
 
 (provide 'conf/mode-specific/elisp-and-interaction)
