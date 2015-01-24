@@ -47,19 +47,19 @@ Format: '((major-mode . (ac-source ...)) ...)")
   ;; `completion-at-point' is used when TAB is pressed, the current line is already properly indented and:
   ;;   * `tab-always-indent' is set to 'complete
   ;;   * `auto-complete' isn't already being displayed (when it is, the TAB binding in `ac-completing-map' is used instead)
-  (require 'cl-lib) ; Used: cl-position.
+  (use-package dash :ensure dash :commands (-elem-index -if-let -insert-at))
   (defun auto-complete-if-active ()
     "Call `auto-complete' if `auto-complete-mode' is active."
     (when auto-complete-mode
       (auto-complete)))
-  (defun insert-after-index (list-name index newelt)
-    (push newelt (cdr (nthcdr index (symbol-value list-name)))))
   (defun add-ac-to-completion-at-point ()
     (unless (memq #'auto-complete-if-active completion-at-point-functions)
-      (let ((position (cl-position #'yas-expand-if-active completion-at-point-functions)))
-        (if position
-            (insert-after-index 'completion-at-point-functions position #'auto-complete-if-active)
-          (push #'auto-complete-if-active completion-at-point-functions)))))
+      (let ((yas-position (-elem-index #'yas-expand-if-active
+                                       completion-at-point-functions)))
+        (setq completion-at-point-functions
+              (-insert-at (if yas-position (1+ yas-position) 0)
+                          #'auto-complete-if-active
+                          completion-at-point-functions)))))
   (add-hook 'auto-complete-mode-hook #'add-ac-to-completion-at-point)
 
 
@@ -87,7 +87,7 @@ Format: '((major-mode . (ac-source ...)) ...)")
   ;;; Sources.
 
   (require 'auto-complete-config) ; Used: ac-source-yasnippet.
-  (setq-default ac-sources '(; ac-source-semantic ; Too slow (makes Emacs hang for multiple seconds, as of 2014-01).
+  (setq-default ac-sources '(; ac-source-semantic ; Too slow (makes Emacs hang for multiple seconds, as of 2015-01).
                              ac-source-words-in-buffer
                              ac-source-yasnippet
                              ac-source-dictionary
