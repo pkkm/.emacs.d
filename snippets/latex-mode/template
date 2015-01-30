@@ -17,15 +17,29 @@
        (document-class (completing-read "Document class: "
                                         '("article" "scrartcl" "amsart" "letter")
                                         nil nil nil nil "article"))
-       (math? (unless (eq document-class "letter")
-                (y-or-n-p "Include math packages?")))
-       (tables? (y-or-n-p "Include table packages?"))
        (engine-auctex (pcase engine
                         ("XeTeX" "xetex")
-                        ("pdfTeX" "default"))))
-  (cl-flet ((line-concat (&rest lines) (mapconcat #'identity (delq nil lines) "\n")))
+                        ("pdfTeX" "default")))
+       (document-body "`yas-selected-text`$0"))
+  (cl-flet* ((smart-comment (line)
+                            (if (or (string-prefix-p "%" line)
+                                    (string-empty-p line))
+                                line
+                              (concat "%" line)))
+             (join-lines (function lines)
+                         (let ((non-nil-lines (delq nil lines)))
+                           (when non-nil-lines
+                             (mapconcat function non-nil-lines "\n"))))
+             (latex-block (transformation &rest lines)
+                          (pcase transformation
+                            (`ignore nil)
+                            (`smart-comment (join-lines #'smart-comment lines))
+                            (`comment (join-lines (lambda (line) (concat "%" line)) lines))
+                            (`verbatim (join-lines #'identity lines))))
+             (verbatim-block (&rest lines)
+                             (apply #'latex-block 'verbatim lines)))
     (yas-expand-snippet
-     (line-concat
+     (verbatim-block
 
       ;; Warnings.
       "\\RequirePackage[l2tabu, orthodox]{nag} % Warn about obsolete macros in .log file (grep for \"nag\")."
@@ -33,67 +47,75 @@
 
       ;; Document type, margins, etc.
       (pcase document-class
-        ("scrartcl" "\\documentclass[12pt, a4paper, parskip=full]{scrartcl} % Margins: DIV=<number> (larger number: more content).")
-        ((or "article" "amsart" "letter") (concat "\\documentclass[12pt]{" document-class "}"))
-        (_ (concat "\\documentclass{" document-class "}")))
+        ("scrartcl"
+         "\\documentclass[12pt, a4paper, parskip=full]{scrartcl} % Margins: DIV=<number> (larger number: more content).")
+        ((or "article" "amsart" "letter")
+         (concat "\\documentclass[12pt]{" document-class "}"))
+        (_
+         (concat "\\documentclass{" document-class "}")))
       (when (not (equal document-class "amsart"))
-        (line-concat "\\usepackage[a4paper]{geometry} % Setting margins: \"top=5cm\", \"left=2in\" (later options have more priority)."
-                     "\\usepackage{parskip} % Space between paragraphs instead of indent."))
+        (verbatim-block "\\usepackage[a4paper]{geometry} % Setting margins: \"top=5cm\", \"left=2in\" (later options have more priority)."
+                        "\\usepackage{parskip} % Space between paragraphs instead of indent."))
       "\\usepackage{microtype} % Better typography." ; No longer needs to be loaded after fonts and babel (unless using "babel=true"). See <http://tex.stackexchange.com/questions/162137/loading-microtype-before-or-after-the-font>.
       ""
 
-      ;; Language.
+      "% Language."
       (if (equal engine "XeTeX")
-          (line-concat "\\usepackage{polyglossia}" ; Just to be safe, load it near the beginning of the preamble (see <http://tex.stackexchange.com/questions/150788/should-babel-package-call-be-placed-at-the-end-of-the-preamble>).
-                       "\\setmainlanguage{${polish}}"
-                       "\\setotherlanguage{${english}}")
-        (line-concat "\\usepackage[${polish},${english}]{babel}"))
+          (verbatim-block "\\usepackage{polyglossia}" ; Just to be safe, load it near the beginning of the preamble (see <http://tex.stackexchange.com/questions/150788/should-babel-package-call-be-placed-at-the-end-of-the-preamble>).
+                          "\\setmainlanguage{${polish}}"
+                          "\\setotherlanguage{${english}}")
+        (verbatim-block "\\usepackage[${polish},${english}]{babel}"))
       (when (equal engine "pdfTeX")
-        (line-concat "\\usepackage[utf8]{inputenc}"
-                     "\\usepackage[T1]{fontenc}"))
+        (verbatim-block "\\usepackage[utf8]{inputenc}"
+                        "\\usepackage[T1]{fontenc}"))
       ""
 
-      ;; Math.
-      (when math?
-        (line-concat "\\usepackage[all]{onlyamsmath} % Add improved math macros, disable standard ones."
-                     "\\usepackage{amsfonts} % Math fonts, e.g. \\`mathbb'."
-                     ""))
+      "% Math."
+      (latex-block 'smart-comment
+                   "\\usepackage[all]{onlyamsmath} % Add improved math macros, disable standard ones."
+                   "\\usepackage{amsfonts} % Math fonts, e.g. \\`mathbb'."
+                   "")
 
-      ;; Tables.
-      (when tables? ; Overview of table packages: <http://tex.stackexchange.com/questions/12672/which-tabular-packages-do-which-tasks-and-which-packages-conflict>.
-        (line-concat "\\usepackage{tabu} % \\`tabular' replacement with more features (e.g. auto-detecting if inside math mode)."
-                     "\\usepackage{booktabs} % Professional-looking tables (use \\\\{top,mid,bottom}rule instead of \\hline; no \\vline)."
-                     "")) ; `booktabs' examples: <http://www.howtotex.com/packages/improve-your-tables-with-booktabs/>.
+      "% Tables."
+      ;; Overview of table packages: <http://tex.stackexchange.com/questions/12672/which-tabular-packages-do-which-tasks-and-which-packages-conflict>.
+      (latex-block 'smart-comment
+                   "\\usepackage{tabu} % \\`tabular' replacement with more features (e.g. auto-detecting if inside math mode)."
+                   "\\usepackage{booktabs} % Professional-looking tables (use \\\\{top,mid,bottom}rule instead of \\hline; no \\vline)." ; `booktabs' examples: <http://www.howtotex.com/packages/improve-your-tables-with-booktabs/>.
+                   "")
 
       ;; Disable page numbers?
-      (pcase document-class
-        ("amsart" (line-concat "%\\pagestyle{empty} % No page numbers." ""))
-        ("letter" (line-concat "\\pagestyle{empty} % No page numbers." "")))
+      (latex-block (if (equal document-class "letter") 'verbatim 'smart-comment)
+                   "\\pagestyle{empty} % No page numbers."
+                   "")
 
       ;; Title, author, etc.
       (pcase document-class
-        ("letter" (line-concat "\\signature{${`(user-full-name)`}}"
-                               "\\address{${}}"))
-        (_ (line-concat "\\title{${Document title}}"
-                        "\\author{${`(user-full-name)`}}"
-                        "%\\date{}")))
+        ("letter" (verbatim-block "\\signature{${`(user-full-name)`}}"
+                                  "\\address{${}}"))
+        (_ (verbatim-block "\\title{${Document title}}"
+                           "\\author{${`(user-full-name)`}}"
+                           "%\\date{}")))
       ""
 
       ;; Document body.
       "\\begin{document}"
       (pcase document-class
-        ("letter" (line-concat "\\begin{letter}{${Destination address}}"
-                               "\\opening{${Dear Sir or Madam,}}"
-                               "`yas-selected-text`$0"
-                               "\\closing{Yours Respectfully,}"
-                               "\\end{letter}"))
-        (_ (line-concat "\\maketitle"
-                        "$0")))
+        ("letter" (verbatim-block "\\begin{letter}{${Destination address}}"
+                                  "\\opening{${Dear Sir or Madam,}}"
+                                  ""
+                                  document-body
+                                  ""
+                                  "\\closing{Yours Respectfully,}"
+                                  "\\end{letter}"))
+        (_ (verbatim-block "\\maketitle"
+                           ""
+                           document-body)))
       "\\end{document}"
       ""
 
       ;; AUCTeX data.
       (when engine-auctex
-        (line-concat "% Local Variables:"
-                     (concat "% TeX-engine: " engine-auctex)
-                     "% End:" ""))))))
+        (verbatim-block "% Local Variables:"
+                        (concat "% TeX-engine: " engine-auctex)
+                        "% End:"
+                        ""))))))
