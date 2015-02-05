@@ -6,6 +6,8 @@
   :defer t
   :if (>= (display-color-cells) 256)
   :idle
-  (global-color-identifiers-mode))
+  (global-color-identifiers-mode)
+  :config
+  (add-hook 'after-load-theme-hook #'color-identifiers:regenerate-colors))
 
 (provide 'conf/view/color-identifiers)
