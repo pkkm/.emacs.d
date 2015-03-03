@@ -79,6 +79,11 @@
   (setq org-hide-leading-stars t) ; Make leading stars of headlines background color.
   (setq org-fontify-done-headline t) ; Mark the whole headline of a DONE task with a different face.
 
+  ;; Ellipsis style for folded sections.
+  (setq org-ellipsis 'org-ellipsis)
+  (face-spec-set 'org-ellipsis
+                 '((t (:foreground "cyan" :box (:line-width 1 :color "dark cyan" :style nil)))))
+
   ;; Agenda.
   (when (file-exists-p "~/Org")
     (add-to-list 'org-agenda-files "~/Org"))
