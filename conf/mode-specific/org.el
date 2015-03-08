@@ -80,9 +80,17 @@
   (setq org-fontify-done-headline t) ; Mark the whole headline of a DONE task with a different face.
 
   ;; Ellipsis style for folded sections.
+  (require 'conf/utils/colors) ; Used: color-mix.
   (setq org-ellipsis 'org-ellipsis)
-  (face-spec-set 'org-ellipsis
-                 '((t (:foreground "cyan" :box (:line-width 1 :color "dark cyan" :style nil)))))
+  (defun set-org-ellipsis-style ()
+    "Calculate the modeline backgrounds for various Evil states."
+    (let* ((base-color "cyan")
+           (color (color-mix base-color 0.4 (face-attribute 'default :foreground) 0.6))
+           (box-color (color-mix base-color 0.15 (face-attribute 'default :background) 0.85)))
+      (face-spec-set 'org-ellipsis
+                     `((t (:foreground ,color :box (:line-width 1 :color ,box-color :style nil)))))))
+  (add-hook 'after-load-theme-hook #'set-org-ellipsis-style)
+  (set-org-ellipsis-style)
 
   ;; Agenda.
   (when (file-exists-p "~/Org")
