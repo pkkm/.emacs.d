@@ -79,6 +79,10 @@
   (setq org-hide-leading-stars t) ; Make leading stars of headlines background color.
   (setq org-fontify-done-headline t) ; Mark the whole headline of a DONE task with a different face.
 
+  ;; Inline LaTeX formula rendering (Org recognizes "\(", "\[", etc.).
+  ;; To render: C-c C-x C-l, to undo: C-c C-c. To render on startup: "#+STARTUP: latexpreview".
+  (plist-put org-format-latex-options :scale 1.8) ; Larger formulas.
+
   ;; Ellipsis style for folded sections.
   (require 'conf/utils/colors) ; Used: color-mix.
   (setq org-ellipsis 'org-ellipsis)
