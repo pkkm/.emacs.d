@@ -4,6 +4,8 @@
 (use-package tex
   :ensure auctex
   :defer t
+  :init
+  (autoload #'LaTeX-math-mode "latex" nil t) ; For use in other modes.
   :config
 
   ;; Indentation: smart tabs.
