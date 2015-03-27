@@ -98,6 +98,7 @@
 
 (require 'conf/other/discoverability)
 (require 'conf/other/insert-current-date)
+(require 'conf/other/insert-char)
 (require 'conf/other/semantic)
 (require 'conf/other/disable-suspending)
 (require 'conf/other/enable-confusing-commands)
