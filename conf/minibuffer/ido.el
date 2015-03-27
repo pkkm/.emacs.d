@@ -81,7 +81,8 @@
   :defer t
   :init
   (with-eval-after-load 'ido
-    (ido-ubiquitous-mode 1)))
+    (ido-ubiquitous-mode 1)
+    (setq ido-ubiquitous-max-items 60000))) ; Default is 30k, insert-char needs about 40k.
 
 ;; Better, more memory-hungry flex matching (used only on high-end machines).
 (use-package flx-ido
