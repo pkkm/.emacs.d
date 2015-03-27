@@ -53,7 +53,7 @@
          (concat "\\documentclass[12pt]{" document-class "}"))
         (_
          (concat "\\documentclass{" document-class "}")))
-      (when (not (equal document-class "amsart"))
+      (when (not (equal document-class "scrartcl"))
         (verbatim-block "\\usepackage[a4paper]{geometry} % Setting margins: \"top=5cm\", \"left=2in\" (later options have more priority)."
                         "\\usepackage{parskip} % Space between paragraphs instead of indent."))
       "\\usepackage{microtype} % Better typography." ; No longer needs to be loaded after fonts and babel (unless using "babel=true"). See <http://tex.stackexchange.com/questions/162137/loading-microtype-before-or-after-the-font>.
