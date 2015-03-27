@@ -50,7 +50,7 @@
     (bind-key "C-c M-h" #'clojure-cheatsheet-or-error clojure-mode-map)))
 
 ;; Refactoring.
-;; Prefix: C-c C-m (overrides the binding for macroexpand).
+;; Prefix: C-c RET (overrides the binding for macroexpand).
 (use-package clj-refactor
   :ensure clj-refactor
   :defer t
@@ -58,6 +58,6 @@
   :init
   (add-hook 'clojure-mode-hook #'clj-refactor-mode)
   :config
-  (cljr-add-keybindings-with-prefix "C-c C-m"))
+  (cljr-add-keybindings-with-prefix "C-c RET"))
 
 (provide 'conf/mode-specific/clojure)

@@ -1,8 +1,6 @@
 ;;; Version control interfaces.
 
-
-;;; Magit (git interface).
-
+;; Magit (git interface).
 (use-package magit
   :ensure magit
   :defer t
@@ -26,11 +24,13 @@ Then, restore the saved window configuration from before launching `magit-status
   (defvar my-magit-fulscreen-previous-q-command
     (lookup-key magit-status-mode-map (kbd "q") t)
     "The command that was bound to `q' in `magit-status' before `q' was rebound.")
-  (bind-key "q" #'my-magit-fullscreen-quit magit-status-mode-map))
+  (bind-key "q" #'my-magit-fullscreen-quit magit-status-mode-map)
 
+  ;; Start writing commit message in insert mode.
+  (with-eval-after-load 'evil
+    (evil-set-initial-state 'git-commit-mode 'insert)))
 
-;;; Disable VC-mode (the default Emacs interface for VCSes).
+;; Disable VC-mode (default Emacs interface for VCSes).
 (setq vc-handled-backends '())
-
 
 (provide 'conf/driving-processes/version-control)

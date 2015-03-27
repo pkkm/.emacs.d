@@ -53,13 +53,9 @@
     (kill-local-variable 'paragraph-separate))
   (add-hook 'after-change-major-mode-hook #'kill-local-paragraph-definitions)
 
-  ;; Initial states in various modes.
-  ;; TODO move to files with the configuration for the modes.
+  ;; Initial states for modes which don't have their own sections in my config.
   (evil-set-initial-state 'debugger-mode 'normal)
   (evil-set-initial-state 'package-menu-mode 'normal)
-  (evil-set-initial-state 'occur-mode 'motion)
-  (evil-set-initial-state 'term-mode 'emacs)
-  (evil-set-initial-state 'compilation-mode 'emacs)
-  (evil-set-initial-state 'git-commit-mode 'insert))
+  (evil-set-initial-state 'occur-mode 'motion))
 
 (provide 'conf/evil)
