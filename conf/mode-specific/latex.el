@@ -1,4 +1,5 @@
 ;;; LaTeX.
+;; Emacs tip: to type TeX symbols and have them converted to Unicode, press C-\ TeX RET (toggle with C-\).
 
 (use-package tex
   :ensure auctex
@@ -38,6 +39,11 @@
 
   ;; Make RET also indent.
   (with-eval-after-load 'evil
-    (setq TeX-newline-function #'evil-ret-and-indent)))
+    (setq TeX-newline-function #'evil-ret-and-indent))
+
+  ;; Use ";" as prefix for quickly entering math (toggle with C-c ~).
+  ;; (The mode also displays a "Math" menu with many symbols -- can be used efficiently with Lacarte.)
+  (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)
+  (setq LaTeX-math-abbrev-prefix ";"))
 
 (provide 'conf/mode-specific/latex)
