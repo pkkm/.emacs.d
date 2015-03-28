@@ -50,7 +50,7 @@
   (setq LaTeX-math-abbrev-prefix ";")
 
   ;; Electric braces after sub- and superscripts.
-  (setq TeX-electric-sub-and-superscript)
+  (setq TeX-electric-sub-and-superscript t)
 
   ;; Quickly enter \frac.
   (with-eval-after-load 'latex ; LaTeX mode is loaded after TeX mode.
