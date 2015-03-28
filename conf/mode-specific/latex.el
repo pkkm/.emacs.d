@@ -48,6 +48,10 @@
   (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)
   (setq LaTeX-math-abbrev-prefix ";")
 
+  ;; Quickly enter \frac.
+  (with-eval-after-load 'latex ; LaTeX mode is loaded after TeX mode.
+    (bind-key "C-c /" (lambda () (interactive) (TeX-insert-macro "frac")) LaTeX-mode-map))
+
   ;; Make LaTeX previews bigger.
   ;; (Activate previews in buffer with C-c C-p C-b, clear with C-c C-p C-c C-b).
   (defvar my-latex-preview-scale-factor 1.17
