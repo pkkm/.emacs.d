@@ -46,6 +46,15 @@
   ;; Use ";" as prefix for quickly entering math (toggle with C-c ~).
   ;; (The mode also displays a "Math" menu with many symbols -- can be used efficiently with Lacarte.)
   (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)
-  (setq LaTeX-math-abbrev-prefix ";"))
+  (setq LaTeX-math-abbrev-prefix ";")
+
+  ;; Make LaTeX previews bigger.
+  ;; (Activate previews in buffer with C-c C-p C-b, clear with C-c C-p C-c C-b).
+  (defvar my-latex-preview-scale-factor 1.17
+    "Factor by which the default LaTeX preview size (calculated from font size) should be multiplied.")
+  (defun my-latex-preview-scale ()
+    (* (funcall (preview-scale-from-face))
+       my-latex-preview-scale-factor))
+  (setq preview-scale-function #'my-latex-preview-scale))
 
 (provide 'conf/mode-specific/latex)
