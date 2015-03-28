@@ -42,20 +42,20 @@
      (verbatim-block
 
       ;; Warnings.
-      "\\RequirePackage[l2tabu, orthodox]{nag} % Warn about obsolete macros in .log file (grep for \"nag\")."
+      "\\RequirePackage[l2tabu, orthodox]{nag} % Style warnings in .log file (grep for \"nag\")."
       ""
 
       ;; Document type, margins, etc.
       (pcase document-class
         ("scrartcl"
-         "\\documentclass[12pt, a4paper, parskip=full]{scrartcl} % Margins: DIV=<number> (larger number: more content).")
+         "\\documentclass[12pt, a4paper, parskip=full]{scrartcl} % Margins: DIV=<number> (larger -- more content).")
         ((or "article" "amsart" "letter")
          (concat "\\documentclass[12pt]{" document-class "}"))
         (_
          (concat "\\documentclass{" document-class "}")))
       (when (not (equal document-class "scrartcl"))
-        (verbatim-block "\\usepackage[a4paper]{geometry} % Setting margins: \"top=5cm\", \"left=2in\" (later options have more priority)."
-                        "\\usepackage{parskip} % Space between paragraphs instead of indent."))
+        (verbatim-block "\\usepackage[a4paper]{geometry} % Setting margins: \"top=5cm\" (later options have more priority)."
+                        "\\usepackage{parskip} % Space instead of indent between paragraphs."))
       "\\usepackage{microtype} % Better typography." ; No longer needs to be loaded after fonts and babel (unless using "babel=true"). See <http://tex.stackexchange.com/questions/162137/loading-microtype-before-or-after-the-font>.
       ""
 
@@ -64,7 +64,7 @@
           (verbatim-block "\\usepackage{polyglossia}" ; Just to be safe, load it near the beginning of the preamble (see <http://tex.stackexchange.com/questions/150788/should-babel-package-call-be-placed-at-the-end-of-the-preamble>).
                           "\\setmainlanguage{${polish}}"
                           "\\setotherlanguage{${english}}")
-        (verbatim-block "\\usepackage[${polish},${english}]{babel}"))
+        (verbatim-block "\\usepackage[${polish}, ${english}]{babel}"))
       (when (equal engine "pdfTeX")
         (verbatim-block "\\usepackage[utf8]{inputenc}"
                         "\\usepackage[T1]{fontenc}"))
@@ -79,8 +79,8 @@
       "% Tables."
       ;; Overview of table packages: <http://tex.stackexchange.com/questions/12672/which-tabular-packages-do-which-tasks-and-which-packages-conflict>.
       (latex-block 'smart-comment
-                   "\\usepackage{tabu} % \\`tabular' replacement with more features (e.g. auto-detecting if inside math mode)."
-                   "\\usepackage{booktabs} % Professional-looking tables (use \\\\{top,mid,bottom}rule instead of \\hline; no \\vline)." ; `booktabs' examples: <http://www.howtotex.com/packages/improve-your-tables-with-booktabs/>.
+                   "\\usepackage{tabu} % Featureful replacement for \\`tabular'."
+                   "\\usepackage{booktabs} % Elegant tables (use \\\\{top,mid,bottom}rule instead of \\hline; no \\vline)." ; `booktabs' examples: <http://www.howtotex.com/packages/improve-your-tables-with-booktabs/>.
                    "")
 
       ;; Disable page numbers?
