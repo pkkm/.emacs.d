@@ -1,5 +1,6 @@
 ;;; LaTeX.
 ;; Emacs tip: to type TeX symbols and have them converted to Unicode, press C-\ TeX RET (toggle with C-\).
+;; For AUCTeX tips, see <http://tex.stackexchange.com/questions/20843/useful-shortcuts-or-key-bindings-or-predefined-commands-for-emacsauctex>.
 
 (use-package tex
   :ensure auctex
@@ -47,6 +48,9 @@
   ;; (The mode also displays a "Math" menu with many symbols -- can be used efficiently with Lacarte.)
   (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)
   (setq LaTeX-math-abbrev-prefix ";")
+
+  ;; Electric braces after sub- and superscripts.
+  (setq TeX-electric-sub-and-superscript)
 
   ;; Quickly enter \frac.
   (with-eval-after-load 'latex ; LaTeX mode is loaded after TeX mode.
