@@ -1,4 +1,5 @@
 ;;; Semantic (part of CEDET) -- syntax-aware features for various languages.
+;; Keys are bound globally instead of in semantic-mode-map because otherwise they would shadow major-mode's bindings.
 
 (use-package semantic ; Bundled with Emacs.
   :defer t
@@ -10,8 +11,8 @@
   (setq completion-at-point-functions
         (delq #'semantic-completion-at-point-function completion-at-point-functions))
 
-  (bind-key "C-c ." #'semantic-ia-fast-jump semantic-mode-map) ; Go to definition (to be shadowed by some modes).
-  (bind-key "C-c ^" #'senator-go-to-up-reference semantic-mode-map) ; Go up one "reference level".
+  (bind-key "C-c ." #'semantic-ia-fast-jump) ; Go to definition.
+  (bind-key "C-c ^" #'senator-go-to-up-reference) ; Go up one "reference level".
 
   (global-semantic-idle-summary-mode 1)) ; Similar to Eldoc.
 
@@ -26,8 +27,7 @@
     :ensure srefactor
     :defer t
     :init
-    (with-eval-after-load 'semantic
-      (bind-key "C-c RET" #'srefactor-refactor-at-point semantic-mode-map))
+    (bind-key "C-c RET" #'srefactor-refactor-at-point)
     :config
     (with-eval-after-load 'evil
       (evil-set-initial-state 'srefactor-ui-menu-mode 'emacs))))
