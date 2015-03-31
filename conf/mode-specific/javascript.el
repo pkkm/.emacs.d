@@ -53,8 +53,8 @@
   :config
   ;; C-c C-m -- a prefix for many refactorings (e.g. ef -- extract function).
   (js2r-add-keybindings-with-prefix "C-c C-m"))
-;; Doesn't work; it seems that `smartparens' binds some characters to `sp--self-insert-command' in the menu buffer, which makes the menu items unselectable.
-;; TODO debug.
+;; Doesn't work.
+;; It seems that `smartparens' binds some characters to `sp--self-insert-command' in the menu buffer, which makes the menu items unselectable.
 ;; (use-package discover-js2-refactor
 ;;   :ensure discover-js2-refactor
 ;;   :defer t
@@ -68,15 +68,5 @@
 ;;         (bind-key "C-c C-m"
 ;;                   (discover-get-context-menu-command-name 'js2-refactor)
 ;;                   js2-mode-map)))))
-
-;; TODO does Tern provide anything that the above packages don't.
-;; (use-package tern
-;;   :ensure tern
-;;   :init
-;;   (add-hook 'js-mode-hook (lambda () (tern-mode t))))
-;; (use-package tern-auto-complete
-;;   :ensure tern-auto-complete
-;;   :init
-;;   (tern-ac-setup))
 
 (provide 'conf/mode-specific/javascript)

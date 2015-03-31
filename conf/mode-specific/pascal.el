@@ -16,11 +16,9 @@
 
   ;; Electric characters:
   ;; # -- unindent if this is a CPP directive.
-  ;; ; -- autoindent.
-  ;; . -- autoindent.
+  ;; ; . -- autoindent.
   (setq pascal-auto-lineup '()) ; Don't automatically align characters.
-  ;; = -- align if containing statement is in `pascal-auto-lineup'.
-  ;; : -- align if containing statement is in `pascal-auto-lineup'.
+  ;; = : -- align if containing statement is in `pascal-auto-lineup'.
 
   ;; C-c:
   ;;   C-o -- outline mode.

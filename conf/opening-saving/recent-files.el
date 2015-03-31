@@ -5,7 +5,7 @@
 
   :pre-load ; These have to be set before enabling recentf-mode.
 
-  ;; Clean up non-existent files from the list after 2 minutes of idle. Use `recentf-cleanup' to manually trigger this.
+  ;; Clean up non-existent files from the list after 2 minutes of idle. Use `recentf-cleanup' to manually trigger.
   (setq recentf-auto-cleanup 120)
 
   (setq recentf-max-saved-items 200)

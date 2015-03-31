@@ -60,7 +60,7 @@
 
 (require 'conf/driving-processes/ag)
 (require 'conf/driving-processes/flycheck)
-(require 'conf/driving-processes/isend)
+(require 'conf/driving-processes/isend) ; Little used, candidate for deletion.
 (require 'conf/driving-processes/version-control)
 (require 'conf/driving-processes/compiling)
 
@@ -90,11 +90,9 @@
 (require 'conf/opening-saving/ido)
 (require 'conf/opening-saving/vim-modelines)
 (require 'conf/opening-saving/recent-files)
-(require 'conf/opening-saving/diff)
 
 (require 'conf/configuring/unbound)
 (require 'conf/configuring/flatten-conf)
-(require 'conf/configuring/command-log)
 
 (require 'conf/other/discoverability)
 (require 'conf/other/insert-current-date)

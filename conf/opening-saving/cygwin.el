@@ -14,13 +14,13 @@
   ;;   (setq cygwin-mount-cygwin-bin-directory
   ;;         (expand-file-name "bin" (getenv "CYGWIN_ROOT"))) ; CYGWIN_ROOT may need sanitizing if it begins with "<drive>://" instead of "<drive>:/".
 
-  ;; We hardcode the location of drive mountpoints to /drive (auto-detection of this doesn't work anyway).
+  ;; Hardcode the location of drive mountpoints to /drive.
   ;; (I changed the location from the default /cygdrive; the relevant Cygwin settings are in Prepare.sh.)
   (defadvice cygwin-mount-get-cygdrive-prefix
     (around my-hardcoded-cygdrive-prefix activate)
-    "Hardcode the location of drive mountpoints (detection of this doesn't work; it always returns /cygdrive/)."
+    "Hardcode the location of drive mountpoints (detection doesn't work, always returns /cygdrive/)."
     (setq ad-return-value "/drive/"))
 
-  (cygwin-mount-activate)) ; To deactivate, do (cygwin-mount-deactivate).
+  (cygwin-mount-activate)) ; To deactivate, (cygwin-mount-deactivate).
 
 (provide 'conf/opening-saving/cygwin)

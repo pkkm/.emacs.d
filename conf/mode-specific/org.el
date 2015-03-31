@@ -43,8 +43,6 @@
   (with-eval-after-load 'evil
     ;; Insert heading.
     (evil-define-key 'normal org-mode-map (kbd "C-c RET") #'evil-org-insert-heading)
-    (bind-key "M-o" #'evil-org-insert-heading org-mode-map)
-    (bind-key "C-M-o" #'evil-org-insert-todo-heading org-mode-map)
 
     ;; Replace the normal Evil end-of-line with an org-specific one.
     (evil-define-key 'motion org-mode-map [remap evil-end-of-line] #'org-end-of-line)
@@ -59,14 +57,6 @@
       (interactive)
       (org-end-of-line)
       (call-interactively #'org-insert-heading)
-      (unless (evil-insert-state-p)
-        (evil-append 1)))
-
-    (defun evil-org-insert-todo-heading ()
-      "Insert a TODO heading in Org-Mode and switch to Evil's insert state."
-      (interactive)
-      (org-end-of-line)
-      (call-interactively #'org-insert-todo-heading)
       (unless (evil-insert-state-p)
         (evil-append 1))))
 
@@ -95,11 +85,6 @@
                      `((t (:foreground ,color :box (:line-width 1 :color ,box-color :style nil)))))))
   (add-hook 'after-load-theme-hook #'set-org-ellipsis-style)
   (set-org-ellipsis-style)
-
-  ;; Agenda.
-  (when (file-exists-p "~/Org")
-    (add-to-list 'org-agenda-files "~/Org"))
-  (bind-key "C-x C-a" #'org-agenda)
 
   ;; Logging.
   (setq org-log-repeat nil) ; Don't log shifting forward the date of a repeating task.

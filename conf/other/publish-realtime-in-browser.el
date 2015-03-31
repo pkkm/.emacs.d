@@ -4,12 +4,9 @@
 ;; Buffers in other modes are run through a filter, by default `htmlize' (to change this, see the README of `impatient-mode').
 
 ;; Usage:
-;;   * Start the `simple-httpd' web server:
-;;       M-x httpd-start
-;;   * Publish buffers by enabling this minor mode:
-;;       M-x impatient-mode
-;;   * Browse to <http://localhost:8080/imp/>.
-;;     (The default port is `httpd-port'.)
+;;   * Start the `simple-httpd' web server: M-x httpd-start
+;;   * Publish buffers by enabling this minor mode: M-x impatient-mode
+;;   * Browse to <http://localhost:8080/imp/>. (The default port is `httpd-port'.)
 
 (use-package impatient-mode
   :ensure impatient-mode

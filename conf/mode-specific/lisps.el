@@ -12,8 +12,7 @@
   (defun my-lisp-indentation ()
     (setq tab-width 8) ; For reading ancient Lisp code.
     (setq indent-tabs-mode nil))
-  (add-hooks '(lisp-mode-hook emacs-lisp-mode-hook)
-             #'my-lisp-indentation)
+  (add-hooks '(lisp-mode-hook emacs-lisp-mode-hook) #'my-lisp-indentation)
 
   ;; Indent guides.
   ;; We don't use `with-eval-after-load' because `indent-guide-mode' is autoloaded, so it would never load.

@@ -46,7 +46,7 @@
   ;; (An alternative approach would be to create "~/.emacs.d/snippets/web-mode/.yas-parents" with the mode names.)
   (with-eval-after-load 'yasnippet
     (defun my-web-mode-additional-yasnippets ()
-      "If YASnippet is active, activate snippets of other modes that will be useful in web-mode."
+      "If YASnippet is active, activate snippets for other modes that will be useful in web-mode."
       (dolist (mode '(css-mode html-mode))
         (yas-activate-extra-mode mode)))
     (add-hook 'web-mode-hook #'my-web-mode-additional-yasnippets))
