@@ -14,7 +14,7 @@
   :defer t
   :diminish elisp-slime-nav-mode
   :init
-  (add-hook 'emacs-lisp-mode-hook #'turn-on-elisp-slime-nav-mode)
+  (add-hook 'emacs-lisp-mode-hook #'elisp-slime-nav-mode)
   :config
 
   ;; `C-c .', `C-c ,' -- go to definition of symbol at point, go back.
