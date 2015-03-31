@@ -7,8 +7,8 @@
   :config
 
   ;; Eldoc -- show function arguments in the minibuffer.
-  ;; (Configuration is in conf/view/eldoc.el.)
-  (add-hook 'cider-mode-hook #'cider-turn-on-eldoc-mode))
+  ;; (Configured in conf/view/eldoc.el.)
+  (add-hook 'cider-mode-hook #'eldoc-mode))
 
 (use-package clojure-mode ; Installed by CIDER.
   :defer t
