@@ -55,7 +55,7 @@
 (require 'conf/editing/smartparens)
 (require 'conf/editing/snippets)
 (require 'conf/editing/break-line)
-(require 'conf/editing/inc-dec-number)
+(require 'conf/editing/increment-number)
 (require 'conf/editing/hungry-delete)
 
 (require 'conf/driving-processes/ag)
