@@ -27,6 +27,10 @@
   ;; Unbind C-c . to make space for my binding for Semantic's go-to-definiton.
   (bind-key "C-c ." nil c-mode-base-map)
 
+  ;; Flycheck: use C++11 by default.
+  (setq-default flycheck-gcc-language-standard "c++11")
+  (setq-default flycheck-clang-language-standard "c++11")
+
   ;; Default compilation, execution and cleaning commands.
   (require 'conf/utils/lists) ; Used: join-nonempty.
   (require 'conf/driving-processes/compiling) ; Used: my-additional-compile-args, compile-run-clean-command-setter-alist.
