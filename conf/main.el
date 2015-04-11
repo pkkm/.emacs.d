@@ -95,6 +95,7 @@
 (require 'conf/configuring/flatten-conf)
 
 (require 'conf/other/discoverability)
+(require 'conf/other/alternate-modifier-entering)
 (require 'conf/other/insert-current-date)
 (require 'conf/other/insert-char)
 (require 'conf/other/semantic)
