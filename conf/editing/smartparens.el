@@ -20,21 +20,16 @@
   ;; Don't underline the currently edited expression.
   (setq sp-highlight-pair-overlay nil)
 
-  ;; What to consider a sexp.
-  (setq sp-navigate-consider-sgml-tags ; In which modes to consider SGML tags to be sexps.
+  ;; In which modes to consider SGML tags to be sexps.
+  (setq sp-navigate-consider-sgml-tags
         (append sp-navigate-consider-sgml-tags
                 '(sgml-mode xml-mode nxml-mode scala-mode)))
-  (setq sp-navigate-consider-stringlike-sexp ; In which modes to consider string-like sexps (like "*bold text*") to be sexps.
-        (append sp-navigate-consider-stringlike-sexp
-                '(latex-mode)))
 
-
-  ;;; Bindings.
-
+  ;; Keybindings.
   (with-eval-after-load 'evil
     ;; Prefix arguments.
     (evil-define-key 'motion sp-keymap (kbd "g >") #'sp-prefix-tag-object) ; Perform the next operation on an SGML tag.
-    (evil-define-key 'motion sp-keymap (kbd "g \"") #'sp-prefix-pair-object) ; Perform the next operation on a balanced pair. (Use this to skip symbols when moving by sexps.)
+    (evil-define-key 'motion sp-keymap (kbd "g )") #'sp-prefix-pair-object) ; Perform the next operation on a balanced pair. (Use this to skip symbols when moving by sexps.)
 
     ;; Usual meaning of raw prefix arguments to Smartparens commands:
     ;;   single prefix -- repeat as many times as possible.
@@ -112,8 +107,7 @@
 
     ;; Join, split.
     (evil-define-key 'normal sp-keymap (kbd "g p s") #'sp-split-sexp) ; With non-numeric prefix, split all the sexps in current one into separate sexps.
-    (evil-define-key 'normal sp-keymap (kbd "g p j") #'sp-join-sexp) ; With prefix ARG, join with that many following expressions (ARG can be negative).
-    (evil-define-key 'normal sp-keymap (kbd "g p T") #'sp-join-sexp) ; For consistency with my binding for "join line".
+    (evil-define-key 'normal sp-keymap (kbd "g p T") #'sp-join-sexp) ; With prefix ARG, join with that many following expressions (ARG can be negative). ("T" is for consistency with my binding for "join line".)
 
     (evil-define-text-object evil-sp-a-sexp (count &rest other-args)
       "Text object for the enclosing sexp. With COUNT, use the COUNTth sexp up."
@@ -125,13 +119,9 @@
       (sp-get (sp-get-enclosing-sexp count) (list :beg-in :end-in)))
     (bind-key "e" #'evil-sp-inner-sexp evil-inner-text-objects-map)
 
-    ;; TODO equivalent of evil-surround.
-    ;; TODO see how useful `sp-newline' will be with evil.
-
     ;; Normalize keymaps.
     ;; This is necessary for bindings defined using `evil-define-key' to be active before the first Evil state change.
     ;; See <https://bitbucket.org/lyro/evil/issue/301/evil-define-key-for-minor-mode-does-not>.
     (evil-normalize-keymaps)))
-
 
 (provide 'conf/editing/smartparens)
