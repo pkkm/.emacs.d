@@ -25,7 +25,26 @@
         (append sp-navigate-consider-sgml-tags
                 '(sgml-mode xml-mode nxml-mode scala-mode)))
 
+  ;; For some keys, use commands that operate either on sexps or hybrid-sexps, depending on mode.
+  ;; TODO feature request for similar functionality in Smartparens?
+  (use-package dash :ensure dash :commands -any-p)
+  (require 'conf/utils/modes) ; Used: derived-mode-hierarchy.
+  (defmacro my-sp-maybe-hybrid-sexp-command (normal-command hybrid-sexp-command)
+    "Define a command named my-NORMAL-COMMAND that calls NORMAL-COMMAND or HYBRID-SEXP-COMMAND."
+    `(defun ,(intern (concat "my-" (symbol-name normal-command))) ()
+       ,(concat "Call `" (symbol-name hybrid-sexp-command) "'"
+                " if the current mode (or one of its parents) is in `my-sp-hybrid-sexp-modes', "
+                "`" (symbol-name normal-command) "' otherwise.")
+       (interactive)
+       (if (-any-p (lambda (mode) (memq mode my-sp-hybrid-sexp-modes))
+                   (derived-mode-hierarchy major-mode))
+           (call-interactively #',hybrid-sexp-command)
+         (call-interactively #',normal-command))))
+  (defvar my-sp-hybrid-sexp-modes '(cc-mode ruby-mode java-mode scala-mode)
+    "Modes in which to use hybrid sexp operations instead of normal ones.")
+
   ;; Keybindings.
+  ;; Nice non-Smartparens binding: M-) -- insert a new sexp after the one we're in.
   (with-eval-after-load 'evil
     ;; Prefix arguments.
     (evil-define-key 'motion sp-keymap (kbd "g >") #'sp-prefix-tag-object) ; Perform the next operation on an SGML tag.
@@ -47,7 +66,6 @@
     (when (not (display-graphic-p)) ; Versions with the Meta key, for terminals which don't support the above characters.
       (bind-key "M-)" #'sp-down-sexp sp-keymap)
       (bind-key "M-(" #'sp-backward-up-sexp sp-keymap))
-    ;;(bind-key "C-M-e" #'sp-up-sexp sp-keymap)
 
     ;; Beginning/end of sexp.
     ;; With non-numeric prefix, beginning/end of enclosing sexp.
@@ -65,10 +83,11 @@
     ;;   Slurp -- move the next sexp inside the one we're in.
     ;;   Barf -- push out the last element of the sexp we're in.
     ;; With non-numeric prefix, slurp/barf as many as possible.
-    (bind-key "C-}" #'sp-forward-slurp-sexp sp-keymap)
+    (my-sp-maybe-hybrid-sexp-command sp-forward-slurp-sexp sp-slurp-hybrid-sexp) ; There is no backward hybrid-sexp variant.
+    (bind-key "C-}" #'my-sp-forward-slurp-sexp sp-keymap)
     (bind-key "C-{" #'sp-forward-barf-sexp sp-keymap)
     (when (not (display-graphic-p)) ; Versions with the Meta key, for terminals which don't support the above characters.
-      (bind-key "M-}" #'sp-forward-slurp-sexp sp-keymap)
+      (bind-key "M-}" #'my-sp-forward-slurp-sexp sp-keymap)
       (bind-key "M-{" #'sp-forward-barf-sexp sp-keymap))
     ;; Slurp/barf backward -- operate on the sexp before the one we're in.
     (evil-define-key 'normal sp-keymap (kbd "g {") #'sp-backward-slurp-sexp)
@@ -96,7 +115,8 @@
 
     ;; Transpose sexps -- swap the next with the previous.
     ;; With prefix ARG, drag the sexp before point that many sexps forward (ARG can be negative).
-    (evil-define-key 'normal sp-keymap (kbd "g p t") #'sp-transpose-sexp)
+    (my-sp-maybe-hybrid-sexp-command sp-transpose-sexp sp-transpose-hybrid-sexp)
+    (evil-define-key 'normal sp-keymap (kbd "g p t") #'my-sp-transpose-sexp)
 
     ;; Splice (remove the delimiters of current sexp).
     ;; With numeric argument, splice the sexp that many levels up.
