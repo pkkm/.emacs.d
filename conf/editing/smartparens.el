@@ -63,9 +63,6 @@
     ;; Move inside/outside nested sexps.
     (bind-key "C-)" #'sp-down-sexp sp-keymap)
     (bind-key "C-(" #'sp-backward-up-sexp sp-keymap)
-    (when (not (display-graphic-p)) ; Versions with the Meta key, for terminals which don't support the above characters.
-      (bind-key "M-)" #'sp-down-sexp sp-keymap)
-      (bind-key "M-(" #'sp-backward-up-sexp sp-keymap))
 
     ;; Beginning/end of sexp.
     ;; With non-numeric prefix, beginning/end of enclosing sexp.
@@ -86,9 +83,6 @@
     (my-sp-maybe-hybrid-sexp-command sp-forward-slurp-sexp sp-slurp-hybrid-sexp) ; There is no backward hybrid-sexp variant.
     (bind-key "C-}" #'my-sp-forward-slurp-sexp sp-keymap)
     (bind-key "C-{" #'sp-forward-barf-sexp sp-keymap)
-    (when (not (display-graphic-p)) ; Versions with the Meta key, for terminals which don't support the above characters.
-      (bind-key "M-}" #'my-sp-forward-slurp-sexp sp-keymap)
-      (bind-key "M-{" #'sp-forward-barf-sexp sp-keymap))
     ;; Slurp/barf backward -- operate on the sexp before the one we're in.
     (evil-define-key 'normal sp-keymap (kbd "g {") #'sp-backward-slurp-sexp)
     (evil-define-key 'normal sp-keymap (kbd "g }") #'sp-backward-barf-sexp)
