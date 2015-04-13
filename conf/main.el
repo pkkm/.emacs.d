@@ -65,6 +65,7 @@
 (require 'conf/driving-processes/compiling)
 
 (require 'conf/useless-without-evil/insert-newline)
+(require 'conf/useless-without-evil/exchange)
 (require 'conf/useless-without-evil/replace-symbol-operator)
 (require 'conf/useless-without-evil/convenient-prefix-keys)
 (require 'conf/useless-without-evil/prefix-arguments)
