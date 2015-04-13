@@ -1,7 +1,7 @@
 ;;; Support for GitHub Gist (a pastebin with many features).
 
 (use-package gist
-  :ensure gist
+  :ensure t
   :bind (("C-c G p" . gist-region-or-buffer)
          ("C-c G r" . gist-region-or-buffer-private)
          ("C-c G l" . gist-list))

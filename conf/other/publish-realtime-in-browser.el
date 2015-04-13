@@ -9,7 +9,7 @@
 ;;   * Browse to <http://localhost:8080/imp/>. (The default port is `httpd-port'.)
 
 (use-package impatient-mode
-  :ensure impatient-mode
+  :ensure t
   :defer t
   :config
   (diminish 'impatient-mode " Imp")) ; Default: " imp".

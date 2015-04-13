@@ -2,10 +2,12 @@
 
 ;; Magit (git interface).
 (use-package magit
-  :ensure magit
+  :ensure t
   :defer t
   :diminish magit-auto-revert-mode
   :bind ("C-c g" . magit-status)
+  :init
+  (setq magit-last-seen-setup-instructions "1.4.0") ; Don't display instructions which I've already seen.
   :config
 
   ;; Make `magit-status' take up the whole screen. When exiting it, restore the closed windows.

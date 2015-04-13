@@ -3,7 +3,7 @@
 (require 'conf/utils/colors) ; Used: color-mix.
 
 (use-package indent-guide
-  :ensure indent-guide
+  :ensure t
   :defer t
   :diminish indent-guide-mode
   :config

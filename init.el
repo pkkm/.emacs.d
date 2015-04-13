@@ -80,7 +80,8 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
 
 ;; Configure packages in a tidy, performance-oriented way.
 (package-ensure-installed 'use-package)
-(require 'use-package) ; If `use-package' is autoloaded, this file produces an error when its compiled version is loaded.
+(eval-when-compile
+  (require 'use-package))
 
 ;; Define `with-eval-after-load' if it's not present.
 ;; This is for compatibility with Emacs 24.3 (`with-eval-after-load' was introduced in 24.4).

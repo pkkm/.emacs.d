@@ -1,7 +1,7 @@
 ;;; Functions for manipuating colors.
 
 (require 'color) ; Used: color-rgb-to-hex, color-name-to-rgb, color-defined-p.
-(use-package dash :ensure dash :commands (-partition -all? -reduce ->>))
+(use-package dash :ensure t :commands (-partition -all? -reduce ->>))
 (require 'cl-lib) ; Used: cl-destructuring-bind.
 
 (defun color-mix (&rest colors-weights-list)

@@ -1,7 +1,7 @@
 ;;; Smartparens -- a modern alternative to paredit.
 
 (use-package smartparens
-  :ensure smartparens
+  :ensure t
   :defer t
   :diminish smartparens-mode
   :init
@@ -27,7 +27,7 @@
 
   ;; For some keys, use commands that operate either on sexps or hybrid-sexps, depending on mode.
   ;; TODO feature request for similar functionality in Smartparens?
-  (use-package dash :ensure dash :commands -any-p)
+  (use-package dash :ensure t :commands -any-p)
   (require 'conf/utils/modes) ; Used: derived-mode-hierarchy.
   (defmacro my-sp-maybe-hybrid-sexp-command (normal-command hybrid-sexp-command)
     "Define a command named my-NORMAL-COMMAND that calls NORMAL-COMMAND or HYBRID-SEXP-COMMAND."

@@ -2,7 +2,7 @@
 ;; For a list of supported languages, see <https://github.com/chrisbarrett/emacs-refactor>.
 
 (use-package emr
-  :ensure emr
+  :ensure t
   :defer t
   :init
   (bind-key "C-c \\" #'emr-show-refactor-menu prog-mode-map)

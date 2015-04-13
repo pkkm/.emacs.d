@@ -13,14 +13,14 @@
 
   ;; Ample -- dark; mainly warm colors.
   ;; (use-package ample-theme
-  ;;  :ensure ample-theme
+  ;;  :ensure t
   ;;  :defer t
   ;;  :init
   ;;  (load-theme 'ample t))
 
   ;; Monokai -- dark; mainly warm colors.
   ;; (use-package monokai-theme
-  ;;   :ensure monokai-theme
+  ;;   :ensure t
   ;;   :defer t
   ;;   :init
   ;;   (load-theme 'monokai t))
@@ -40,7 +40,7 @@
 
   ;; Tomorrow Night -- dark; mainly cold colors.
   (use-package color-theme-sanityinc-tomorrow
-    :ensure color-theme-sanityinc-tomorrow
+    :ensure t
     :defer t
     :init
     (load-theme 'sanityinc-tomorrow-night t)

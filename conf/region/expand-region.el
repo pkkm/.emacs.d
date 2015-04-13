@@ -1,7 +1,7 @@
 ;;; Expand-region: expant/contract selection by semantic units.
 
 (use-package expand-region
-  :ensure expand-region
+  :ensure t
   :defer t
   :init
 

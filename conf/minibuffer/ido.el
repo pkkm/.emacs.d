@@ -55,13 +55,11 @@
 
 ;; Display completions vertically.
 (use-package ido-vertical-mode
-  :ensure ido-vertical-mode
+  :ensure t
   :defer t
   :init
-  (with-eval-after-load 'ido
-    (ido-vertical-mode))
-  :pre-load
-  ;; For some reason, this needs to happen before `ido-vertical-mode' is loaded.
+
+  ;; Needs to happen before `ido-vertical-mode' is loaded.
   (setq ido-vertical-decorations
         '("\n- " ; Left bracket around prospect list.
           "" ; Right bracket around prospect list.
@@ -73,11 +71,14 @@
           " [Matched]"
           " [Not readable]"
           " [Too big]"
-          " [Confirm]")))
+          " [Confirm]"))
+
+  (with-eval-after-load 'ido
+    (ido-vertical-mode)))
 
 ;; Use Ido almost everywhere.
 (use-package ido-ubiquitous
-  :ensure ido-ubiquitous
+  :ensure t
   :defer t
   :init
   (with-eval-after-load 'ido
@@ -86,7 +87,7 @@
 
 ;; Better, more memory-hungry flex matching (used only on high-end machines).
 (use-package flx-ido
-  :ensure flx-ido
+  :ensure t
   :if (not (eq (getenv "LOW_END_MACHINE") "true"))
   :commands flx-ido-mode
   :init

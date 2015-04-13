@@ -2,7 +2,7 @@
 
 ;; Sort Ido's file list by modification time.
 (use-package ido-sort-mtime
-  :ensure ido-sort-mtime
+  :ensure t
   :init
   (with-eval-after-load 'ido
     (ido-sort-mtime-mode 1))

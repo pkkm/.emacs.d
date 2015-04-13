@@ -1,7 +1,7 @@
 ;;; Hungry delete -- delete all whitespace before point.
 
 (use-package hungry-delete
-  :ensure hungry-delete
+  :ensure t
   :defer t
   :init
   (with-eval-after-load 'evil

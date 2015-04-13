@@ -1,7 +1,7 @@
 ;;; Emmet (formerly Zen Coding) -- expand abbreviations like "p>ul>li*5" into HTML/XML tags.
 
 (use-package emmet-mode
-  :ensure emmet-mode
+  :ensure t
   :defer t
   :config
 

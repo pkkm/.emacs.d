@@ -1,7 +1,7 @@
 ;;; Smex -- like Ido mode, for M-x.
 
 (use-package smex
-  :ensure smex
+  :ensure t
   :defer t
   :bind (("M-x" . smex)
          ("C-x SPC" . smex)

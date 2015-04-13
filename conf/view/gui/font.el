@@ -1,6 +1,6 @@
 ;;; Font.
 
-(use-package dash :ensure dash :commands (--first -if-let))
+(use-package dash :ensure t :commands (--first -if-let))
 
 (defun first-available-font (fonts)
   "Return the first available font among the font names in FONTS."

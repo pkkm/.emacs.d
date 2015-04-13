@@ -1,7 +1,7 @@
 ;;; Snippets.
 
 (use-package yasnippet
-  :ensure yasnippet
+  :ensure t
   :defer t
   :diminish yas-minor-mode
   :init

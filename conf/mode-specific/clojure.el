@@ -2,7 +2,7 @@
 
 ;; Clojure IDE.
 (use-package cider
-  :ensure cider
+  :ensure t
   :defer t
   :config
 
@@ -20,7 +20,7 @@
 
 ;; YASnippet snippets.
 (use-package clojure-snippets
-  :ensure clojure-snippets
+  :ensure t
   :defer t)
 
 ;; Auto-complete integration.
@@ -36,7 +36,7 @@
 ;; Clojure cheatsheet (C-c M-h).
 ;; See also: CIDER's "C-c C-d g" binding to look up symbol in Grimoire (online Clojure reference).
 (use-package clojure-cheatsheet
-  :ensure clojure-cheatsheet
+  :ensure t
   :defer t
   :init
   (with-eval-after-load 'clojure-mode
@@ -52,7 +52,7 @@
 ;; Refactoring.
 ;; Prefix: C-c RET (overrides the binding for macroexpand).
 (use-package clj-refactor
-  :ensure clj-refactor
+  :ensure t
   :defer t
   :diminish clj-refactor-mode
   :init

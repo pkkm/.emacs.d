@@ -1,7 +1,7 @@
 ;;; Helm -- an alternative to ido-mode with more features, but no flx matching.
 
 (use-package helm
-  :ensure helm
+  :ensure t
   :defer t
   :init
 

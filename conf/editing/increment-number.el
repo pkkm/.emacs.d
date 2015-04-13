@@ -2,7 +2,7 @@
 ;; To decrement, use a negative prefix argument.
 
 (use-package evil-numbers
-  :ensure evil-numbers
+  :ensure t
   :defer t
   :init
   (with-eval-after-load 'evil

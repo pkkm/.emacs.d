@@ -1,7 +1,7 @@
 ;;; Ace jump mode -- quickly jump to word/char.
 
 (use-package ace-jump-mode
-  :ensure ace-jump-mode
+  :ensure t
   :defer t
 
   :init ; We define the motion here instead of in :config so that ace-jump-mode can be lazily loaded when `ace-jump-mode' is called.

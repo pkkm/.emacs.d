@@ -24,7 +24,7 @@
 ;; Refactoring on C-c RET (Emacs 24.4+).
 (when (version<= "24.4" emacs-version)
   (use-package srefactor
-    :ensure srefactor
+    :ensure t
     :defer t
     :init
     (bind-key "C-c RET" #'srefactor-refactor-at-point)

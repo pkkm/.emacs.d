@@ -1,7 +1,7 @@
 ;;; Vim configuration files (also useful for pentadactylrc, etc.).
 
 (use-package vimrc-mode
-  :ensure vimrc-mode
+  :ensure t
   :defer t
   :mode ((".vim\\'" . vimrc-mode)
          ("vimrc\\'" . vimrc-mode)

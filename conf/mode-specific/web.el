@@ -1,7 +1,7 @@
 ;;; Configuration for web-mode -- a mode for mixed HTML, CSS, PHP and Javascript.
 
 (use-package web-mode
-  :ensure web-mode
+  :ensure t
   :defer t
   :init
 

@@ -2,14 +2,14 @@
 
 ;; Enable by default.
 (use-package flycheck
-  :ensure flycheck
+  :ensure t
   :defer t
   :init
   (global-flycheck-mode 1))
 
 ;; Display error messages in a popup at point instead of the modeline.
 (use-package flycheck-pos-tip
-  :ensure flycheck-pos-tip
+  :ensure t
   :defer t
   :init
   (with-eval-after-load 'flycheck

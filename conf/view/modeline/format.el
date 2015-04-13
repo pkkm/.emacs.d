@@ -1,7 +1,7 @@
 ;;; Modeline with left, center and right aligned parts (using powerline).
 
 (use-package powerline
-  :ensure powerline
+  :ensure t
   :demand t
   :config
 

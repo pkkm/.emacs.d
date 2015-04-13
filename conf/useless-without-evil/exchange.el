@@ -3,7 +3,7 @@
 ;; To clear pending exchange, type gX.
 
 (use-package evil-exchange
-  :ensure evil-exchange
+  :ensure t
   :defer t
   :init
   (with-eval-after-load 'evil

@@ -2,7 +2,7 @@
 
 (use-package adoc-mode
   :disabled t ; I don't use it for now, and it causes a compile error when being installed with package.el.
-  :ensure adoc-mode
+  :ensure t
   :defer t
   :mode ("\\.asciidoc\\'" . adoc-mode)
   :config

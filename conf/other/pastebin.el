@@ -1,7 +1,7 @@
 ;;; Support for the paste.debian.net pastebin.
 
 (use-package debpaste
-  :ensure debpaste
+  :ensure t
   :defer t
   :init
 

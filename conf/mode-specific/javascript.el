@@ -2,7 +2,7 @@
 
 ;; Javascript IDE.
 (use-package js2-mode
-  :ensure js2-mode
+  :ensure t
   :mode ("\\.js$" . js2-mode)
   :config
   (setq js2-highlight-level 3)) ; Highlight many built-in functions.
@@ -19,14 +19,14 @@
 ;; Forms are sent to all attached clients simultaneously (use `list-skewer-clients' to show them).
 ;; If the browser disconnects, use "skewer()" in the browser console to reconnect.
 (use-package skewer-mode
-  :ensure skewer-mode
+  :ensure t
   :defer t
   :init
   (skewer-setup)) ; Integrate with js2-mode, html-mode and css-mode. (Don't worry about performance, this function is in a separate file.)
 
 ;; Auto-complete support (also provides jump-to-definition).
 (use-package ac-js2
-  :ensure ac-js2
+  :ensure t
   :defer t
   :init
   (add-hook 'js2-mode-hook #'ac-js2-mode)
@@ -43,7 +43,7 @@
 ;; Refactoring (and many common operations, e.g. kill expression).
 ;; Integrates nicely with `emacs-refactor' (select some code before invoking it).
 (use-package js2-refactor
-  :ensure js2-refactor
+  :ensure t
   :defer t
   :init
   ;; Load when js2-mode is turned on.
@@ -56,7 +56,7 @@
 ;; Doesn't work.
 ;; It seems that `smartparens' binds some characters to `sp--self-insert-command' in the menu buffer, which makes the menu items unselectable.
 ;; (use-package discover-js2-refactor
-;;   :ensure discover-js2-refactor
+;;   :ensure t
 ;;   :defer t
 ;;   :init
 ;;   ;; Don't let `discover-js2-refactor's bind its default -- "C-c C-r". Instead, bind "C-c C-m" manually.

@@ -8,7 +8,7 @@ If FILE cannot be read, return nil."
         (nth 5 attributes)
       nil)))
 
-(use-package f :ensure f :commands f-files)
+(use-package f :ensure t :commands f-files)
 (defun files-newer-than-time (directory time)
   "Return a list of files in DIRECTORY modified after TIME."
   (f-files directory

@@ -1,7 +1,7 @@
 ;;; Org-mode.
 
 (use-package org
-  :ensure org
+  :ensure t
   :defer t
   :config
 

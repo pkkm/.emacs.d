@@ -3,7 +3,7 @@
 ;; Note that the configuration is treated as a DAG.
 ;; It's guaranteed that if file A `require's B and C, then B and C will come before A in the flattened configuration. However, other than that, the order of B and C is undefined. Therefore, if you want to use a file in many config files, either `require' it in each file or move its code to init.el; don't `require' it only at the top of main.el.
 
-(use-package dash :ensure dash :commands (-filter -uniq ->>))
+(use-package dash :ensure t :commands (-filter -uniq ->>))
 (require 'conf/utils/load-history) ; Used: feature-requires-recursively.
 (defun conf-load-order ()
   "Returns a list of features required by 'conf/main, loaded in this Emacs session, topologically sorted."

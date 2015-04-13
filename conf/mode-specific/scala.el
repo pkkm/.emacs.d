@@ -1,7 +1,7 @@
 ;;; Scala.
 
 (use-package scala-mode2 ; Scala mode 2 -- for Scala 2.9+.
-  :ensure scala-mode2
+  :ensure t
   :defer t
   :config
 

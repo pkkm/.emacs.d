@@ -1,7 +1,7 @@
 ;;; Puppet manifests.
 
 (use-package puppet-mode
-  :ensure puppet-mode
+  :ensure t
   :defer t
   :config
 

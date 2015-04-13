@@ -1,7 +1,7 @@
 ;;; Isend -- send parts of an Emacs buffer to a REPL.
 
 (use-package isend-mode
-  :ensure isend-mode
+  :ensure t
   :defer t
   :config
 

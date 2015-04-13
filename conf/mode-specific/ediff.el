@@ -26,7 +26,7 @@
 ;;   * r -- rescan file/directory.
 ;;   * F5 -- rescan everything.
 (use-package ztree
-  :ensure ztree
+  :ensure t
   :defer t)
 
 (provide 'conf/mode-specific/ediff)

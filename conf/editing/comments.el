@@ -32,10 +32,11 @@
   ;; Z -- Evil operator to comment/uncomment a piece of text (works with region too).
   (use-package evil-nerd-commenter
     :commands evilnc-comment-operator
-    :pre-load
+    :init
+
     ;; This package has to be supplied with a key to bind to the operator. (TODO submit a bug report?)
     (setq evilnc-hotkey-comment-operator (kbd "Z"))
-    :init
+
     ;; We define the keys even though `evil-nerd-commenter' does it, so that they are defined before loading it.
     (dolist (keymap (list evil-normal-state-map evil-visual-state-map))
       (bind-key "Z" #'evilnc-comment-operator keymap))))
