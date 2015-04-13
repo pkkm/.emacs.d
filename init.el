@@ -68,6 +68,31 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
     (package-install package)))
 
 
+;;; Ensure appropriate versions of packages.
+
+(defvar required-package-versions
+  '((use-package . "20150325"))) ; Version 2.0 takes different keywords.
+(defun package-older-than (pkg-symbol version)
+  (version< (package-version-join
+             (package-desc-version
+              (car (cdr (assq pkg-symbol package-alist)))))
+            version))
+(defun package-install-newest (pkg-symbol)
+  (unless packages-refreshed-this-session-p ; So that the newest version is in `package-archive-contents'.
+    (package-refresh-contents))
+  (package-install
+   (car (cdr (assoc pkg-symbol package-archive-contents)))))
+(dolist (package-and-version required-package-versions)
+  (pcase-let ((`(,pkg-symbol . ,min-version) package-and-version))
+    (when (package-older-than pkg-symbol min-version)
+      (message "Upgrading package %s (required version: %s)." pkg-symbol min-version)
+      (package-install-newest pkg-symbol)
+      ;; Reload package if loaded.
+      (when (featurep pkg-symbol)
+        (unload-feature pkg-symbol)
+        (require pkg-symbol)))))
+
+
 ;;; Syntactic sugar.
 
 ;; Easily disable showing certain modes in the modeline.
