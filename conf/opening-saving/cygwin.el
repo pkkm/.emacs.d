@@ -1,6 +1,7 @@
 ;;; Make Emacs support /drive/* Cygwin paths.
 
-(use-package cygwin-mount ; Installed in `my-vendor-dir'.
+(use-package cygwin-mount
+  :ensure t
   :if (getenv "CYGWIN_ROOT") ; Set by Prepare.sh.
   :demand t
   :config

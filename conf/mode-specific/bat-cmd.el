@@ -1,7 +1,7 @@
 ;;; DOS batch and Windows CMD scripts.
-;; This file doesn't do anything. It's just a reminder and a place for future customization.
 
-(use-package dos ; Installed in `my-vendor-dir'.
+(use-package dos
+  :ensure dos
   :defer t)
 
 (provide 'conf/mode-specific/bat-cmd)
