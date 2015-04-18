@@ -10,8 +10,11 @@
    Just clone this repository into =~/.emacs.d=. On the first launch, Emacs will download and install all the necessary packages into =~/.emacs.d/elpa=.
 
 ** Some of the packages used
-   - =evil= :: Most comprehensive Vim emulation I've ever seen. Easier to customize than Vim itself.
+   - =evil= :: Most comprehensive Vim emulation I've ever seen.
    - =ido=, =ido-ubiquitous=, =smex=, =flx-ido= :: Fuzzy completion in the minibuffer.
-   - =smartparens= :: Provides shortcuts for manipulating entire s-expressions at once. Less strict than =paredit=, and its usefulness is not limited to Lisps.
-   - =auto-complete=, =yasnippet= :: Completion menu with snippets. I use =auto-complete= instead of =company-mode= because the latter doesn't have a documentation popup.
+   - =smartparens= :: Manipulating entire s-expressions at once. Less strict than =paredit=, and useful outside of Lisps.
+   - =auto-complete=, =yasnippet= :: Completion menu with snippets. I use =auto-complete= instead of =company-mode= mostly because of inertia.
+   - =flycheck= :: On-the-fly syntax checking.
    - =magit= :: An efficient and convenient Git interface.
+   - =use-package= :: Syntactic sugar that simplifies package configuration.
+   - =cedet=, =srefactor= :: Language-aware features.
