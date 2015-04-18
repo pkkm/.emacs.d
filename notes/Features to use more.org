@@ -2,4 +2,3 @@
   - M-) :: Add a sexp at the current level.
   - C-M-c :: Exit recursive edit (resumes the command that started the recursive edit; e.g. when used in the debugger, continues execution).
   - C-SPC :: Search the current set of results in ido-mode.
-  - M-x imenu :: Usually: go to function.
