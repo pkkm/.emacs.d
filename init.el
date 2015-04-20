@@ -108,14 +108,13 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
 (eval-when-compile
   (require 'use-package))
 
-;; Define `with-eval-after-load' if it's not present.
-;; This is for compatibility with Emacs 24.3 (`with-eval-after-load' was introduced in 24.4).
+;; Define `with-eval-after-load' unless present (Emacs 24.3 compatibility).
 (unless (fboundp 'with-eval-after-load)
   (defmacro with-eval-after-load (file &rest body)
     "Execute BODY after FILE is loaded.
 FILE is normally a feature name, but it can also be a file name, in case that file does not provide any feature."
     (declare (indent 1) (debug t))
-    ;; We can't pass a lambda to `eval-after-load' because that was introduced in Emacs 24.4; earlier versions require the argument to be a quoted form. However, `lexical-let' (from cl.el) creates closures only when it sees lambdas, so lexical bindings won't work if we just pass the quoted BODY to `eval-after-load'. The solution we use is to create a lambda with BODY and pass `eval-after-load' a quoted form that will execute it.
+    ;; We can't pass a lambda instead of a quoted form to `eval-after-load' because that was introduced in Emacs 24.4. However, cl.el's `lexical-let' creates closures only when it sees lambdas. The solution is to create a lambda with BODY and pass `eval-after-load' a quoted form that will execute it.
     `(let ((body-lambda (lambda () ,@body)))
        (eval-after-load ,file `(funcall ',body-lambda)))))
 
