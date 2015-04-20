@@ -1,15 +1,13 @@
 ;;; Evil (Extensible VI Layer).
 
+;; Make Evil's > and < always indent by `tab-width'.
+;; Has to happen before installing or loading Evil, because Evil makes `evil-shift-width' buffer local, and therefore impossible to declare as an alias. (`:init' section of `use-package' executes after installation.)
+(defvaralias 'evil-shift-width 'tab-width)
+
 (use-package evil
   :ensure t
   :defer t
   :diminish undo-tree-mode
-  :preface
-
-  ;; Make Evil's > and < always indent by `tab-width'.
-  ;; Has to happen before installing or loading Evil, because Evil makes `evil-shift-width' buffer local, and therefore impossible to declare as an alias. (`:init' section of `use-package' executes after installation.)
-  (defvaralias 'evil-shift-width 'tab-width)
-
   :init
   (evil-mode 1)
 

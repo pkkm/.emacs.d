@@ -73,10 +73,10 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
 (defvar required-package-versions
   '((use-package . "20150325"))) ; Version 2.0 takes different keywords.
 (defun package-older-than (pkg-symbol version)
-  (version< (package-version-join
-             (package-desc-version
-              (car (cdr (assq pkg-symbol package-alist)))))
-            version))
+  (let ((newest-pkg-desc (car (cdr (assq pkg-symbol package-alist))))) ; Description struct of newest installed version, or nil if not installed.
+    (or (null newest-pkg-desc)
+        (version< (package-version-join (package-desc-version newest-pkg-desc))
+                  version))))
 (defun package-install-newest (pkg-symbol)
   (unless packages-refreshed-this-session-p ; So that the newest version is in `package-archive-contents'.
     (package-refresh-contents))
