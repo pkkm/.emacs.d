@@ -53,9 +53,11 @@
          (concat "\\documentclass[12pt]{" document-class "}"))
         (_
          (concat "\\documentclass{" document-class "}")))
-      (when (not (equal document-class "scrartcl"))
+      (when (not (string-prefix-p "scr" document-class))
         (verbatim-block "\\usepackage[a4paper]{geometry} % Setting margins: \"top=5cm\" (later options have more priority)."
                         "\\usepackage{parskip} % Space instead of indent between paragraphs."))
+      (latex-block (if (equal document-class "letter") 'verbatim 'smart-comment)
+                   "\\usepackage{nopageno} % No page numbers.")
       "\\usepackage{microtype} % Better typography." ; No longer needs to be loaded after fonts and babel (unless using "babel=true"). See <http://tex.stackexchange.com/questions/162137/loading-microtype-before-or-after-the-font>.
       ""
 
@@ -81,11 +83,6 @@
       (latex-block 'smart-comment
                    "\\usepackage{tabu} % Featureful replacement for \\`tabular'."
                    "\\usepackage{booktabs} % Elegant tables (use \\\\{top,mid,bottom}rule instead of \\hline; no \\vline)." ; `booktabs' examples: <http://www.howtotex.com/packages/improve-your-tables-with-booktabs/>.
-                   "")
-
-      ;; Disable page numbers?
-      (latex-block (if (equal document-class "letter") 'verbatim 'smart-comment)
-                   "\\pagestyle{empty} % No page numbers."
                    "")
 
       ;; Title, author, etc.
