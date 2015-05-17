@@ -40,7 +40,7 @@
                    (derived-mode-hierarchy major-mode))
            (call-interactively #',hybrid-sexp-command)
          (call-interactively #',normal-command))))
-  (defvar my-sp-hybrid-sexp-modes '(cc-mode ruby-mode java-mode scala-mode)
+  (defvar my-sp-hybrid-sexp-modes '(c++-mode cc-mode ruby-mode java-mode scala-mode)
     "Modes in which to use hybrid sexp operations instead of normal ones.")
 
   ;; Keybindings.
