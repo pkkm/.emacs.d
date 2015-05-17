@@ -1,8 +1,8 @@
 ;;; Cursor (point).
 
-(blink-cursor-mode 0)
-
-(setq x-stretch-cursor t) ; Stretch the cursor to cover wide characters (like tabs).
+(when (display-graphic-p)
+  (blink-cursor-mode 0)
+  (setq x-stretch-cursor t)) ; Stretch the cursor to cover wide characters (e.g. tabs).
 
 ;; Cursor color is set in view/color-theme.el.
 

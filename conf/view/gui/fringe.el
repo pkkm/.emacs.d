@@ -1,7 +1,8 @@
 ;;; Fringe.
 
 ;; None on the left, 8 pixels wide on the right.
-(set-fringe-mode '(0 . 0))
+(when (display-graphic-p)
+  (set-fringe-mode '(0 . 0)))
 
 ;; Invisible (same color as background).
 ;;(face-spec-reset-face 'fringe)
