@@ -60,7 +60,6 @@
 ;; Open all buffers in windows.
 (bind-key "a" #'display-all-file-buffers-in-windows my-buffer-map)
 (require 'conf/utils/buffers) ; Used: buffers-opened-in-windows.
-(use-package dash :ensure t :commands (--> -difference -filter -map))
 (defun display-all-file-buffers-in-windows ()
   "Display all buffers that are visiting a file in windows."
   (interactive)

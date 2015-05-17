@@ -118,6 +118,11 @@ FILE is normally a feature name, but it can also be a file name, in case that fi
     `(let ((body-lambda (lambda () ,@body)))
        (eval-after-load ,file `(funcall ',body-lambda)))))
 
+;; Modern list library (used often in this config).
+(use-package dash
+  :ensure t
+  :demand t)
+
 
 ;;; Loading the rest of the config.
 

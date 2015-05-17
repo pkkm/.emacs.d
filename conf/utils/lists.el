@@ -12,7 +12,6 @@
   "Convert VECTOR to a list."
   (append vector '()))
 
-(use-package dash :ensure t :commands -interpose)
 (defun interpose-nonempty (separator &rest parts)
   "Return a list with nonempty (not nil or \"\") elements of PARTS separated with SEPARATOR."
   (declare (indent defun))

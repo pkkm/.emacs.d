@@ -47,7 +47,6 @@ Format: '((major-mode . (ac-source ...)) ...)")
   ;; `completion-at-point' is used when TAB is pressed, the current line is already properly indented and:
   ;;   * `tab-always-indent' is set to 'complete
   ;;   * `auto-complete' isn't already being displayed (when it is, the TAB binding in `ac-completing-map' is used instead)
-  (use-package dash :ensure t :commands (-elem-index -if-let -insert-at))
   (defun auto-complete-if-active ()
     "Call `auto-complete' if `auto-complete-mode' is active."
     (when auto-complete-mode
@@ -96,7 +95,6 @@ Format: '((major-mode . (ac-source ...)) ...)")
                              ac-source-filename))
 
   ;; Automatically add sources from `my-major-mode-ac-sources'.
-  (use-package dash :ensure t :commands (--> -map))
   (require 'conf/utils/modes) ; Used: derived-mode-hierarchy.
   (require 'cl-lib) ; Used: cl-remove-duplicates.
   (defun my-set-ac-sources ()

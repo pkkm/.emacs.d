@@ -76,7 +76,6 @@
   (add-hook 'emacs-lisp-mode-hook #'my-remove-elc-on-save)
 
   ;; Disable Flycheck (on typical Emacs configs, produces far more false positives than useful warnings).
-  (use-package dash :ensure t :commands -uniq ->>)
   (with-eval-after-load 'flycheck
     (->> (default-value 'flycheck-disabled-checkers)
          (append '(emacs-lisp emacs-lisp-checkdoc))
