@@ -32,9 +32,7 @@
 (when (eq system-type 'windows-nt)
   (defun sanitize-path (path)
     (replace-regexp-in-string "//" "/" path))
-  (defun sanitize-paths (paths)
-    (mapcar #'sanitize-path paths))
-  (setq exec-path (sanitize-paths exec-path)))
+  (setq exec-path (mapcar #'sanitize-path exec-path)))
 
 
 ;;; Package system.
@@ -72,16 +70,19 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
 
 (defvar required-package-versions
   '((use-package . "20150325"))) ; Version 2.0 takes different keywords.
+
 (defun package-older-than (pkg-symbol version)
   (let ((newest-pkg-desc (car (cdr (assq pkg-symbol package-alist))))) ; Description struct of newest installed version, or nil if not installed.
     (or (null newest-pkg-desc)
         (version< (package-version-join (package-desc-version newest-pkg-desc))
                   version))))
+
 (defun package-install-newest (pkg-symbol)
   (unless packages-refreshed-this-session-p ; So that the newest version is in `package-archive-contents'.
     (package-refresh-contents))
   (package-install
    (car (cdr (assoc pkg-symbol package-archive-contents)))))
+
 (dolist (package-and-version required-package-versions)
   (pcase-let ((`(,pkg-symbol . ,min-version) package-and-version))
     (when (package-older-than pkg-symbol min-version)

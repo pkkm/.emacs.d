@@ -5,7 +5,7 @@
 
 (require 'conf/utils/load-history) ; Used: feature-requires-recursively.
 (defun conf-load-order ()
-  "Returns a list of features required by 'conf/main, loaded in this Emacs session, topologically sorted."
+  "Returns a list of features starting with 'conf/ required by 'conf/main, loaded in this Emacs session, topologically sorted."
   (->> (feature-requires-recursively 'conf/main)
     (-filter (lambda (feature)
                (string-prefix-p "conf/" (symbol-name feature))))
