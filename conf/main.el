@@ -5,7 +5,6 @@
 
 (require 'conf/evil)
 
-(require 'conf/view/trailing-whitespace)
 (require 'conf/view/long-lines)
 (require 'conf/view/eldoc)
 (require 'conf/view/indent-guides)
@@ -91,6 +90,7 @@
 (require 'conf/opening-saving/ido)
 (require 'conf/opening-saving/vim-modelines)
 (require 'conf/opening-saving/recent-files)
+(require 'conf/opening-saving/trailing-whitespace)
 
 (require 'conf/configuring/unbound)
 (require 'conf/configuring/flatten-conf)
