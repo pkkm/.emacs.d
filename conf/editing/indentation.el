@@ -16,9 +16,6 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 
-;; Don't convert tabs to spaces on backspace.
-(setq backward-delete-char-untabify-method nil)
-
 ;; Utility functions for easy adding to hooks.
 (defun enable-indent-tabs-mode ()
   "Set `indent-tabs-mode' to t in the current buffer."
@@ -26,6 +23,9 @@
 (defun disable-indent-tabs-mode ()
   "Set `indent-tabs-mode' to t in the current buffer."
   (setq indent-tabs-mode nil))
+
+;; Don't convert tabs to spaces on backspace.
+(setq backward-delete-char-untabify-method nil)
 
 ;; Make a tabstop every `tab-width' characters.
 ;; (Tabstops -- positions to align to in the Fundamental mode. Doesn't affect programming modes.)
