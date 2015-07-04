@@ -1,6 +1,8 @@
 ;;; Version control interfaces.
 
 ;; Magit (git interface).
+;; NOTE: before upgrading to Magit 2.1.0, be sure to uninstall `magit', `git-commit-mode' and `git-rebase-mode'.
+;; NOTE: Magit 2.1.0 requires Emacs 24.4+.
 (use-package magit
   :ensure t
   :defer t
