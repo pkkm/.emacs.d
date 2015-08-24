@@ -23,7 +23,23 @@
   (setq evil-echo-state nil) ; Don't echo state in the echo area (minibuffer).
 
 
-  ;;; Unsetting keybindings.
+  ;;; Tweak default Vim bindings (for Dvorak).
+
+  ;; Swap the normal-state bindings of [sS] and [lL].
+  (bind-key "s" nil evil-normal-state-map)
+  (bind-key "S" nil evil-normal-state-map)
+  (bind-key "l" nil evil-motion-state-map)
+  (bind-key "L" nil evil-motion-state-map)
+  (bind-key "s" #'evil-forward-char evil-motion-state-map)
+  (bind-key "l" #'evil-substitute evil-normal-state-map)
+  (bind-key "L" #'evil-change-whole-line evil-normal-state-map)
+
+  ;; First non-blank/last character of the line: H/S (previously: H/L -- first/last visible line in the window).
+  (bind-key "H" #'evil-first-non-blank evil-motion-state-map)
+  (bind-key "S" #'evil-end-of-line evil-motion-state-map)
+
+
+  ;;; Unset Vim bindings I don't find useful.
 
   (bind-key "C-e" nil evil-insert-state-map)
   (bind-key "RET" nil evil-motion-state-map)
