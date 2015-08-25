@@ -9,21 +9,21 @@
   ;;; Keybindings.
 
   ;; Move/promote/demote headline.
-  (bind-key "M-h" #'org-metaleft org-mode-map) ; Shadows org-mark-element.
-  (bind-key "M-t" #'org-metadown org-mode-map)
-  (bind-key "M-n" #'org-metaup org-mode-map)
+  (bind-key "M-h" #'org-metaleft org-mode-map)
+  (bind-key "M-j" #'org-metadown org-mode-map)
+  (bind-key "M-k" #'org-metaup org-mode-map)
   (bind-key "M-s" #'org-metaright org-mode-map)
 
   ;; Move/promote/demote subtree.
   (bind-key "M-H" #'org-shiftmetaleft org-mode-map)
-  (bind-key "M-T" #'org-shiftmetadown org-mode-map)
-  (bind-key "M-N" #'org-shiftmetaup org-mode-map)
+  (bind-key "M-J" #'org-shiftmetadown org-mode-map)
+  (bind-key "M-K" #'org-shiftmetaup org-mode-map)
   (bind-key "M-S" #'org-shiftmetaright org-mode-map)
 
   ;; Set state/priority.
   (bind-key "C-M-h" #'org-shiftleft org-mode-map)
-  (bind-key "C-M-t" #'org-shiftdown org-mode-map)
-  (bind-key "C-M-n" #'org-shiftup org-mode-map)
+  (bind-key "C-M-j" #'org-shiftdown org-mode-map)
+  (bind-key "C-M-k" #'org-shiftup org-mode-map)
   (bind-key "C-M-s" #'org-shiftright org-mode-map)
 
   ;; Mark element (to mark a subtree, use C-c @).
