@@ -47,11 +47,6 @@
     ;; Replace the normal Evil end-of-line with an org-specific one.
     (evil-define-key 'motion org-mode-map [remap evil-end-of-line] #'org-end-of-line)
 
-    ;; Normalize keymaps.
-    ;; This is necessary for bindings defined using `evil-define-key' to be active before the first Evil state change.
-    ;; See <https://bitbucket.org/lyro/evil/issue/301/evil-define-key-for-minor-mode-does-not>.
-    (evil-normalize-keymaps)
-
     (defun evil-org-insert-heading ()
       "Insert a heading in Org-Mode and switch to Evil's insert state."
       (interactive)

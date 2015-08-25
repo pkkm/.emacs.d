@@ -72,6 +72,11 @@
   ;; Initial states for modes which don't have their own sections in my config.
   (evil-set-initial-state 'debugger-mode 'normal)
   (evil-set-initial-state 'package-menu-mode 'normal)
-  (evil-set-initial-state 'occur-mode 'motion))
+  (evil-set-initial-state 'occur-mode 'motion)
+
+  ;; Normalize keymaps after init.
+  ;; This is necessary for bindings defined using `evil-define-key' to be active before the first Evil state change.
+  ;; See <https://bitbucket.org/lyro/evil/issue/301/evil-define-key-for-minor-mode-does-not>.
+  (add-hook 'after-init-hook #'evil-normalize-keymaps))
 
 (provide 'conf/evil)

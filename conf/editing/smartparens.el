@@ -130,11 +130,6 @@
     (evil-define-text-object evil-sp-inner-sexp (count &rest other-args)
       "Text object for the enclosing sexp, without delimiters. With COUNT, use the COUNTth sexp up."
       (sp-get (sp-get-enclosing-sexp count) (list :beg-in :end-in)))
-    (bind-key "e" #'evil-sp-inner-sexp evil-inner-text-objects-map)
-
-    ;; Normalize keymaps.
-    ;; This is necessary for bindings defined using `evil-define-key' to be active before the first Evil state change.
-    ;; See <https://bitbucket.org/lyro/evil/issue/301/evil-define-key-for-minor-mode-does-not>.
-    (evil-normalize-keymaps)))
+    (bind-key "e" #'evil-sp-inner-sexp evil-inner-text-objects-map)))
 
 (provide 'conf/editing/smartparens)

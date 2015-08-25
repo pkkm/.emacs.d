@@ -9,7 +9,6 @@
 
     ;; Keybindings.
     (evil-define-key 'motion compilation-mode-map "r" #'recompile)
-    (evil-define-key 'normal compilation-mode-map "r" #'recompile) ; Necessary to shadow the usual binding.
-    (evil-normalize-keymaps))) ; So that the bindings take effect immediately.
+    (evil-define-key 'normal compilation-mode-map "r" #'recompile))) ; Necessary to shadow the usual binding.
 
 (provide 'conf/mode-specific/compilation)
