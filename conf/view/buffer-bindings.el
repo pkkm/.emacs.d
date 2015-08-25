@@ -72,6 +72,6 @@
   (balance-windows))
 
 ;; Delete (close/kill).
-(bind-key "c" #'kill-this-buffer my-buffer-map) ; Only delete the buffer.
+(bind-key "c" #'kill-this-buffer my-buffer-map)
 
 (provide 'conf/view/buffer-bindings)

@@ -23,16 +23,16 @@ If point is between the beginning of line and the first non-whitespace character
 
   (defvar evil-universal-argument-map (make-sparse-keymap)
     "Replacement for `universal-argument-map' to use with `evil-universal-argument' and `evil-negative-argument'.")
-  (bind-key [?N] #'universal-argument-more evil-universal-argument-map)
+  (bind-key "N" #'universal-argument-more evil-universal-argument-map)
 
   (defun evil-universal-argument ()
-    "Like `universal-argument', but expects to be bound to N instead of C-u and doesn't add special handling for following digits and \"-\"."
+    "Like `universal-argument', but expects to be bound to N instead of C-u and doesn't add special handling for digits and \"-\"."
     (interactive)
     (let ((universal-argument-map evil-universal-argument-map))
       (call-interactively #'universal-argument)))
 
   (defun evil-negative-argument ()
-    "Like `negative-argument', but doesn't add special handling for following digits and \"-\"."
+    "Like `negative-argument', but doesn't add special handling for digits and \"-\"."
     (interactive)
     (let ((universal-argument-map evil-universal-argument-map))
       (call-interactively #'negative-argument)))
