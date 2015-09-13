@@ -25,6 +25,7 @@
 
 (with-eval-after-load 'evil
   (bind-key "TAB" 'evil-window-map evil-motion-state-map)
+  (bind-key "<tab>" 'evil-window-map evil-motion-state-map) ; Needed so that Org (and maybe other modes) doesn't override this.
 
   ;; Split (with count: leave COUNT lines in the initially-selected window).
   (bind-key "d" #'my-split-window-right evil-window-map)
