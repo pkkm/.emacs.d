@@ -1,15 +1,14 @@
 ;;; Discoverability features.
 
-;; When I press a prefix key, pop up a list of commands.
-(use-package guide-key
+(use-package which-key
   :ensure t
   :defer t
-  :diminish guide-key-mode
+  :diminish which-key-mode
   :init
-  (guide-key-mode 1)
+  (which-key-mode)
   :config
-  (setq guide-key/idle-delay 0.5)
-  (setq guide-key/guide-key-sequence t)) ; Enable for all prefixes.
+  (which-key-setup-side-window-right-bottom) ; Show on right if there's enough space, on bottom otherwise.
+  (setq which-key-idle-delay 0.5))
 
 ;; Lots of additional help functionality (e.g. `describe-keymap').
 (use-package help-fns+
