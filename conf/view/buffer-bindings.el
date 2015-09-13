@@ -20,6 +20,7 @@
 ;; Previous/next.
 (bind-key "h" #'previous-buffer my-buffer-map)
 (bind-key "s" #'next-buffer my-buffer-map)
+(bind-key "l" #'next-buffer my-buffer-map)
 
 ;; Open all buffers in windows.
 (bind-key "a" #'display-all-file-buffers-in-windows my-buffer-map)
@@ -63,6 +64,6 @@
 ;;   g -- refresh
 ;;   h -- help
 ;;   q -- quit
-(bind-key "C-b" #'ibuffer my-buffer-map)
+(bind-key "b" #'ibuffer my-buffer-map)
 
 (provide 'conf/view/buffer-bindings)
