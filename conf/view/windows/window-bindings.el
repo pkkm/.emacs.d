@@ -6,16 +6,10 @@
 (defadvice split-window-internal (after record-window activate)
   (setq most-recently-created-window ad-return-value))
 
-;; Commands to delete the most recently created window.
 (defun delete-most-recently-created-window ()
   "Delete the most recently created window."
   (interactive)
   (delete-window most-recently-created-window))
-(defun kill-most-recently-created-window-and-buffer ()
-  "Delete most recently created window and kill the buffer that it was displaying."
-  (interactive)
-  (select-window most-recently-created-window)
-  (kill-buffer-and-window))
 
 ;; Split window, focus it and display the next buffer in it.
 (defun my-split-window-right ()
@@ -30,7 +24,6 @@
   (switch-to-buffer (other-buffer)))
 
 (with-eval-after-load 'evil
-  (bind-key "<tab>" 'evil-window-map evil-motion-state-map)
   (bind-key "TAB" 'evil-window-map evil-motion-state-map)
 
   ;; Split (with count: leave COUNT lines in the initially-selected window).
@@ -39,8 +32,7 @@
 
   ;; Close.
   (bind-key "K" #'evil-delete-buffer evil-window-map) ; Kill buffer and window.
-  (bind-key "C-c" #'delete-most-recently-created-window evil-window-map)
-  (bind-key "C-k" #'kill-most-recently-created-window-and-buffer evil-window-map)
+  (bind-key "C" #'delete-most-recently-created-window evil-window-map)
 
   ;; Next, previous.
   (bind-key "TAB" #'evil-window-next evil-window-map)
