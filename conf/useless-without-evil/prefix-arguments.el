@@ -17,16 +17,16 @@ If point is between the beginning of line and the first non-whitespace character
         (beginning-of-line))
       (kill-region (point) prev-pos)))
 
-  ;; Start an universal argument with N, and a negative argument with _.
-  (bind-key "N" #'evil-universal-argument evil-motion-state-map)
+  ;; Start an universal argument with U, and a negative argument with _.
+  (bind-key "U" #'evil-universal-argument evil-motion-state-map)
   (bind-key "_" #'evil-negative-argument evil-motion-state-map)
 
   (defvar evil-universal-argument-map (make-sparse-keymap)
     "Replacement for `universal-argument-map' to use with `evil-universal-argument' and `evil-negative-argument'.")
-  (bind-key "N" #'universal-argument-more evil-universal-argument-map)
+  (bind-key "U" #'universal-argument-more evil-universal-argument-map)
 
   (defun evil-universal-argument ()
-    "Like `universal-argument', but expects to be bound to N instead of C-u and doesn't add special handling for digits and \"-\"."
+    "Like `universal-argument', but expects to be bound to U instead of C-u and doesn't add special handling for digits and \"-\"."
     (interactive)
     (let ((universal-argument-map evil-universal-argument-map))
       (call-interactively #'universal-argument)))
