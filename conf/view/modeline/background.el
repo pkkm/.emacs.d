@@ -1,47 +1,40 @@
 ;;; Change the background of the modeline according to Evil state.
 
+(use-package ht :ensure t :defer t)
+
 (with-eval-after-load 'evil
+  (require 'ht)
   (require 'conf/utils/colors) ; Used: color-mix.
 
-  (defvar ml-evil-normal-state-background nil "Background for the active modeline when the Evil state is Normal.")
-  (defvar ml-evil-motion-state-background nil "Background for the active modeline when the Evil state is Motion.")
-  (defvar ml-evil-insert-state-background nil "Background for the active modeline when the Evil state is Insert.")
-  (defvar ml-evil-replace-state-background nil "Background for the active modeline when the Evil state is Replace.")
-  (defvar ml-evil-visual-state-background nil "Background for the active modeline when the Evil state is Visual.")
-  (defvar ml-evil-operator-state-background nil "Background for the active modeline when the Evil state is Operator.")
-  (defvar ml-evil-emacs-state-background nil "Background for the active modeline when the Evil state is Emacs.")
-  (defvar ml-evil-nil-state-background nil "Background for the active modeline when the Evil state is nil.")
+  (defvar my-modeline-evil-state-to-background (ht)
+    "A hash-table maping Evil state to modeline background color, e.g. (ht ('normal \"#373b41\") ('insert \"#2e325d\"))")
+  (defvar my-modeline-other-evil-state-background (face-background 'mode-line nil t)
+    "Modeline background color for Evil states that aren't in `my-modeline-evil-state-to-background'.")
 
+  ;; Calculate backgrounds for various states depending on color theme.
   (defun calculate-mode-line-backgrounds ()
     "Calculate the modeline backgrounds for various Evil states."
     (let ((original-background (face-background 'mode-line nil t)))
-      (setq ml-evil-normal-state-background original-background)
-      (setq ml-evil-motion-state-background original-background)
-      (setq ml-evil-insert-state-background (color-mix "blue" 0.15 original-background 0.85))
-      (setq ml-evil-replace-state-background (color-mix "blue" 0.15 original-background 0.85))
-      (setq ml-evil-visual-state-background (color-mix "green" 0.15 original-background 0.85))
-      (setq ml-evil-operator-state-background original-background)
-      (setq ml-evil-emacs-state-background (color-mix "black" 0.45 original-background 0.55))
-      (setq ml-evil-nil-state-background (color-mix "black" 0.45 original-background 0.55))))
+      (setq my-modeline-evil-state-to-background
+            (ht ('normal original-background)
+                ('motion original-background)
+                ('operator original-background)
+                ('insert (color-mix "blue" 0.15 original-background 0.85))
+                ('replace (color-mix "blue" 0.15 original-background 0.85))
+                ('visual (color-mix "green" 0.15 original-background 0.85))))
+      (setq my-modeline-other-evil-state-background
+            (color-mix "black" 0.45 original-background 0.55))))
   (add-hook 'after-load-theme-hook #'calculate-mode-line-backgrounds)
   (calculate-mode-line-backgrounds)
 
-  ;; Set the modeline background when Evil state changes.
-  (require 'cl-lib) ; Used: cl-case.
+  ;; Set the background when Evil state changes.
   (defun set-mode-line-background ()
-    "Set the background of the `mode-line' face, according to the current Evil state."
+    "Set the modeline background according to the current Evil state."
     (set-face-background 'mode-line
-                         (cl-case evil-state
-                           ('normal ml-evil-normal-state-background)
-                           ('motion ml-evil-motion-state-background)
-                           ('insert ml-evil-insert-state-background)
-                           ('replace ml-evil-replace-state-background)
-                           ('visual ml-evil-visual-state-background)
-                           ('operator ml-evil-operator-state-background)
-                           ('emacs ml-evil-emacs-state-background)
-                           (nil ml-evil-nil-state-background))))
+                         (ht-get my-modeline-evil-state-to-background
+                                 evil-state
+                                 my-modeline-other-evil-state-background)))
   (add-hook 'post-command-hook #'set-mode-line-background) ; Not ideal, but usually works.
-  ;; TODO maybe use `window-configuration-change-hook'?
-  (add-hook 'after-load-theme-hook #'set-mode-line-background t)) ; t -- append, so that we run after `calculate-mode-line-backgrounds'.
+  (add-hook 'after-load-theme-hook #'set-mode-line-background t)) ; Append so that we run after `calculate-mode-line-backgrounds'.
 
 (provide 'conf/view/modeline/background)
