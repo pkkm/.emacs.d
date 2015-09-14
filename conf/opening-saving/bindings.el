@@ -7,10 +7,6 @@
     (ido-find-file-in-dir (expand-file-name "conf" main-dir)))
   (bind-key "C-c c" #'find-file-in-conf))
 
-;; New config file.
-(require 'conf/configuring/new-config-file)
-(bind-key "C-c n" #'new-config-file)
-
 ;; Revert.
 (bind-key "C-c v" #'revert-buffer)
 
