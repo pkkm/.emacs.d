@@ -36,6 +36,7 @@ Then, restore the saved window configuration from before launching `magit-status
 
   ;; When Magit is started, ensure credential cache daemon is running.
   ;; (Necessary for password caching to work as of 2015-04. File Magit feature request?)
+  ;; TODO does this apply to 2.1.0+?
   (add-hook 'magit-mode-hook 'my-magit-run-credential-cache-daemon)
   (defun my-magit-run-credential-cache-daemon ()
     (let ((socket-path (expand-file-name "~/.git-credential-cache/socket")))

@@ -10,6 +10,7 @@
   :init
   (ido-mode 1)
   :config
+
   ;; Flex matching.
   (setq ido-enable-flex-matching t)
 
@@ -82,14 +83,15 @@
   :defer t
   :init
   (with-eval-after-load 'ido
-    (ido-ubiquitous-mode 1)
-    (setq ido-ubiquitous-max-items 60000))) ; Default is 30k, insert-char needs about 40k.
+    (ido-ubiquitous-mode 1))
+  :config
+  (setq ido-ubiquitous-max-items 60000)) ; Default is 30k, insert-char needs about 40k.
 
-;; Better, more memory-hungry flex matching (used only on high-end machines).
+;; Better, more memory-hungry flex matching.
 (use-package flx-ido
   :ensure t
   :if (not (eq (getenv "LOW_END_MACHINE") "true"))
-  :commands flx-ido-mode
+  :defer t
   :init
   (with-eval-after-load 'ido
     (flx-ido-mode 1)))

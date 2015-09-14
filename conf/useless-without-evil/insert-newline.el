@@ -1,5 +1,6 @@
 ;;; Insert newline after/before the current line.
 ;; The wrappers are needed because the Evil functions aren't interactive.
+;; TODO feature request to Evil to make them interactive and accepting count.
 
 (with-eval-after-load 'evil
   (require 'cl-lib) ; Used: cl-dotimes.

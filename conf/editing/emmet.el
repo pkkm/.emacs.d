@@ -20,7 +20,7 @@
   ;;; Fixes for Emmet's expansion code (which is used for `emmet-expand-line', but not for `emmet-expand-yas').
 
   ;; Emmet uses its own (braindead) indent code instead of the major mode's.
-  ;; Let's use `indent-region' on every change to the buffer contents it makes.
+  ;; We'll use `indent-region' on every change to the buffer contents it makes.
   (defadvice emmet-insert-and-flash (around my-reindent activate)
     "Automatically indent markup inserted by Emmet."
     (add-hook 'after-change-functions #'my-indent-region)

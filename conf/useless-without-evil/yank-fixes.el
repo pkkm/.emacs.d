@@ -1,4 +1,5 @@
 ;;; Make "y" and "Y" work as expected.
+;; TODO feature request to Evil to make this an option.
 
 (with-eval-after-load 'evil
   ;; Make "Y" yank to the end of line instead of yanking the whole line.
