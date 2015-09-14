@@ -2,6 +2,6 @@
 
 (use-package lacarte
   :ensure t
-  :bind ("C-x M" . lacarte-execute-menu-command))
+  :bind ("C-x m" . lacarte-execute-menu-command))
 
 (provide 'conf/minibuffer/lacarte)
