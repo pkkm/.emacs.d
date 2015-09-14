@@ -14,6 +14,9 @@
   ;; Flex matching.
   (setq ido-enable-flex-matching t)
 
+  ;; If there's a filename at point, start Ido with it filled in.
+  (setq ido-use-filename-at-point 'guess)
+
 
   ;;; Keybindings.
 
@@ -79,5 +82,14 @@
   :init
   (with-eval-after-load 'ido
     (flx-ido-mode 1)))
+
+;; Sort Ido's file list by modification time.
+(use-package ido-sort-mtime
+  :ensure t
+  :init
+  (with-eval-after-load 'ido
+    (ido-sort-mtime-mode 1))
+  :config
+  (setq ido-sort-mtime-tramp-files-at-end t))
 
 (provide 'conf/minibuffer/ido)
