@@ -30,14 +30,6 @@
       (evil-enclose-ace-jump
        (ace-jump-mode 1)))
 
-    (bind-key "g SPC" #'evil-ace-jump-word evil-motion-state-map))
-
-  :config
-
-  ;; Use lowercase letters for jumping.
-  (setq ace-jump-mode-move-keys (number-sequence ?a ?z))
-
-  ;; Be case insensitive when choosing the [head] character.
-  (setq ace-jump-mode-case-fold t))
+    (bind-key "g SPC" #'evil-ace-jump-word evil-motion-state-map)))
 
 (provide 'conf/moving/ace-jump)
