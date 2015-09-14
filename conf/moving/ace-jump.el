@@ -3,8 +3,7 @@
 (use-package ace-jump-mode
   :ensure t
   :defer t
-
-  :init ; We define the motion here instead of in :config so that ace-jump-mode can be lazily loaded when `ace-jump-mode' is called.
+  :init
 
   (with-eval-after-load 'evil
     (defmacro evil-enclose-ace-jump (&rest body)
@@ -27,6 +26,7 @@
 
     (evil-define-motion evil-ace-jump-word (count)
       :type exclusive
+      (require 'ace-jump-mode)
       (evil-enclose-ace-jump
        (ace-jump-mode 1)))
 
