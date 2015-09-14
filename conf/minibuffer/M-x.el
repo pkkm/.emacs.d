@@ -4,11 +4,7 @@
   :ensure t
   :defer t
   :bind (("M-x" . smex)
-         ("C-x SPC" . smex)
-         ("C-x m" . smex-major-mode-commands))
-  :config
-  ;; Save smex data in `user-emacs-directory' instead of the home directory.
-  (setq smex-save-file (locate-user-emacs-file "smex")))
+         ("C-x SPC" . smex)))
 
 ;; Interesting command: smex-show-unbound-commands -- show frequently called commands that are unbound.
 
