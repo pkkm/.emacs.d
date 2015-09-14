@@ -59,21 +59,6 @@
   :ensure t
   :defer t
   :init
-
-  ;; Needs to happen before `ido-vertical-mode' is loaded.
-  (setq ido-vertical-decorations
-        '("\n- " ; Left bracket around prospect list.
-          "" ; Right bracket around prospect list.
-          "\n  " ; Separator between prospects.
-          "\n  ..." ; Inserted at the end of a truncated list of prospects.
-          "[" ; Left bracket around common match string.
-          "]" ; Right bracket around common match string.
-          " [No match]"
-          " [Matched]"
-          " [Not readable]"
-          " [Too big]"
-          " [Confirm]"))
-
   (with-eval-after-load 'ido
     (ido-vertical-mode)))
 
