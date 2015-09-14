@@ -41,6 +41,7 @@
 
   ;;; Unset Vim bindings I don't find useful.
 
+  (bind-key "C-a" nil evil-insert-state-map)
   (bind-key "C-e" nil evil-insert-state-map)
   (bind-key "RET" nil evil-motion-state-map)
 
