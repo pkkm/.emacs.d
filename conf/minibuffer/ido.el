@@ -90,7 +90,6 @@
 ;; Better, more memory-hungry flex matching.
 (use-package flx-ido
   :ensure t
-  :if (not (eq (getenv "LOW_END_MACHINE") "true"))
   :defer t
   :init
   (with-eval-after-load 'ido
