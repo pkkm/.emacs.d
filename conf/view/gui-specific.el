@@ -35,10 +35,6 @@
   (set-first-available-font 'default '("DejaVu Sans Mono-9" "Consolas-10" "Courier New-9.5"))
   (set-first-available-font 'variable-pitch '("DejaVu Sans-9.6" "Verdana" "Helvetica" "Arial")) ; Causes segfault in `emacs -nw'.
 
-  ;; Changing font size.
-  (bind-key "C-+" #'text-scale-increase)
-  (bind-key "C--" #'text-scale-decrease)
-
 
   ;;; Resize frames by pixels instead of characters.
   (setq frame-resize-pixelwise t)
