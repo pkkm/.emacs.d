@@ -1,4 +1,4 @@
-;;; Emacs Lisp and Lisp Interaction modes.
+;;; Emacs Lisp and Lisp Interaction modes. -*- lexical-binding: t -*-
 ;; Lisp Interaction mode inherits hooks, etc. from Emacs Lisp mode, but doesn't inherit its keymaps.
 
 ;; Highlight defined symbols.
@@ -41,19 +41,18 @@
       (add-to-list 'my-major-mode-ac-sources `(lisp-interaction-mode . ,my-elisp-ac-sources))))
 
   ;; Evaluation bindings.
-  (require 'cl) ; Used: lexical-let.
   (defun evil-eval-region (region-start region-end)
     "Evaluate region and exit Evil's visual state."
     (interactive "r") ; Needs a region.
     (eval-region region-start region-end)
     (evil-exit-visual-state))
   (dolist (keymap (list lisp-interaction-mode-map emacs-lisp-mode-map))
-    (lexical-let ((map keymap)) ; This is needed so that the binding is available when the code in `with-eval-after-load' is executed.
+    (let ((map keymap))
       (bind-key "C-c C-e" #'pp-eval-last-sexp map)
       (bind-key "C-c C-i" #'eval-print-last-sexp map) ; Insert value at point.
 
       (with-eval-after-load 'evil
-        (bind-key "C-c C-r" #'evil-eval-region map))
+        (bind-key "C-c C-r" #'evil-eval-region map)) ; Depends on `lexical-binding' (for `map' to be available).
       (bind-key "C-c C-b" #'eval-buffer map)
       (bind-key "C-c C-d" #'eval-defun map) ; Eval the top-level form containing point (or after point)))).
 
