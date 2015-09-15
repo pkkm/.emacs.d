@@ -9,6 +9,10 @@
   :defer t
   :diminish undo-tree-mode
   :init
+
+  (setq evil-want-C-u-scroll t) ; Use C-u for scrolling instead of prefix argument.
+  (setq evil-want-Y-yank-to-eol t) ; Yank from cursor to end instead of whole line (for consistency with C and D).
+
   (evil-mode 1)
 
   :config

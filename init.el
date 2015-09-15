@@ -77,7 +77,8 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
 ;;; Ensure appropriate versions of packages.
 
 (defvar required-package-versions
-  '((use-package . "20150325"))) ; Version 2.0 takes different keywords.
+  '((use-package . "20150325") ; Version 2.0 takes different keywords.
+    (evil . "20150915"))) ; First version in which y works in motion state, and Y can yank from cursor to end of line.
 
 (defun package-version (pkg-symbol)
   (let ((newest-pkg-desc (car (cdr (assq pkg-symbol package-alist))))) ; Description struct of newest installed version, or nil if not installed.

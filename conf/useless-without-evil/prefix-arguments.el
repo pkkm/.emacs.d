@@ -1,10 +1,6 @@
 ;;; Replacements for `universal-argument' and `negative-argument' for use in Evil.
 
 (with-eval-after-load 'evil
-  ;; Make C-u scroll instead of starting an argument.
-  ;; (Setting `evil-want-C-u-scroll' doesn't work when Evil is already loaded.)
-  (bind-key "C-u" #'evil-scroll-up evil-motion-state-map)
-
   ;; Make C-u in insert state kill backward to indentation.
   (bind-key "C-u" #'kill-back-to-indentation evil-insert-state-map)
   (defun kill-back-to-indentation ()
