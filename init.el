@@ -76,10 +76,6 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
 
 ;;; Ensure appropriate versions of packages.
 
-(defvar required-package-versions
-  '((use-package . "20150325") ; Version 2.0 takes different keywords.
-    (evil . "20150915"))) ; First version in which y works in motion state, and Y can yank from cursor to end of line.
-
 (defun package-version (pkg-symbol)
   (let ((newest-pkg-desc (car (cdr (assq pkg-symbol package-alist))))) ; Description struct of newest installed version, or nil if not installed.
     (when newest-pkg-desc
@@ -95,15 +91,22 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
     (package-refresh-contents))
   (package-install (car (cdr (assoc pkg-symbol package-archive-contents)))))
 
-(dolist (package-and-version required-package-versions)
-  (pcase-let ((`(,pkg-symbol . ,min-version) package-and-version))
-    (when (package-older-than pkg-symbol min-version)
-      (message "Upgrading package %s (required version: %s)." pkg-symbol min-version)
-      (package-install-newest pkg-symbol)
-      ;; Reload package if loaded.
-      (when (featurep pkg-symbol)
-        (unload-feature pkg-symbol)
-        (require pkg-symbol)))))
+(eval-when-compile (require 'cl-lib))
+(defun package-ensure-version (&rest package-version-plist)
+  (cl-loop for (pkg-symbol min-version)
+           on package-version-plist by #'cddr
+           do (when (package-older-than pkg-symbol min-version)
+                (message "Upgrading package %s (required version: %s)."
+                         pkg-symbol min-version)
+                (package-install-newest pkg-symbol)
+                ;; Reload package if loaded.
+                (when (featurep pkg-symbol)
+                  (unload-feature pkg-symbol)
+                  (require pkg-symbol)))))
+
+(package-ensure-version
+ 'use-package "20150325" ; Version 2.0 takes different keywords.
+ 'evil "20150915") ; First version in which y works in motion state, and Y can yank from cursor to end of line.
 
 
 ;;; Syntactic sugar.
