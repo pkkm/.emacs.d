@@ -1,8 +1,16 @@
-;;; Main file of this Emacs config.
+;;; Main file of this Emacs config. -*- lexical-binding: t -*-
 
 ;; Ensure we're on Emacs 24.3 or newer.
 (when (version< emacs-version "24.3")
   (error (concat "This config requires Emacs 24.3+. Current version: " emacs-version)))
+
+;; Optimization: don't do many small garbage collections during init.
+(let ((old-gc-cons-threshold gc-cons-threshold))
+  (setq gc-cons-threshold (* 128 1024 1024))
+  (defun restore-default-gc-settings ()
+    (garbage-collect)
+    (setq gc-cons-threshold old-gc-cons-threshold))
+  (add-hook 'emacs-startup-hook #'restore-default-gc-settings))
 
 
 ;;; Directories.
