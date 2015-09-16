@@ -11,11 +11,9 @@
   (ido-mode 1)
   :config
 
-  ;; Flex matching.
   (setq ido-enable-flex-matching t)
-
-  ;; If there's a filename at point, start Ido with it filled in.
-  (setq ido-use-filename-at-point 'guess)
+  (setq ido-use-filename-at-point 'guess) ; If there's a filename at point, start with it filled in.
+  (setq ido-auto-merge-work-directories-length -1) ; Don't automaticaly search other directories for the typed file name.
 
 
   ;;; Keybindings.
