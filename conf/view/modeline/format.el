@@ -29,11 +29,6 @@
                                         (/ (window-total-width) 3))
                           'face 'ml-shadow)))
 
-           (ml-modes (format-mode-line '(""
-                                         mode-name
-                                         mode-line-process
-                                         minor-mode-alist)))
-
            (ml-coding
             ;; Hide the encoding if it is or will be turned into utf-8-unix.
             (unless (memq buffer-file-coding-system
@@ -50,7 +45,10 @@
 
            (center (interpose-nonempty " "
                      (propertize "%[" 'face 'ml-shadow) ; Recursive edit braces.
-                     ml-modes ; Major and minor modes.
+                     (format-mode-line '(""
+                                         mode-name
+                                         mode-line-process
+                                         minor-mode-alist))
                      (format-mode-line global-mode-string) ; Used for example by `display-time'.
                      (propertize "%]" 'face 'ml-shadow))) ; Recursive edit braces.
 
