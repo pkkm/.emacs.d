@@ -87,4 +87,27 @@
   ;; Completion.
   (setq org-completion-use-ido t))
 
+
+(use-package org-capture
+  :defer t
+  :init
+
+  (defun my-init-org-remote-capture ()
+    "Prepare for receiving remote captures with `org-protocol'."
+    (interactive)
+    (unless (server-running-p)
+      (server-start))
+    (require 'org-protocol))
+
+  :config
+
+  (setq org-capture-templates
+      `(("s" "Self-improvement.org note" entry
+         (file+headline "~/Org/Self-improvement.org" "Misc")
+         ,(concat "** %?\n" ; %? -- cursor position after inserting.
+                  "   #+BEGIN_QUOTE\n"
+                  "   %x\n" ; %x -- contents of the X clipboard.
+                  "   -- [[%l]]\n" ; %l -- link.
+                  "   #+END_QUOTE")))))
+
 (provide 'conf/mode-specific/org)
