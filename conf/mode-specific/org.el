@@ -95,6 +95,7 @@
   (defun my-init-org-remote-capture ()
     "Prepare for receiving remote captures with `org-protocol'."
     (interactive)
+    (require 'server)
     (unless (server-running-p)
       (server-start))
     (require 'org-protocol))
