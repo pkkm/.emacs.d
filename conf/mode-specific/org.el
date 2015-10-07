@@ -92,7 +92,7 @@
   :defer t
   :init
 
-  (defun my-init-org-remote-capture ()
+  (defun start-receiving-remote-org-captures ()
     "Prepare for receiving remote captures with `org-protocol'."
     (interactive)
     (require 'server)
