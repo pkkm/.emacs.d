@@ -12,19 +12,19 @@
   (bind-key "M-h" #'org-metaleft org-mode-map)
   (bind-key "M-j" #'org-metadown org-mode-map)
   (bind-key "M-k" #'org-metaup org-mode-map)
-  (bind-key "M-s" #'org-metaright org-mode-map)
+  (bind-key "M-l" #'org-metaright org-mode-map)
 
   ;; Move/promote/demote subtree.
   (bind-key "M-H" #'org-shiftmetaleft org-mode-map)
   (bind-key "M-J" #'org-shiftmetadown org-mode-map)
   (bind-key "M-K" #'org-shiftmetaup org-mode-map)
-  (bind-key "M-S" #'org-shiftmetaright org-mode-map)
+  (bind-key "M-L" #'org-shiftmetaright org-mode-map)
 
   ;; Set state/priority.
   (bind-key "C-M-h" #'org-shiftleft org-mode-map)
   (bind-key "C-M-j" #'org-shiftdown org-mode-map)
   (bind-key "C-M-k" #'org-shiftup org-mode-map)
-  (bind-key "C-M-s" #'org-shiftright org-mode-map)
+  (bind-key "C-M-l" #'org-shiftright org-mode-map)
 
   ;; Mark element (to mark a subtree, use C-c @).
   (bind-key "M-v" #'org-mark-element org-mode-map) ; Normally would be M-h, but shadowed by previous binding.
