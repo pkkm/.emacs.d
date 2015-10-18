@@ -4,8 +4,7 @@
   "Display only Calc and Trail buffers."
   (interactive)
   (calc)
-  (delete-other-windows)
-  (call-interactively #'calc-trail-display))
+  (delete-other-windows))
 
 ;; Use the `--calc' argument to start Emacs Calc-only.
 (defun my-calc-workspace-after-startup (&rest ignored-args)
