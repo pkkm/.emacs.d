@@ -99,7 +99,8 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
 
 (package-ensure-version
  'use-package "20150325" ; Version 2.0 takes different keywords.
- 'evil "20150915") ; First version in which y works in motion state, and Y can yank from cursor to end of line.
+ 'evil "20150915" ; First version in which y works in motion state, and Y can yank from cursor to end of line.
+ 'emmet-mode "20141222") ; First version in which I noticed that indentation was fixed and annoying overlays were removed.
 
 
 ;;; Syntactic sugar.
