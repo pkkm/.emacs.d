@@ -6,11 +6,14 @@
 (use-package magit
   :ensure t
   :defer t
-  :diminish magit-auto-revert-mode
   :bind ("C-c g" . magit-status)
   :init
   (setq magit-last-seen-setup-instructions "1.4.0") ; Don't display instructions which I've already seen.
   :config
+
+  ;; For old (pre-2.1.0) Magit versions: don't show magit-auto-revert-mode in the modeline.
+  (when (fboundp 'magit-auto-revert-mode)
+    (diminish 'magit-auto-revert-mode))
 
   ;; Make `magit-status' take up the whole screen. When exiting it, restore the closed windows.
   (defadvice magit-status (around my-magit-fullscreen activate)
@@ -32,7 +35,8 @@ Then, restore the saved window configuration from before launching `magit-status
 
   ;; Start writing commit message in insert mode.
   (with-eval-after-load 'evil
-    (evil-set-initial-state 'git-commit-mode 'insert))
+    (evil-set-initial-state 'git-commit-mode 'insert) ; Pre-2.1.0.
+    (add-hook 'with-editor-mode-hook 'evil-insert-state)) ; 2.1.0+.
 
   ;; When Magit is started, ensure credential cache daemon is running.
   ;; (Necessary for password caching to work as of 2015-04. File Magit feature request?)
