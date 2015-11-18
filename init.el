@@ -76,33 +76,26 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
 
 ;;; Ensure appropriate versions of packages.
 
-(defun package-version (pkg-symbol)
-  (let ((newest-pkg-desc (car (cdr (assq pkg-symbol package-alist))))) ; Description struct of newest installed version, or nil if not installed.
-    (when newest-pkg-desc
-      (package-version-join (package-desc-version newest-pkg-desc)))))
-
-(defun package-older-than (pkg-symbol version)
-  (let ((installed-version (package-version pkg-symbol)))
-    (or (null installed-version)
-        (version< installed-version version))))
-
-(defun package-install-newest (pkg-symbol)
-  (unless packages-refreshed-this-session-p ; So that the newest version is in `package-archive-contents'.
-    (package-refresh-contents))
-  (package-install (car (cdr (assoc pkg-symbol package-archive-contents)))))
-
+(package-ensure-installed 'epl)
+(require 'epl)
 (eval-when-compile (require 'cl-lib))
 (defun package-ensure-version (&rest package-version-plist)
   (cl-loop for (pkg-symbol min-version)
            on package-version-plist by #'cddr
-           do (when (package-older-than pkg-symbol min-version)
-                (message "Upgrading package %s (required version: %s)."
-                         pkg-symbol min-version)
-                (package-install-newest pkg-symbol)
-                ;; Reload package if loaded.
-                (when (featurep pkg-symbol)
-                  (unload-feature pkg-symbol)
-                  (require pkg-symbol)))))
+           do
+           (let ( ; The following `epl' functions return packages sorted by version descending.
+                 (pkg-installed (car (epl-find-installed-packages pkg-symbol)))
+                 (pkg-available (car (epl-find-available-packages pkg-symbol))))
+             (unless (or pkg-installed pkg-available)
+               (error "Package %s neither installed nor available" pkg-symbol))
+             (when (or (null pkg-installed)
+                       (version< (epl-package-version-string pkg-installed) min-version))
+               (message "Upgrading package %s (required version: %s)." pkg-symbol min-version)
+               (epl-package-install pkg-available)
+               ;; Reload package if loaded.
+               (when (featurep pkg-symbol)
+                 (unload-feature pkg-symbol)
+                 (require pkg-symbol))))))
 
 (package-ensure-version
  'use-package "20150325" ; Version 2.0 takes different keywords.
