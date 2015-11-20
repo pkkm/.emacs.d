@@ -28,8 +28,7 @@ The result is a vector if KEY-1 or KEY-2 is a vector. Otherwise it's a string."
 
 (defun clear-keymap (keymap)
   "Delete all bindings in KEYMAP.
-The intuitive solution, (setq keymap-name (make-sparse-keymap)), doesn't work (as of 24.4).
-Apparently Emacs copies the head of the keymap (which is a list) somewhere and uses that."
+The intuitive solution, (setq keymap-name (make-sparse-keymap)), doesn't work because Emacs accesses the keymap by pointer instead of name."
   (setcdr keymap nil))
 
 (require 'conf/utils/lists) ; Used: recar.
