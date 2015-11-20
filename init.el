@@ -73,13 +73,12 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
   (unless (package-installed-p package)
     (package-install package)))
 
-
-;;; Ensure appropriate versions of packages.
-
 (package-ensure-installed 'epl)
 (require 'epl)
 (eval-when-compile (require 'cl-lib))
 (defun package-ensure-version (&rest package-version-plist)
+  "(package-ensure-version [PACKAGE MIN-VERSION]...)
+If a PACKAGE (as a symbol) is older than MIN-VERSION, install its newest version."
   (cl-loop for (pkg-symbol min-version)
            on package-version-plist by #'cddr
            do
@@ -97,11 +96,6 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
                  (unload-feature pkg-symbol)
                  (require pkg-symbol))))))
 
-(package-ensure-version
- 'use-package "20150325" ; Version 2.0 takes different keywords.
- 'evil "20150915" ; First version in which y works in motion state, and Y can yank from cursor to end of line.
- 'emmet-mode "20141222") ; First version in which I noticed that indentation was fixed and annoying overlays were removed.
-
 
 ;;; Syntactic sugar.
 
@@ -114,7 +108,7 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
 (autoload 'bind-key "bind-key")
 
 ;; Configure packages in a tidy, performance-oriented way.
-(package-ensure-installed 'use-package)
+(package-ensure-version 'use-package "20150325") ; Version 2.0 takes different keywords.
 (eval-when-compile
   (require 'use-package))
 

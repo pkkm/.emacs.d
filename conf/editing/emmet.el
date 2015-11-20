@@ -1,7 +1,8 @@
 ;;; Emmet (formerly Zen Coding) -- expand abbreviations like "p>ul>li*5" into HTML/XML tags.
 
 (use-package emmet-mode
-  :ensure t
+  :preface
+  (package-ensure-version 'emmet-mode "20141222") ; First version in which I noticed that indentation was fixed and annoying overlays were removed.
   :defer t
   :config
 
