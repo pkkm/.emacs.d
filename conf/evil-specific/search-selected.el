@@ -6,4 +6,4 @@
   (with-eval-after-load 'evil
     (global-evil-visualstar-mode)))
 
-(provide 'conf/region/search-selected)
+(provide 'conf/evil-specific/search-selected)

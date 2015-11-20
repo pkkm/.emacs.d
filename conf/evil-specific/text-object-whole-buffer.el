@@ -27,4 +27,4 @@ If the buffer consists only of spaces, select the whole buffer."
             (list (point-min) (point-max)))))))
   (bind-key "h" #'evil-whole-buffer-without-whitespace evil-inner-text-objects-map))
 
-(provide 'conf/useless-without-evil/text-object-whole-buffer)
+(provide 'conf/evil-specific/text-object-whole-buffer)

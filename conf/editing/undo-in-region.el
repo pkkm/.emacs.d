@@ -1,4 +1,4 @@
-;;; Undo the last modification in region (selection).
+;;; Undo the last modification in region.
 ;;; Does not work at end of file!
 
 ;; In visual state, use "u" for undoing instead of lowercasing ("g u").
@@ -18,4 +18,4 @@
         (set-marker mark-before-undo nil))
     ad-do-it))
 
-(provide 'conf/region/undo-in-region)
+(provide 'conf/editing/undo-in-region)

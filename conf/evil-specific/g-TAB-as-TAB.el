@@ -10,4 +10,4 @@
         (call-interactively major-mode-TAB-binding))))
   (bind-key "g TAB" #'current-major-mode-TAB evil-motion-state-map))
 
-(provide 'conf/useless-without-evil/g-TAB-as-TAB)
+(provide 'conf/evil-specific/g-TAB-as-TAB)

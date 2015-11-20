@@ -4,4 +4,4 @@
 (with-eval-after-load 'evil
   (bind-key "g C-g" #'count-words evil-motion-state-map))
 
-(provide 'conf/other/count-lines-words-chars)
+(provide 'conf/evil-specific/count-lines-words-chars)

@@ -26,4 +26,4 @@ When called without region and there's symbol at point, use it."
   (bind-key "Q" #'evil-replace-symbol evil-normal-state-map)
   (bind-key "Q" #'evil-replace-symbol evil-visual-state-map))
 
-(provide 'conf/useless-without-evil/replace-symbol-operator)
+(provide 'conf/evil-specific/replace-symbol-operator)

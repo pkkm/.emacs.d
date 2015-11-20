@@ -6,4 +6,4 @@
     (bind-key key #'evil-normal-state evil-replace-state-map)
     (bind-key key #'evil-exit-visual-state evil-visual-state-map)))
 
-(provide 'conf/useless-without-evil/C-SPC-exits-insert-and-visual)
+(provide 'conf/evil-specific/C-SPC-exits-insert-and-visual)
