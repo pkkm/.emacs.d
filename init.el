@@ -49,8 +49,10 @@
 (package-initialize) ; This normally happens after loading the init file.
 (setq package-enable-at-startup nil) ; Don't load the packages the second time after the init file.
 
-;; MELPA.
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;; Package archives.
+(setq package-archives
+      '(("gnu" . "https://elpa.gnu.org/packages/")
+        ("melpa" . "https://melpa.org/packages/")))
 
 ;; To update installed packages, use M-x package-list-packages RET U x.
 ;; Or delete the elpa/ directory and launch Emacs for it to be recreated.
