@@ -42,15 +42,11 @@
   ;; Select the window with the most recently used buffer.
   (bind-key "SPC" #'evil-window-mru evil-window-map)
 
-  ;; Navigate/move with hjks instead of hjkl.
-  (bind-key "s" #'evil-window-right evil-window-map)
-  (bind-key "S" #'evil-window-move-far-right evil-window-map)
-
   ;; Resize.
   (bind-key "C-h" #'evil-window-decrease-width evil-window-map)
   (bind-key "C-j" #'evil-window-increase-height evil-window-map)
   (bind-key "C-k" #'evil-window-decrease-height evil-window-map)
-  (bind-key "C-s" #'evil-window-increase-width evil-window-map)
+  (bind-key "C-l" #'evil-window-increase-width evil-window-map)
 
   ;; Save/restore window configuration from register.
   (bind-key "m" #'window-configuration-to-register evil-window-map)
