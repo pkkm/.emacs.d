@@ -22,14 +22,13 @@
 ;;   * semantic-analyze-proto-impl-toggle -- toggle between declaration and implementation.
 
 ;; Refactoring on C-c RET (Emacs 24.4+).
-(when (version<= "24.4" emacs-version)
-  (use-package srefactor
-    :ensure t
-    :defer t
-    :init
-    (bind-key "C-c RET" #'srefactor-refactor-at-point)
-    :config
-    (with-eval-after-load 'evil
-      (evil-set-initial-state 'srefactor-ui-menu-mode 'emacs))))
+(use-package srefactor
+  :ensure t
+  :defer t
+  :init
+  (bind-key "C-c RET" #'srefactor-refactor-at-point)
+  :config
+  (with-eval-after-load 'evil
+    (evil-set-initial-state 'srefactor-ui-menu-mode 'emacs)))
 
 (provide 'conf/other/semantic)

@@ -1,8 +1,8 @@
 ;;; Main file of this Emacs config. -*- lexical-binding: t -*-
 
-;; Ensure we're on Emacs 24.3 or newer.
-(when (version< emacs-version "24.3")
-  (error (concat "This config requires Emacs 24.3+. Current version: " emacs-version)))
+;; Ensure we're on Emacs 24.4 or newer.
+(when (version< emacs-version "24.4")
+  (error (concat "This config requires Emacs 24.4+. Current version: " emacs-version)))
 
 ;; Optimization: don't do many small garbage collections during init.
 (let ((old-gc-cons-threshold gc-cons-threshold))
@@ -111,16 +111,6 @@ If a PACKAGE (as a symbol) is older than MIN-VERSION, install its newest version
 (package-ensure-version 'use-package "20150325") ; Version 2.0 takes different keywords.
 (eval-when-compile
   (require 'use-package))
-
-;; Define `with-eval-after-load' unless present (Emacs 24.3 compatibility).
-(unless (fboundp 'with-eval-after-load)
-  (defmacro with-eval-after-load (file &rest body)
-    "Execute BODY after FILE is loaded.
-FILE is normally a feature name, but it can also be a file name, in case that file does not provide any feature."
-    (declare (indent 1) (debug t))
-    ;; We can't pass a lambda instead of a quoted form to `eval-after-load' because that was introduced in Emacs 24.4. However, cl.el's `lexical-let' creates closures only when it sees lambdas. The solution is to create a lambda with BODY and pass `eval-after-load' a quoted form that will execute it.
-    `(let ((body-lambda (lambda () ,@body)))
-       (eval-after-load ,file `(funcall ',body-lambda)))))
 
 ;; Modern list library (used often in this config).
 (use-package dash
