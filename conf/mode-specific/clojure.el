@@ -16,6 +16,7 @@
 
   ;; Indent guides.
   ;; We don't use `with-eval-after-load' because `indent-guide-mode' is autoloaded, so it would never load.
+  (require 'conf/view/indent-guides)
   (add-hook 'clojure-mode-hook #'indent-guide-mode))
 
 ;; YASnippet snippets.
