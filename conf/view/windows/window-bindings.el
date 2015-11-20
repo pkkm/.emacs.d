@@ -29,7 +29,7 @@
 
   ;; Split (with count: leave COUNT lines in the initially-selected window).
   (bind-key "d" #'my-split-window-right evil-window-map)
-  (bind-key "-" #'my-split-window-below evil-window-map)
+  (bind-key "s" #'my-split-window-below evil-window-map)
 
   ;; Close.
   (bind-key "K" #'evil-delete-buffer evil-window-map) ; Kill buffer and window.
