@@ -120,23 +120,13 @@ If a PACKAGE (as a symbol) is older than MIN-VERSION, install its newest version
   :demand t)
 
 
-;;; Loading the rest of the config.
+;;; Load the rest of the config.
+;; Configuration is in conf/. The parent directory of conf/ is in the load path. (This enables configuration files to have feature names with a common prefix, e.g. 'conf/evil for evil.el, without the file names actually being prefixed.)
 
-;; Config organization:
-;;   Configuration is in conf/. The parent directory of conf/ is in the load path.
-;;   (This enables configuration files to have feature names with a common prefix, e.g. 'conf/evil for evil.el, without the file names actually being prefixed.)
-;;   .el files are `require'd in main.el and in each other (when there are dependencies).
-
-;; Enable loading of the flattened configuration file if we're running from my USB drive, unless --no-flattened was passed.
-(setq flattened-conf-file (locate-user-emacs-file "conf-flattened.el"))
-(defvar load-flattened-conf (not (not (getenv "BUNDLE_ROOT"))) ; Double negation so that the variable is t or nil.
-  "Should Emacs configuration be loaded from `flattened-conf-file' instead of the conf/ directory?")
-(when (member "--no-flattened" command-line-args) ; We look for the argument manually because `command-switch-alist' is parsed after init.
-  (setq command-line-args (delete "--no-flattened" command-line-args))
-  (setq load-flattened-conf nil))
-
-;; Load the normal or the flattened configuration.
-(if (and load-flattened-conf
-         (file-exists-p flattened-conf-file))
-    (load (file-name-sans-extension flattened-conf-file))
-  (require 'conf/main))
+(use-package f :ensure t :commands (f-files f-no-ext f-relative f-ext?))
+ (mapc (lambda (file)
+         (let ((feature-name (f-no-ext (f-relative file main-dir))))
+           (require (intern feature-name))))
+       (f-files (expand-file-name "conf" main-dir)
+                (lambda (file) (f-ext? file "el"))
+                t))

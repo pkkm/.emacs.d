@@ -1,4 +1,5 @@
 ;;; Utilities for extracting information from the `load-history' variable.
+;; NOTE: The function in this file is currently unused.
 
 (require 'cl-lib)
 (autoload 'file-requires "loadhist")
