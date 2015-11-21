@@ -5,4 +5,4 @@
   :ensure t
   :commands describe-unbound-keys)
 
-(provide 'conf/configuring/unbound)
+(provide 'conf/other/unbound-keys)
