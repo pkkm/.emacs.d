@@ -1,7 +1,7 @@
 * My Emacs configuration
-  I like modal editing and Vim's keybindings. I also really like Lisp and the extensibility it enables in Emacs. This is my attempt to combine (what I consider to be) the advantages of both editors.
+  I like modal editing and Vim's keybindings, but also Lisp and the extensibility it enables in Emacs. This is my attempt to combine the advantages of both editors.
 
-  Note that it is written with my particular use-cases in mind (for example, keybindings are optimized for the [[http://www.kaufmann.no/roland/dvorak/][Programmer Dvorak]] keyboard layout). You probably don't want to use this configuration verbatim; instead, copy parts of it into your own.
+  Note that it is written with my particular use-cases in mind (for example, keybindings are optimized for the [[http://www.kaufmann.no/roland/dvorak/][Programmer Dvorak]] keyboard layout). You probably don't want to use this configuration verbatim; instead, feel free to copy parts of it into your own.
 
 ** Compatibility
    Requires *Emacs 24.4* or newer.
@@ -12,9 +12,9 @@
 ** Some of the packages used
    - =evil= :: Most comprehensive Vim emulation I've ever seen.
    - =ido=, =ido-ubiquitous=, =smex=, =flx-ido= :: Fuzzy completion in the minibuffer.
-   - =smartparens= :: Manipulating entire s-expressions at once. Less strict than =paredit=, and useful outside of Lisps.
-   - =auto-complete=, =yasnippet= :: Completion menu with snippets. I use =auto-complete= instead of =company-mode= mostly because of inertia.
-   - =flycheck= :: On-the-fly syntax checking.
-   - =magit= :: An efficient and convenient Git interface.
+   - =smartparens= :: Manipulating entire s-expressions at once. Useful for more languages than =paredit=.
+   - =auto-complete=, =yasnippet= :: Completion with snippets. I use =auto-complete= instead of =company-mode= mostly because of inertia.
+   - =flycheck=, =flyspell= :: On-the-fly checking of syntax/spelling.
+   - =magit= :: An efficient Git interface.
    - =use-package= :: Syntactic sugar that simplifies package configuration.
-   - =cedet=, =srefactor= :: Language-aware features.
+   - =cedet=, =srefactor=, =emr= :: Language-aware features.
