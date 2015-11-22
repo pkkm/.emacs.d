@@ -4,7 +4,7 @@
   Note that it is written with my particular use-cases in mind (for example, keybindings are optimized for the [[http://www.kaufmann.no/roland/dvorak/][Programmer Dvorak]] keyboard layout). You probably don't want to use this configuration verbatim; instead, copy parts of it into your own.
 
 ** Compatibility
-   Requires *Emacs 24.3* or newer.
+   Requires *Emacs 24.4* or newer.
 
 ** Installation
    Just clone this repository into =~/.emacs.d=. On the first launch, Emacs will download and install all the necessary packages into =~/.emacs.d/elpa=.
