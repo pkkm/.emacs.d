@@ -6,9 +6,9 @@
   (save-buffer)
   (let ((filename (buffer-file-name)))
     (unless filename
-      (error "Not visiting a file"))
+      (user-error "Not visiting a file"))
     (unless (file-exists-p filename)
-      (error "File \"%s\" doesn't exist" filename))
+      (user-error "File doesn't exist: %s" filename))
     (let ((new-name
            (read-file-name "New name: "
                            (file-name-directory filename)
@@ -16,21 +16,22 @@
                            (file-name-nondirectory filename))))
       (when (or (file-exists-p new-name)
                 (file-symlink-p new-name))
-        (error "File \"%s\" already exists" new-name))
+        (user-error "File already exists: %s" new-name))
       (rename-file filename new-name)
       (rename-buffer new-name t) ; t -- if the name is taken, pick an unique one.
       (set-visited-file-name new-name)))
   (set-buffer-modified-p nil))
 (bind-key "C-c m" #'move-this-buffer-and-file)
 
-(defun delete-this-buffer-and-file ()
+(defun delete-this-buffer-and-file (no-confirmation)
   "Removes the file visited by the current buffer and kills the buffer."
-  (interactive)
+  (interactive "P")
   (let ((filename (buffer-file-name)))
     (if (not (and filename (file-exists-p filename)))
-        (error "Not visiting a file.")
-      (when (yes-or-no-p "Delete this file? ")
-        (delete-file filename t) ; t -- move to thrash (when on Windows). Always returns `nil'.
+        (user-error "Not visiting a file")
+      (when (or no-confirmation
+                (yes-or-no-p (format "Delete %s?" filename)))
+        (delete-file filename t) ; t -- move to thrash (when on Windows).
         (unless (file-exists-p filename)
           (kill-buffer))))))
 (bind-key "C-c d" #'delete-this-buffer-and-file)
