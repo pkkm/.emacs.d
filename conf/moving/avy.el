@@ -4,7 +4,8 @@
   :ensure t
   :defer t
   :init
-  (bind-key "g SPC" #'avy-goto-word-1 evil-motion-state-map)
-  (bind-key "g RET" #'avy-goto-char-2 evil-motion-state-map))
+  (with-eval-after-load 'evil
+    (bind-key "g SPC" #'avy-goto-word-1 evil-motion-state-map)
+    (bind-key "g RET" #'avy-goto-char-2 evil-motion-state-map)))
 
 (provide 'conf/moving/avy)
