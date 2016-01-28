@@ -22,20 +22,6 @@
 (bind-key "s" #'next-buffer my-buffer-map)
 (bind-key "l" #'next-buffer my-buffer-map)
 
-;; Open all buffers in windows.
-(bind-key "a" #'display-all-file-buffers-in-windows my-buffer-map)
-(require 'conf/utils/buffers) ; Used: buffers-opened-in-windows.
-(defun display-all-file-buffers-in-windows ()
-  "Display all buffers that are visiting a file in windows."
-  (interactive)
-  (->> (-difference (buffer-list) (buffers-opened-in-windows))
-    (-filter (lambda (buffer) (buffer-file-name buffer))) ; Only buffers that are visiting a file.
-    (-map (lambda (buffer)
-            (let ((new-window (funcall split-window-preferred-function (get-largest-window))))
-              (when new-window ;; If the splitting was successful (there was enough space to sensibly split)...
-                (set-window-buffer new-window buffer))))))
-  (balance-windows))
-
 ;; Delete (close/kill).
 (bind-key "c" #'kill-this-buffer my-buffer-map)
 

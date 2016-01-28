@@ -53,7 +53,19 @@
   (bind-key "'" #'jump-to-register evil-window-map)
 
   ;; Find file in a new window (useful because it starts in the current window's directory).
-  (bind-key "f" #'find-file-other-window evil-window-map))
+  (bind-key "f" #'find-file-other-window evil-window-map)
+
+  ;; Display all buffers that are visiting a file.
+  (bind-key "a" #'display-all-file-buffers-in-windows evil-window-map)
+  (require 'conf/utils/buffers) ; Used: buffers-opened-in-windows.
+  (defun display-all-file-buffers-in-windows ()
+    "Display all buffers that are visiting a file."
+    (interactive)
+    (->> (-difference (buffer-list) (buffers-opened-in-windows))
+         (-filter #'buffer-file-name) ; Only buffers that are visiting a file.
+         (-map (lambda (buffer)
+                 (display-buffer-pop-up-window buffer '((allow-no-window . t))))))
+    (balance-windows)))
 
 ;; Undo (restore previous window configuration).
 (use-package winner ; Bundled with Emacs.
