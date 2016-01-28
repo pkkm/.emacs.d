@@ -19,7 +19,6 @@
 
 ;; Previous/next.
 (bind-key "h" #'previous-buffer my-buffer-map)
-(bind-key "s" #'next-buffer my-buffer-map)
 (bind-key "l" #'next-buffer my-buffer-map)
 
 ;; Delete (close/kill).
