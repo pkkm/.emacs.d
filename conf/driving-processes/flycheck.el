@@ -7,12 +7,14 @@
   :init
   (global-flycheck-mode 1))
 
-;; Display error messages in a popup at point instead of the modeline.
+;; Display error messages in a tooltip at point.
 (use-package flycheck-pos-tip
   :ensure t
   :defer t
   :init
   (with-eval-after-load 'flycheck
-    (flycheck-pos-tip-mode)))
+    (flycheck-pos-tip-mode))
+  :config
+  (setq flycheck-pos-tip-timeout most-positive-fixnum))
 
 (provide 'conf/driving-processes/flycheck)
