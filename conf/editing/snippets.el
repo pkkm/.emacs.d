@@ -8,6 +8,12 @@
   (yas-global-mode 1)
   :config
 
+  ;; Use snippets from ~/.emacs.d/snippets.
+  ;; (YASnippet normally does this by default, but I set `user-emacs-directory' to something else than ~/.emacs.d.)
+  (let ((snippets-dir (expand-file-name "snippets" main-dir)))
+    (add-to-list 'yas-snippet-dirs snippets-dir)
+    (yas-load-directory snippets-dir))
+
   ;; Be less verbose.
   (setq yas-verbosity 1)
 
