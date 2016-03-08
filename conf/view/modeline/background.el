@@ -19,9 +19,9 @@
             (ht ('normal original-background)
                 ('motion original-background)
                 ('operator original-background)
-                ('insert (color-mix "blue" 0.15 original-background 0.85))
-                ('replace (color-mix "blue" 0.15 original-background 0.85))
-                ('visual (color-mix "green" 0.15 original-background 0.85))))
+                ('insert (color-mix "blue" 0.2 original-background 0.8))
+                ('replace (color-mix "blue" 0.2 original-background 0.8))
+                ('visual (color-mix "green" 0.2 original-background 0.8))))
       (setq my-modeline-other-evil-state-background
             (color-mix "black" 0.45 original-background 0.55))))
   (add-hook 'after-load-theme-hook #'calculate-mode-line-backgrounds)
