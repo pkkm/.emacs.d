@@ -72,10 +72,15 @@
                         "\\usepackage[T1]{fontenc}"))
       ""
 
+      "% Graphics."
+      (latex-block 'smart-comment
+                   "\\usepackage{graphicx} % See <https://www.sharelatex.com/learn/Inserting_Images>. Example: \\begin{figure}[h] \\centering \\includegraphics[width=0.5\\textwidth]{spiral} \\caption{Spiral.} \\label{fig:spiral} \\end{figure}"
+                   "")
+
       "% Math."
       (latex-block 'smart-comment
                    "\\usepackage[all]{onlyamsmath} % Add improved math macros, disable standard ones."
-                   "\\usepackage{amsfonts} % Math fonts, e.g. \\`mathbb'."
+                   "\\usepackage{amsfonts} % E.g. \\`mathbb'."
                    "")
 
       "% Tables."
