@@ -75,6 +75,7 @@
       "% Graphics."
       (latex-block 'smart-comment
                    "\\usepackage{graphicx} % See <https://www.sharelatex.com/learn/Inserting_Images>. Example: \\begin{figure}[h] \\centering \\includegraphics[width=0.5\\textwidth]{spiral} \\caption{Spiral.} \\label{fig:spiral} \\end{figure}"
+                   "\\usepackage{grffile} % Correctly handle complex file names."
                    "")
 
       "% Math."
