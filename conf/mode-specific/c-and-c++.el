@@ -14,11 +14,17 @@
     (local-set-key (kbd "TAB") nil))
   (add-hook 'c-mode-common-hook #'my-kill-local-tab-binding)
 
-  ;; Make the default indentation style Linux instead of GNU.
+  ;; Indentation style.
   (setq c-default-style
         '((java-mode . "java")
           (awk-mode . "awk")
           (other . "linux")))
+
+  ;; Use "//" instead of "/*" for comments in C.
+  (defun my-c-comment-style ()
+    (setq comment-start "// ")
+    (setq comment-end ""))
+  (add-hook 'c-mode-hook #'my-c-comment-style)
 
   ;; Toggle between header and implementation with M-o.
   (dolist (keymap (list c-mode-map c++-mode-map))
