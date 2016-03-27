@@ -2,7 +2,6 @@
 
 (use-package puppet-mode
   :ensure t
-  :defer t
   :config
 
   ;; Indentation (Smart Tabs).

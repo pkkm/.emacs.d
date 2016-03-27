@@ -2,7 +2,6 @@
 
 (use-package helm
   :ensure t
-  :defer t
   :init
 
   ;; Go to some function/variable definition (works with a lot of modes).

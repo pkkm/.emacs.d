@@ -2,7 +2,6 @@
 
 (use-package smex
   :ensure t
-  :defer t
   :bind (("M-x" . smex)
          ("C-x SPC" . smex)))
 

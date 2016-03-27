@@ -7,7 +7,6 @@
 ;; Main package.
 (use-package haskell-mode
   :ensure t
-  :defer t
   :config
 
   (add-hook 'haskell-mode-hook #'turn-on-haskell-indentation) ; Most advanced indentation mode (hi2 was merged into it in March 2015: <https://github.com/haskell/haskell-mode/wiki/Month-in-haskell-mode-March-2015#important-developments>).
@@ -25,7 +24,6 @@
 ;; Auto-configure Flycheck from Cabal.
 (use-package flycheck-haskell
   :ensure t
-  :defer t
   :init
   (with-eval-after-load 'haskell-mode ; No need to load if we're not editing any Haskell file.
     (with-eval-after-load 'flycheck
@@ -33,7 +31,6 @@
 
 ;; Additional snippets.
 (use-package haskell-snippets
-  :ensure t
-  :defer t)
+  :ensure t)
 
 (provide 'conf/mode-specific/haskell)

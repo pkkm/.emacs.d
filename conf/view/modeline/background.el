@@ -1,6 +1,6 @@
 ;;; Change the background of the modeline according to Evil state.
 
-(use-package ht :ensure t :defer t)
+(use-package ht :ensure t)
 
 (with-eval-after-load 'evil
   (require 'ht)

@@ -4,7 +4,6 @@
 ;; Before upgrading from Magit 1 to 2, be sure to uninstall `magit', `git-commit-mode' and `git-rebase-mode'.
 (use-package magit
   :ensure t
-  :defer t
   :bind ("C-c g" . magit-status)
   :init
   (setq magit-last-seen-setup-instructions "1.4.0") ; Don't display instructions which I've already seen.

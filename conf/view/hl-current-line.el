@@ -2,7 +2,6 @@
 
 (use-package hl-line ; Bundled with Emacs.
   :if (>= (display-color-cells) 16)
-  :defer t
   :init
   (global-hl-line-mode 1)
   :config

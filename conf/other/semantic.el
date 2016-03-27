@@ -2,7 +2,6 @@
 ;; Keys are bound globally instead of in semantic-mode-map because otherwise they would shadow major-mode's bindings.
 
 (use-package semantic ; Bundled with Emacs.
-  :defer t
   :init
   (semantic-mode 1)
   :config
@@ -24,7 +23,6 @@
 ;; Refactoring on C-c RET (Emacs 24.4+).
 (use-package srefactor
   :ensure t
-  :defer t
   :init
   (bind-key "C-c RET" #'srefactor-refactor-at-point)
   :config

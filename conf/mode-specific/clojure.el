@@ -3,7 +3,6 @@
 ;; Clojure IDE.
 (use-package cider
   :ensure t
-  :defer t
   :config
 
   ;; Eldoc -- show function arguments in the minibuffer.
@@ -11,7 +10,6 @@
   (add-hook 'cider-mode-hook #'eldoc-mode))
 
 (use-package clojure-mode ; Installed by CIDER.
-  :defer t
   :config
 
   ;; Indent guides.
@@ -21,14 +19,12 @@
 
 ;; YASnippet snippets.
 (use-package clojure-snippets
-  :ensure t
-  :defer t)
+  :ensure t)
 
 ;; Auto-complete integration.
 ;; Disabled for now, as it hangs Emacs when typing (the official solution seems to be to switch to company-mode).
 ;; (use-package ac-cider
 ;;   :ensure t
-;;   :defer t
 ;;   :init
 ;;   (require 'conf/utils/hooks) ; Used: add-hooks.
 ;;   (with-eval-after-load 'auto-complete
@@ -38,7 +34,6 @@
 ;; See also: CIDER's "C-c C-d g" binding to look up symbol in Grimoire (online Clojure reference).
 (use-package clojure-cheatsheet
   :ensure t
-  :defer t
   :init
   (with-eval-after-load 'clojure-mode
     (defun clojure-cheatsheet-or-error ()
@@ -54,7 +49,6 @@
 ;; Prefix: C-c RET (overrides the binding for macroexpand).
 (use-package clj-refactor
   :ensure t
-  :defer t
   :diminish clj-refactor-mode
   :init
   (add-hook 'clojure-mode-hook #'clj-refactor-mode)

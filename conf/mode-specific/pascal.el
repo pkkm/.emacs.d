@@ -1,7 +1,6 @@
 ;;; Pascal.
 
 (use-package pascal ; Bundled with Emacs.
-  :defer t
   :config
 
   ;; Indentation (Smart Tabs).

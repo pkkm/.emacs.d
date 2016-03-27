@@ -3,7 +3,6 @@
 (use-package emmet-mode
   :preface
   (package-ensure-version 'emmet-mode "20141222") ; First version in which I noticed that indentation was fixed and annoying overlays were removed.
-  :defer t
   :config
 
   ;; Keybindings.

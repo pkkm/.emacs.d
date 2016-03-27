@@ -4,14 +4,12 @@
 ;; Highlight defined symbols.
 (use-package highlight-defined
   :ensure t
-  :defer t
   :init
   (add-hook 'emacs-lisp-mode-hook #'highlight-defined-mode))
 
 ;; SLIME-like navigation in Elisp.
 (use-package elisp-slime-nav
   :ensure t
-  :defer t
   :diminish elisp-slime-nav-mode
   :init
   (add-hook 'emacs-lisp-mode-hook #'elisp-slime-nav-mode)
@@ -26,7 +24,6 @@
   (bind-key "C-c C-t" #'elisp-slime-nav-describe-elisp-thing-at-point elisp-slime-nav-mode-map))
 
 (use-package lisp-mode ; Bundled with Emacs; contains lisp-mode, emacs-lisp-mode and lisp-interaction-mode.
-  :defer t
   :config
 
   ;; Eldoc -- show function arguments in the minibuffer.

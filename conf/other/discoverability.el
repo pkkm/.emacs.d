@@ -2,7 +2,6 @@
 
 (use-package which-key
   :ensure t
-  :defer t
   :diminish which-key-mode
   :init
   (which-key-mode)
@@ -19,7 +18,6 @@
 ;; Disabled because it was too intrusive (e.g. bound M-s to its own command in every major mode's map) and I haven't found a way to override its bindings.
 ;;(use-package discover
 ;;  :ensure t
-;;  :defer t
 ;;  :init
 ;;  (global-discover-mode 1)
 ;;  :config

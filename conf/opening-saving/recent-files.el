@@ -1,7 +1,6 @@
 ;;; Remember recently opened files and allow quick access to them.
 
 (use-package recentf ; Bundled with Emacs.
-  :defer t
   :init
 
   ;; Has to be set before loading `recentf'.

@@ -1,7 +1,6 @@
 ;;; SGML (parent of HTML).
 
 (use-package sgml-mode ; Bundled with Emacs.
-  :defer t
   :config
 
   ;; Indentation (Smart Tabs).

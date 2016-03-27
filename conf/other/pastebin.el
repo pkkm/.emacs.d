@@ -2,7 +2,6 @@
 
 (use-package debpaste
   :ensure t
-  :defer t
   :init
 
   ;; C-c p -- paste region or buffer.

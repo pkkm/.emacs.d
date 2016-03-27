@@ -1,7 +1,6 @@
 ;;; TRAMP -- transparent manipulating of remote files.
 
 (use-package tramp
-  :defer t
   :config
 
   ;; Perform multiple hops like this:

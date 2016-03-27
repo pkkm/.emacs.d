@@ -2,7 +2,6 @@
 
 (use-package smartparens
   :ensure t
-  :defer t
   :diminish smartparens-mode
   :init
   (smartparens-global-mode 1)

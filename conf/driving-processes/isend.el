@@ -2,7 +2,6 @@
 
 (use-package isend-mode
   :ensure t
-  :defer t
   :init
 
   (defun isend-associated-ansi-term (program)

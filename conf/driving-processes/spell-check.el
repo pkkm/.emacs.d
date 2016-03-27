@@ -1,7 +1,6 @@
 ;;; Spell checking.
 
 (use-package flyspell ; Included in Emacs.
-  :defer t
   :diminish "FlyS" ; Default: "Fly".
   :config
 

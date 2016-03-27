@@ -6,7 +6,6 @@
 ;;   * C-SPC -- search in the current set of results
 
 (use-package ido ; Bundled with Emacs.
-  :defer t
   :init
   (ido-mode 1)
   :config
@@ -58,7 +57,6 @@
 ;; Display completions vertically.
 (use-package ido-vertical-mode
   :ensure t
-  :defer t
   :init
   (with-eval-after-load 'ido
     (ido-vertical-mode)))
@@ -66,7 +64,6 @@
 ;; Use Ido almost everywhere.
 (use-package ido-ubiquitous
   :ensure t
-  :defer t
   :init
   (with-eval-after-load 'ido
     (ido-ubiquitous-mode 1))
@@ -76,7 +73,6 @@
 ;; Better, more memory-hungry flex matching.
 (use-package flx-ido
   :ensure t
-  :defer t
   :init
   (with-eval-after-load 'ido
     (flx-ido-mode 1)))

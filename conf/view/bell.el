@@ -2,7 +2,6 @@
 
 (use-package echo-bell
   :ensure t
-  :defer t
   :init
 
   ;; Variables have to be set before the package is loaded (as of 2015-10).

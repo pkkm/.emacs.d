@@ -7,7 +7,6 @@
 (use-package auto-complete
   :ensure t
   :diminish auto-complete-mode
-  :defer t
   :init
 
   (defvar my-major-mode-ac-sources '()

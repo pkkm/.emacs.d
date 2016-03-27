@@ -1,7 +1,6 @@
 ;;; Terminal modes.
 
 (use-package term ; Bundled with Emacs.
-  :defer t
   :config
 
   (defun my-term-mode-hook ()

@@ -1,7 +1,6 @@
 ;;; C and C++.
 
 (use-package cc-mode ; Bundled with Emacs.
-  :defer t
   :config
 
   ;; Indentation (Smart Tabs).

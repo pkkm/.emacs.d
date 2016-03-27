@@ -3,14 +3,12 @@
 ;; Enable by default.
 (use-package flycheck
   :ensure t
-  :defer t
   :init
   (global-flycheck-mode 1))
 
 ;; Display error messages in a tooltip at point.
 (use-package flycheck-pos-tip
   :ensure t
-  :defer t
   :init
   (with-eval-after-load 'flycheck
     (flycheck-pos-tip-mode))

@@ -14,20 +14,17 @@
   ;; Ample -- dark; mainly warm colors.
   ;; (use-package ample-theme
   ;;  :ensure t
-  ;;  :defer t
   ;;  :init
   ;;  (load-theme 'ample t))
 
   ;; Monokai -- dark; mainly warm colors.
   ;; (use-package monokai-theme
   ;;   :ensure t
-  ;;   :defer t
   ;;   :init
   ;;   (load-theme 'monokai t))
 
   ;; Wombat -- dark; some warm and some cold colors.
   ;; (use-package wombat ; Bundled with Emacs.
-  ;;   :defer t
   ;;   :init
   ;;   (load-theme 'wombat)
   ;;   (set-cursor-color "navajo white")
@@ -41,7 +38,6 @@
   ;; Tomorrow Night -- dark; mainly cold colors.
   (use-package color-theme-sanityinc-tomorrow
     :ensure t
-    :defer t
     :init
     (load-theme 'sanityinc-tomorrow-night t)
     ;; Disable italics.

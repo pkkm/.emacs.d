@@ -4,7 +4,6 @@
 
 (use-package evil-exchange
   :ensure t
-  :defer t
   :init
   (with-eval-after-load 'evil
     (evil-exchange-install))) ; Will use default bindings: gx and gX.

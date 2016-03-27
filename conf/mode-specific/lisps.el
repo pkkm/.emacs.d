@@ -5,7 +5,6 @@
 (require 'conf/utils/hooks) ; Used: add-hooks.
 
 (use-package lisp-mode ; Bundled with Emacs; contains lisp-mode, emacs-lisp-mode and lisp-interaction-mode.
-  :defer t
   :config
 
   ;; Indentation.

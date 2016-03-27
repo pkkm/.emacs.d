@@ -2,7 +2,6 @@
 ;; When using Ediff, press h for help.
 
 (use-package ediff ; Bundled with Emacs.
-  :defer t
   :config
 
   ;; Display everything in one frame.
@@ -26,7 +25,6 @@
 ;;   * r -- rescan file/directory.
 ;;   * F5 -- rescan everything.
 (use-package ztree
-  :ensure t
-  :defer t)
+  :ensure t)
 
 (provide 'conf/mode-specific/ediff)

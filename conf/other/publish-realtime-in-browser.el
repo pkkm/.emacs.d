@@ -10,7 +10,6 @@
 
 (use-package impatient-mode
   :ensure t
-  :defer t
   :diminish (impatient-mode . " Imp")) ; Default: " imp".
 
 (provide 'conf/other/publish-realtime-in-browser)

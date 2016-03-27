@@ -2,7 +2,6 @@
 
 (use-package web-mode
   :ensure t
-  :defer t
   :init
 
   ;; Use web-mode for HTML and PHP files.

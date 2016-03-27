@@ -4,7 +4,6 @@
 
 (use-package indent-guide
   :ensure t
-  :defer t
   :diminish indent-guide-mode
   :config
 

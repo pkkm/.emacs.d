@@ -1,7 +1,6 @@
 ;;; NXml -- advanced XML editing mode with validation.
 
 (use-package nxml-mode ; Bundled with Emacs.
-  :defer t
   :mode "\\.xsd\\'" ; Use for XML Schema files.
   :config
 

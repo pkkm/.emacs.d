@@ -1,7 +1,6 @@
 ;;; Compilation-mode -- for displaying results of compilation, grep, search, etc.
 
 (use-package compile ; Bundled with Emacs.
-  :defer t
   :config
   (with-eval-after-load 'evil
     ;; Make compilation buffers start in Emacs mode.

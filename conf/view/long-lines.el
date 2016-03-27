@@ -9,7 +9,6 @@
 
 ;; Indent wrapped parts the same as original lines.
 (use-package adaptive-wrap ; Installed in vendor/adaptive-wrap.el -- this is the version from <https://gist.github.com/tsavola/6222431>, which handles tabs properly, in contrast to the version on ELPA (as of Dec 2013).
-  :defer t
   :config
   (with-no-warnings ; To disable the byte-compilation warning saying that this should be called at toplevel.
     (define-globalized-minor-mode global-adaptive-wrap-prefix-mode

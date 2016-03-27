@@ -2,7 +2,6 @@
 
 (use-package org
   :ensure t
-  :defer t
   :config
 
 
@@ -89,7 +88,6 @@
 
 
 (use-package org-capture
-  :defer t
   :init
 
   (defun start-receiving-remote-org-captures ()
