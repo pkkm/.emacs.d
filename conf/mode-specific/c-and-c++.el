@@ -60,7 +60,6 @@
                  (concat "--std=" standard)
                  "-O2" ; Optimize (may make the compiler perform more static checks, but makes the output of a debugger less clear).
                  "-Wall -Wextra" ; Essential warnings.
-                 "-Wstrict-overflow=4" ; Warn on possible signed overflow.
                  "-Werror=implicit-function-declaration" ; Calling an undefined function should be an error.
                  (when (string= compiler "clang")
                    "-fsanitize=undefined-trap -fsanitize-undefined-trap-on-error")))) ; Runtime undefined behavior checks.
