@@ -84,7 +84,37 @@
   (setq org-log-repeat nil) ; Don't log shifting forward the date of a repeating task.
 
   ;; Completion.
-  (setq org-completion-use-ido t))
+  (setq org-completion-use-ido t)
+
+
+  ;;; Automatic link description downloading.
+
+  (use-package s :ensure t :commands s-trim s-collapse-whitespace)
+  (autoload 'mm-url-decode-entities-string "mm-url")
+  (defun get-url-html-title (url &rest ignored)
+    "Return the title of the HTML page at URL."
+    (let ((download-buffer (url-retrieve-synchronously url))
+          title-start title-end)
+      (save-excursion
+        (set-buffer download-buffer)
+        (beginning-of-buffer)
+        (setq title-start (search-forward "<title>"))
+        (search-forward "</title>")
+        (setq title-end (search-backward "<"))
+        (s-trim
+         (s-collapse-whitespace
+          (mm-url-decode-entities-string
+           (buffer-substring-no-properties title-start title-end)))))))
+
+  (defun my-org-toggle-auto-link-description ()
+    "Toggle automatically downloading link descriptions."
+    (interactive)
+    (if org-make-link-description-function
+        (progn
+          (setq org-make-link-description-function nil)
+          (message "Automatic link description downloading disabled."))
+      (setq org-make-link-description-function #'get-url-html-title)
+      (message "Automatic link description downloading enabled."))))
 
 
 (use-package org-capture
