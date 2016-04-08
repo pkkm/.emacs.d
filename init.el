@@ -84,15 +84,15 @@ If a PACKAGE (as a symbol) is older than MIN-VERSION, install its newest version
   (cl-loop for (pkg-symbol min-version)
            on package-version-plist by #'cddr
            do
-           (let ( ; The following `epl' functions return packages sorted by version descending.
-                 (pkg-installed (car (epl-find-installed-packages pkg-symbol)))
-                 (pkg-available (car (epl-find-available-packages pkg-symbol))))
-             (unless (or pkg-installed pkg-available)
-               (error "Package %s neither installed nor available" pkg-symbol))
+           (let ((pkg-installed (car (epl-find-installed-packages pkg-symbol))))
              (when (or (null pkg-installed)
                        (version< (epl-package-version-string pkg-installed) min-version))
                (message "Upgrading package %s (required version: %s)." pkg-symbol min-version)
-               (epl-package-install pkg-available)
+               (package-refresh-contents)
+               (let ((pkg-available (car (epl-find-available-packages pkg-symbol))))
+                 (unless pkg-available
+                   (error "Package %s not available for installation" pkg-symbol))
+                 (epl-package-install pkg-available))
                ;; Reload package if loaded.
                (when (featurep pkg-symbol)
                  (unload-feature pkg-symbol)
