@@ -120,7 +120,7 @@
 (use-package org-capture
   :init
 
-  (defun start-receiving-remote-org-captures ()
+  (defun my-org-start-receiving-captures ()
     "Prepare for receiving remote captures with `org-protocol'."
     (interactive)
     (require 'server)
@@ -130,13 +130,25 @@
 
   :config
 
-  (setq org-capture-templates
-      `(("s" "Self-improvement.org note" entry
-         (file+headline "~/Org/Self-improvement.org" "Misc")
-         ,(concat "** %?\n" ; %? -- cursor position after inserting.
-                  "   #+BEGIN_QUOTE\n"
-                  "   %x\n" ; %x -- contents of the X clipboard.
-                  "   -- [[%l]]\n" ; %l -- link.
-                  "   #+END_QUOTE")))))
+  (defun my-org-refile-target-files ()
+    "Return a list of Org files that I use."
+    (mapcan
+     (lambda (directory)
+       (f-files directory
+                (lambda (path) (string-suffix-p ".org" path))
+                t))
+     '("~/Documents" "~/University")))
+  (add-to-list 'org-refile-targets
+               (cons #'my-org-refile-target-files '(:maxlevel . 3)))
+
+  (setq org-default-notes-file "~/Documents/Inbox.org")
+  (add-to-list 'org-capture-templates
+               `("n" "Quote in org-default-notes-file" entry
+                 (file "")
+                 ,(concat "* %?\n\n" ; %? -- cursor position after inserting.
+                          "  #+BEGIN_QUOTE\n"
+                          "  %i\n\n" ; %i -- initial content (see also %x -- X clipboard content).
+                          "  -- %a [%<%Y-%m-%d>]\n" ; %a -- link with description.
+                          "  #+END_QUOTE"))))
 
 (provide 'conf/mode-specific/org)
