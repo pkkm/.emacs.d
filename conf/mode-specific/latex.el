@@ -24,9 +24,6 @@
   ;; Use the XeTeX engine by default.
   (setq-default TeX-engine 'xetex)
 
-  ;; Output to PDF by default.
-  (setq-default TeX-PDF-mode t)
-
   ;; Auto-save before compiling.
   (setq TeX-save-query nil)
 
@@ -47,9 +44,6 @@
   ;; (The mode also displays a "Math" menu with many symbols -- can be used efficiently with Lacarte.)
   (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)
   (setq LaTeX-math-abbrev-prefix ";")
-
-  ;; Electric braces after sub- and superscripts.
-  (setq TeX-electric-sub-and-superscript t)
 
   ;; Quickly enter \frac.
   (with-eval-after-load 'latex ; LaTeX mode is loaded after TeX mode.
