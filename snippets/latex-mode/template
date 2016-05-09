@@ -47,7 +47,7 @@
       ;; Document type, margins, etc.
       (pcase document-class
         ("scrartcl"
-         "\\documentclass[12pt, a4paper, parskip=full]{scrartcl} % Margins: DIV=<number> (larger -- more content).")
+         "\\documentclass[12pt, a4paper, parskip=full]{scrartcl} % Margins: DIV=<number> (larger means more content; default for 12pt is 12).")
         ((or "article" "amsart" "letter")
          (concat "\\documentclass[12pt]{" document-class "}"))
         (_
@@ -56,9 +56,12 @@
         (latex-block 'verbatim
                      "\\usepackage[a4paper]{geometry} % Setting margins: \"top=5cm\" (later options have more priority)."
                      "\\usepackage{parskip} % Space instead of indent between paragraphs."))
-      (latex-block (if (equal document-class "letter") 'verbatim 'smart-comment)
-                   "\\usepackage{nopageno} % No page numbers.")
       "\\usepackage{microtype} % Better typography." ; No longer needs to be loaded after fonts and babel (unless using "babel=true"). See <http://tex.stackexchange.com/questions/162137/loading-microtype-before-or-after-the-font>.
+      ""
+
+      "% Suppress page numbers if there's only one page."
+      "\\usepackage{zref-totpages}"
+      "\\AtBeginDocument{\\ifnum\\ztotpages=1{\\pagenumbering{gobble}}\\fi}"
       ""
 
       "% Language."
@@ -93,11 +96,25 @@
                    "\\usepackage{booktabs} % Elegant tables (use \\\\{top,mid,bottom}rule instead of \\hline; no \\vline)." ; `booktabs' examples: <http://www.howtotex.com/packages/improve-your-tables-with-booktabs/>.
                    "")
 
+      "% Drawings."
+      (latex-block 'smart-comment
+                   "\\usepackage{tikz}"
+                   "\\usetikzlibrary{babel} % Fixes conflict with onlyamsmath (see <http://tex.stackexchange.com/questions/31860/conflict-onlyamsmath-and-tikz>)."
+                   "")
+
+      "% Bibliography."
+      (latex-block 'smart-comment
+                   "\\usepackage[backend=biber]{biblatex}"
+                   "\\addbibresource{`(when (buffer-file-name) (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))`.bib}"
+                   "")
+
       ;; Title, author, etc.
       (pcase document-class
-        ("letter" (latex-block 'verbatim "\\signature{${`(user-full-name)`}}"
+        ("letter" (latex-block 'verbatim
+                               "\\signature{${`(user-full-name)`}}"
                                "\\address{${}}"))
-        (_ (latex-block 'verbatim "\\title{${Document title}}"
+        (_ (latex-block 'verbatim
+                        "\\title{${Document title}}"
                         "\\author{${`(user-full-name)`}}"
                         "%\\date{}")))
       ""
@@ -105,22 +122,30 @@
       ;; Document body.
       "\\begin{document}"
       (pcase document-class
-        ("letter" (latex-block 'verbatim "\\begin{letter}{${Destination address}}"
+        ("letter" (latex-block 'verbatim
+                               "\\begin{letter}{${Destination address}}"
                                "\\opening{${Dear Sir or Madam,}}"
                                ""
                                document-body
                                ""
                                "\\closing{Yours Respectfully,}"
                                "\\end{letter}"))
-        (_ (latex-block 'verbatim "\\maketitle"
+        (_ (latex-block 'verbatim
+                        "\\maketitle"
                         ""
-                        document-body)))
+                        document-body
+                        ""
+                        (latex-block 'smart-comment
+                                     "% Bibliography."
+                                     "\\nocite{*} % Show all sources (even uncited ones)."
+                                     "\\printbibliography"))))
       "\\end{document}"
       ""
 
       ;; AUCTeX data.
       (when engine-auctex
-        (latex-block 'verbatim "% Local Variables:"
+        (latex-block 'verbatim
+                     "% Local Variables:"
                      (concat "% TeX-engine: " engine-auctex)
                      "% End:"
                      ""))))))
