@@ -57,7 +57,7 @@
                      "\\usepackage[a4paper]{geometry} % Setting margins: \"top=5cm\" (later options have more priority)."
                      "\\usepackage{parskip} % Space instead of indent between paragraphs."))
       "\\usepackage{microtype} % Better typography." ; No longer needs to be loaded after fonts and babel (unless using "babel=true"). See <http://tex.stackexchange.com/questions/162137/loading-microtype-before-or-after-the-font>.
-      "\\usepackage{enumitem} % Adds features to `itemize' and `enumerate'."
+      "\\usepackage{enumitem} % Adds features to \\`itemize' and \\`enumerate'."
       ""
 
       "% Suppress page numbers if there's only one page."
