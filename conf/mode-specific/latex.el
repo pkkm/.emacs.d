@@ -58,4 +58,11 @@
        my-latex-preview-scale-factor))
   (setq preview-scale-function #'my-latex-preview-scale))
 
+;; Latexmk support.
+(use-package auctex-latexmk
+  :ensure t
+  :init
+  (with-eval-after-load 'tex
+    (auctex-latexmk-setup)))
+
 (provide 'conf/mode-specific/latex)
