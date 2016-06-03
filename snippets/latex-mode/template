@@ -15,7 +15,7 @@
                                 '("XeTeX" "pdfTeX")
                                 nil nil nil nil "XeTeX"))
        (document-class (completing-read "Document class: "
-                                        '("article" "scrartcl" "amsart" "letter")
+                                        '("scrartcl" "article" "amsart" "letter")
                                         nil nil nil nil "article"))
        (engine-auctex (pcase engine
                         ("XeTeX" "xetex")
@@ -57,7 +57,7 @@
                      "\\usepackage[a4paper]{geometry} % Setting margins: \"top=5cm\" (later options have more priority)."
                      "\\usepackage{parskip} % Space instead of indent between paragraphs."))
       "\\usepackage{microtype} % Better typography." ; No longer needs to be loaded after fonts and babel (unless using "babel=true"). See <http://tex.stackexchange.com/questions/162137/loading-microtype-before-or-after-the-font>.
-      "\\usepackage{enumitem} % Adds features to \\`itemize' and \\`enumerate'."
+      (latex-block 'smart-comment "\\usepackage{enumitem} % Adds features to \\`itemize' and \\`enumerate'.")
       ""
 
       "% Suppress page numbers if there's only one page."
@@ -78,16 +78,19 @@
                      "\\usepackage[T1]{fontenc}"))
       ""
 
-      "% Graphics."
-      (latex-block 'smart-comment
-                   "\\usepackage{graphicx} % See <https://www.sharelatex.com/learn/Inserting_Images>. Example: \\begin{figure}[h] \\centering \\includegraphics[width=0.5\\textwidth]{spiral} \\caption{Spiral.} \\label{fig:spiral} \\end{figure}"
-                   "\\usepackage{grffile} % Correctly handle complex file names."
-                   "")
-
       "% Math."
       (latex-block 'smart-comment
                    "\\usepackage[all]{onlyamsmath} % Add improved math macros, disable standard ones."
                    "\\usepackage{amsfonts} % E.g. \\`mathbb'."
+                   "")
+
+      "% Graphics."
+      (latex-block 'smart-comment
+                   "\\usepackage{graphicx} % See <https://www.sharelatex.com/learn/Inserting_Images>. Example: \\begin{figure}[h] \\centering \\includegraphics[width=0.5\\textwidth]{spiral} \\caption{Spiral.} \\label{fig:spiral} \\end{figure}"
+                   "\\usepackage{float} % For the \\`H' positioning specifier."
+                   "\\usepackage{grffile} % Correctly handle complex file names."
+                   "\\graphicspath{{images/}}"
+                   "\\newcommand{\credit}[1]{\par\tiny\textit{#1}}"
                    "")
 
       "% Tables."
@@ -107,6 +110,35 @@
       (latex-block 'smart-comment
                    "\\usepackage[backend=biber]{biblatex}"
                    "\\addbibresource{`(when (buffer-file-name) (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))`.bib}"
+                   "")
+
+      "% Use bold letters instead of arrows for vectors."
+      (latex-block 'smart-comment
+                   "\\let\\oldvec\\vec"
+                   "\\renewcommand{\\vec}[1]{\\boldsymbol{\\mathbf{#1}}} % Upright bold letters for vectors."
+                   "")
+
+      "% Comments."
+      (latex-block 'smart-comment
+                   "\\usepackage[normalem]{ulem} % \\`normalem' -- don't change \\emph."
+                   "\\makeatletter"
+                   "\\newcommand\\coloruwave[1][red]{\\bgroup\\markoverwith{\\lower3.5\\p@\\hbox{\\sixly\\textcolor{#1}{\\char58}}}\\ULon}"
+                   "\\font\\sixly=lasy6"
+                   "\\makeatother"
+                   "\\newcommand{\\fixme}[1]{\\coloruwave[red]{#1}}"
+                   "\\newcommand{\\comment}[1]{\\coloruwave[red]{[#1]}}"
+                   "\\usepackage{ifthen}"
+                   "\\newcommand{\\todo}[1]{\\comment{TODO\\ifthenelse{\\equal{#1}{}}{}{: }#1}}"
+                   "")
+
+      "% Setting apart changed areas."
+      (latex-block 'smart-comment
+                   "\\usepackage{mdframed}"
+                   "\\newenvironment{changed}[1]"
+                   "{\\mdfsetup{topline=false, leftline=true, bottomline=false, rightline=false, linecolor=red}"
+                   "\\begin{mdframed}}"
+                   "{\\end{mdframed}}"
+                   "\\renewenvironment{changed}[1]{}{} % Temporarily disable."
                    "")
 
       ;; Title, author, etc.
