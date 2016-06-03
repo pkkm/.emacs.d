@@ -90,7 +90,7 @@
                    "\\usepackage{float} % For the \\`H' positioning specifier."
                    "\\usepackage{grffile} % Correctly handle complex file names."
                    "\\graphicspath{{images/}}"
-                   "\\newcommand{\credit}[1]{\par\tiny\textit{#1}}"
+                   "\\newcommand{\\credit}[1]{\\par\\tiny\\textit{#1}}"
                    "")
 
       "% Tables."
