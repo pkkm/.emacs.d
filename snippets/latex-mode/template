@@ -121,6 +121,7 @@
       "% Comments."
       (latex-block 'smart-comment
                    "\\usepackage[normalem]{ulem} % \\`normalem' -- don't change \\emph."
+                   "\\usepackage{color}"
                    "\\makeatletter"
                    "\\newcommand\\coloruwave[1][red]{\\bgroup\\markoverwith{\\lower3.5\\p@\\hbox{\\sixly\\textcolor{#1}{\\char58}}}\\ULon}"
                    "\\font\\sixly=lasy6"
