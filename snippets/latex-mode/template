@@ -78,6 +78,12 @@
                      "\\usepackage[T1]{fontenc}"))
       ""
 
+      "% Quotes (language-aware)."
+      (latex-block 'verbatim
+                   "\\usepackage[autostyle]{csquotes} % Example: \\enquote{text}"
+                   "\\DeclareQuoteStyle{polish}{\\quotedblbase}{\\textquotedblright}[0.05em]{\\textquoteleft}{\\textquoteright}"
+                   "")
+
       "% Math."
       (latex-block 'smart-comment
                    "\\usepackage[all]{onlyamsmath} % Add improved math macros, disable standard ones."
