@@ -187,5 +187,6 @@
         (latex-block 'verbatim
                      "% Local Variables:"
                      (concat "% TeX-engine: " engine-auctex)
+                     "% ispell-local-dictionary: \"polish\""
                      "% End:"
                      ""))))))
