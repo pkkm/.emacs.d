@@ -45,7 +45,7 @@
   (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)
   (setq LaTeX-math-abbrev-prefix ";")
 
-  ;; Quickly enter \frac.
+  ;; Quick entering of \frac.
   (with-eval-after-load 'latex ; LaTeX mode is loaded after TeX mode.
     (bind-key "C-c /" (lambda () (interactive) (TeX-insert-macro "frac")) LaTeX-mode-map))
 
@@ -56,7 +56,11 @@
   (defun my-latex-preview-scale ()
     (* (funcall (preview-scale-from-face))
        my-latex-preview-scale-factor))
-  (setq preview-scale-function #'my-latex-preview-scale))
+  (setq preview-scale-function #'my-latex-preview-scale)
+
+  ;; Make the " key use `csquotes'. (If this doesn't work, try pressing C-c C-n.)
+  (setq LaTeX-csquotes-close-quote "}")
+  (setq LaTeX-csquotes-open-quote "\\enquote{"))
 
 ;; Latexmk support.
 (use-package auctex-latexmk
