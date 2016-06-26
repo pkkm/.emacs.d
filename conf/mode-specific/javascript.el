@@ -3,7 +3,7 @@
 ;; Javascript IDE.
 (use-package js2-mode
   :ensure t
-  :mode ("\\.js$" . js2-mode)
+  :mode ("\\.js\\'" . js2-mode)
   :config
   (setq js2-highlight-level 3)) ; Highlight many built-in functions.
 
