@@ -59,6 +59,7 @@
 
   ;; Display.
   (setq org-startup-truncated nil) ; Wrap long lines instead of truncating them (toggle with `toggle-truncate-lines').
+  (setq org-startup-folded nil) ; Start with all headlines expanded.
   (setq org-src-fontify-natively t) ; Fontify code blocks.
   (setq org-hide-leading-stars t) ; Make leading stars of headlines background color.
   (setq org-fontify-done-headline t) ; Mark the whole headline of a DONE task with a different face.
