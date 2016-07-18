@@ -1,0 +1,4 @@
+# -*- mode: org -*-
+
+#+SETUPFILE: ~/.emacs.d/org/readtheorg.setup
+#+OPTIONS: timestamp:nil author:nil # Don't include creation date and the author's name.

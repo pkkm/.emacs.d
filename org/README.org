@@ -1,9 +1,9 @@
-* Miscellaneous org-mode files.
-** =theme-bigblow.setup=, =theme-readtheorg.setup=
-   Very nice themes, from [[https://github.com/fniessen/org-html-themes][GitHub: fniessen/org-html-themes]]. License: GPL v3.
+* Org-mode setup files
 
-   To use (with light modifications by me):
-   #+BEGIN_SRC org-mode
-   #+SETUPFILE: ~/.emacs.d/org/theme-readtheorg.setup
-   #+HTML_HEAD: <style type="text/css">blockquote, .verse { font-style: normal }</style>
-   #+END_SRC
+  Example usage:
+
+  #+BEGIN_SRC org-mode
+  #+SETUPFILE: ~/.emacs.d/org/readtheorg.setup
+  #+END_SRC
+
+  Files in the `org-html-themes` directory are taken from [[https://github.com/fniessen/org-html-themes][GitHub: fniessen/org-html-themes]].
