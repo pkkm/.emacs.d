@@ -59,8 +59,8 @@
   (setq preview-scale-function #'my-latex-preview-scale)
 
   ;; Make the " key use `csquotes'. (If this doesn't work, try pressing C-c C-n.)
-  (setq LaTeX-csquotes-close-quote "}")
-  (setq LaTeX-csquotes-open-quote "\\enquote{"))
+  (setq LaTeX-csquotes-open-quote "\\enquote{")
+  (setq LaTeX-csquotes-close-quote "}"))
 
 ;; Latexmk support.
 (use-package auctex-latexmk
