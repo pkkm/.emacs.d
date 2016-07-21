@@ -1,7 +1,8 @@
 ;;; ESS (Emacs Speaks Statistics).
 
-(use-package ess-site
+(use-package ess
   :config
-  (ess-toggle-S-assign nil)) ; Don't replace "_" with " <- ".
+  (with-eval-after-load 'ess-s-l
+    (ess-toggle-S-assign nil))) ; Don't replace "_" with " <- ".
 
 (provide 'conf/mode-specific/ess)
