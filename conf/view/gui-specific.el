@@ -48,14 +48,4 @@
   ;;(setq icon-title-format frame-title-format)
 
 
-  ;;; Start Emacs maximized.
-
-  (defun maximize-frame-if-visible ()
-    "Maximize the current frame if it's visible (not minimized)."
-    (unless (frame-parameter nil 'fullscreen)
-      (toggle-frame-maximized)))
-
-  (add-hook 'emacs-startup-hook #'maximize-frame-if-visible))
-
-
 (provide 'conf/view/gui-specific)
