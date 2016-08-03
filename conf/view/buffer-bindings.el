@@ -17,10 +17,6 @@
   (switch-to-buffer (other-buffer)))
 (bind-key "-" #'switch-to-other-buffer my-buffer-map)
 
-;; Previous/next.
-(bind-key "h" #'previous-buffer my-buffer-map)
-(bind-key "l" #'next-buffer my-buffer-map)
-
 ;; Delete (close/kill).
 (bind-key "c" #'kill-this-buffer my-buffer-map)
 
