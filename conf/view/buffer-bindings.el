@@ -51,4 +51,16 @@
 ;;   q -- quit
 (bind-key "b" #'ibuffer my-buffer-map)
 
+;; Display all buffers that are visiting a file.
+(bind-key "a" #'display-all-file-buffers-in-windows my-buffer-map)
+(require 'conf/utils/buffers) ; Used: buffers-opened-in-windows.
+(defun display-all-file-buffers-in-windows ()
+  "Display all buffers that are visiting a file."
+  (interactive)
+  (->> (-difference (buffer-list) (buffers-opened-in-windows))
+       (-filter #'buffer-file-name) ; Only buffers that are visiting a file.
+       (-map (lambda (buffer)
+               (display-buffer-pop-up-window buffer '((allow-no-window . t))))))
+  (balance-windows))
+
 (provide 'conf/view/buffer-bindings)
