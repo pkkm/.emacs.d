@@ -67,6 +67,8 @@
   :ensure t
   :init
   (with-eval-after-load 'tex
-    (auctex-latexmk-setup)))
+    (auctex-latexmk-setup))
+  :config
+  (setq auctex-latexmk-inherit-TeX-PDF-mode t)) ; Compile to PDF when `TeX-PDF-mode' is active.
 
 (provide 'conf/mode-specific/latex)
