@@ -64,6 +64,11 @@
   (setq org-hide-leading-stars t) ; Make leading stars of headlines background color.
   (setq org-fontify-done-headline t) ; Mark the whole headline of a DONE task with a different face.
 
+  ;; Indent guides.
+  ;; We don't use `with-eval-after-load' because `indent-guide-mode' is autoloaded, so it would never load.
+  (require 'conf/view/indent-guides)
+  (add-hook 'org-mode-hook #'indent-guide-mode)
+
   ;; Inline LaTeX formula rendering (Org recognizes "\(", "\[", etc.).
   ;; To render: C-c C-x C-l, to undo: C-c C-c. To render on startup: "#+STARTUP: latexpreview".
   (plist-put org-format-latex-options :scale 1.8) ; Larger formulas.
