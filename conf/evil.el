@@ -1,9 +1,5 @@
 ;;; Evil (Extensible VI Layer).
 
-;; Make Evil's > and < always indent by `tab-width'.
-;; Has to happen before installing or loading Evil, because Evil makes `evil-shift-width' buffer local, and therefore impossible to declare as an alias. (`:init' section of `use-package' executes after installation.)
-(defvaralias 'evil-shift-width 'tab-width)
-
 (use-package evil
   :preface
   (package-ensure-version 'evil "20150915") ; First version in which y works in motion state and Y can yank from cursor to end of line.
@@ -25,6 +21,8 @@
   (setq evil-flash-delay 999999) ; Number of seconds to highlight matches for.
 
   (setq evil-echo-state nil) ; Don't echo state in the echo area (minibuffer).
+
+  (setq evil-shift-round nil) ; When using < or >, don't round indentation to `evil-shift-width'.
 
 
   ;;; Tweak Vim bindings.
