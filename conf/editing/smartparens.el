@@ -119,7 +119,7 @@
 
     ;; Join, split.
     (evil-define-key 'normal sp-keymap (kbd "g p s") #'sp-split-sexp) ; With non-numeric prefix, split all the sexps in current one into separate sexps.
-    (evil-define-key 'normal sp-keymap (kbd "g p T") #'sp-join-sexp) ; With prefix ARG, join with that many following expressions (ARG can be negative). ("T" is for consistency with my binding for "join line".)
+    (evil-define-key 'normal sp-keymap (kbd "g p j") #'sp-join-sexp) ; With prefix ARG, join with that many following expressions (ARG can be negative). ("T" is for consistency with my binding for "join line".)
 
     (evil-define-text-object evil-sp-a-sexp (count &rest other-args)
       "Text object for the enclosing sexp. With COUNT, use the COUNTth sexp up."
