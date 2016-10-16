@@ -88,6 +88,7 @@
       (latex-block 'smart-comment
                    "\\usepackage[all]{onlyamsmath} % Add improved math macros, disable standard ones."
                    "\\usepackage{amsfonts} % E.g. \\`mathbb'."
+                   "\\usepackage{dsfont} % Blackboard bold that includes numbers (unlike \\`mathbb'). Requires \\`texlive-fonts-extra'. Example: \\\mathds{1}"
                    "")
 
       "% Graphics."
