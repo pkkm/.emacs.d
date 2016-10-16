@@ -69,6 +69,7 @@
   (with-eval-after-load 'tex
     (auctex-latexmk-setup))
   :config
+  (setq TeX-command-default "LatexMk") ; Replace "LaTeX" as the default AUCTeX command.
   (setq auctex-latexmk-inherit-TeX-PDF-mode t)) ; Compile to PDF when `TeX-PDF-mode' is active.
 
 (provide 'conf/mode-specific/latex)
