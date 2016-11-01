@@ -60,6 +60,14 @@
       (latex-block 'smart-comment "\\usepackage{enumitem} % Adds features to \\`itemize' and \\`enumerate'.")
       ""
 
+      "% Alternative fonts."
+      (latex-block 'smart-comment
+                   "\\usepackage{fontspec}"
+                   "\\setmainfont{Linux Libertine O}"
+                   "\\setsansfont{Carlito} % Replacement for Calibri. Alternatives: Linux Biolinum O, Open Sans (the default for scrartcl)."
+                   "\\setmonofont{Consolas} % Alternatives: DejaVu Sans Mono, Inconsolata."
+                   "")
+
       "% Suppress page numbers if there's only one page."
       "\\usepackage{zref-totpages}"
       "\\AtBeginDocument{\\ifnum\\ztotpages=1{\\pagenumbering{gobble}}\\fi}"
