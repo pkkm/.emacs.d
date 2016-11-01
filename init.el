@@ -57,6 +57,9 @@
 ;; To update installed packages, use M-x package-list-packages RET U x.
 ;; Or delete the elpa/ directory and launch Emacs for it to be recreated.
 
+;; Verify TLS certificates. (To test this, run `test-https-verification' from `conf/utils/https'.)
+(setq gnutls-verify-error t)
+
 ;; First time that `package-install' is called in this session, refresh the package list (if it wasn't already refreshed).
 ;; A variable is used instead of removing the advice using `ad-remove-advice' and `ad-update' because on Emacs 24.3 and earlier, removing an advice while it's executing causes an error.
 (defvar packages-refreshed-this-session-p nil
