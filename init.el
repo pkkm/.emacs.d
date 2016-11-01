@@ -112,8 +112,8 @@ If a PACKAGE (as a symbol) is older than MIN-VERSION, install its newest version
 (package-ensure-installed 'bind-key)
 (autoload 'bind-key "bind-key")
 
-;; Configure packages in a tidy, performance-oriented way.
-(package-ensure-version 'use-package "20160226") ; Can be any version after `use-package-always-defer' was introduced.
+;; Configure packages in an elegant and performant way.
+(package-ensure-version 'use-package "20160226") ; Any version after `use-package-always-defer' was introduced.
 (setq use-package-always-defer t) ; Assume `:defer t' by default.
 (eval-when-compile
   (require 'use-package))
