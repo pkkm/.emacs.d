@@ -1,4 +1,4 @@
-;;; Enable commands that new users often find confusing.
+;;; Enable commands that new users often find confusing. -*- lexical-binding: t -*-
 
 (put 'narrow-to-region 'disabled nil)
 

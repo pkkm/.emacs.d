@@ -1,4 +1,4 @@
-;;; Evil (Extensible VI Layer).
+;;; Evil (Extensible VI Layer). -*- lexical-binding: t -*-
 
 (use-package evil
   :preface

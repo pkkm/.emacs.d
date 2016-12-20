@@ -1,4 +1,4 @@
-;;; UI elements (toolbar, menubar, etc).
+;;; UI elements (toolbar, menubar, etc). -*- lexical-binding: t -*-
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)

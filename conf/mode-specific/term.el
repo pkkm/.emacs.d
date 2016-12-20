@@ -1,4 +1,4 @@
-;;; Terminal modes.
+;;; Terminal modes. -*- lexical-binding: t -*-
 
 (use-package term ; Bundled with Emacs.
   :config

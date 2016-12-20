@@ -1,4 +1,4 @@
-;;; Confirmations.
+;;; Confirmations. -*- lexical-binding: t -*-
 
 ;; Prompt for "y" or "n" instead of "yes" or "no".
 (defalias 'yes-or-no-p 'y-or-n-p)

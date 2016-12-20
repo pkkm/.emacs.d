@@ -1,4 +1,4 @@
-;;; Pascal.
+;;; Pascal. -*- lexical-binding: t -*-
 
 (use-package pascal ; Bundled with Emacs.
   :config

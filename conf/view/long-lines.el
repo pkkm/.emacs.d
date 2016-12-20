@@ -1,4 +1,4 @@
-;;; Highlighting and wrapping of long lines.
+;;; Highlighting and wrapping of long lines. -*- lexical-binding: t -*-
 
 ;; When whitespace-mode is enabled, highlight long lines (and weird indentation).
 ;; Threshold column: `whitespace-line-column' (default: 80).

@@ -1,4 +1,4 @@
-;;; Exit insert, replace and visual states with C-SPC.
+;;; Exit insert, replace and visual states with C-SPC. -*- lexical-binding: t -*-
 
 (with-eval-after-load 'evil
   (dolist (key (list "C-SPC" "C-@"))

@@ -1,4 +1,4 @@
-;;; Modeline with left, center and right aligned parts (using powerline).
+;;; Modeline with left, center and right aligned parts (using powerline). -*- lexical-binding: t -*-
 
 (use-package powerline
   :ensure t

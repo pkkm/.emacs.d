@@ -1,4 +1,4 @@
-;;; Isend -- send parts of an Emacs buffer to a REPL.
+;;; Isend -- send parts of an Emacs buffer to a REPL. -*- lexical-binding: t -*-
 
 (use-package isend-mode
   :ensure t

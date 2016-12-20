@@ -1,4 +1,4 @@
-;;; Fundamental mode customizations.
+;;; Fundamental mode customizations. -*- lexical-binding: t -*-
 
 (setq sentence-end-double-space nil)
 

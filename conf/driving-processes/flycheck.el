@@ -1,4 +1,4 @@
-;;; Flycheck -- on-the-fly syntax checker.
+;;; Flycheck -- on-the-fly syntax checker. -*- lexical-binding: t -*-
 
 ;; Enable by default.
 (use-package flycheck

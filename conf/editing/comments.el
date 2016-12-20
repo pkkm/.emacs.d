@@ -1,4 +1,4 @@
-;;; Handling comments.
+;;; Handling comments. -*- lexical-binding: t -*-
 
 ;; Never indent right-margin comments.
 (defvar my-never-indent-right-margin-comments t

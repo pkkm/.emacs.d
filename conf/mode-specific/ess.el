@@ -1,4 +1,4 @@
-;;; ESS (Emacs Speaks Statistics).
+;;; ESS (Emacs Speaks Statistics). -*- lexical-binding: t -*-
 
 (use-package ess
   :config

@@ -1,4 +1,4 @@
-;;; Auto-saving.
+;;; Auto-saving. -*- lexical-binding: t -*-
 
 ;; Savefiles for the lists of auto-save files.
 ;; Despite `user-emacs-directory' being set in init.el to my directory for savefiles, auto-save file lists would still be stored under ~/.emacs.d/auto-save-list (something in `startup.el' seems to be responsible for this), so we have to set this manually.

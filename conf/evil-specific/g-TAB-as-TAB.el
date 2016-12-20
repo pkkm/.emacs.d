@@ -1,4 +1,4 @@
-;;; Make "g TAB" do what "TAB" would normally do in the current major mode.
+;;; Make "g TAB" do what "TAB" would normally do in the current major mode. -*- lexical-binding: t -*-
 
 (with-eval-after-load 'evil
   (defun current-major-mode-TAB ()

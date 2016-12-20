@@ -1,4 +1,4 @@
-;;; Utilities for handling paths.
+;;; Utilities for handling paths. -*- lexical-binding: t -*-
 
 (defun shorten-path (path max-length)
   "Shorten PATH to up to MAX-LENGTH characters."

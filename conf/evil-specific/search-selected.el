@@ -1,4 +1,4 @@
-;;; Search for selected text with # and * in visual state.
+;;; Search for selected text with # and * in visual state. -*- lexical-binding: t -*-
 
 (use-package evil-visualstar
   :ensure t

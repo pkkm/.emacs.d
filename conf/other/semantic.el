@@ -1,4 +1,4 @@
-;;; Semantic (part of CEDET) -- syntax-aware features for various languages.
+;;; Semantic (part of CEDET) -- syntax-aware features for various languages. -*- lexical-binding: t -*-
 ;; Keys are bound globally instead of in semantic-mode-map because otherwise they would shadow major-mode's bindings.
 
 (use-package semantic ; Bundled with Emacs.

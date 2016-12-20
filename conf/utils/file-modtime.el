@@ -1,4 +1,4 @@
-;;; Utilities for handling file modification times.
+;;; Utilities for handling file modification times. -*- lexical-binding: t -*-
 
 (defun file-modtime (file)
   "Get the last modification time of FILE.

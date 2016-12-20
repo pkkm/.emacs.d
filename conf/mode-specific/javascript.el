@@ -1,4 +1,4 @@
-;;; Javascript.
+;;; Javascript. -*- lexical-binding: t -*-
 
 ;; Javascript IDE.
 (use-package js2-mode

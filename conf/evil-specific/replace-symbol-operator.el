@@ -1,4 +1,4 @@
-;;; An operator for replacing the symbol under point in an user-supplied part of buffer.
+;;; An operator for replacing the symbol under point in an user-supplied part of buffer. -*- lexical-binding: t -*-
 ;; Especially useful with C-M-h (mark-defun).
 
 (require 'cl-lib)

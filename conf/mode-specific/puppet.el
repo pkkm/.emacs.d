@@ -1,4 +1,4 @@
-;;; Puppet manifests.
+;;; Puppet manifests. -*- lexical-binding: t -*-
 
 (use-package puppet-mode
   :ensure t

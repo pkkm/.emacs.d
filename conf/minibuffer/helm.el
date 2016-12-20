@@ -1,4 +1,4 @@
-;;; Helm -- an alternative to ido-mode with more features, but no flx matching.
+;;; Helm -- an alternative to ido-mode with more features, but no flx matching. -*- lexical-binding: t -*-
 
 (use-package helm
   :ensure t

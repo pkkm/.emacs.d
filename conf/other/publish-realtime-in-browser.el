@@ -1,4 +1,4 @@
-;;; Impatient Mode -- see the contents of a buffer in a browser, real-time.
+;;; Impatient Mode -- see the contents of a buffer in a browser, real-time. -*- lexical-binding: t -*-
 
 ;; `html-mode' and `web-mode' buffers are published verbatim (configurable in `imp-default-user-filters'; use `imp-toggle-htmlize' to toggle for the current buffer). If another file (e.g. CSS) is referenced in the HTML, you can enable `impatient-mode' in it to see the changes live.
 ;; Buffers in other modes are run through a filter, by default `htmlize' (to change this, see the README of `impatient-mode').

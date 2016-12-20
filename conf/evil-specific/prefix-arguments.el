@@ -1,4 +1,4 @@
-;;; Replacements for `universal-argument' and `negative-argument' for use in Evil.
+;;; Replacements for `universal-argument' and `negative-argument' for use in Evil. -*- lexical-binding: t -*-
 
 (with-eval-after-load 'evil
   ;; Make C-u in insert state kill backward to indentation.

@@ -1,4 +1,4 @@
-;;; Hook utilities.
+;;; Hook utilities. -*- lexical-binding: t -*-
 
 (defun add-hooks (hooks function)
   "Like `add-hook', but accepts multiple hooks (as a list of symbols)."

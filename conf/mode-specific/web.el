@@ -1,4 +1,4 @@
-;;; Configuration for web-mode -- a mode for mixed HTML, CSS, PHP and Javascript.
+;;; Configuration for web-mode -- a mode for mixed HTML, CSS, PHP and Javascript. -*- lexical-binding: t -*-
 
 (use-package web-mode
   :ensure t

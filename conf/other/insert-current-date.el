@@ -1,10 +1,8 @@
-;;; A keybinding for inserting the current date.
+;;; A keybinding for inserting the current date. -*- lexical-binding: t -*-
 
 (defun insert-current-date (arg)
   (interactive "P")
-  (insert (if arg
-              (format-time-string "%Y-%m-%d %H:%M")
-            (format-time-string "%Y-%m-%d"))))
+  (insert (format-time-string (if arg "%Y-%m-%d %H:%M" "%Y-%m-%d"))))
 
 (bind-key "C-x C-d" #'insert-current-date) ; Shadows binding for listing a directory.
 

@@ -1,4 +1,4 @@
-;;; Count lines, words and characters in buffer.
+;;; Count lines, words and characters in buffer. -*- lexical-binding: t -*-
 
 ;; g C-g: count in buffer or region, if active.
 (with-eval-after-load 'evil

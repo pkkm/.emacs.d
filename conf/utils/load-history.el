@@ -1,4 +1,4 @@
-;;; Utilities for extracting information from the `load-history' variable.
+;;; Utilities for extracting information from the `load-history' variable. -*- lexical-binding: t -*-
 ;; NOTE: The function in this file is currently unused.
 
 (require 'cl-lib)

@@ -1,4 +1,4 @@
-;;; Support for the paste.debian.net pastebin.
+;;; Support for the paste.debian.net pastebin. -*- lexical-binding: t -*-
 
 (use-package debpaste
   :ensure t

@@ -1,4 +1,4 @@
-;;; File backups.
+;;; File backups. -*- lexical-binding: t -*-
 ;; To disable, (setq make-backup-files nil).
 
 (setq backup-by-copying t) ; Slower, but won't make hard links point to the backup.

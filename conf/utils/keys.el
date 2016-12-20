@@ -1,4 +1,4 @@
-;;; Utilities for key sequences and keymaps.
+;;; Utilities for key sequences and keymaps. -*- lexical-binding: t -*-
 
 
 ;;; Key sequences.

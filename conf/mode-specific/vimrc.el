@@ -1,4 +1,4 @@
-;;; Vim configuration files (also useful for pentadactylrc, etc.).
+;;; Vim configuration files (also useful for pentadactylrc, etc.). -*- lexical-binding: t -*-
 
 (use-package vimrc-mode
   :ensure t

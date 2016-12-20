@@ -1,4 +1,4 @@
-;;; Color identifiers (variables, etc.) based on their name.
+;;; Color identifiers (variables, etc.) based on their name. -*- lexical-binding: t -*-
 
 (use-package color-identifiers-mode
   :ensure t

@@ -1,4 +1,4 @@
-;;; Buffer utilities.
+;;; Buffer utilities. -*- lexical-binding: t -*-
 
 (defun buffers-opened-in-windows ()
   "A list of all buffers that are opened in a window."

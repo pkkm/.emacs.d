@@ -1,4 +1,4 @@
-;;; Configuration specific to graphical Emacs.
+;;; Configuration specific to graphical Emacs. -*- lexical-binding: t -*-
 
 (when (display-graphic-p)
 

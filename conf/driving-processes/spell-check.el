@@ -1,4 +1,4 @@
-;;; Spell checking.
+;;; Spell checking. -*- lexical-binding: t -*-
 
 (use-package flyspell ; Included in Emacs.
   :diminish "FlyS" ; Default: "Fly".

@@ -1,4 +1,4 @@
-;;; Indentation.
+;;; Indentation. -*- lexical-binding: t -*-
 
 ;; For specific languages, use Smart Tabs -- indent with tabs, align with spaces.
 ;; To enable for a language:

@@ -1,4 +1,4 @@
-;;; Clojure-specific configuration.
+;;; Clojure-specific configuration. -*- lexical-binding: t -*-
 
 ;; Clojure IDE.
 (use-package cider

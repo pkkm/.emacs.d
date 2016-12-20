@@ -1,4 +1,4 @@
-;;; Smartparens -- a modern alternative to paredit.
+;;; Smartparens -- a modern alternative to paredit. -*- lexical-binding: t -*-
 
 (use-package smartparens
   :ensure t

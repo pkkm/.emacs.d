@@ -1,4 +1,4 @@
-;;; Functions for modes.
+;;; Functions for modes. -*- lexical-binding: t -*-
 
 (require 'cl-lib) ; Used: cl-loop.
 (defun derived-mode-hierarchy (mode)

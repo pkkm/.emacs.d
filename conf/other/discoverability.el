@@ -1,4 +1,4 @@
-;;; Discoverability features.
+;;; Discoverability features. -*- lexical-binding: t -*-
 
 (use-package which-key
   :ensure t

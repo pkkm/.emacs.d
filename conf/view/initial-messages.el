@@ -1,4 +1,4 @@
-;;; Messages that are displayed when Emacs starts up.
+;;; Messages that are displayed when Emacs starts up. -*- lexical-binding: t -*-
 
 ;; Suppress the warning about .emacs.d being in `load-path'.
 (defadvice display-warning

@@ -1,4 +1,4 @@
-;;; Driving compilers using Emacs.
+;;; Driving compilers using Emacs. -*- lexical-binding: t -*-
 
 
 ;;; Setting default compilation, execution and cleaning commands for major modes.

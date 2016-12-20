@@ -1,4 +1,4 @@
-;;; Make the bell less annoying that either the audible or the visible one.
+;;; Make the bell less annoying that either the audible or the visible one. -*- lexical-binding: t -*-
 
 (use-package echo-bell
   :ensure t

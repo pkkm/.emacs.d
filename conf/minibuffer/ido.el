@@ -1,4 +1,4 @@
-;;; Ido (Interactively DO) mode -- powerful completion in the minibuffer.
+;;; Ido (Interactively DO) mode -- powerful completion in the minibuffer. -*- lexical-binding: t -*-
 ;;; This file is for general Ido settings -- for buffer, etc.-specific, see the respective files.
 
 ;; Useful ido-mode default keybindings:

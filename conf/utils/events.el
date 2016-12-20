@@ -1,4 +1,4 @@
-;;; Functions for events (single key/mouse combinations).
+;;; Functions for events (single key/mouse combinations). -*- lexical-binding: t -*-
 
 (defconst modifier-description-alist
   '((meta . "M-")

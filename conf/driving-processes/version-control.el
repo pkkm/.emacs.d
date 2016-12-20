@@ -1,4 +1,4 @@
-;;; Version control interfaces.
+;;; Version control interfaces. -*- lexical-binding: t -*-
 
 ;; Magit (version 2 requires Emacs 24.4+).
 ;; Before upgrading from Magit 1 to 2, be sure to uninstall `magit', `git-commit-mode' and `git-rebase-mode'.

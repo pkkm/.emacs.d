@@ -1,4 +1,4 @@
-;;; Windows.
+;;; Windows. -*- lexical-binding: t -*-
 
 ;; Track the most recently created window.
 (defvar most-recently-created-window nil

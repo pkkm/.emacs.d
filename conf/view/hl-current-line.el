@@ -1,4 +1,4 @@
-;;; Highlight the line with the point.
+;;; Highlight the line with the point. -*- lexical-binding: t -*-
 
 (use-package hl-line ; Bundled with Emacs.
   :if (>= (display-color-cells) 16)

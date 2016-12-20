@@ -1,4 +1,4 @@
-;;; A fix for Portable Keyboard Layout (the program I use to get Programmer Dvorak on other people's computers) sending C-<number> instead of C-<symbol>.
+;;; A fix for Portable Keyboard Layout (the program I use to get Programmer Dvorak on other people's computers) sending C-<number> instead of C-<symbol>. -*- lexical-binding: t -*-
 
 (require 'cl-lib) ; Used: cl-loop.
 

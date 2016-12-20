@@ -1,4 +1,4 @@
-;;; Customization of Emacs calculator mode.
+;;; Customization of Emacs calculator mode. -*- lexical-binding: t -*-
 
 (defun my-calc-workspace ()
   "Display only Calc and Trail buffers."

@@ -1,4 +1,4 @@
-;;; CSV, TSV, etc.
+;;; CSV, TSV, etc. -*- lexical-binding: t -*-
 
 (use-package csv-mode
   :ensure t

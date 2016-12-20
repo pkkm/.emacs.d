@@ -1,4 +1,4 @@
-;;; Functions for manipuating colors.
+;;; Functions for manipuating colors. -*- lexical-binding: t -*-
 
 (require 'color) ; Used: color-rgb-to-hex, color-name-to-rgb, color-defined-p.
 (require 'cl-lib) ; Used: cl-destructuring-bind.

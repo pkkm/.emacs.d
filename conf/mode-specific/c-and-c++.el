@@ -1,4 +1,4 @@
-;;; C and C++.
+;;; C and C++. -*- lexical-binding: t -*-
 
 (use-package cc-mode ; Bundled with Emacs.
   :config

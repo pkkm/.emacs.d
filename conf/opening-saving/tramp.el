@@ -1,4 +1,4 @@
-;;; TRAMP -- transparent manipulating of remote files.
+;;; TRAMP -- transparent manipulating of remote files. -*- lexical-binding: t -*-
 
 (use-package tramp
   :config

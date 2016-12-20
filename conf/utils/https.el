@@ -1,4 +1,4 @@
-;;; Test HTTPS verification.
+;;; Test HTTPS verification. -*- lexical-binding: t -*-
 
 (defun test-https-verification ()
   "Test Emacs' HTTPS verification by contacting a few sites. Signal an error if an invalid certificate is accepted."

@@ -1,4 +1,4 @@
-;;; Jumping to mark/register.
+;;; Jumping to mark/register. -*- lexical-binding: t -*-
 ;; Emacs registers are global, in contrast to Evil's buffer-local markers. They also can be used for storing window configurations, file names, etc.
 
 (with-eval-after-load 'evil

@@ -1,4 +1,4 @@
-;;; Undo the last modification in region.
+;;; Undo the last modification in region. -*- lexical-binding: t -*-
 ;;; Does not work at end of file!
 
 ;; In visual state, use "u" for undoing instead of lowercasing ("g u").

@@ -1,4 +1,4 @@
-;;; Compilation-mode -- for displaying results of compilation, grep, search, etc.
+;;; Compilation-mode -- for displaying results of compilation, grep, search, etc. -*- lexical-binding: t -*-
 
 (use-package compile ; Bundled with Emacs.
   :config

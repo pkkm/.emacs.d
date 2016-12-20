@@ -1,4 +1,4 @@
-;;; Trailing whitespace settings.
+;;; Trailing whitespace settings. -*- lexical-binding: t -*-
 
 ;;; Automatically trim trailing whitespace in edited lines.
 

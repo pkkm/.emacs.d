@@ -1,4 +1,4 @@
-;;; Default choice in minibuffer prompts.
+;;; Default choice in minibuffer prompts. -*- lexical-binding: t -*-
 
 ;; Shorten "(default ...)" to "[...]".
 (setq minibuffer-eldef-shorten-default t)

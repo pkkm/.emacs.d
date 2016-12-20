@@ -1,4 +1,4 @@
-;;; Support for editing CMakeLists.txt files.
+;;; Support for editing CMakeLists.txt files. -*- lexical-binding: t -*-
 
 (use-package cmake-mode
   :ensure t)

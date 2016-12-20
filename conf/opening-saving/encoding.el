@@ -1,4 +1,4 @@
-;;; Use UTF-8 by default, no matter the system we're running on.
+;;; Use UTF-8 by default, no matter the system we're running on. -*- lexical-binding: t -*-
 
 ;; To specify a coding argument for the next command, use:
 ;;   M-x universal-coding-system-argument RET

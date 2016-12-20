@@ -1,4 +1,4 @@
-;;; Increment the number at point.
+;;; Increment the number at point. -*- lexical-binding: t -*-
 ;; To decrement, use a negative prefix argument.
 
 (use-package evil-numbers

@@ -1,4 +1,4 @@
-;;; Display ^L (page breaks) as horizontal lines.
+;;; Display ^L (page breaks) as horizontal lines. -*- lexical-binding: t -*-
 
 (use-package page-break-lines
   :ensure t

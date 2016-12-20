@@ -1,4 +1,4 @@
-;;; "Little word" -- like `w', but for CamelCase and under_scores.
+;;; "Little word" -- like `w', but for CamelCase and under_scores. -*- lexical-binding: t -*-
 
 (with-eval-after-load 'evil
   (bind-key "C-w" #'evil-little-word evil-motion-state-map)

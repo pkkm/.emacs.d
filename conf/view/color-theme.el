@@ -1,4 +1,4 @@
-;;; Color theme.
+;;; Color theme. -*- lexical-binding: t -*-
 
 ;; Create `after-load-theme-hook'.
 ;; TODO submit this upstream?

@@ -1,4 +1,4 @@
-;;; Indentation guides.
+;;; Indentation guides. -*- lexical-binding: t -*-
 
 (require 'conf/utils/colors) ; Used: color-mix.
 

@@ -1,4 +1,4 @@
-;;; YAML (including Ansible files).
+;;; YAML (including Ansible files). -*- lexical-binding: t -*-
 
 (use-package yaml-mode
   :ensure t)

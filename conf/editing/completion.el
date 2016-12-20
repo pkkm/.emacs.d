@@ -1,4 +1,4 @@
-;;; Completion.
+;;; Completion. -*- lexical-binding: t -*-
 
 ;; Make TAB indent on the first press, and activate completion on the second.
 (setq tab-always-indent 'complete)

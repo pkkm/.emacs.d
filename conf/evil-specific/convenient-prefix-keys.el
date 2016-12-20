@@ -1,4 +1,4 @@
-;;; Bind keys from some prefixes in different ones, making them more convenient.
+;;; Bind keys from some prefixes in different ones, making them more convenient. -*- lexical-binding: t -*-
 
 ;; Conventions for the C-c prefix:
 ;;   * Letter (upper or lower case): reserved for the user.

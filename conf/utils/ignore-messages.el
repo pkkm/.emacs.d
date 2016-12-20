@@ -1,4 +1,4 @@
-;;; Ignore some or all `message's from a piece of code.
+;;; Ignore some or all `message's from a piece of code. -*- lexical-binding: t -*-
 
 (require 'cl-lib) ; Used: cl-letf.
 

@@ -1,4 +1,4 @@
-;;; Eldoc minor mode -- show function arguments in the minibuffer.
+;;; Eldoc minor mode -- show function arguments in the minibuffer. -*- lexical-binding: t -*-
 
 (use-package eldoc ; Included with Emacs.
   :diminish eldoc-mode

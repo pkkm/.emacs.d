@@ -1,4 +1,4 @@
-;;; Python.
+;;; Python. -*- lexical-binding: t -*-
 
 (use-package elpy
   :ensure t

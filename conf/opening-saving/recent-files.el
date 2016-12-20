@@ -1,4 +1,4 @@
-;;; Remember recently opened files and allow quick access to them.
+;;; Remember recently opened files and allow quick access to them. -*- lexical-binding: t -*-
 
 (use-package recentf ; Bundled with Emacs.
   :init

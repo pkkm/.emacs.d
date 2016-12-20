@@ -1,4 +1,4 @@
-;;; NXml -- advanced XML editing mode with validation.
+;;; nXML -- advanced XML editing mode with validation. -*- lexical-binding: t -*-
 
 (use-package nxml-mode ; Bundled with Emacs.
   :mode "\\.xsd\\'" ; Use for XML Schema files.

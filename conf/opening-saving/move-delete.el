@@ -1,4 +1,4 @@
-;;; Move/delete file.
+;;; Move/delete file. -*- lexical-binding: t -*-
 
 (defun move-this-buffer-and-file ()
   "Moves (renames) the current buffer and the file it is visiting (after saving it)."

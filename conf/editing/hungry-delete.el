@@ -1,4 +1,4 @@
-;;; Hungry delete -- delete all whitespace before point.
+;;; Hungry delete -- delete all whitespace before point. -*- lexical-binding: t -*-
 
 (use-package hungry-delete
   :ensure t

@@ -1,4 +1,4 @@
-;;; How to split windows automatically (for example, for help).
+;;; How to split windows automatically (for example, for help). -*- lexical-binding: t -*-
 
 (defvar my-split-window/form-factor 2
   "If width/height of the window is at least as large as this number, split right, otherwise below.")

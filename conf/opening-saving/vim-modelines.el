@@ -1,4 +1,4 @@
-;;; Read Vim modelines (like file-local variables in Emacs).
+;;; Read Vim modelines (like file-local variables in Emacs). -*- lexical-binding: t -*-
 ;; Example: /* vim: shiftwidth=4 expandtab: */.
 ;; (Warning: the above example may mess up the indentation in this file.)
 

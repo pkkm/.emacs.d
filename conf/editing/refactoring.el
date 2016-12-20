@@ -1,4 +1,4 @@
-;;; Refactoring.
+;;; Refactoring. -*- lexical-binding: t -*-
 ;; For a list of supported languages, see <https://github.com/chrisbarrett/emacs-refactor>.
 
 (use-package emr

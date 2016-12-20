@@ -1,4 +1,4 @@
-;;; Ediff -- a mode for merging files.
+;;; Ediff -- a mode for merging files. -*- lexical-binding: t -*-
 ;; When using Ediff, press h for help.
 
 (use-package ediff ; Bundled with Emacs.

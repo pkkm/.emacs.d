@@ -1,4 +1,4 @@
-;;; Support for GitHub Gist (a pastebin with many features).
+;;; Support for GitHub Gist (a pastebin with many features). -*- lexical-binding: t -*-
 
 (use-package gist
   :ensure t

@@ -1,4 +1,4 @@
-;;; Smex -- like Ido mode, for M-x.
+;;; Smex -- like Ido mode, for M-x. -*- lexical-binding: t -*-
 
 (use-package smex
   :ensure t

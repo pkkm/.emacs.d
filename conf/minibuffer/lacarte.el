@@ -1,4 +1,4 @@
-;;; Lacarte -- execute menu commands using the keyboard.
+;;; Lacarte -- execute menu commands using the keyboard. -*- lexical-binding: t -*-
 
 (use-package lacarte
   :ensure t

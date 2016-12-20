@@ -1,4 +1,4 @@
-;;; "Whole buffer" text object.
+;;; "Whole buffer" text object. -*- lexical-binding: t -*-
 
 (with-eval-after-load 'evil
   ;; ah -- whole buffer.

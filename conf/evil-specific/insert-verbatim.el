@@ -1,4 +1,4 @@
-;;; Insert a character verbatim.
+;;; Insert a character verbatim. -*- lexical-binding: t -*-
 
 (with-eval-after-load 'evil
   (bind-key "C-v" #'quoted-insert evil-insert-state-map)

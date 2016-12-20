@@ -1,4 +1,4 @@
-;;; SGML (parent of HTML).
+;;; SGML (parent of HTML). -*- lexical-binding: t -*-
 
 (use-package sgml-mode ; Bundled with Emacs.
   :config

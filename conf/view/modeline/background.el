@@ -1,4 +1,4 @@
-;;; Change the background of the modeline according to Evil state.
+;;; Change the background of the modeline according to Evil state. -*- lexical-binding: t -*-
 
 (use-package ht :ensure t)
 

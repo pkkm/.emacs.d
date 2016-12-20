@@ -1,4 +1,4 @@
-;;; Wrapping lines.
+;;; Wrapping lines. -*- lexical-binding: t -*-
 
 (setq-default fill-column 80)
 

@@ -1,4 +1,4 @@
-;;; Haskell.
+;;; Haskell. -*- lexical-binding: t -*-
 ;; Things to consider adding in the future:
 ;;   * https://github.com/chrisdone/hindent
 ;;   * https://github.com/chrisdone/structured-haskell-mode

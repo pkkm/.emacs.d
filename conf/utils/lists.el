@@ -1,4 +1,4 @@
-;;; Utilities for lists.
+;;; Utilities for lists. -*- lexical-binding: t -*-
 
 (defun recar (cell new-car)
   "Like `setcar', but creates a new cons cell instead of modifying CELL."

@@ -1,4 +1,4 @@
-;;; Emmet (formerly Zen Coding) -- expand abbreviations like "p>ul>li*5" into HTML/XML tags.
+;;; Emmet (formerly Zen Coding) -- expand abbreviations like "p>ul>li*5" into HTML/XML tags. -*- lexical-binding: t -*-
 
 (use-package emmet-mode
   :preface

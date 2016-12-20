@@ -1,4 +1,4 @@
-;;; Scrolling.
+;;; Scrolling. -*- lexical-binding: t -*-
 
 ;; Keep 3 lines visible around the point.
 (setq-default scroll-margin 3)

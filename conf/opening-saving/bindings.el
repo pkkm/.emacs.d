@@ -1,4 +1,4 @@
-;;; Key bindings for file-related commands.
+;;; Key bindings for file-related commands. -*- lexical-binding: t -*-
 
 ;; Find (open) file in the config directory.
 (with-eval-after-load 'ido

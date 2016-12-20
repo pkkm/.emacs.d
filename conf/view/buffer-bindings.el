@@ -1,4 +1,4 @@
-;;; Keys for buffers.
+;;; Keys for buffers. -*- lexical-binding: t -*-
 
 (defvar my-buffer-map (make-sparse-keymap)
   "Keymap for buffer-related commands.")
