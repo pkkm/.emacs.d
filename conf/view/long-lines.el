@@ -1,9 +1,5 @@
 ;;; Highlighting and wrapping of long lines. -*- lexical-binding: t -*-
 
-;; When whitespace-mode is enabled, highlight long lines (and weird indentation).
-;; Threshold column: `whitespace-line-column' (default: 80).
-(setq whitespace-style '(face lines-tail space-before-tab))
-
 ;; Wrap on word boundaries.
 (setq-default word-wrap t)
 
@@ -14,5 +10,11 @@
     (define-globalized-minor-mode global-adaptive-wrap-prefix-mode
       adaptive-wrap-prefix-mode adaptive-wrap-prefix-mode))
   (global-adaptive-wrap-prefix-mode))
+
+;; A mode for highlighting text that extends beyond a certain column.
+(use-package column-enforce-mode
+  :ensure t
+  :config
+  (setq column-enforce-column 80))
 
 (provide 'conf/view/long-lines)
