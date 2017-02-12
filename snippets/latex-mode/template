@@ -57,7 +57,7 @@
                      "\\usepackage[a4paper]{geometry} % Setting margins: \"top=5cm\" (later options have more priority)."
                      "\\usepackage{parskip} % Space instead of indent between paragraphs."))
       "\\usepackage{microtype} % Better typography." ; No longer needs to be loaded after fonts and babel (unless using "babel=true"). See <http://tex.stackexchange.com/questions/162137/loading-microtype-before-or-after-the-font>.
-      (latex-block 'smart-comment "\\usepackage{enumitem} % Add features to \\`itemize' and \\`enumerate'.")
+      "\\usepackage{enumitem} % Add features to \\`itemize' and \\`enumerate'."
       ""
 
       "% Alternative fonts."
@@ -93,11 +93,11 @@
                    "")
 
       "% Math."
-      (latex-block 'smart-comment
+      (latex-block 'verbatim
                    "\\usepackage[all]{onlyamsmath} % Add improved math macros, disable standard ones."
                    "\\usepackage{amsfonts} % E.g. \\`mathbb'.")
       "% Make \\`mathbb' work for numbers."
-      (latex-block 'smart-comment
+      (latex-block 'verbatim
                    "\\usepackage{dsfont} % Blackboard bold that includes numbers. Requires \\`texlive-fonts-extra'."
                    "\\usepackage{xstring} % For \\`IfInteger'."
                    "\\let\\oldmathbb\\mathbb"
@@ -110,13 +110,13 @@
 
       "% Tables."
       ;; Overview of table packages: <http://tex.stackexchange.com/questions/12672/which-tabular-packages-do-which-tasks-and-which-packages-conflict>.
-      (latex-block 'smart-comment
+      (latex-block 'verbatim
                    "\\usepackage{tabu} % Featureful replacement for \\`tabular'."
                    "\\usepackage{booktabs} % Elegant tables (use \\\\{top,mid,bottom}rule instead of \\hline; no \\vline)." ; `booktabs' examples: <http://www.howtotex.com/packages/improve-your-tables-with-booktabs/>.
                    "")
 
       "% Graphics."
-      (latex-block 'smart-comment
+      (latex-block 'verbatim
                    "\\usepackage{graphicx} % See <https://www.sharelatex.com/learn/Inserting_Images>. Example: \\begin{figure}[h] \\centering \\includegraphics[width=0.5\\textwidth]{spiral} \\caption{Spiral.} \\label{fig:spiral} \\end{figure}"
                    "\\usepackage{float} % For the \\`H' positioning specifier."
                    "\\usepackage{grffile} % Correctly handle complex file names."
@@ -125,7 +125,7 @@
                    "")
 
       "% Drawings."
-      (latex-block 'smart-comment
+      (latex-block 'verbatim
                    "\\usepackage{tikz}"
                    "\\usetikzlibrary{babel} % Fixes conflict with onlyamsmath (see <http://tex.stackexchange.com/questions/31860/conflict-onlyamsmath-and-tikz>)."
                    "")
@@ -137,7 +137,7 @@
                    "")
 
       "% Comments."
-      (latex-block 'smart-comment
+      (latex-block 'verbatim
                    "\\usepackage[normalem]{ulem} % \\`normalem' -- don't change \\emph."
                    "\\usepackage{color}"
                    "\\makeatletter"
