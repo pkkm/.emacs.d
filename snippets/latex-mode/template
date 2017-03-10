@@ -63,9 +63,10 @@
       "% Alternative fonts."
       (latex-block 'smart-comment
                    "\\usepackage{fontspec}"
-                   "\\setmainfont{Linux Libertine O}"
-                   "\\setsansfont{Carlito} % Replacement for Calibri. Alternatives: Linux Biolinum O, Open Sans (the default for scrartcl)."
+                   "\\setmainfont{Linux Libertine O} % Alternatives: Computer Modern (the default), TeX Gyre Pagella (with TeX Gyre Pagella Math), Cambria (with Cambria Math)."
+                   "\\setsansfont{Carlito} % Free replacement for Calibri. Alternatives: Linux Biolinum O, Open Sans (the default for scrartcl)."
                    "\\setmonofont{Consolas} % Alternatives: DejaVu Sans Mono, Inconsolata."
+                   "\\setsansfont{Gillius ADF} % Free replacement for Gill Sans. Alternatives: Sans Guilt MB, Sans Guilt DB, Cabin, Lato."
                    "")
 
       "% Suppress page numbers if there's only one page."
