@@ -6,12 +6,7 @@
   :ensure t
   :diminish ws-butler-mode
   :init
-  (add-hook 'prog-mode-hook #'ws-butler-mode)
-  :config
-  ;; Don't replace tabs with spaces, even when `indent-tabs-mode' is nil.
-  (defadvice ws-butler-clean-region (around my-ws-butler-dont-untabify activate)
-    (let ((indent-tabs-mode t))
-      ad-do-it)))
+  (add-hook 'prog-mode-hook #'ws-butler-mode))
 
 ;;; Highlight trailing whitespace in a buffer iff it's visiting a file.
 
