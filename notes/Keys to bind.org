@@ -8,7 +8,6 @@
 ** Redundant
    - C-j :: Same as RET.
    - C-k :: Kill line (same as d$).
-   - ^ :: First non-blank character in line (same as H).
 ** Unused
    - C-t :: Pop the tag mark.
 * Normal and insert state
