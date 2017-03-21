@@ -6,7 +6,19 @@
   :ensure t
   :bind ("C-c g" . magit-status)
   :init
+
   (setq magit-last-seen-setup-instructions "1.4.0") ; Don't display instructions which I've already seen.
+
+  ;; Keybindings for my `git-quick' script.
+  (defun my-magit-quick-sync ()
+    (interactive)
+    (magit-git-command "quick --sync" default-directory))
+  (bind-key "C-c s" #'my-magit-quick-sync)
+  (defun my-magit-quick-commit-and-sync ()
+    (interactive)
+    (magit-git-command "quick --add --commit --sync" default-directory))
+  (bind-key "C-c S" #'my-magit-quick-commit-and-sync)
+
   :config
 
   ;; For old (pre-2.1.0) Magit versions: don't show magit-auto-revert-mode in the modeline.
