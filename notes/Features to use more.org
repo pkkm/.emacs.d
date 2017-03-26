@@ -2,3 +2,4 @@
   - M-) :: Add a sexp at the current level.
   - C-M-c :: Exit recursive edit (resumes the command that started the recursive edit; e.g. when used in the debugger, continues execution).
   - C-SPC :: Search the current set of results in ido-mode.
+  - Text registers :: Instead of using the kill ring and pressing C-p/M-y a bunch of times ([[https://www.reddit.com/r/emacs/comments/61dank/what_are_some_advanced_editing_techniques_that/][inspiration]]).
