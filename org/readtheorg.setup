@@ -1,4 +1,9 @@
 # -*- mode: org -*-
 
 #+SETUPFILE: ~/.emacs.d/org/org-html-themes/theme-readtheorg.setup
+
+# Don't italicize quotes.
 #+HTML_HEAD: <style type="text/css">blockquote, .verse { font-style: normal }</style>
+
+# Make nested headlines darker.
+#+HTML_HEAD: <style type="text/css">h4, h5, h6 { color: #1c5880 }</style>
