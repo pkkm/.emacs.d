@@ -1,4 +1,9 @@
 # -*- mode: org -*-
 
 #+SETUPFILE: ~/.emacs.d/org/readtheorg.setup
-#+OPTIONS: timestamp:nil author:nil # Don't include creation date and the author's name.
+
+# Don't include creation date and the author's name.
+#+OPTIONS: timestamp:nil author:nil
+
+# Indent definition lists.
+#+HTML_HEAD: <style type="text/css">dl { margin-left: 24px; }</style>
