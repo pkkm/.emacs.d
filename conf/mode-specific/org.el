@@ -93,12 +93,14 @@
   (setq org-completion-use-ido t)
 
 
-  ;;; Automatic link description downloading.
+  ;;; Automatic link descriptions.
 
-  (use-package s :ensure t :commands s-trim s-collapse-whitespace)
+  (use-package s :ensure t)
+
   (autoload 'mm-url-decode-entities-string "mm-url")
-  (defun get-url-html-title (url &rest ignored)
+  (defun get-url-html-title (url &rest _)
     "Return the title of the HTML page at URL."
+    (require 's)
     (let ((download-buffer (url-retrieve-synchronously url))
           title-start title-end)
       (save-excursion
@@ -112,6 +114,26 @@
           (mm-url-decode-entities-string
            (buffer-substring-no-properties title-start title-end)))))))
 
+  (defun my-org-link-description (url &rest _)
+    "Return link description for URL in the format I use in my notes."
+    (require 's)
+    (let ((title (get-url-html-title url))
+          (host (url-host (url-generic-parse-url url)))
+          match)
+      (cond
+       ((and (s-matches? "\\(.+\\.\\)?reddit.com" host)
+             (s-contains? " : " title))
+        (cl-destructuring-bind (_ rest subreddit)
+            (s-match "\\(.*\\) : \\([^ :]+\\)" title)
+          (concat "Reddit /r/" subreddit ": " rest)))
+       ((setq match (s-match "\\(.*\\) - \\(.*\\)" title))
+        (cl-destructuring-bind (_ first-part second-part) match
+          (let* ((first-longer-p (>= (length first-part) (length second-part)))
+                 (longer (if first-longer-p first-part second-part))
+                 (shorter (if first-longer-p second-part first-part)))
+            (concat shorter ": " longer))))
+       (t title))))
+
   (defun my-org-toggle-auto-link-description ()
     "Toggle automatically downloading link descriptions."
     (interactive)
@@ -120,7 +142,15 @@
           (setq org-make-link-description-function nil)
           (message "Automatic link description downloading disabled."))
       (setq org-make-link-description-function #'get-url-html-title)
-      (message "Automatic link description downloading enabled."))))
+      (message "Automatic link description downloading enabled.")))
+
+  (defun my-org-insert-link ()
+    "Insert link in the format I use in my notes."
+    (interactive)
+    (let ((org-make-link-description-function #'my-org-link-description))
+      (call-interactively #'org-insert-link))
+    (insert (format-time-string " [%Y-%m-%d]")))
+  (bind-key "C-c M-l" #'my-org-insert-link org-mode-map))
 
 
 (use-package org-capture
