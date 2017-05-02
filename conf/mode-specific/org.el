@@ -179,12 +179,12 @@
 
   (setq org-default-notes-file "~/Documents/Inbox.org")
   (add-to-list 'org-capture-templates
-               `("n" "Quote in org-default-notes-file" entry
+               `("n" "Quote in org-default-notes-file" plain
                  (file "")
-                 ,(concat "* %?\n\n" ; %? -- cursor position after inserting.
-                          "  #+BEGIN_QUOTE\n"
-                          "  %i\n\n" ; %i -- initial content (see also %x -- X clipboard content).
-                          "  -- %a [%<%Y-%m-%d>]\n" ; %a -- link with description.
-                          "  #+END_QUOTE"))))
+                 ,(concat "#+BEGIN_QUOTE\n"
+                          "%i%?\n\n" ; %i -- initial content (see also %x -- X clipboard content); %? -- cursor position after inserting.
+                          "-- %a [%<%Y-%m-%d>]\n" ; %a -- link with description.
+                          "#+END_QUOTE")
+                 :empty-lines 1)))
 
 (provide 'conf/mode-specific/org)
