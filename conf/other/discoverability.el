@@ -13,20 +13,11 @@
 (use-package help-fns+ ; Installed in `my-vendor-dir' because the MELPA package is fetched from the wiki, which is insecure (as of 2017-06).
   :bind ("C-h M-k" . describe-keymap)) ; For autoloading.
 
-;; Add magit-like menus to dired and some others.
-;; Disabled because it was too intrusive (e.g. bound M-s to its own command in every major mode's map) and I haven't found a way to override its bindings.
-;;(use-package discover
-;;  :ensure t
-;;  :init
-;;  (global-discover-mode 1)
-;;  :config
-;;  ;; Evil: make the menu buffer be in Emacs state.
-;;  (with-eval-after-load 'evil
-;;    (evil-set-initial-state 'makey-key-mode 'emacs)))
-
 ;; C-h C-m -- show documentation for major mode commands (nicer than C-h m).
 (use-package discover-my-major
   :ensure t
   :bind ("C-h C-m" . discover-my-major))
+
+;; I tried to use discover.el but it was too intrusive (e.g. bound M-s to its own command in every major mode's map) and I haven't found a way to override its bindings.
 
 (provide 'conf/other/discoverability)
