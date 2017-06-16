@@ -10,8 +10,7 @@
   (setq which-key-idle-delay 0.5))
 
 ;; Lots of additional help functionality (e.g. `describe-keymap').
-(use-package help-fns+
-  :ensure t
+(use-package help-fns+ ; Installed in `my-vendor-dir' because the MELPA package is fetched from the wiki, which is insecure (as of 2017-06).
   :bind ("C-h M-k" . describe-keymap)) ; For autoloading.
 
 ;; Add magit-like menus to dired and some others.
