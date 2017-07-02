@@ -126,7 +126,7 @@
         (cl-destructuring-bind (_ rest subreddit)
             (s-match "\\(.*\\) : \\([^ :]+\\)" title)
           (concat "Reddit /r/" subreddit ": " rest)))
-       ((setq match (s-match "\\(.*\\) - \\(.*\\)" title))
+       ((setq match (s-match "\\(.*\\) [|-] \\(.*\\)" title))
         (cl-destructuring-bind (_ first-part second-part) match
           (let* ((first-longer-p (>= (length first-part) (length second-part)))
                  (longer (if first-longer-p first-part second-part))
