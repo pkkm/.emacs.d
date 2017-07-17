@@ -1,8 +1,8 @@
 ;;; Haskell. -*- lexical-binding: t -*-
 ;; Things to consider adding in the future:
+;;   * https://github.com/commercialhaskell/intero
+;;   * https://github.com/RefactoringTools/HaRe
 ;;   * https://github.com/chrisdone/hindent
-;;   * https://github.com/chrisdone/structured-haskell-mode
-;;   * https://github.com/alanz/HaRe
 
 ;; Main package.
 (use-package haskell-mode
