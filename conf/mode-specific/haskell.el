@@ -9,7 +9,6 @@
   :ensure t
   :config
 
-  (add-hook 'haskell-mode-hook #'turn-on-haskell-indentation) ; Most advanced indentation mode (hi2 was merged into it in March 2015: <https://github.com/haskell/haskell-mode/wiki/Month-in-haskell-mode-March-2015#important-developments>).
   (add-hook 'haskell-mode-hook #'interactive-haskell-mode) ; Use the new interactive mode.
   (add-hook 'haskell-mode-hook #'eldoc-mode) ; Show type signatures in minibuffer (eldoc config is in conf/view/eldoc.el). Uses interactive process when available, otherwise hardcoded list.
 
