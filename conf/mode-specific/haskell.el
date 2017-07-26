@@ -18,7 +18,10 @@
   (setq haskell-process-log t)
 
   ;; Use Cabal for the REPL so that projects stay sandboxed instead of polluting the global database.
-  (setq haskell-process-type 'cabal-repl))
+  (setq haskell-process-type 'cabal-repl)
+
+  ;; Use Emacs state for error buffers so that they can be quickly closed with "q".
+  (evil-set-initial-state 'haskell-error-mode 'emacs))
 
 ;; Auto-configure Flycheck from Cabal.
 (use-package flycheck-haskell
