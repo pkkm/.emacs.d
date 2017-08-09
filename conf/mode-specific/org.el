@@ -92,6 +92,14 @@
   ;; Completion.
   (setq org-completion-use-ido t)
 
+  ;; Don't prepend "Function /" to top-level headlines in helm-imenu.
+  ;; (The unwanted behavior is actually in `helm-imenu-transformer', but this way of disabling it is much less complex.)
+  (defadvice helm-imenu--get-prop
+      (after return-bare-item-in-org-mode (item) activate)
+    (when (and (eq (buffer-local-value 'major-mode helm-current-buffer) 'org-mode)
+               (null ad-return-value))
+      (setq ad-return-value (list item))))
+
 
   ;;; Automatic link descriptions.
 
