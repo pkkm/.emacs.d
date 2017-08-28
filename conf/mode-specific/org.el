@@ -125,21 +125,35 @@
   (defun my-org-link-description (url &rest _)
     "Return link description for URL in the format I use in my notes."
     (require 's)
-    (let ((title (get-url-html-title url))
-          (host (url-host (url-generic-parse-url url)))
-          match)
+    (let* ((title (get-url-html-title url))
+           (parsed-url (url-generic-parse-url url))
+           (host (url-host parsed-url))
+           (second-level-domain (s-join "." (-take-last 2 (s-split "\\." host))))
+           (path (url-filename parsed-url))
+           match-1 match-2)
       (cond
-       ((and (s-matches? "\\(.+\\.\\)?reddit.com" host)
+       ;; Reddit comment thread.
+       ((and (string-equal "reddit.com" second-level-domain)
+             (setq match-1 (s-match "^/r/\\([^/]+\\)/comments/" path))
+             (setq match-2 (s-match "^\\([^ ]+\\) comments on \\(.*\\)$" title)))
+        (let ((subreddit (nth 1 match-1))
+              (commenter (nth 1 match-2))
+              (top-level-title (nth 2 match-2)))
+          (concat "Reddit /r/" subreddit ": " commenter " on " top-level-title)))
+       ;; Reddit top-level post.
+       ((and (string-equal "reddit.com" second-level-domain)
              (s-contains? " : " title))
         (cl-destructuring-bind (_ rest subreddit)
-            (s-match "\\(.*\\) : \\([^ :]+\\)" title)
+            (s-match "^\\(.*\\) : \\([^ :]+\\)$" title)
           (concat "Reddit /r/" subreddit ": " rest)))
-       ((setq match (s-match "\\(.*\\) [|-] \\(.*\\)" title))
-        (cl-destructuring-bind (_ first-part second-part) match
+       ;; Pages whose title probably contains the website's name.
+       ((setq match-1 (s-match "^\\(.*\\) [|-] \\(.*\\)$" title))
+        (cl-destructuring-bind (_ first-part second-part) match-1
           (let* ((first-longer-p (>= (length first-part) (length second-part)))
                  (longer (if first-longer-p first-part second-part))
                  (shorter (if first-longer-p second-part first-part)))
             (concat shorter ": " longer))))
+       ;; Others.
        (t title))))
 
   (defun my-org-toggle-auto-link-description ()
