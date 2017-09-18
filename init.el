@@ -12,6 +12,16 @@
     (setq gc-cons-threshold old-gc-cons-threshold))
   (add-hook 'emacs-startup-hook #'restore-default-gc-settings))
 
+;; Verify TLS certificates. (To test this, run `test-https-verification' from `conf/utils/https'.)
+(setq gnutls-verify-error t)
+
+;; Work around security issues (see <https://git.savannah.gnu.org/cgit/emacs.git/tree/etc/NEWS?h=emacs-25>).
+(when (version< emacs-version "25.3")
+  (with-eval-after-load "enriched"
+    (defun enriched-decode-display-prop (start end &optional param)
+      (list start end)))
+  (setq tls-program '("gnutls-cli --x509cafile %t -p %p %h")))
+
 
 ;;; Directories.
 
@@ -68,9 +78,6 @@ Based on the package's homepage, so it misses some packages, but it's better tha
 
 ;; To update installed packages, use M-x package-list-packages RET U x.
 ;; Or delete the elpa/ directory and launch Emacs for it to be recreated.
-
-;; Verify TLS certificates. (To test this, run `test-https-verification' from `conf/utils/https'.)
-(setq gnutls-verify-error t)
 
 ;; First time that `package-install' is called in this session, refresh the package list (if it wasn't already refreshed).
 ;; A variable is used instead of removing the advice using `ad-remove-advice' and `ad-update' because on Emacs 24.3 and earlier, removing an advice while it's executing causes an error.
