@@ -61,11 +61,12 @@ Flattens nested keymaps."
      (keymap-canonicalize keymap)) ; Canonicalize the keymap, so that when a binding shadows another, only the one in effect is returned.
     result))
 
+(require 'cl-lib) ; Used: cl-destructuring-bind.
 (defun map-key-sequences-in-keymap (keymap function)
   "Execute FUNCTION for each non-prefix binding in KEYMAP, passing the key and the function bound to it."
   (mapc
    (lambda (key-and-binding-cell)
-     (destructuring-bind (key . binding) key-and-binding-cell
+     (cl-destructuring-bind (key . binding) key-and-binding-cell
        (funcall function key binding)))
    (keymap-to-key-binding-alist keymap)))
 
