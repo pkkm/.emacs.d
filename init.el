@@ -61,8 +61,13 @@
 
 ;; Package archives.
 (setq package-archives
-      '(("gnu" . "https://elpa.gnu.org/packages/")
+      '(("gnu" . "http://elpa.gnu.org/packages/")
+        ("melpa-stable" . "https://stable.melpa.org/packages/")
         ("melpa" . "https://melpa.org/packages/")))
+(setq package-archive-priorities ; Works only on Emacs 25.1+.
+      '(("gnu" . 10)
+        ("melpa-stable" . 5)
+        ("melpa" . 0)))
 
 (defadvice package--add-to-archive-contents
     (around ignore-wiki-packages (package archive) activate)
