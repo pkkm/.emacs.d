@@ -31,9 +31,12 @@ Format: '((major-mode . (ac-source ...)) ...)")
   (setq ac-disable-faces nil)
 
   ;; Automatic activation.
-  (setq ac-auto-start 1) ; Start completion after 1 letter.
   (setq ac-delay 0.05)
   (setq ac-auto-show-menu t) ; Show menu immediately (skip showing a candidate inline).
+
+  ;; Performance (change if Emacs is too slow).
+  (setq ac-auto-start 2) ; Start completion after 2 letters.
+  (setq ac-candidate-limit 1000) ; Upper limit until Emacs becomes annoyingly sluggish (tested on Box in 2017-09).
 
   ;; If `auto-complete' is too slow:
   ;;   * Lower `ac-candidate-limit'
