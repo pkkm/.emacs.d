@@ -1,5 +1,39 @@
-* Features that I should use more often
+* Performance
+
+  If Emacs is slow, use the profiler to find out why:
+
+  1. ~M-x profiler-start RET RET~.
+  2. Use Emacs for a while.
+  3. ~M-x profiler-report~.
+
+* Features to use more
+
   - M-) :: Add a sexp at the current level.
   - C-M-c :: Exit recursive edit (resumes the command that started the recursive edit; e.g. when used in the debugger, continues execution).
   - C-SPC :: Search the current set of results in ido-mode.
   - Text registers :: Instead of using the kill ring and pressing C-p/M-y a bunch of times ([[https://www.reddit.com/r/emacs/comments/61dank/what_are_some_advanced_editing_techniques_that/][inspiration]]).
+
+* Keys to bind
+
+** Normal state
+
+   - g z
+   - g y
+   - g l
+   - g k
+   - g j
+   - g RET
+
+*** Redundant
+
+    - C-j :: Same as RET.
+    - C-k :: Kill line (same as d$).
+
+*** Unused
+
+    - C-t :: Pop the tag mark.
+
+** Normal and insert state
+
+   - C-,
+   - C-;
