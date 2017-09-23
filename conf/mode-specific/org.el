@@ -100,30 +100,29 @@
 
   (use-package s :ensure t)
 
-  (autoload 'mm-url-decode-entities-string "mm-url")
-  (defun get-url-html-title (url &rest _)
-    "Return the title of the HTML page at URL."
-    (require 's)
-    (with-current-buffer (url-retrieve-synchronously url)
-      (beginning-of-buffer)
-      (search-forward-regexp "<title>\\(.*?\\)</title>")
-      (-> (match-string-no-properties 1)
-          (mm-url-decode-entities-string)
-          (s-collapse-whitespace)
-          (s-trim))))
-
   (defun my-org-link-description (url &rest _)
     "Return link description for URL in the format I use in my notes."
     (require 's)
-    (let* ((title (get-url-html-title url))
+    (require 'dom)
+    (let* ((html-buffer (url-retrieve-synchronously url))
+           (dom (with-current-buffer html-buffer
+                  (libxml-parse-html-region (point-min) (point-max) url t)))
+           (title (dom-text (car (dom-by-tag dom 'title))))
            (parsed-url (url-generic-parse-url url))
            (host (url-host parsed-url))
-           (second-level-domain (s-join "." (-take-last 2 (s-split "\\." host))))
+           (domain-levels ; E.g. '("com" "ycombinator.com" "news.ycombinator.com")
+            (nreverse (-reduce-r-from
+                       (lambda (new-part accum)
+                         (cons (if accum
+                                   (concat new-part "." (car accum))
+                                 new-part)
+                               accum))
+                       nil (s-split "\\." host))))
            (path (url-filename parsed-url))
            match-1 match-2)
       (cond
        ;; Reddit comment thread.
-       ((and (string-equal "reddit.com" second-level-domain)
+       ((and (string-equal "reddit.com" (nth 1 domain-levels))
              (setq match-1 (s-match "^/r/\\([^/]+\\)/comments/" path))
              (setq match-2 (s-match "^\\([^ ]+\\) comments on \\(.*\\)$" title)))
         (let ((subreddit (nth 1 match-1))
@@ -131,11 +130,17 @@
               (top-level-title (nth 2 match-2)))
           (concat "Reddit /r/" subreddit ": " commenter " on " top-level-title)))
        ;; Reddit top-level post.
-       ((and (string-equal "reddit.com" second-level-domain)
+       ((and (string-equal "reddit.com" (nth 1 domain-levels))
              (s-contains? " : " title))
         (cl-destructuring-bind (_ rest subreddit)
             (s-match "^\\(.*\\) : \\([^ :]+\\)$" title)
           (concat "Reddit /r/" subreddit ": " rest)))
+       ;; Hacker news comment thread.
+       ((and (string-equal "news.ycombinator.com" (nth 2 domain-levels))
+         (setq match-1 (dom-by-tag (dom-by-class dom "storyon") 'a)))
+        (let ((parent-title (dom-text (car match-1)))
+              (user (dom-text (car (dom-by-class dom "hnuser")))))
+          (concat "Hacker News: " user " on " parent-title)))
        ;; Pages whose title probably contains the website's name.
        ((setq match-1 (s-match "^\\(.*\\) [-|:•#] \\(.*\\)$" title))
         (cl-destructuring-bind (_ first-part second-part) match-1
