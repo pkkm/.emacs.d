@@ -104,18 +104,13 @@
   (defun get-url-html-title (url &rest _)
     "Return the title of the HTML page at URL."
     (require 's)
-    (let ((download-buffer (url-retrieve-synchronously url))
-          title-start title-end)
-      (save-excursion
-        (set-buffer download-buffer)
-        (beginning-of-buffer)
-        (setq title-start (search-forward "<title>"))
-        (search-forward "</title>")
-        (setq title-end (search-backward "<"))
-        (s-trim
-         (s-collapse-whitespace
-          (mm-url-decode-entities-string
-           (buffer-substring-no-properties title-start title-end)))))))
+    (with-current-buffer (url-retrieve-synchronously url)
+      (beginning-of-buffer)
+      (search-forward-regexp "<title>\\(.*?\\)</title>")
+      (-> (match-string-no-properties 1)
+          (mm-url-decode-entities-string)
+          (s-collapse-whitespace)
+          (s-trim))))
 
   (defun my-org-link-description (url &rest _)
     "Return link description for URL in the format I use in my notes."
