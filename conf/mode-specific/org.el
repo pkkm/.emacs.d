@@ -70,7 +70,6 @@
 
   ;; Ellipsis style for folded sections.
   (require 'conf/utils/colors) ; Used: color-mix.
-  (setq org-ellipsis 'org-ellipsis)
   (defun set-org-ellipsis-style ()
     "Calculate the modeline backgrounds for various Evil states."
     (let* ((base-color "cyan")
@@ -80,6 +79,10 @@
                      `((t (:foreground ,color :box (:line-width 1 :color ,box-color :style nil)))))))
   (add-hook 'after-load-theme-hook #'set-org-ellipsis-style)
   (set-org-ellipsis-style)
+  (setq org-ellipsis
+        (if (version< (org-version) "9.0") ; Backwards-incompatible change in Org.
+            'org-ellipsis
+          (propertize "..." 'face 'org-ellipsis)))
 
   ;; Logging.
   (setq org-log-repeat nil) ; Don't log shifting forward the date of a repeating task.
