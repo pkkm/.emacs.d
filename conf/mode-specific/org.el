@@ -1,7 +1,7 @@
 ;;; Org-mode. -*- lexical-binding: t -*-
 
+(package-ensure-version 'org "9.1") ; Needed for using %-escapes in org-capture-templates.
 (use-package org
-  :ensure t
   :config
 
 
@@ -199,9 +199,35 @@
                `("n" "Quote in org-default-notes-file" plain
                  (file "")
                  ,(concat "#+BEGIN_QUOTE\n"
-                          "%i%?\n\n" ; %i -- initial content (see also %x -- X clipboard content); %? -- cursor position after inserting.
-                          "-- %a [%<%Y-%m-%d>]\n" ; %a -- link with description.
+                          "%i%?\n\n" ; %i -- initial content (see also %x -- clipboard); %? -- cursor position after inserting.
+                          "-- %(my-org-capture-process-link \"%a\") [%<%Y-%m-%d>]\n" ; %a -- link with description.
                           "#+END_QUOTE")
-                 :empty-lines 1)))
+                 :empty-lines 1))
+  (defun my-org-capture-sanitize-text (text)
+    "Replace weird characters in TEXT."
+    (s-replace-all
+     '((" " . " ")) ; Non-breaking space (usually used by accident).
+     text))
+  (defun my-org-capture-process-link (link-str)
+    "Process a captured link."
+    (let* ((parsed (with-temp-buffer
+                     (insert link-str)
+                     (org-mode)
+                     (org-element-parse-buffer)))
+           (url-and-description
+            (car (org-element-map parsed 'link
+                   (lambda (link)
+                     (cons (org-element-property :raw-link link)
+                           (car (org-element-contents link)))))))
+           (url (car url-and-description))
+           (description (cdr url-and-description))
+           (my-description
+            (with-demoted-errors "Error getting link description: %s"
+              (my-org-link-description url))))
+      (org-make-link-string url
+                            (if (and (stringp my-description)
+                                     (not (string-empty-p my-description)))
+                                my-description
+                              (my-org-capture-sanitize-text description))))))
 
 (provide 'conf/mode-specific/org)
