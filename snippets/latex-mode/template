@@ -149,16 +149,12 @@
                    "\\newcommand{\\comment}[1]{\\coloruwave[red]{[#1]}}"
                    "\\usepackage{ifthen}"
                    "\\newcommand{\\todo}[1]{\\comment{TODO\\ifthenelse{\\equal{#1}{}}{}{: }#1}}"
-                   "")
-
-      "% Setting apart changed areas."
-      (latex-block 'smart-comment
+                   "% Block comments (also for calling attention to document areas)."
                    "\\usepackage{mdframed}"
-                   "\\newenvironment{changed}[1]"
-                   "{\\mdfsetup{topline=false, leftline=true, bottomline=false, rightline=false, linecolor=red}"
-                   "\\begin{mdframed}}"
+                   "\\newenvironment{blockComment}"
+                   "{\\begin{mdframed}[topline=false, leftline=true, bottomline=false, rightline=false, linecolor=red]}"
                    "{\\end{mdframed}}"
-                   "\\renewenvironment{changed}[1]{}{} % Temporarily disable."
+                   "%\\renewenvironment{blockComment}[1]{}{} % Temporarily disable."
                    "")
 
       ;; Title, author, etc.
