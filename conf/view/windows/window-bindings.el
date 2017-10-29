@@ -39,7 +39,7 @@
   (bind-key "TAB" #'evil-window-next evil-window-map)
   (bind-key "<backtab>" #'evil-window-prev evil-window-map) ; <backtab> -- S-TAB.
 
-  ;; Select the window with the most recently used buffer.
+  ;; Select the window with the most recently used buffer (same as C-w C-p).
   (bind-key "SPC" #'evil-window-mru evil-window-map)
 
   ;; Resize.
