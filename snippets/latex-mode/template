@@ -15,12 +15,12 @@
                                 '("XeTeX" "pdfTeX")
                                 nil nil nil nil "XeTeX"))
        (document-class (completing-read "Document class: "
-                                        '("scrartcl" "article" "amsart" "letter")
+                                        '("scrartcl" "article" "amsart" "letter" "beamer")
                                         nil nil nil nil "article"))
        (engine-auctex (pcase engine
                         ("XeTeX" "xetex")
                         ("pdfTeX" "default")))
-       (document-body "`yas-selected-text`$0"))
+       (document-body-expr "`yas-selected-text`$0"))
   (cl-flet* ((smart-comment (line)
                             (if (or (string-prefix-p "%" line)
                                     (string-empty-p line))
@@ -52,12 +52,24 @@
          (concat "\\documentclass[12pt]{" document-class "}"))
         (_
          (concat "\\documentclass{" document-class "}")))
-      (when (not (string-prefix-p "scr" document-class))
+      (when (member document-class '("article" "amsart" "letter"))
         (latex-block 'verbatim
                      "\\usepackage[a4paper]{geometry} % Setting margins: \"top=5cm\" (later options have more priority)."
                      "\\usepackage{parskip} % Space instead of indent between paragraphs."))
+      (when (string= document-class "beamer")
+        (latex-block 'verbatim
+                     "\\usetheme[block=fill]{metropolis}"
+                     ""
+                     "% Use the Metropolis theme along with another Beamer color theme."
+                     "%\\useoutertheme{metropolis}"
+                     "%\\useinnertheme{metropolis}"
+                     "%\\usefonttheme{metropolis}"
+                     "%\\usecolortheme{seahorse}"))
+      ""
+
       "\\usepackage{microtype} % Better typography." ; No longer needs to be loaded after fonts and babel (unless using "babel=true"). See <http://tex.stackexchange.com/questions/162137/loading-microtype-before-or-after-the-font>.
-      "\\usepackage{enumitem} % Add features to \\`itemize' and \\`enumerate'."
+      (when (not (string= document-class "beamer")) ; Enumitem conflicts with beamer.
+        "\\usepackage{enumitem} % Add features to \\`itemize' and \\`enumerate'.")
       ""
 
       "% Alternative fonts."
@@ -123,6 +135,12 @@
                    "\\usepackage{grffile} % Correctly handle complex file names."
                    "\\graphicspath{{images/}}"
                    "\\newcommand{\\credit}[1]{\\par\\tiny\\textit{#1}}"
+                   "\\usepackage{subfig} % Subfigures (for e.g. arranging figures in a grid)."
+                   (when (string= document-class "beamer")
+                     (latex-block 'verbatim
+                                  "\\captionsetup[figure]{labelformat=empty} % Disable \"Figure <number>\" prefixes."
+                                  "\\newcommand{\\includegraphicsFullSlide}[1]{"
+                                  "  \\includegraphics[width=0.9\\textwidth,height=0.8\\textheight,keepaspectratio]{#1}}"))
                    "")
 
       "% Drawings."
@@ -131,10 +149,64 @@
                    "\\usetikzlibrary{babel} % Fixes conflict with onlyamsmath (see <http://tex.stackexchange.com/questions/31860/conflict-onlyamsmath-and-tikz>)."
                    "")
 
+      "% Pseudocode."
+      (latex-block 'verbatim
+                   "\\usepackage[noend]{algpseudocode} % \\`algorithmicx' with some predefined commands."
+                   (when (string= document-class "beamer")
+                     "\\newenvironment{algorithmBlock}{\\begin{block}{Algorytm}}{\\end{block}}")
+                   "% Continuation lines (usage: \\State \\begin{varwidth}[t]{\\linewidth} line1 \\continuationLine line2 ... \\end{varwidth})."
+                   "\\usepackage{varwidth}"
+                   "\\newcommand{\\continuationLine}{\\par\\hskip\\algorithmicindent}"
+                   "")
+
+      (when (string= document-class "beamer")
+        (latex-block 'verbatim
+                     "% Outline slides."
+                     "\\newcommand{\\tocFrame}[1][currentsection, currentsubsection]{ % Highlight the current section and subsection by default. To disable, pass an empty parameter. To highlight section only, remove \\`currentsubsection'. To highlight all subsections of the current section, add \\`subsectionstyle=show/show/shaded'."
+                     "  \\metroset{background=dark}"
+                     "  \\begin{frame}[noframenumbering, plain]"
+                     "	  \\frametitle{Plan prezentacji}"
+                     "	  \\tableofcontents[#1]"
+                     "  \\end{frame}"
+                     "  \\metroset{background=light}}"
+                     "% Use the outline slides instead of section and subsection title slides."
+                     "%\\AtBeginSection[]{\\tocFrame{}}"
+                     "%\\AtBeginSubsection[]{\\tocFrame{}}"
+                     "% Disable section and subsection title slides for more manual control."
+                     "%\\AtBeginSection[]{}"
+                     "%\\AtBeginSubsection[]{}"
+                     ""))
+
+      (when (string= document-class "beamer")
+        (latex-block 'verbatim
+                     "% Localize theorem environments."
+                     "% Theorem environments provided by Beamer: theorem, corollary, definition, definitions, fact, example, examples, lemma. You can also use \\`\\begin{block}{Theorem} ... \\end{block}'."
+                     "\\deftranslation[to=polish]{Theorem}{Twierdzenie}"
+                     "\\deftranslation[to=polish]{Definition}{Definicja}"
+                     "\\theoremstyle{plain}\\newtheorem{observation}{Obserwacja}"
+                     "\\theoremstyle{definition}\\newtheorem*{proofIdea}{Idea dowodu}"
+                     ""))
+
       "% Bibliography."
       (latex-block 'smart-comment
                    "\\usepackage[backend=biber]{biblatex}"
                    "\\addbibresource{`(when (buffer-file-name) (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))`.bib}"
+                   (when (string= document-class "beamer")
+                     (latex-block 'smart-comment
+                                  "% Use icons; automatically choose the icon depending on type of the source."
+                                  "\\setbeamertemplate{bibliography item}{%"
+                                  "  \\ifboolexpr{test {\\ifentrytype{book}} or test {\\ifentrytype{mvbook}}"
+                                  "	or test {\\ifentrytype{collection}} or test {\\ifentrytype{mvcollection}}"
+                                  "	or test {\\ifentrytype{reference}} or test {\\ifentrytype{mvreference}}}"
+                                  "  {\\setbeamertemplate{bibliography item}[book]}"
+                                  "  {\\ifentrytype{online}"
+                                  "	{\\setbeamertemplate{bibliography item}[online]}"
+                                  "	{\\setbeamertemplate{bibliography item}[article]}}%"
+                                  "  \\usebeamertemplate{bibliography item}}"
+                                  "% Use triangles, numbers or nothing instead of icons."
+                                  "%\\setbeamertemplate{bibliography item}[triangle]"
+                                  "%\\setbeamertemplate{bibliography item}[text]"
+                                  "%\\setbeamertemplate{bibliography item}{}"))
                    "")
 
       "% Comments."
@@ -165,7 +237,7 @@
         (_ (latex-block 'verbatim
                         "\\title{${Document title}}"
                         "\\author{${`(user-full-name)`}}"
-                        "%\\date{}")))
+                        "\\date{}")))
       ""
 
       ;; Document body.
@@ -175,19 +247,25 @@
                                "\\begin{letter}{${Destination address}}"
                                "\\opening{${Dear Sir or Madam,}}"
                                ""
-                               document-body
+                               document-body-expr
                                ""
                                "\\closing{Yours Respectfully,}"
                                "\\end{letter}"))
         (_ (latex-block 'verbatim
                         "\\maketitle"
                         ""
-                        document-body
+                        document-body-expr
                         ""
-                        (latex-block 'smart-comment
-                                     "% Bibliography."
-                                     "\\nocite{*} % Show all sources (even uncited ones)."
-                                     "\\printbibliography"))))
+                        "% Bibliography."
+                        (if (string= document-class "beamer")
+                            (latex-block 'smart-comment
+                                         "\\begin{frame}[allowframebreaks]{\\bibname} % \\bibname is localized \"bibliography\", \\refname is localized \"references\"."
+                                         "\\nocite{*} % Show all sources (even uncited ones)."
+                                         "\\printbibliography[heading=none]"
+                                         "\\end{frame}")
+                          (latex-block 'smart-comment
+                                       "\\nocite{*} % Show all sources (even uncited ones)."
+                                       "\\printbibliography")))))
       "\\end{document}"
       ""
 
