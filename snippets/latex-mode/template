@@ -211,21 +211,15 @@
 
       "% Comments."
       (latex-block 'verbatim
-                   "\\usepackage[normalem]{ulem} % \\`normalem' -- don't change \\emph."
                    "\\usepackage{color}"
-                   "\\makeatletter"
-                   "\\newcommand\\coloruwave[1][red]{\\bgroup\\markoverwith{\\lower3.5\\p@\\hbox{\\sixly\\textcolor{#1}{\\char58}}}\\ULon}"
-                   "\\font\\sixly=lasy6"
-                   "\\makeatother"
-                   "\\newcommand{\\fixme}[1]{\\coloruwave[red]{#1}}"
-                   "\\newcommand{\\comment}[1]{\\coloruwave[red]{[#1]}}"
+                   "\\usepackage{soul}"
+                   "\\setulcolor{red}"
+                   "\\newcommand{\\comment}[1]{\\ul{[#1]}}"
                    "\\usepackage{ifthen}"
-                   "\\newcommand{\\todo}[1]{\\comment{TODO\\ifthenelse{\\equal{#1}{}}{}{: }#1}}"
+                   "\\newcommand{\\todo}[1]{\\ifthenelse{\\equal{#1}{}}{\\comment{TODO}}{\\comment{TODO: #1}}} % \\`ul' has to be called inside \\`ifthenelse'; the reverse produces an error: \"Argument of \\ifthenelse has an extra }\"."
                    "% Block comments (also for calling attention to document areas)."
                    "\\usepackage{mdframed}"
-                   "\\newenvironment{blockComment}"
-                   "{\\begin{mdframed}[topline=false, leftline=true, bottomline=false, rightline=false, linecolor=red]}"
-                   "{\\end{mdframed}}"
+                   "\\newenvironment{blockComment}{\\begin{mdframed}[topline=false, leftline=true, bottomline=false, rightline=false, linecolor=red]}{\\end{mdframed}}"
                    "%\\renewenvironment{blockComment}[1]{}{} % Temporarily disable."
                    "")
 
