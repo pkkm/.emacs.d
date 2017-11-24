@@ -98,6 +98,20 @@
                (null ad-return-value))
       (setq ad-return-value (list item))))
 
+  ;; Function to list remote inline images. Useful when downloading images so that the document works without an Internet connection.
+  (defun my-org-remote-inline-images-in-buffer ()
+    "Display the URLs of HTTP and HTTPS inline images in the current buffer."
+    ;; Inspired by <https://emacs.stackexchange.com/a/26638>.
+    (org-element-map (org-element-parse-buffer) 'link
+      (lambda (link)
+        (when (and (member (org-element-property :type link) '("http" "https"))
+                   (null (org-element-property :contents-begin link))
+                   (--any (string-suffix-p (concat "." it)
+                                           (org-element-property :raw-link link)
+                                           t)
+                          '("jpg" "jpeg" "png" "gif" "tiff" "bmp")))
+          (org-element-property :raw-link link)))))
+
 
   ;;; Automatic link descriptions.
 
