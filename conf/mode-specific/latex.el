@@ -60,7 +60,18 @@
 
   ;; Make the " key use `csquotes'. (If this doesn't work, try pressing C-c C-n.)
   (setq LaTeX-csquotes-open-quote "\\enquote{")
-  (setq LaTeX-csquotes-close-quote "}"))
+  (setq LaTeX-csquotes-close-quote "}")
+
+  ;; Flyspell: don't spell-check TeX comments.
+  ;; Instead of using a hook, we could set the `flyspell-mode-predicate' property on tex-mode, latex-mode, context-mode, etc. (We'd have to do it for each mode rather than a single parent mode because Flyspell doesn't check the parent mode's property.)
+  (defvar my-flyspell-check-tex-comments nil
+    "Should TeX comments be spell-checked?")
+  (defun my-tex-flyspell-word-predicate ()
+    (and (or my-flyspell-check-tex-comments (not (nth 4 (syntax-ppss))))
+         (tex-mode-flyspell-verify)))
+  (defun my-tex-set-flyspell-word-predicate ()
+    (setq flyspell-generic-check-word-predicate #'my-tex-flyspell-word-predicate))
+  (add-hook 'TeX-mode-hook #'my-tex-set-flyspell-word-predicate))
 
 ;; Latexmk support.
 (use-package auctex-latexmk
