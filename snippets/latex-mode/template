@@ -6,7 +6,7 @@
 ;; Snippet format: <https://capitaomorte.github.io/yasnippet/snippet-development.html>.
 
 ;; Useful LaTeX links:
-;;   * Nice font combinations: <http://tex.stackexchange.com/questions/9533/what-best-combination-of-fonts-for-serif-sans-and-mono-do-you-recommend>.
+;;   * Nice font combinations: <http://tex.stackexchange.com/questions/9533/what-best-combination-of-fonts-for-serif-sans-and-mono-do-you-recommend>, <https://tex.stackexchange.com/questions/59702/suggest-a-nice-font-family-for-my-basic-latex-template-text-and-math>.
 ;;   * Some style tips: <http://tex.stackexchange.com/questions/82376/why-are-these-commands-considered-as-bad-practice>.
 
 (require 'cl-lib) ; Used: cl-flet.
@@ -41,7 +41,7 @@
       'verbatim
 
       ;; Warnings.
-      "\\RequirePackage[l2tabu, orthodox]{nag} % Style warnings in .log file (grep for \"nag\")."
+      "\\RequirePackage[l2tabu, orthodox]{nag} % Style warnings in .log file (grep for \"nag\")." ; Has most of the functionality of onlyamsmath.
       ""
 
       ;; Document type, margins, etc.
@@ -107,7 +107,7 @@
 
       "% Math."
       (latex-block 'verbatim
-                   "\\usepackage[all]{onlyamsmath} % Add improved math macros, disable standard ones."
+                   "\\usepackage{mathtools} % Improved math macros (extended \\`amsmath')."
                    "\\usepackage{amsfonts} % E.g. \\`mathbb'.")
       "% Make \\`mathbb' work for numbers."
       (latex-block 'verbatim
@@ -147,17 +147,7 @@
       "% Drawings."
       (latex-block 'verbatim
                    "\\usepackage{tikz}"
-                   "\\usetikzlibrary{babel} % Fixes conflict with onlyamsmath (see <http://tex.stackexchange.com/questions/31860/conflict-onlyamsmath-and-tikz>)."
-                   "")
-
-      "% Pseudocode."
-      (latex-block 'verbatim
-                   "\\usepackage[noend]{algpseudocode} % \\`algorithmicx' with some predefined commands."
-                   (when (string= document-class "beamer")
-                     "\\newenvironment{algorithmBlock}{\\begin{block}{Algorytm}}{\\end{block}}")
-                   "% Continuation lines (usage: \\State \\begin{varwidth}[t]{\\linewidth} line1 \\continuationLine line2 ... \\end{varwidth})."
-                   "\\usepackage{varwidth}"
-                   "\\newcommand{\\continuationLine}{\\par\\hskip\\algorithmicindent}"
+                   ;; "\\usetikzlibrary{babel} % Fixes conflict with onlyamsmath (see <http://tex.stackexchange.com/questions/31860/conflict-onlyamsmath-and-tikz>)."
                    "")
 
       (when (string= document-class "beamer")
@@ -222,6 +212,21 @@
                    "\\usepackage{mdframed}"
                    "\\newenvironment{blockComment}{\\begin{mdframed}[topline=false, leftline=true, bottomline=false, rightline=false, linecolor=red]}{\\end{mdframed}}"
                    "%\\renewenvironment{blockComment}[1]{}{} % Temporarily disable."
+                   "")
+
+      "% PDF links and metadata (e.g. index)."
+      (latex-block 'verbatim
+                   "\\usepackage[hidelinks]{hyperref} % Should be loaded after most packages but before \\`algorithmicx'." ; For more details, see <https://tex.stackexchange.com/questions/1863/which-packages-should-be-loaded-after-hyperref-instead-of-before>.
+                   "")
+
+      "% Pseudocode."
+      (latex-block 'verbatim
+                   "\\usepackage[noend]{algpseudocode} % \\`algorithmicx' with some predefined commands."
+                   (when (string= document-class "beamer")
+                     "\\newenvironment{algorithmBlock}{\\begin{block}{Algorytm}}{\\end{block}}")
+                   "% Continuation lines (usage: \\State \\begin{varwidth}[t]{\\linewidth} line1 \\continuationLine line2 ... \\end{varwidth})."
+                   "\\usepackage{varwidth}"
+                   "\\newcommand{\\continuationLine}{\\par\\hskip\\algorithmicindent}"
                    "")
 
       ;; Title, author, etc.
