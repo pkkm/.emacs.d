@@ -32,6 +32,7 @@
 *** Unused
 
     - C-t :: Pop the tag mark.
+    - M-SPC :: Delete all whitespace around point except a single space.
 
 ** Normal and insert state
 
