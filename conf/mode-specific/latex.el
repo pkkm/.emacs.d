@@ -71,7 +71,10 @@
          (tex-mode-flyspell-verify)))
   (defun my-tex-set-flyspell-word-predicate ()
     (setq flyspell-generic-check-word-predicate #'my-tex-flyspell-word-predicate))
-  (add-hook 'TeX-mode-hook #'my-tex-set-flyspell-word-predicate))
+  (add-hook 'TeX-mode-hook #'my-tex-set-flyspell-word-predicate)
+
+  ;; Parse files automatically after opening.
+  (setq TeX-parse-self t))
 
 ;; Latexmk support.
 (use-package auctex-latexmk
