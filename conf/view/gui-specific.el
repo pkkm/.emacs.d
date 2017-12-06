@@ -39,8 +39,8 @@
     (-if-let (font (first-available-font fonts))
         (set-face-font face font)))
 
-  (set-first-available-font 'default '("DejaVu Sans Mono-9.5" "Consolas-10" "Courier New-9.5"))
-  (set-first-available-font 'variable-pitch '("DejaVu Sans-9.6" "Verdana" "Helvetica" "Arial")) ; Causes segfault in `emacs -nw'.
+  (set-first-available-font 'default '("DejaVu Sans Mono-10" "Consolas-10.5" "Courier New-10"))
+  (set-first-available-font 'variable-pitch '("DejaVu Sans-10" "Verdana-10" "Helvetica-10" "Arial-10")) ; Causes segfault in `emacs -nw'.
 
 
 (provide 'conf/view/gui-specific)
