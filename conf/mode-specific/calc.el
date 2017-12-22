@@ -12,4 +12,13 @@
   (add-hook 'emacs-startup-hook #'my-calc-workspace t))
 (add-to-list 'command-switch-alist (cons "--calc" #'my-calc-workspace-after-startup))
 
+(use-package calc
+  :config
+
+  ;; Cheatsheet.
+  (defun my-cheatsheet-calc ()
+    (interactive)
+    (open-cheatsheet "https://www.gnu.org/software/emacs/refcards/pdf/calccard.pdf")) ; From conf/other/cheatsheets.
+  (bind-key "C-c C" #'my-cheatsheet-calc calc-mode-map))
+
 (provide 'conf/mode-specific/calc)

@@ -74,7 +74,13 @@
   (add-hook 'TeX-mode-hook #'my-tex-set-flyspell-word-predicate)
 
   ;; Parse files automatically after opening.
-  (setq TeX-parse-self t))
+  (setq TeX-parse-self t)
+
+  ;; Cheatsheet.
+  (defun my-cheatsheet-AUCTeX ()
+    (interactive)
+    (open-cheatsheet "https://ftp.gnu.org/gnu/auctex/11.88-extra/tex-ref.pdf")) ; From conf/other/cheatsheets.
+  (bind-key "C-c C" #'my-cheatsheet-AUCTeX TeX-mode-map))
 
 ;; Latexmk support.
 (use-package auctex-latexmk
