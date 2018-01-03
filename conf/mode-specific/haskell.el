@@ -17,13 +17,10 @@
   (setq haskell-process-auto-import-loaded-modules t)
   (setq haskell-process-log t)
 
-  ;; Use Cabal for the REPL so that projects stay sandboxed instead of polluting the global database.
-  (setq haskell-process-type 'cabal-repl)
-
   ;; Use Emacs state for error buffers so that they can be quickly closed with "q".
   (evil-set-initial-state 'haskell-error-mode 'emacs))
 
-;; Auto-configure Flycheck from Cabal.
+;; Auto-configure Flycheck.
 (use-package flycheck-haskell
   :ensure t
   :init
