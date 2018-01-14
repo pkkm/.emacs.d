@@ -119,6 +119,7 @@
 
   (defun my-org-link-description (url &rest _)
     "Return link description for URL in the format I use in my notes."
+    ;; TODO read about <https://github.com/rexim/org-cliplink>, which has similar functionality.
     (require 's)
     (require 'dom)
     (let* ((html-buffer (url-retrieve-synchronously url))
