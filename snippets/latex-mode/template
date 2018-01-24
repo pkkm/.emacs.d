@@ -48,6 +48,7 @@
       (pcase document-class
         ("scrartcl"
          "\\documentclass[12pt, a4paper, parskip=full]{scrartcl} % Margins: DIV=<number> (larger means more content; default for 12pt is 12). Periods after section numbers: numbers=endperiod.")
+        ;; If I add scrbook later, use parameters similar to [11pt, a4paper, bibliography=totoc, listof=totoc, numbers=endperiod, twoside, open=right].
         ((or "article" "amsart" "letter")
          (concat "\\documentclass[12pt]{" document-class "}"))
         (_
@@ -99,11 +100,13 @@
                      "\\usepackage[T1]{fontenc}"))
       ""
 
-      "% Quotes (language-aware)."
-      (latex-block 'verbatim
-                   "\\usepackage[autostyle]{csquotes} % Example: \\enquote{text}"
-                   "\\DeclareQuoteStyle{polish}{\\quotedblbase}{\\textquotedblright}[0.05em]{\\textquoteleft}{\\textquoteright}"
-                   "")
+      (when (string= document-class "scrartcl")
+        (latex-block 'verbatim
+                     "% Don't use a period and a colon in figure and table numbers even when using numbers=endperiod."
+                     "\\renewcommand*{\\figureformat}{\\figurename~\\thefigure}"
+                     "\\renewcommand*{\\tableformat}{\\tablename~\\thetable}"
+                     "% The definitions are the default ones, except with \\autodot removed."
+                     ""))
 
       "% Math."
       (latex-block 'verbatim
@@ -119,6 +122,10 @@
       (latex-block 'smart-comment
                    "\\let\\oldvec\\vec"
                    "\\renewcommand{\\vec}[1]{\\boldsymbol{\\mathbf{#1}}}")
+      "% Make the empty set symbol more round. Requires \\`amssymb'."
+      (latex-block 'smart-comment
+                   "\\let\\oldemptyset\\emptyset"
+                   "\\let\\emptyset\\varnothing")
       ""
 
       "% Tables."
@@ -133,21 +140,34 @@
                    "\\usepackage{graphicx} % See <https://www.sharelatex.com/learn/Inserting_Images>. Remember to place \\`label' last inside the \\`figure'. Example: \\begin{figure}[h] \\centering \\includegraphics[width=0.5\\textwidth]{spiral} \\caption{Spiral.} \\label{fig:spiral} \\end{figure}"
                    "\\usepackage{float} % For the \\`H' positioning specifier."
                    "\\usepackage{placeins} % Provides \\FloatBarrier, which prevents floats before it from moving past it."
+                   "\\usepackage{subcaption} % Provides the \\`subfigure' environment. For examples, see <https://tex.stackexchange.com/questions/333249/controlling-subfigure-captions-and-subfigure-placement>."
                    "\\usepackage{grffile} % Correctly handle complex file names."
                    "\\graphicspath{{images/}}"
-                   "\\newcommand{\\credit}[1]{\\par\\tiny\\textit{#1}}"
-                   "\\usepackage{subfig} % Subfigures (for e.g. arranging figures in a grid)."
+                   "\\newcommand{\\credit}[1]{\\par\\scriptsize\\textit{#1}} % Good sizes (smallest to largest): \\tiny, \\scriptsize, \\footnotesize."
                    (when (string= document-class "beamer")
                      (latex-block 'verbatim
                                   "\\captionsetup[figure]{labelformat=empty} % Disable \"Figure <number>\" prefixes."
-                                  "\\newcommand{\\includegraphicsFullSlide}[1]{"
-                                  "  \\includegraphics[width=0.9\\textwidth,height=0.8\\textheight,keepaspectratio]{#1}}"))
+                                  "\\newcommand{\\includegraphicsFullSlide}[2][]{% The order of arguments is significant, e.g. putting \\`angle=90' last will rotate after sizes are calculated."
+                                  "  \\includegraphics[#1,width=0.9\\textwidth,height=0.8\\textheight,keepaspectratio]{#2}}"))
                    "")
 
       "% Drawings."
       (latex-block 'verbatim
                    "\\usepackage{tikz}"
-                   ;; "\\usetikzlibrary{babel} % Fixes conflict with onlyamsmath (see <http://tex.stackexchange.com/questions/31860/conflict-onlyamsmath-and-tikz>)."
+                   "")
+
+      "% Source code."
+      (latex-block 'verbatim
+                   "\\usepackage{minted} % When using this, remember to pass \\`--shell-escape' to LaTeX (if using Emacs, set \\`TeX-command-extra-options')." ; Most advanced and actively maintained source highlighting package (as of 2017; see <https://tex.stackexchange.com/questions/102596/minted-vs-texments-vs-verbments> and <https://tex.stackexchange.com/questions/389191/minted-vs-listings-pros-and-cons>).
+                   "\\usemintedstyle{borland} % Try: vs, borland, default, bw."
+                   "\\usepackage{fancyvrb} % More advanced \\`verbatim'. If you just want typewriter font, use \\texttt or \\ttfamily instead of verbatim environments."
+                   "")
+
+      "% Quotes (language-aware)."
+      "% Load this after \\`minted' to avoid \"Package fvextra Warning: csquotes should be loaded after fvextra\"."
+      (latex-block 'verbatim
+                   "\\usepackage[autostyle]{csquotes} % Example: \\enquote{text}"
+                   "\\DeclareQuoteStyle{polish}{\\quotedblbase}{\\textquotedblright}[0.05em]{\\textquoteleft}{\\textquoteright}"
                    "")
 
       (when (string= document-class "beamer")
@@ -182,6 +202,20 @@
       (latex-block 'smart-comment
                    "\\usepackage[backend=biber]{biblatex}"
                    "\\addbibresource{`(when (buffer-file-name) (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))`.bib}"
+                   "% Fix URL breaking."
+                   "\\usepackage{url}"
+                   "\\def\\UrlBreaks{\\do\\/\\do-\\do.}"
+                   "\\setcounter{biburllcpenalty}{7000}"
+                   "\\setcounter{biburlucpenalty}{8000}"
+                   "% Hide some fields."
+                   "\\AtEveryBibitem{%"
+                   "  \\clearfield{month}\\clearfield{day}"
+                   "  \\clearfield{issn}"
+                   "  \\clearfield{doi}"
+                   "  \\clearfield{isbn}"
+                   "  \\clearfield{series}"
+                   "  \\clearfield{urlyear}\\clearfield{urlmonth}\\clearfield{urlday} % \\`urldate' gets split into these."
+                   "  \\ifentrytype{online}{}{\\clearfield{url}}}"
                    (when (string= document-class "beamer")
                      (latex-block 'smart-comment
                                   "% Use icons; automatically choose the icon depending on type of the source."
@@ -205,13 +239,19 @@
                    "\\usepackage{color}"
                    "\\usepackage{soul}"
                    "\\setulcolor{red}"
+                   "\\newcommand{\\fixme}[1]{\\ul{#1}} % For parts of the text which should be rewritten."
                    "\\newcommand{\\comment}[1]{\\ul{[#1]}}"
-                   "\\usepackage{ifthen}"
-                   "\\newcommand{\\todo}[1]{\\ifthenelse{\\equal{#1}{}}{\\comment{TODO}}{\\comment{TODO: #1}}} % \\`ul' has to be called inside \\`ifthenelse'; the reverse produces an error: \"Argument of \\ifthenelse has an extra }\"."
+                   "\\usepackage{etoolbox} % Also provides boolean variables. Example: \\newtoggle{myVar} \\togglefalse{myVar} \\iftoggle{myVar}{Yes}{No}"
+                   "\\newcommand{\\todo}[1]{\\ifstrempty{#1}{\\comment{TODO}}{\\comment{TODO: #1}}} % \\`ul' has to be called inside \\`ifstrempty'; the reverse produces an error: \"Argument of \\ifstrempty has an extra }\"."
                    "% Block comments (also for calling attention to document areas)."
                    "\\usepackage{mdframed}"
                    "\\newenvironment{blockComment}{\\begin{mdframed}[topline=false, leftline=true, bottomline=false, rightline=false, linecolor=red]}{\\end{mdframed}}"
                    "%\\renewenvironment{blockComment}[1]{}{} % Temporarily disable."
+                   "")
+
+      "% Including pages from PDFs."
+      (latex-block 'smart-comment
+                   "\\usepackage{pdfpages} % Examples: \\includepdf[pages={1,2}]{file.pdf}, \\includepdf[pages={-}]{file.pdf}."
                    "")
 
       "% PDF links and metadata (e.g. index)."
@@ -221,12 +261,34 @@
 
       "% Pseudocode."
       (latex-block 'verbatim
+                   "\\usepackage{algorithm} % Provides the \\`algorithm' float. Also defines \\listofalgorithms. Pass [chapter] to number separately in each chapter."
                    "\\usepackage[noend]{algpseudocode} % \\`algorithmicx' with some predefined commands."
                    (when (string= document-class "beamer")
                      "\\newenvironment{algorithmBlock}{\\begin{block}{Algorytm}}{\\end{block}}")
+                   "% Translate \\`algorithm's strings."
+                   "\\floatname{algorithm}{Algorytm}"
+                   "\\renewcommand{\\listalgorithmname}{Spis algorytmów}"
+                   "% Add a colon between algorithm number and name."
+                   "\\usepackage{caption}"
+                   "\\captionsetup[algorithm]{labelsep=colon}"
                    "% Continuation lines (usage: \\State \\begin{varwidth}[t]{\\linewidth} line1 \\continuationLine line2 ... \\end{varwidth})."
                    "\\usepackage{varwidth}"
                    "\\newcommand{\\continuationLine}{\\par\\hskip\\algorithmicindent}"
+                   "")
+
+      (when (string= document-class "scrartcl")
+        (latex-block 'verbatim
+                     "% Make \\`float', \\`listings' and other packages compatible with KOMA-Script's floats. Load this last, later than even \\`hyperref'."
+                     "\\usepackage{scrhack}"
+                     ""))
+
+      "% Prevent a command (e.g. \\mainmatter) from messing with page numbering. The optional argument is what to add to the page counter."
+      (latex-block 'verbatim
+                   "\\newcommand{\\withoutPageReset}[2][0]{\\edef\\temppagenumber{\\arabic{page}}#2\\pagenumbering{arabic}\\setcounter{page}{\\temppagenumber}\\addtocounter{page}{#1}}"
+                   "")
+
+      (latex-block 'verbatim
+                   "\\newcommand{\\descriptionItemNewLine}[1]{\\item[#1]\\hfill\\\\\\\\} % Alternative: <https://tex.stackexchange.com/questions/262364/how-can-i-force-all-text-to-continue-to-the-next-line-when-using-style-nextline>."
                    "")
 
       ;; Title, author, etc.
@@ -269,11 +331,19 @@
       "\\end{document}"
       ""
 
+      (latex-block 'verbatim
+                   "% To install the requirements for compiling this file on Debian, execute:"
+                   "%   sudo apt-get install texlive texlive-latex-extra texlive-lang-polish texlive-xetex texlive-fonts-extra biber latexmk"
+                   "% Compile with:"
+                   "%   latexmk -xelatex -shell-escape -output-directory=build"
+                   "")
+
       ;; AUCTeX data.
       (when engine-auctex
         (latex-block 'verbatim
                      "% Local Variables:"
                      (concat "% TeX-engine: " engine-auctex)
                      "% ispell-local-dictionary: \"polish\""
+                     "% TeX-command-extra-options: \"-shell-escape\""
                      "% End:"
                      ""))))))
