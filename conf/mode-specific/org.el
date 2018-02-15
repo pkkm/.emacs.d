@@ -125,7 +125,7 @@
     (let* ((html-buffer (url-retrieve-synchronously url))
            (dom (with-current-buffer html-buffer
                   (libxml-parse-html-region (point-min) (point-max) url t)))
-           (title (dom-text (car (dom-by-tag dom 'title))))
+           (title (s-trim (dom-text (car (dom-by-tag dom 'title)))))
            (parsed-url (url-generic-parse-url url))
            (host (url-host parsed-url))
            (domain-levels ; E.g. '("com" "ycombinator.com" "news.ycombinator.com")
