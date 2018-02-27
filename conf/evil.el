@@ -2,7 +2,10 @@
 
 (use-package evil
   :preface
+
   (package-ensure-version 'evil "20150915") ; First version in which y works in motion state and Y can yank from cursor to end of line.
+  (setq undo-tree-enable-undo-in-region nil) ; Should make "primitive-undo: Unrecognized entry in undo list undo-tree-canary" errors less frequent.
+
   :diminish undo-tree-mode
   :init
 
