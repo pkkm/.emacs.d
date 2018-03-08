@@ -60,9 +60,10 @@
   ;; Display.
   (setq org-startup-truncated nil) ; Wrap long lines instead of truncating them (toggle with `toggle-truncate-lines').
   (setq org-startup-folded nil) ; Start with all headlines expanded.
-  (setq org-src-fontify-natively t) ; Fontify code blocks.
-  (setq org-hide-leading-stars t) ; Make leading stars of headlines background color.
+  (setq org-src-fontify-natively t) ; Syntax-highlight code blocks.
+  (setq org-hide-leading-stars t) ; Deemphasize leading stars of headlines.
   (setq org-fontify-done-headline t) ; Mark the whole headline of a DONE task with a different face.
+  (setq org-highlight-latex-and-related '(latex entities)) ; Highlight LaTeX fragments and symbols (e.g. \alpha).
 
   ;; Inline LaTeX formula rendering (Org recognizes "\(", "\[", etc.).
   ;; To render: C-c C-x C-l, to undo: C-c C-c. To render on startup: "#+STARTUP: latexpreview".
