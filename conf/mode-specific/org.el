@@ -161,7 +161,7 @@
               (user (dom-text (car (dom-by-class dom "hnuser")))))
           (concat "Hacker News: " user " on " parent-title)))
        ;; Pages whose title probably contains the website's name.
-       ((setq match-1 (s-match "^\\(.*\\) [-–|:•#] \\(.*\\)$" title))
+       ((setq match-1 (s-match "^\\(.*\\) [-–|:•#·] \\(.*\\)$" title))
         (cl-destructuring-bind (_ first-part second-part) match-1
           (let* ((first-longer-p (>= (length first-part) (length second-part)))
                  (longer (if first-longer-p first-part second-part))
