@@ -151,6 +151,10 @@ If a PACKAGE (as a symbol) is older than MIN-VERSION, install its newest version
 ;;; Load the rest of the config.
 ;; Configuration is in conf/. The parent directory of conf/ is in the load path. (This enables configuration files to have feature names with a common prefix, e.g. 'conf/evil for evil.el, without the file names actually being prefixed.)
 
+;; Store Custom's settings in a separate file instead of writing them here.
+(setq custom-file (locate-user-emacs-file "custom.el"))
+(load custom-file t)
+
 (use-package f :ensure t :commands (f-files f-no-ext f-relative f-ext?))
  (mapc (lambda (file)
          (let ((feature-name (f-no-ext (f-relative file main-dir))))
