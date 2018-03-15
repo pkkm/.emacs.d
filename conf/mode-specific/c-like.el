@@ -1,4 +1,4 @@
-;;; C and C++. -*- lexical-binding: t -*-
+;;; C-like languages: C, C++, Java. -*- lexical-binding: t -*-
 
 (use-package cc-mode ; Bundled with Emacs.
   :config
@@ -78,4 +78,4 @@
   (dolist (mode '(c-mode c++-mode))
     (add-to-list 'compile-run-clean-command-setter-alist (cons mode #'set-c-or-c++-commands))))
 
-(provide 'conf/mode-specific/c-and-c++)
+(provide 'conf/mode-specific/c-like)
