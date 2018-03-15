@@ -4,20 +4,26 @@
   :config
 
   ;; Indentation (Smart Tabs).
+  (require 'conf/utils/hooks) ; Used: add-hooks.
   (with-eval-after-load 'smart-tabs-mode
     (smart-tabs-insinuate 'c 'c++)
-    (add-hook 'c-mode-common-hook #'enable-indent-tabs-mode))
-
-  ;; Don't redefine TAB (so that it can be used for completion).
-  (defun my-kill-local-tab-binding ()
-    (local-set-key (kbd "TAB") nil))
-  (add-hook 'c-mode-common-hook #'my-kill-local-tab-binding)
+    (add-hooks '(c-mode-hook c++-mode-hook) #'enable-indent-tabs-mode))
 
   ;; Indentation style.
   (setq c-default-style
         '((java-mode . "java")
           (awk-mode . "awk")
           (other . "linux")))
+
+  ;; Java: don't align argument list with opening paren.
+  (defun set-java-arglist-indentation ()
+    (c-set-offset 'arglist-intro '++))
+  (add-hook 'java-mode-hook #'set-java-arglist-indentation)
+
+  ;; Don't redefine TAB (so that it can be used for completion).
+  (defun my-kill-local-tab-binding ()
+    (local-set-key (kbd "TAB") nil))
+  (add-hook 'c-mode-common-hook #'my-kill-local-tab-binding)
 
   ;; Use "//" instead of "/*" for comments in C.
   (defun my-c-comment-style ()
