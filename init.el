@@ -12,8 +12,9 @@
     (setq gc-cons-threshold old-gc-cons-threshold))
   (add-hook 'emacs-startup-hook #'restore-default-gc-settings))
 
-;; Verify TLS certificates. (To test this, run `test-https-verification' from `conf/utils/https'.)
-(setq gnutls-verify-error t)
+;; Reject bad TLS certificates (turned off on Windows because I'm having problems with certificate verification there). (To test this, run `test-https-verification' from `conf/utils/https'.)
+(when (not (eq system-type 'windows-nt))
+  (setq gnutls-verify-error t))
 
 ;; Work around security issues (see <https://git.savannah.gnu.org/cgit/emacs.git/tree/etc/NEWS?h=emacs-25>).
 (when (version< emacs-version "25.3")
