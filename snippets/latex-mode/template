@@ -8,6 +8,7 @@
 ;; Useful LaTeX links:
 ;;   * Nice font combinations: <http://tex.stackexchange.com/questions/9533/what-best-combination-of-fonts-for-serif-sans-and-mono-do-you-recommend>, <https://tex.stackexchange.com/questions/59702/suggest-a-nice-font-family-for-my-basic-latex-template-text-and-math>.
 ;;   * Some style tips: <http://tex.stackexchange.com/questions/82376/why-are-these-commands-considered-as-bad-practice>.
+;;   * Tips for using macros: <https://faculty.math.illinois.edu/~hildebr/tex/tips-macros.html>.
 
 (require 'cl-lib) ; Used: cl-flet.
 (let* ((yas-good-grace nil) ; Don't catch errors.
