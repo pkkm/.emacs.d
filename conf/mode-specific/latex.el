@@ -47,7 +47,7 @@
 
   ;; Quick entering of \frac.
   (with-eval-after-load 'latex ; LaTeX mode is loaded after TeX mode.
-    (bind-key "C-c /" (lambda () (interactive) (TeX-insert-macro "frac")) LaTeX-mode-map))
+    (bind-key "C-c /" #'LaTeX-math-frac LaTeX-mode-map))
 
   ;; Make LaTeX previews bigger.
   ;; (Activate previews in buffer with C-c C-p C-b, clear with C-c C-p C-c C-b).
