@@ -67,6 +67,7 @@
 
   ;; Inline LaTeX formula rendering (Org recognizes "\(", "\[", etc.).
   ;; To render: C-c C-x C-l, to undo: C-c C-c. To render on startup: "#+STARTUP: latexpreview".
+  ;; To change loaded packages, modify `org-latex-packages-alist' or `org-latex-default-packages-alist'.
   (plist-put org-format-latex-options :scale 1.8) ; Larger formulas.
 
   ;; Ellipsis style for folded sections.
