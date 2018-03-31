@@ -41,6 +41,7 @@
     (setq TeX-newline-function #'evil-ret-and-indent))
 
   ;; Use ";" as prefix for quickly entering math (toggle with C-c ~).
+  ;; To change the bindings, modify `LaTeX-math-list' or `LaTeX-math-default'. The macros are inserted by `LaTeX-math-insert'.
   ;; (The mode also displays a "Math" menu with many symbols -- can be used efficiently with Lacarte.)
   (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)
   (setq LaTeX-math-abbrev-prefix ";")
