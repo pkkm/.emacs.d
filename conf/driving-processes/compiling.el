@@ -1,4 +1,5 @@
 ;;; Driving compilers using Emacs. -*- lexical-binding: t -*-
+;; Inspiration: the build_systems section in .sublime-project files (http://docs.sublimetext.info/en/latest/reference/projects.html#file-format).
 
 
 ;;; Setting default compilation, execution and cleaning commands for major modes.
