@@ -4,19 +4,16 @@
   :ensure t
   :init
 
-  ;; C-c p -- paste region or buffer.
-  (defun my-debpaste-dwim ()
+  (defun my-debpaste-region-or-buffer ()
     "If the region is active, call `debpaste-paste-region'. Otherwise, `debpaste-paste-buffer'."
     (interactive)
     (if (use-region-p)
         (call-interactively #'debpaste-paste-region)
       (call-interactively #'debpaste-paste-buffer)))
-  (bind-key "C-c p" #'my-debpaste-dwim)
+  (bind-key "C-c P p" #'my-debpaste-region-or-buffer)
 
-  ;; C-c P i -- display the info associated with last posted paste.
-  ;; C-c P d -- delete the paste with a given hash (hash under point is used if available.)
-  :bind (("C-c P i" . debpaste-display-posted-info-in-buffer)
-         ("C-c P d" . debpaste-delete-paste))
+  :bind (("C-c P i" . debpaste-display-posted-info-in-buffer) ; Display info about last paste.
+         ("C-c P d" . debpaste-delete-paste)) ; Delete paste with a given hash (default: hash at point).
 
   :config
 
