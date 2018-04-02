@@ -58,7 +58,7 @@
                (buffer-file-name)) ; Visiting a file.
       (let* ((input-file-name (file-name-nondirectory (buffer-file-name)))
              (output-file-name (concat (file-name-sans-extension input-file-name)
-                                       (if (eq window-system 'w32) ".exe" "")))
+                                       (when (eq window-system 'w32) ".exe")))
              (input-file-name-quoted (shell-quote-argument input-file-name))
              (output-file-name-quoted (shell-quote-argument output-file-name))
              (compiler (if (eq major-mode 'c++-mode) "g++" "gcc"))
@@ -66,15 +66,16 @@
         ;; Set the variables if they're not already set for this buffer.
         (when (not (local-variable-p 'compile-command))
           (set (make-local-variable 'compile-command)
+               ;; Compile command optimized for correctness rather than speed.
                (join-nonempty " "
                  compiler input-file-name-quoted "-o" output-file-name-quoted
                  my-additional-compile-args
                  (concat "--std=" standard)
-                 "-O2" ; Optimize (may make the compiler perform more static checks, but makes the output of a debugger less clear).
-                 "-Wall -Wextra" ; Essential warnings.
+                 "-O2" ; May make the compiler perform more static checks, but makes the output of a debugger less clear.
+                 "-g"
+                 "-Wall -Wextra"
                  "-Werror=implicit-function-declaration" ; Calling an undefined function should be an error.
-                 (when (string= compiler "clang")
-                   "-fsanitize=undefined-trap -fsanitize-undefined-trap-on-error")))) ; Runtime undefined behavior checks.
+                 (concat "-fsanitize=address,leak,undefined" (when (string= compiler "clang") ",memory"))))) ; Insert runtime checks for common programming errors. Each sanitizer will ~double memory usage and running time. When not using this (e.g. in release builds), use -D_FORTIFY_SOURCE=1 instead for less comprehensive checks with little overhead.
         (when (not (local-variable-p 'run-command))
           (set (make-local-variable 'run-command)
                (concat "./" output-file-name-quoted)))
