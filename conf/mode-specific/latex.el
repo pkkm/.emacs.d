@@ -1,5 +1,6 @@
 ;;; LaTeX. -*- lexical-binding: t -*-
 ;; Emacs tip: to type TeX symbols and have them converted to Unicode, press C-\ TeX RET (toggle with C-\).
+;; To lint a LaTeX file, use C-c C-c ChkTeX RET.
 ;; For AUCTeX tips, see <http://tex.stackexchange.com/questions/20843/useful-shortcuts-or-key-bindings-or-predefined-commands-for-emacsauctex>.
 
 (use-package tex
