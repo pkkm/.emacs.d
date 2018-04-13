@@ -5,7 +5,7 @@
 
   ;; Has to be set before loading `recentf'.
   (setq recentf-auto-cleanup 120) ; Clean nonexistent files after 2 min of idle. Trigger manually with `recentf-cleanup'.
-  (setq recentf-max-saved-items 500)
+  (setq recentf-max-saved-items 1000)
 
   (recentf-mode 1)
 
