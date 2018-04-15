@@ -18,4 +18,11 @@
         (message "Abort")))
     (bind-key "C-c r" #'ido-recentf-open)))
 
+;; Sync the recent file list between Emacs instances (by default, the last-closed instance overwrites other ones).
+(use-package sync-recentf
+  :ensure t
+  :init
+  (with-eval-after-load 'recentf
+    (require 'sync-recentf)))
+
 (provide 'conf/opening-saving/recent-files)
