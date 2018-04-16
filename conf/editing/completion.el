@@ -119,4 +119,60 @@ are done with `equal'."
   (add-hook 'after-change-major-mode-hook #'my-set-ac-sources))
 
 
+;; Alternative completion package. Off by default.
+(use-package company
+  :ensure t
+  :config
+
+  ;; Automatic activation.
+  (setq company-idle-delay 0.05)
+  (setq company-minimum-prefix-length 2) ; Start completion after 2 letters.
+
+  ;; Use TAB for both selecting and changing the completion.
+  (add-to-list 'company-frontends #'company-tng-frontend)
+  (setq company-require-match 'never)
+
+  ;; Bindings.
+  (bind-key "<tab>" nil company-active-map)
+  (bind-key "TAB" #'company-select-next company-active-map)
+  (bind-key "<backtab>" #'company-select-previous company-active-map)
+  (bind-key "<return>" nil company-active-map)
+  (bind-key "RET" nil company-active-map)
+
+  ;; Turn off auto-complete when using Company.
+  (defun my-disable-ac-when-company-active ()
+    (when (and (bound-and-true-p auto-complete-mode)
+               (bound-and-true-p company-mode))
+      (auto-complete-mode -1)))
+  (add-hook 'company-mode-hook #'my-disable-ac-when-company-active)
+  (add-hook 'auto-complete-mode-hook #'my-disable-ac-when-company-active)
+
+  ;; Use Company for `completion-at-point'.
+  ;; The auto-complete solution is not applicable because Company gets some completions from `completion-at-point-functions'.
+  (defvar completion-at-point-functions-saved nil)
+  (defun company-indent-for-tab-command (&optional arg)
+    (interactive "P")
+    (let ((completion-at-point-functions-saved completion-at-point-functions)
+          (completion-at-point-functions (list #'company-tab-wrapper)))
+      (indent-for-tab-command arg)))
+  (defun company-tab-wrapper ()
+    (lambda ()
+      (let ((completion-at-point-functions completion-at-point-functions-saved))
+        (company-complete))))
+  (define-key company-mode-map [remap indent-for-tab-command]
+    #'company-indent-for-tab-command))
+
+;; Documentation popups for Company.
+(use-package company-quickhelp
+  :ensure t
+  :init
+
+  (with-eval-after-load 'company
+    (company-quickhelp-mode))
+
+  :config
+
+  (setq company-quickhelp-delay 1))
+
+
 (provide 'conf/editing/completion)
