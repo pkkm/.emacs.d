@@ -38,29 +38,36 @@ Format: '((major-mode . (ac-source ...)) ...)")
   (setq ac-auto-start 2) ; Start completion after 2 letters.
   (setq ac-candidate-limit 1000) ; Upper limit until Emacs becomes annoyingly sluggish (tested on Box in 2017-09).
 
-  ;; If `auto-complete' is too slow:
+  ;; If auto-complete is too slow:
   ;;   * Lower `ac-candidate-limit'
-  ;;   * Change `ac-auto-start' to a higher number, so that `auto-complete' doesn't have to consider as many candidates
+  ;;   * Change `ac-auto-start' to a higher number, so that auto-complete doesn't have to consider as many candidates
 
   ;; Help.
   (setq ac-quick-help-delay 1)
 
-  ;; Use `auto-complete' for `completion-at-point'.
+  ;; Use auto-complete for `completion-at-point'.
   ;; `completion-at-point' is used when TAB is pressed, the current line is already properly indented and:
   ;;   * `tab-always-indent' is set to 'complete
-  ;;   * `auto-complete' isn't already being displayed (when it is, the TAB binding in `ac-completing-map' is used instead)
+  ;;   * auto-complete isn't already being displayed (when it is, the TAB binding in `ac-completing-map' is used instead)
   (defun auto-complete-if-active ()
-    "Call `auto-complete' if `auto-complete-mode' is active."
+    "Start `auto-complete' at point if `auto-complete-mode' is active."
     (when auto-complete-mode
-      (auto-complete)))
+      #'auto-complete))
+  (defun add-to-list-after (list-var element after-what)
+    "Add ELEMENT to the value of LIST-VAR if it isn't there yet.
+ELEMENT will be added after the first occurrence of AFTER-WHAT,
+or at the beginning if AFTER-WHAT isn't in the list. Comparisons
+are done with `equal'."
+    (unless (member element (symbol-value list-var))
+      (let ((after-position (-elem-index after-what (symbol-value list-var))))
+        (set list-var
+             (-insert-at (if after-position (1+ after-position) 0)
+                         element
+                         (symbol-value list-var))))))
   (defun add-ac-to-completion-at-point ()
-    (unless (memq #'auto-complete-if-active completion-at-point-functions)
-      (let ((yas-position (-elem-index #'yas-expand-if-active
-                                       completion-at-point-functions)))
-        (setq completion-at-point-functions
-              (-insert-at (if yas-position (1+ yas-position) 0)
-                          #'auto-complete-if-active
-                          completion-at-point-functions)))))
+    (add-to-list-after 'completion-at-point-functions
+                       #'auto-complete-if-active
+                       #'yas-expand-if-active))
   (add-hook 'auto-complete-mode-hook #'add-ac-to-completion-at-point)
 
 
@@ -100,7 +107,7 @@ Format: '((major-mode . (ac-source ...)) ...)")
   (require 'conf/utils/modes) ; Used: derived-mode-hierarchy.
   (require 'cl-lib) ; Used: cl-remove-duplicates.
   (defun my-set-ac-sources ()
-    "Add `auto-complete' sources from `my-ac-major-mode-sources' for the given major mode (and its parent modes)."
+    "Add auto-complete sources from `my-ac-major-mode-sources' for the given major mode (and its parent modes)."
     (setq ac-sources
           (--> (derived-mode-hierarchy major-mode)
             (-map (lambda (mode)
