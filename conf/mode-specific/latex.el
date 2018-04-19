@@ -46,10 +46,11 @@
   ;; (The mode also displays a "Math" menu with many symbols -- can be used efficiently with Lacarte.)
   (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)
   (setq LaTeX-math-abbrev-prefix ";")
-
-  ;; Quick entering of \frac.
-  (with-eval-after-load 'latex ; LaTeX mode is loaded after TeX mode.
-    (bind-key "C-c /" #'LaTeX-math-frac LaTeX-mode-map))
+  (setq LaTeX-math-list
+        '((?o "omega") (?O "Omega") ; Already on "w" but bound because "o" is more mnemonic.
+          (?/ "frac") (?! "not") ; \not is on "/" by default; \frac is unbound.
+          (?\C-i "int")
+          (?Q "sqrt")))
 
   ;; Make LaTeX previews bigger.
   ;; (Activate previews in buffer with C-c C-p C-b, clear with C-c C-p C-c C-b).
