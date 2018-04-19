@@ -62,13 +62,13 @@
     (ido-vertical-mode)))
 
 ;; Use Ido almost everywhere.
-(use-package ido-ubiquitous
+(use-package ido-completing-read+
   :ensure t
   :init
   (with-eval-after-load 'ido
     (ido-ubiquitous-mode 1))
   :config
-  (setq ido-ubiquitous-max-items 60000)) ; Default is 30k, insert-char needs about 40k.
+  (setq ido-cr+-max-items 100000)) ; Default is 30k, insert-char needs about 40k.
 
 ;; Better, more memory-hungry flex matching.
 (use-package flx-ido
