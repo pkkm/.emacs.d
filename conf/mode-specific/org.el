@@ -141,10 +141,17 @@
            (path (url-filename parsed-url))
            match-1 match-2)
       (cond
+       ;; Reddit wiki.
+       ((and (string-equal "reddit.com" (nth 1 domain-levels))
+             (setq match-1 (s-match "^/r/\\([^/]+\\)/wiki\\(/\\|$\\)" path))
+             (setq match-2 (s-match "^\\(.+\\) - \\([^ ]+\\)$" title)))
+        (let ((wiki-page-title (nth 1 match-2))
+              (subreddit (nth 2 match-2)))
+          (concat "Reddit /r/" subreddit " wiki: " wiki-page-title)))
        ;; Reddit comment thread.
        ((and (string-equal "reddit.com" (nth 1 domain-levels))
              (setq match-1 (s-match "^/r/\\([^/]+\\)/comments/" path))
-             (setq match-2 (s-match "^\\([^ ]+\\) comments on \\(.*\\)$" title)))
+             (setq match-2 (s-match "^\\([^ ]+\\) comments on \\(.+\\)$" title)))
         (let ((subreddit (nth 1 match-1))
               (commenter (nth 1 match-2))
               (top-level-title (nth 2 match-2)))
