@@ -237,7 +237,8 @@
 
       "% Comments."
       (latex-block 'verbatim
-                   "\\usepackage{color}"
+                   (unless (string= document-class "beamer") ; Because beamer loads color and xcolor.
+                     "\\usepackage{color}")
                    "\\usepackage{soul}"
                    "\\setulcolor{red}"
                    "\\newcommand{\\fixme}[1]{\\ul{#1}} % For parts of the text which should be rewritten."
@@ -255,10 +256,11 @@
                    "\\usepackage{pdfpages} % Examples: \\includepdf[pages={1,2}]{file.pdf}, \\includepdf[pages={-}]{file.pdf}."
                    "")
 
-      "% PDF links and metadata (e.g. index)."
-      (latex-block 'verbatim
-                   "\\usepackage[hidelinks]{hyperref} % Should be loaded after most packages but before \\`algorithmicx'." ; For more details, see <https://tex.stackexchange.com/questions/1863/which-packages-should-be-loaded-after-hyperref-instead-of-before>.
-                   "")
+      (unless (string= document-class "beamer") ; Because beamer loads hyperref. Pass hyperref options like this \documentclass[hyperref={colorlinks,linkcolor=DarkRed,urlcolor=DarkBlue}]{beamer}
+        (latex-block 'verbatim
+                     "% PDF links and metadata (e.g. index)."
+                     "\\usepackage[hidelinks]{hyperref} % Should be loaded after most packages but before \\`algorithmicx'." ; For more details, see <https://tex.stackexchange.com/questions/1863/which-packages-should-be-loaded-after-hyperref-instead-of-before>.
+                     ""))
 
       "% Pseudocode."
       (latex-block 'verbatim
