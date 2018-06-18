@@ -237,6 +237,7 @@
 
       "% Comments."
       (latex-block 'verbatim
+                   "% Use \\`$ ... $' instead of \\`\\\\( ... \\\\)' with these commands. For other things that don't work, see the \\`soul' package's manual."
                    (unless (string= document-class "beamer") ; Because beamer loads color and xcolor.
                      "\\usepackage{color}")
                    "\\usepackage{soul}"
