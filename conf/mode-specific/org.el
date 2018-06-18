@@ -124,7 +124,11 @@
     ;; TODO read about <https://github.com/rexim/org-cliplink>, which has similar functionality.
     (require 's)
     (require 'dom)
-    (let* ((html-buffer (url-retrieve-synchronously url))
+    (let* ((url ; Use old.reddit.com instead of reddit.com since the new version is a hard to parse JavaScript mess.
+            (if-let ((match (s-match "^\\(https?://\\)\\(?:www\\.\\)?\\(reddit.com/r/.+\\)$" url)))
+                (concat (nth 1 match) "old." (nth 2 match))
+              url))
+           (html-buffer (url-retrieve-synchronously url))
            (dom (with-current-buffer html-buffer
                   (libxml-parse-html-region (point-min) (point-max) url t)))
            (title (s-trim (dom-text (car (dom-by-tag dom 'title)))))
@@ -141,6 +145,7 @@
            (path (url-filename parsed-url))
            match-1 match-2)
       (cond
+
        ;; Reddit wiki.
        ((and (string-equal "reddit.com" (nth 1 domain-levels))
              (setq match-1 (s-match "^/r/\\([^/]+\\)/wiki\\(/\\|$\\)" path))
@@ -148,6 +153,7 @@
         (let ((wiki-page-title (nth 1 match-2))
               (subreddit (nth 2 match-2)))
           (concat "Reddit /r/" subreddit " wiki: " wiki-page-title)))
+
        ;; Reddit comment thread.
        ((and (string-equal "reddit.com" (nth 1 domain-levels))
              (setq match-1 (s-match "^/r/\\([^/]+\\)/comments/" path))
@@ -156,18 +162,21 @@
               (commenter (nth 1 match-2))
               (top-level-title (nth 2 match-2)))
           (concat "Reddit /r/" subreddit ": " commenter " on " top-level-title)))
+
        ;; Reddit top-level post.
        ((and (string-equal "reddit.com" (nth 1 domain-levels))
              (s-contains? " : " title))
         (cl-destructuring-bind (_ rest subreddit)
             (s-match "^\\(.*\\) : \\([^ :]+\\)$" title)
           (concat "Reddit /r/" subreddit ": " rest)))
+
        ;; Hacker news comment thread.
        ((and (string-equal "news.ycombinator.com" (nth 2 domain-levels))
          (setq match-1 (dom-by-tag (dom-by-class dom "storyon") 'a)))
         (let ((parent-title (dom-text (car match-1)))
               (user (dom-text (car (dom-by-class dom "hnuser")))))
           (concat "Hacker News: " user " on " parent-title)))
+
        ;; Pages whose title probably contains the website's name.
        ((setq match-1 (s-match "^\\(.*\\) [-–|:•#·»] \\(.*\\)$" title))
         (cl-destructuring-bind (_ first-part second-part) match-1
@@ -175,6 +184,7 @@
                  (longer (if first-longer-p first-part second-part))
                  (shorter (if first-longer-p second-part first-part)))
             (concat shorter ": " longer))))
+
        ;; Others.
        (t title))))
 
