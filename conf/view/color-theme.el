@@ -9,14 +9,10 @@
   (run-hooks 'after-load-theme-hook))
 
 ;; TODO submit this upstream?
-(defun change-theme (&rest args)
+(define-interactive-wrapper change-theme (&rest args) load-theme
   "Like `load-theme', but disables all themes before loading the new one."
-  ;; The `interactive' magic is for creating a future-proof passthrough (see <https://emacs.stackexchange.com/a/19242>).
-  (interactive (advice-eval-interactive-spec
-                (cadr (interactive-form #'load-theme))))
   (mapcar #'disable-theme custom-enabled-themes)
-  (apply (if (called-interactively-p 'any) #'funcall-interactively #'funcall)
-         #'load-theme args))
+  (diw-apply-original-fun args))
 
 (when (>= (display-color-cells) 16)
   ;; Except for Wombat, the themes below are chosen largely based on their support for various modes (Org, Helm, Magit, etc.).

@@ -49,21 +49,9 @@ Format: '((major-mode . (ac-source ...)) ...)")
   ;; `completion-at-point' is used when TAB is pressed, the current line is already properly indented and:
   ;;   * `tab-always-indent' is set to 'complete
   ;;   * auto-complete isn't already being displayed (when it is, the TAB binding in `ac-completing-map' is used instead)
+  (require 'conf/utils/lists) ; Used: add-to-list-after.
   (defun auto-complete-if-active ()
-    "Start `auto-complete' at point if `auto-complete-mode' is active."
-    (when auto-complete-mode
-      #'auto-complete))
-  (defun add-to-list-after (list-var element after-what)
-    "Add ELEMENT to the value of LIST-VAR if it isn't there yet.
-ELEMENT will be added after the first occurrence of AFTER-WHAT,
-or at the beginning if AFTER-WHAT isn't in the list. Comparisons
-are done with `equal'."
-    (unless (member element (symbol-value list-var))
-      (let ((after-position (-elem-index after-what (symbol-value list-var))))
-        (set list-var
-             (-insert-at (if after-position (1+ after-position) 0)
-                         element
-                         (symbol-value list-var))))))
+    (when auto-complete-mode #'auto-complete))
   (defun add-ac-to-completion-at-point ()
     (add-to-list-after 'completion-at-point-functions
                        #'auto-complete-if-active
@@ -147,20 +135,33 @@ are done with `equal'."
   (add-hook 'company-mode-hook #'my-disable-ac-when-company-active)
   (add-hook 'auto-complete-mode-hook #'my-disable-ac-when-company-active)
 
+  (defun add-to-list-after (list-var element after-what)
+    "Add ELEMENT to the value of LIST-VAR if it isn't there yet.
+ELEMENT will be added after the first occurrence of AFTER-WHAT,
+or at the beginning if AFTER-WHAT isn't in the list. Comparisons
+are done with `equal'."
+    (unless (member element (symbol-value list-var))
+      (let ((after-position (-elem-index after-what (symbol-value list-var))))
+        (set list-var
+             (-insert-at (if after-position (1+ after-position) 0)
+                         element
+                         (symbol-value list-var))))))
+
   ;; Use Company for `completion-at-point'.
-  ;; The auto-complete solution is not applicable because Company gets some completions from `completion-at-point-functions'.
-  (defvar completion-at-point-functions-saved nil)
-  (defun company-indent-for-tab-command (&optional arg)
-    (interactive "P")
-    (let ((completion-at-point-functions-saved completion-at-point-functions)
-          (completion-at-point-functions (list #'company-tab-wrapper)))
-      (indent-for-tab-command arg)))
-  (defun company-tab-wrapper ()
-    (lambda ()
-      (let ((completion-at-point-functions completion-at-point-functions-saved))
-        (company-complete))))
-  (define-key company-mode-map [remap indent-for-tab-command]
-    #'company-indent-for-tab-command))
+
+  (require 'conf/utils/functions) ; Used: define-interactive-wrapper.
+  (require 'conf/utils/lists) ; Used: add-to-list-after.
+  (define-interactive-wrapper company-complete-wrapper (&rest args) company-complete
+    (let ((completion-at-point-functions
+           (-remove-item #'company-wrapper-if-active completion-at-point-functions)))
+      (diw-apply-original-fun args)))
+  (defun company-wrapper-if-active ()
+    (when company-mode #'company-complete-wrapper))
+  (defun add-company-to-completion-at-point ()
+    (add-to-list-after 'completion-at-point-functions
+                       #'company-wrapper-if-active
+                       #'yas-expand-if-active))
+  (add-hook 'company-mode-hook #'add-company-to-completion-at-point))
 
 ;; Documentation popups for Company.
 (use-package company-quickhelp

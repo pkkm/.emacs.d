@@ -23,4 +23,16 @@
   (declare (indent defun))
   (s-join separator (delq nil (delete "" parts))))
 
+(defun add-to-list-after (list-var element after-what)
+  "Add ELEMENT to the value of LIST-VAR if it isn't there yet.
+ELEMENT will be added after the first occurrence of AFTER-WHAT,
+or at the beginning if AFTER-WHAT isn't in the list. Comparisons
+are done with `equal'."
+  (unless (member element (symbol-value list-var))
+    (let ((after-position (-elem-index after-what (symbol-value list-var))))
+      (set list-var
+           (-insert-at (if after-position (1+ after-position) 0)
+                       element
+                       (symbol-value list-var))))))
+
 (provide 'conf/utils/lists)
