@@ -74,18 +74,6 @@
         ("melpa-stable" . 5)
         ("melpa" . 0)))
 
-(defadvice package--add-to-archive-contents
-    (around ignore-wiki-packages (package archive) activate)
-  "Ignore packages fetched from the wiki (which is insecure).
-Based on the package's homepage, so it misses some packages, but it's better than nothing."
-  (let* ((package-extra-info (package--ac-desc-extras (cdr package)))
-         (package-homepage (cdr (assoc :url package-extra-info))))
-    (unless (and package-homepage
-                 (string-match-p
-                  (rx "http" (? "s") "://" (? "www.") "emacswiki.org/" (+ anything) ".el")
-                  package-homepage))
-      ad-do-it)))
-
 ;; To update installed packages, use M-x package-list-packages RET U x.
 ;; Or delete the elpa/ directory and launch Emacs for it to be recreated.
 
