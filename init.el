@@ -17,7 +17,11 @@
 
 ;; Increase TLS security. To test this, run `test-https-verification' from `conf/utils/https'. See <https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html>.
 (when my-use-tls
-  (setq gnutls-verify-error t))
+  (setq network-security-level 'high)
+  (setq tls-checktrust t)
+  (setq gnutls-verify-error t)
+  (setq gnutls-min-prime-bits 2048)
+  (setq gnutls-algorithm-priority "SECURE192:+SECURE128:-VERS-ALL:+VERS-TLS1.2:%PROFILE_MEDIUM"))
 
 ;; Work around security issues (see <https://git.savannah.gnu.org/cgit/emacs.git/tree/etc/NEWS?h=emacs-25>).
 (when (version< emacs-version "25.3")
