@@ -1,20 +1,23 @@
 * My Emacs configuration
+
   I like modal editing and Vim's keybindings, but also Lisp and the extensibility it enables in Emacs. This is my attempt to combine the advantages of both editors.
 
   Note that it is written with my particular use-cases in mind (for example, keybindings are optimized for the [[http://www.kaufmann.no/roland/dvorak/][Programmer Dvorak]] keyboard layout). You probably don't want to use this configuration verbatim; instead, feel free to copy parts of it into your own.
 
 ** Compatibility
-   Requires *Emacs 24.4* or newer.
+
+   Requires *Emacs 25.1* or newer.
 
 ** Installation
+
    Just clone this repository into =~/.emacs.d=. On the first launch, Emacs will download and install all the necessary packages into =~/.emacs.d/elpa=.
 
 ** Some of the packages used
+
    - =evil= :: Most comprehensive Vim emulation I've ever seen.
-   - =ido=, =ido-ubiquitous=, =smex=, =flx-ido= :: Fuzzy completion in the minibuffer.
+   - =ido=, =ido-completing-read+=, =smex=, =flx-ido= :: Fuzzy completion in the minibuffer.
    - =smartparens= :: Manipulating entire s-expressions at once. Useful for more languages than =paredit=.
-   - =auto-complete=, =yasnippet= :: Completion with snippets. I use =auto-complete= instead of =company-mode= mostly because of inertia.
+   - =auto-complete=, =company-mode=, =yasnippet= :: Completion with snippets.
    - =flycheck=, =flyspell= :: On-the-fly checking of syntax/spelling.
    - =magit= :: An efficient Git interface.
    - =use-package= :: Syntactic sugar that simplifies package configuration.
-   - =cedet=, =srefactor=, =emr= :: Language-aware features.
