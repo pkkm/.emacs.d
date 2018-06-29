@@ -1,8 +1,8 @@
 ;;; Main file of this Emacs config. -*- lexical-binding: t -*-
 
-;; Ensure we're on Emacs 24.4 or newer.
-(when (version< emacs-version "24.4")
-  (error (concat "This config requires Emacs 24.4+. Current version: " emacs-version)))
+;; Ensure we're on Emacs 25.1 or newer.
+(when (version< emacs-version "25.1")
+  (error (concat "This config requires Emacs 25.1+. Current version: " emacs-version)))
 
 ;; Optimization: don't do many small garbage collections during init.
 (let ((old-gc-cons-threshold gc-cons-threshold))
