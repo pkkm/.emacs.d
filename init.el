@@ -12,8 +12,11 @@
     (setq gc-cons-threshold old-gc-cons-threshold))
   (add-hook 'emacs-startup-hook #'restore-default-gc-settings))
 
-;; Reject bad TLS certificates (turned off on Windows because I'm having problems with certificate verification there). (To test this, run `test-https-verification' from `conf/utils/https'.)
-(when (not (eq system-type 'windows-nt))
+;; Don't try to use an external TLS program on Windows (it won't work).
+(setq my-use-tls (or (not (eq system-type 'windows-nt)) (gnutls-available-p)))
+
+;; Increase TLS security. To test this, run `test-https-verification' from `conf/utils/https'. See <https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html>.
+(when my-use-tls
   (setq gnutls-verify-error t))
 
 ;; Work around security issues (see <https://git.savannah.gnu.org/cgit/emacs.git/tree/etc/NEWS?h=emacs-25>).
@@ -61,10 +64,11 @@
 (setq package-enable-at-startup nil) ; Don't load the packages the second time after the init file.
 
 ;; Package archives.
-(setq package-archives
-      '(("gnu" . "http://elpa.gnu.org/packages/")
-        ("melpa-stable" . "https://stable.melpa.org/packages/")
-        ("melpa" . "https://melpa.org/packages/")))
+(let ((proto (if my-use-tls "https://" "http://")))
+  (setq package-archives
+        (list (cons "gnu" (concat proto "elpa.gnu.org/packages/"))
+              (cons "melpa-stable" (concat proto "stable.melpa.org/packages/"))
+              (cons "melpa" (concat proto "melpa.org/packages/")))))
 (setq package-archive-priorities ; Works only on Emacs 25.1+.
       '(("gnu" . 10)
         ("melpa-stable" . 5)
