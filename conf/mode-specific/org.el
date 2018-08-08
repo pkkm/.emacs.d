@@ -170,12 +170,28 @@
             (s-match "^\\(.*\\) : \\([^ :]+\\)$" title)
           (concat "Reddit /r/" subreddit ": " rest)))
 
-       ;; Hacker news comment thread.
+       ;; Hacker News comment thread.
        ((and (string-equal "news.ycombinator.com" (nth 2 domain-levels))
          (setq match-1 (dom-by-tag (dom-by-class dom "storyon") 'a)))
         (let ((parent-title (dom-text (car match-1)))
               (user (dom-text (car (dom-by-class dom "hnuser")))))
           (concat "Hacker News: " user " on " parent-title)))
+
+       ;; Less Wrong.
+       ((string-equal "lesswrong.com" (nth 1 domain-levels))
+        (if-let ((comment-id (nth 1 (s-match "#\\([a-zA-Z0-9]+\\)$" url))))
+            ;; Get author from GreaterWrong (a LessWrong viewer that uses plain HTML rather than a huge JavaScript blob).
+            (let* ((gw-url (replace-regexp-in-string
+                            "\\(lesswrong.com\\).*\\'" "greaterwrong.com" url nil nil 1))
+                   (gw-dom (with-current-buffer (url-retrieve-synchronously gw-url)
+                             (libxml-parse-html-region (point-min) (point-max) url t)))
+                   (comment-author (-> gw-dom
+                                       (dom-by-id (regexp-quote comment-id))
+                                       (dom-by-class "author")
+                                       (car)
+                                       (dom-text))))
+              (concat "Less Wrong: " comment-author " on " title))
+          (concat "Less Wrong: " title)))
 
        ;; Pages whose title probably contains the website's name.
        ((setq match-1 (s-match "^\\(.*\\) [-–|:•#·»] \\(.*\\)$" title))
