@@ -250,7 +250,7 @@
   ;; Capture template.
   ;; It would be useful to process the captured string (replace weird characters like non-breaking space) and link (using my-org-link-description). This could be done with %-escapes inside %(sexp) expressions in `org-capture-templates', but they are handled with a string replacement rather than proper parsing so it would be buggy and a security risk (as of Org 9.1.1).
   ;; TODO submit an Org bug report. When it's fixed, finish writing the processing functionality (see commit 45c083f2516c066fd58af6b0261faeb1f1c29ea1 in this repo).
-  (setq org-default-notes-file "~/Documents/Inbox.org")
+  (setq org-default-notes-file "~/Documents/Inbox/Inbox.org")
   (add-to-list 'org-capture-templates
                `("n" "Quote in org-default-notes-file" plain
                  (file "")
