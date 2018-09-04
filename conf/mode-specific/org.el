@@ -68,7 +68,7 @@
   ;; Inline LaTeX formula rendering (Org recognizes "\(", "\[", etc.).
   ;; To render: C-c C-x C-l, to undo: C-c C-c. To render on startup: "#+STARTUP: latexpreview".
   ;; To change loaded packages, modify `org-latex-packages-alist' or `org-latex-default-packages-alist'.
-  (plist-put org-format-latex-options :scale 1.8) ; Larger formulas.
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.8)) ; Larger formulas.
 
   ;; Ellipsis style for folded sections.
   (require 'conf/utils/colors) ; Used: color-mix.
@@ -121,13 +121,10 @@
 
   (defun my-org-link-description (url &rest _)
     "Return link description for URL in the format I use in my notes."
-    ;; TODO read about <https://github.com/rexim/org-cliplink>, which has similar functionality.
     (require 's)
     (require 'dom)
-    (let* ((url ; Use old.reddit.com instead of reddit.com since the new version is a hard to parse JavaScript mess.
-            (if-let ((match (s-match "^\\(https?://\\)\\(?:www\\.\\)?\\(reddit.com/r/.+\\)$" url)))
-                (concat (nth 1 match) "old." (nth 2 match))
-              url))
+    (let* ((url (replace-regexp-in-string ; Use old.reddit.com instead of reddit.com since the new version is a hard to parse JavaScript mess.
+                 "^\\(https?://\\)\\(?:www\\.\\)?\\(reddit.com/r/.+\\)$" "\\1old.\\2" url))
            (html-buffer (url-retrieve-synchronously url))
            (dom (with-current-buffer html-buffer
                   (libxml-parse-html-region (point-min) (point-max) url t)))
