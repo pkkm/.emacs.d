@@ -2,6 +2,10 @@
 
 (use-package org
   :ensure t
+
+  :preface
+  (setq org-export-backends '(ascii html icalendar latex odt md)) ; Default value (as of Org 9.1) with `md' added.
+
   :config
 
 
