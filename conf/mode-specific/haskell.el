@@ -1,8 +1,5 @@
 ;;; Haskell. -*- lexical-binding: t -*-
-;; Things to consider adding in the future:
-;;   * https://github.com/commercialhaskell/intero
-;;   * https://github.com/RefactoringTools/HaRe
-;;   * https://github.com/chrisdone/hindent
+;; For IDE features, install Intero or haskell-ide-engine. (As of 2018-11, Intero is more mature but haskell-ide-engine is more advanced.)
 
 ;; Main package.
 (use-package haskell-mode
