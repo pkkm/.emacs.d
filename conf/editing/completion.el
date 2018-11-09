@@ -135,20 +135,13 @@ Format: '((major-mode . (ac-source ...)) ...)")
   (add-hook 'company-mode-hook #'my-disable-ac-when-company-active)
   (add-hook 'auto-complete-mode-hook #'my-disable-ac-when-company-active)
 
-  (defun add-to-list-after (list-var element after-what)
-    "Add ELEMENT to the value of LIST-VAR if it isn't there yet.
-ELEMENT will be added after the first occurrence of AFTER-WHAT,
-or at the beginning if AFTER-WHAT isn't in the list. Comparisons
-are done with `equal'."
-    (unless (member element (symbol-value list-var))
-      (let ((after-position (-elem-index after-what (symbol-value list-var))))
-        (set list-var
-             (-insert-at (if after-position (1+ after-position) 0)
-                         element
-                         (symbol-value list-var))))))
+  ;; Don't show single candidates inline (it's buggy as of 2018-11).
+  (setq company-frontends
+        (-replace 'company-pseudo-tooltip-unless-just-one-frontend
+                  'company-pseudo-tooltip-frontend
+                  (delq 'company-preview-if-just-one-frontend company-frontends)))
 
   ;; Use Company for `completion-at-point'.
-
   (require 'conf/utils/functions) ; Used: define-interactive-wrapper.
   (require 'conf/utils/lists) ; Used: add-to-list-after.
   (define-interactive-wrapper company-complete-wrapper (&rest args) company-complete
