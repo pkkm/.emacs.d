@@ -9,15 +9,16 @@ When called without region and there's symbol at point, use it."
     :type line ; Takes whole lines. Evil's ":s" command works on whole lines anyway.
     :move-point nil ; Don't go to `beg' before executing (this would mess with `thing-at-point').
     (cl-flet ((ex-before-after (before after) ; Prompt for an Ex command, with point between BEFORE and AFTER.
-                               (evil-ex (cons (concat before after) (1+ (length before)))))) ; When the argument is (STRING . POSITION), point is placed at one-indexed POSITION (documented in `read-from-minibuffer').
+                               (evil-ex (cons (concat before after) (1+ (length before))))))
       (let ((symbol (thing-at-point 'symbol t)))
         (if (and symbol (not (use-region-p)))
             ;; When we were called as an operator with a symbol at point, insert the symbol as the text to replace.
-            (let ((replaced (concat (rx symbol-start) symbol (rx symbol-end)))
-                  (line-range (concat (number-to-string (line-number-at-pos beg)) ","
-                                      (number-to-string (line-number-at-pos end)))))
-              (ex-before-after (concat line-range "s/" replaced "/")
-                               "/gI")) ; I -- turn off case insensitivity.
+            (ex-before-after
+             (format "%d,%ds/%s/"
+                     (line-number-at-pos beg)
+                     (line-number-at-pos (1- end)) ; Subtract 1 since with `:type line', `end' is the start of the line after the selected block of lines.
+                     (concat (rx symbol-start) symbol (rx symbol-end)))
+             "/gI") ; I -- turn off case insensitivity.
           ;; When we were called in visual state or there's no symbol at point, insert an empty place for a symbol.
           (let ((range (if (use-region-p) "'<,'>" "")))
             (ex-before-after (concat range "s/" (rx symbol-start))
