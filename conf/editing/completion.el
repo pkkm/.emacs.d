@@ -126,6 +126,7 @@ Format: '((major-mode . (ac-source ...)) ...)")
   (bind-key "<backtab>" #'company-select-previous company-active-map)
   (bind-key "<return>" nil company-active-map)
   (bind-key "RET" nil company-active-map)
+  (bind-key "C-w" nil company-active-map)
 
   ;; Turn off auto-complete when using Company.
   (defun my-disable-ac-when-company-active ()
