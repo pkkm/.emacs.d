@@ -3,8 +3,11 @@
 (use-package lsp-mode
   :ensure t
   :config
+
   (require 'lsp-imenu)
-  (add-hook 'lsp-after-open-hook #'lsp-enable-imenu))
+  (add-hook 'lsp-after-open-hook #'lsp-enable-imenu)
+
+  (add-hook 'lsp-after-open-hook #'company-mode))
 
 (use-package lsp-ui
   :ensure t
