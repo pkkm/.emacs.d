@@ -73,6 +73,8 @@
   ;; To render: C-c C-x C-l, to undo: C-c C-c. To render on startup: "#+STARTUP: latexpreview".
   ;; To change loaded packages, modify `org-latex-packages-alist' or `org-latex-default-packages-alist'.
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.8)) ; Larger formulas.
+  (when-let (dir (getenv "XDG_RUNTIME_DIR")) ; Store all previews in one place.
+    (setq org-latex-preview-ltxpng-directory (expand-file-name "emacs-org-ltxpng/" dir)))
 
   ;; Ellipsis style for folded sections.
   (require 'conf/utils/colors) ; Used: color-mix.
