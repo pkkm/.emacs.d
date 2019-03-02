@@ -30,12 +30,9 @@
   ;; (Configuration is in conf/view/eldoc.el.)
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
 
-  ;; Completion sources.
-  (require 'conf/editing/completion) ; Used: my-major-mode-ac-sources.
-  (with-eval-after-load 'auto-complete
-    (let ((my-elisp-ac-sources '(ac-source-functions ac-source-variables ac-source-symbols ac-source-features)))
-      (add-to-list 'my-major-mode-ac-sources `(emacs-lisp-mode . ,my-elisp-ac-sources))
-      (add-to-list 'my-major-mode-ac-sources `(lisp-interaction-mode . ,my-elisp-ac-sources))))
+  ;; Fix completion (the default `company-capf' backend is broken in lisp-interaction-mode as of 2019-03).
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends 'company-elisp))
 
   ;; Evaluation bindings.
   (defun evil-eval-region (region-start region-end)

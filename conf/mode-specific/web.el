@@ -33,14 +33,6 @@
   (setq web-mode-block-padding 0)
 
 
-  ;; Completion.
-  (with-eval-after-load 'auto-complete
-    ;; Web mode has an alist for auto-complete sources (if it's not set, auto-complete won't work).
-    (setq web-mode-ac-sources-alist
-          `(("php" . ,(default-value 'ac-sources))
-            ("html" . ,(default-value 'ac-sources))
-            ("css" . (ac-source-css-property ,@(default-value 'ac-sources))))))
-
   ;; Use YASnippet snippets of other modes.
   ;; (An alternative approach would be to create "~/.emacs.d/snippets/web-mode/.yas-parents" with the mode names.)
   (with-eval-after-load 'yasnippet

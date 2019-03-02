@@ -23,11 +23,11 @@
   :init
   (skewer-setup)) ; Integrate with js2-mode, html-mode and css-mode. (Don't worry about performance, this function is in a separate file.)
 
-;; Auto-complete support (also provides jump-to-definition).
+;; Completion (also provides jump-to-definition).
 (use-package ac-js2
   :ensure t
   :init
-  (add-hook 'js2-mode-hook #'ac-js2-mode)
+  (add-hook 'js2-mode-hook #'ac-js2-company)
   :config
   ;; C-c . -- jump to definition.
   (require 'conf/utils/keys) ; Used: clear-keymap.

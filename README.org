@@ -17,7 +17,7 @@
    - =evil= :: Most comprehensive Vim emulation I've ever seen.
    - =ido=, =ido-completing-read+=, =smex=, =flx-ido= :: Fuzzy completion in the minibuffer.
    - =smartparens= :: Manipulating entire s-expressions at once. Useful for more languages than =paredit=.
-   - =auto-complete=, =company-mode=, =yasnippet= :: Completion with snippets.
+   - =company-mode= :: Completion.
    - =flycheck=, =flyspell= :: On-the-fly checking of syntax/spelling.
    - =magit= :: An efficient Git interface.
    - =use-package= :: Syntactic sugar that simplifies package configuration.

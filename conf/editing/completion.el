@@ -2,8 +2,10 @@
 
 ;; Make TAB indent on the first press, and activate completion on the second.
 (setq tab-always-indent 'complete)
+
 (add-to-list 'completion-styles 'initials t) ; E.g. ~/sew -> ~/src/emacs/work.
 
+;; Old completion package -- currently unused but kept in case I need it later.
 (use-package auto-complete
   :ensure t
   :diminish auto-complete-mode
@@ -14,18 +16,20 @@
 Format: '((major-mode . (ac-source ...)) ...)")
   ;; This has to be here because it's used by other parts of my config.
 
-  ;; Enable auto-complete everywhere (apart from the minibuffer).
-  (defun my-enable-auto-complete ()
-    "Enable auto-complete if we're not in the minibuffer."
-    (unless (minibufferp)
-      (auto-complete-mode 1)))
-  (define-globalized-minor-mode
-    my-auto-complete-everywhere-mode
-    auto-complete-mode
-    my-enable-auto-complete)
-  (my-auto-complete-everywhere-mode 1)
-
   :config
+
+  ;; Make Company and auto-complete mutually exclusive.
+  (with-eval-after-load 'company
+    (defun my-disable-ac-when-company-active ()
+      (when (and (bound-and-true-p auto-complete-mode)
+                 (bound-and-true-p company-mode))
+        (auto-complete-mode -1)))
+    (defun my-disable-company-when-ac-active ()
+      (when (and (bound-and-true-p auto-complete-mode)
+                 (bound-and-true-p company-mode))
+        (company-mode -1)))
+    (add-hook 'company-mode-hook #'my-disable-ac-when-company-active)
+    (add-hook 'auto-complete-mode-hook #'my-disable-company-when-ac-active))
 
   ;; Don't disable auto-complete on specific faces.
   (setq ac-disable-faces nil)
@@ -37,10 +41,6 @@ Format: '((major-mode . (ac-source ...)) ...)")
   ;; Performance (change if Emacs is too slow).
   (setq ac-auto-start 2) ; Start completion after 2 letters.
   (setq ac-candidate-limit 1000) ; Upper limit until Emacs becomes annoyingly sluggish (tested on Box in 2017-09).
-
-  ;; If auto-complete is too slow:
-  ;;   * Lower `ac-candidate-limit'
-  ;;   * Change `ac-auto-start' to a higher number, so that auto-complete doesn't have to consider as many candidates
 
   ;; Help.
   (setq ac-quick-help-delay 1)
@@ -83,8 +83,7 @@ Format: '((major-mode . (ac-source ...)) ...)")
   ;;; Sources.
 
   (require 'auto-complete-config) ; Used: ac-source-yasnippet.
-  (setq-default ac-sources '(; ac-source-semantic ; Too slow (makes Emacs hang for multiple seconds, as of 2015-01).
-                             ac-source-words-in-buffer
+  (setq-default ac-sources '(ac-source-words-in-buffer
                              ac-source-yasnippet
                              ac-source-dictionary
                              ac-source-words-in-same-mode-buffers
@@ -107,23 +106,11 @@ Format: '((major-mode . (ac-source ...)) ...)")
   (add-hook 'after-change-major-mode-hook #'my-set-ac-sources))
 
 
-;; Alternative completion package. Off by default.
 (use-package company
   :ensure t
+  :init
+  (global-company-mode)
   :config
-
-  ;; Make Company and auto-complete mutually exclusive.
-  (with-eval-after-load 'auto-complete
-    (defun my-disable-ac-when-company-active ()
-      (when (and (bound-and-true-p auto-complete-mode)
-                 (bound-and-true-p company-mode))
-        (auto-complete-mode -1)))
-    (defun my-disable-company-when-ac-active ()
-      (when (and (bound-and-true-p auto-complete-mode)
-                 (bound-and-true-p company-mode))
-        (company-mode -1)))
-    (add-hook 'company-mode-hook #'my-disable-ac-when-company-active)
-    (add-hook 'auto-complete-mode-hook #'my-disable-company-when-ac-active))
 
   ;; Automatic activation.
   (setq company-idle-delay 0.05)
@@ -169,13 +156,9 @@ Format: '((major-mode . (ac-source ...)) ...)")
 (use-package company-quickhelp
   :ensure t
   :init
-
   (with-eval-after-load 'company
     (company-quickhelp-mode))
-
   :config
-
   (setq company-quickhelp-delay 1))
-
 
 (provide 'conf/editing/completion)

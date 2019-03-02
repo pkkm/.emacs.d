@@ -13,22 +13,12 @@
   :config
 
   ;; Indent guides.
-  ;; We don't use `with-eval-after-load' because `indent-guide-mode' is autoloaded, so it would never load.
   (require 'conf/view/indent-guides)
   (add-hook 'clojure-mode-hook #'indent-guide-mode))
 
 ;; YASnippet snippets.
 (use-package clojure-snippets
   :ensure t)
-
-;; Auto-complete integration.
-;; Disabled for now, as it hangs Emacs when typing (the official solution seems to be to switch to company-mode).
-;; (use-package ac-cider
-;;   :ensure t
-;;   :init
-;;   (require 'conf/utils/hooks) ; Used: add-hooks.
-;;   (with-eval-after-load 'auto-complete
-;;     (add-hooks '(cider-mode-hook cider-repl-mode-hook) 'ac-cider-setup)))
 
 ;; Clojure cheatsheet (C-c M-h).
 ;; See also: CIDER's "C-c C-d g" binding to look up symbol in Grimoire (online Clojure reference).

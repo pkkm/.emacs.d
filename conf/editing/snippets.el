@@ -26,7 +26,7 @@
     (add-to-list 'completion-at-point-functions #'yas-expand-if-active))
   (add-hook 'yas-minor-mode-hook #'add-yas-expand-to-completion-at-point)
 
-  ;; Remove YASnippet's bindings for expanding snippets (we'll use `auto-complete' and `completion-at-point' for that).
+  ;; Remove YASnippet's bindings for expanding snippets.
   (bind-key "TAB" nil yas-minor-mode-map)
   (bind-key "<tab>" nil yas-minor-mode-map)
 
