@@ -112,6 +112,19 @@ Format: '((major-mode . (ac-source ...)) ...)")
   :ensure t
   :config
 
+  ;; Make Company and auto-complete mutually exclusive.
+  (with-eval-after-load 'auto-complete
+    (defun my-disable-ac-when-company-active ()
+      (when (and (bound-and-true-p auto-complete-mode)
+                 (bound-and-true-p company-mode))
+        (auto-complete-mode -1)))
+    (defun my-disable-company-when-ac-active ()
+      (when (and (bound-and-true-p auto-complete-mode)
+                 (bound-and-true-p company-mode))
+        (company-mode -1)))
+    (add-hook 'company-mode-hook #'my-disable-ac-when-company-active)
+    (add-hook 'auto-complete-mode-hook #'my-disable-company-when-ac-active))
+
   ;; Automatic activation.
   (setq company-idle-delay 0.05)
   (setq company-minimum-prefix-length 2) ; Start completion after 2 letters.
@@ -127,14 +140,6 @@ Format: '((major-mode . (ac-source ...)) ...)")
   (bind-key "<return>" nil company-active-map)
   (bind-key "RET" nil company-active-map)
   (bind-key "C-w" nil company-active-map)
-
-  ;; Turn off auto-complete when using Company.
-  (defun my-disable-ac-when-company-active ()
-    (when (and (bound-and-true-p auto-complete-mode)
-               (bound-and-true-p company-mode))
-      (auto-complete-mode -1)))
-  (add-hook 'company-mode-hook #'my-disable-ac-when-company-active)
-  (add-hook 'auto-complete-mode-hook #'my-disable-ac-when-company-active)
 
   ;; Don't show single candidates inline (it's buggy as of 2018-11).
   (setq company-frontends
