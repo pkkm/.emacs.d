@@ -133,6 +133,9 @@ Format: '((major-mode . (ac-source ...)) ...)")
   (add-to-list 'company-frontends #'company-tng-frontend)
   (setq company-require-match 'never)
 
+  ;; Don't downcase candidates. (See also `company-dabbrev-ignore-case'.)
+  (setq company-dabbrev-downcase nil)
+
   ;; Bindings.
   (bind-key "<tab>" nil company-active-map)
   (bind-key "TAB" #'company-select-next company-active-map)
