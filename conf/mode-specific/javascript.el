@@ -43,12 +43,8 @@
 (use-package js2-refactor
   :ensure t
   :init
-  ;; Load when js2-mode is turned on.
-  (defun require-js2-refactor ()
-    (require 'js2-refactor))
-  (add-hook 'js2-mode-hook #'require-js2-refactor)
+  (add-hook 'js2-mode-hook #'js2-refactor-mode)
   :config
-  ;; C-c C-m -- a prefix for many refactorings (e.g. ef -- extract function).
   (js2r-add-keybindings-with-prefix "C-c C-m"))
 ;; Doesn't work.
 ;; It seems that `smartparens' binds some characters to `sp--self-insert-command' in the menu buffer, which makes the menu items unselectable.
