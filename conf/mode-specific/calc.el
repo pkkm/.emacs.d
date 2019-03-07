@@ -9,6 +9,9 @@
 (use-package calc
   :config
 
+  ;; Don't give multiplication higher precedence than division.
+  (setq calc-multiplication-has-precedence nil)
+
   ;; Cheatsheet.
   (defun my-cheatsheet-calc ()
     (interactive)
