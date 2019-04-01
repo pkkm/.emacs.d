@@ -21,10 +21,6 @@
   (with-eval-after-load 'cider
     (bind-key "C-c M-h" #'cider-cheatsheet clojure-mode-map)))
 
-;; YASnippet snippets.
-(use-package clojure-snippets
-  :ensure t)
-
 ;; Refactoring.
 ;; Prefix: C-c RET (overrides the binding for macroexpand).
 (use-package clj-refactor
