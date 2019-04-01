@@ -3,7 +3,7 @@
 (use-package lsp-mode
   :ensure t
   :config
-  (require 'lsp-imenu)
+  (require 'lsp-imenu nil t) ; For compatibility with lsp-mode versions before 2018-11-21.
   (add-hook 'lsp-after-open-hook #'lsp-enable-imenu))
 
 (use-package lsp-ui
@@ -24,7 +24,7 @@
   :ensure t
   :commands lsp-cquery-enable
   :config
-  ;; Store cache in one place rather than polluting project directories.
+  ;; Store cache in one place instead of polluting project directories.
   (setq cquery-cache-dir-function #'cquery-cache-dir-consolidated))
 
 (provide 'conf/driving-processes/lsp)
