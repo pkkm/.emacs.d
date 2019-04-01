@@ -12,7 +12,7 @@
   (setq evil-want-C-u-scroll t) ; Use C-u for scrolling instead of prefix argument.
   (setq evil-want-Y-yank-to-eol t) ; Yank from cursor to end instead of whole line (for consistency with C and D).
 
-  (evil-mode 1)
+  (add-hook 'after-init-hook #'evil-mode) ; Enable evil-mode after init rather than immediately because it enables undo-tree, which hooks deeply into Emacs and can slow down init or even cause weird errors during the initial batch package installation.
 
   :config
 
