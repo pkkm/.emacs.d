@@ -69,6 +69,9 @@
   (setq org-fontify-done-headline t) ; Mark the whole headline of a DONE task with a different face.
   (setq org-highlight-latex-and-related '(latex entities)) ; Highlight LaTeX fragments and symbols (e.g. \alpha).
 
+  ;; Don't use additional indentation for code blocks.
+  (setq org-edit-src-content-indentation 0)
+
   ;; Inline LaTeX formula rendering (Org recognizes "\(", "\[", etc.).
   ;; To render: C-c C-x C-l, to undo: C-c C-c. To render on startup: "#+STARTUP: latexpreview".
   ;; To change loaded packages, modify `org-latex-packages-alist' or `org-latex-default-packages-alist'.
