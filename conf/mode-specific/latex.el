@@ -102,4 +102,21 @@
   ;; Compile to PDF when `TeX-PDF-mode' is active.
   (setq auctex-latexmk-inherit-TeX-PDF-mode t))
 
+;; Parse labels and bibliographies. Keybinding to insert citations: C-c [.
+(use-package reftex
+  :init
+  (with-eval-after-load 'tex
+    (add-hook 'TeX-mode-hook #'turn-on-reftex))
+  :config
+  (setq reftex-plug-into-AUCTeX t))
+
+;; Completion for citation keys and labels.
+(use-package company-reftex
+  :ensure t
+  :init
+  (with-eval-after-load 'tex
+    (with-eval-after-load 'reftex
+      (add-to-list 'company-backends #'company-reftex-citations)
+      (add-to-list 'company-backends #'company-reftex-labels))))
+
 (provide 'conf/mode-specific/latex)
