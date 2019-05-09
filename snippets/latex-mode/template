@@ -198,12 +198,14 @@
 
       (when (string= document-class "beamer")
         (latex-block 'verbatim
-                     "% Localize theorem environments."
-                     "% Theorem environments provided by Beamer: theorem, corollary, definition, definitions, fact, example, examples, lemma. You can also use \\`\\begin{block}{Theorem} ... \\end{block}'."
+                     "% Theorem environments. (Provided by Beamer: theorem, corollary, definition, definitions, fact, example, examples, lemma. You can also use \\`\\begin{block}{Theorem} ... \\end{block}'."
+                     "\\theoremstyle{remark}\\newtheorem{observation}{\\translate{Observation}}"
+                     "\\theoremstyle{definition}\\newtheorem*{proofIdea}{\\translate{Proof idea}}"
+                     "% Polish localization."
                      "\\deftranslation[to=polish]{Theorem}{Twierdzenie}"
                      "\\deftranslation[to=polish]{Definition}{Definicja}"
-                     "\\theoremstyle{plain}\\newtheorem{observation}{Obserwacja}"
-                     "\\theoremstyle{definition}\\newtheorem*{proofIdea}{Idea dowodu}"
+                     "\\deftranslation[to=polish]{Observation}{Obserwacja}"
+                     "\\deftranslation[to=polish]{Proof idea}{Idea dowodu}"
                      ""))
 
       "% Bibliography."
