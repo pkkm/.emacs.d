@@ -48,7 +48,7 @@
       ;; Document type, margins, etc.
       (pcase document-class
         ("scrartcl"
-         "\\documentclass[12pt, a4paper, parskip=full]{scrartcl} % Margins: DIV=<number> (larger means more content; default for 12pt is 12). Periods after section numbers: numbers=endperiod.")
+         "\\documentclass[12pt, a4paper, parskip=full]{scrartcl} % Margins: \\`DIV=<number>' (larger means more content; default for 12pt is 12). Periods after section numbers: \\`numbers=endperiod'.")
         ;; If I add scrbook later, use parameters similar to [11pt, a4paper, bibliography=totoc, listof=totoc, numbers=endperiod, twoside, open=right].
         ((or "article" "amsart" "letter")
          (concat "\\documentclass[12pt]{" document-class "}"))
@@ -56,7 +56,7 @@
          (concat "\\documentclass{" document-class "}")))
       (when (member document-class '("article" "amsart" "letter"))
         (latex-block 'verbatim
-                     "\\usepackage[a4paper]{geometry} % Setting margins: \"top=5cm\" (later options have more priority)."
+                     "\\usepackage[a4paper]{geometry} % Setting margins: \\`top=5cm' (later options have more priority)."
                      "\\usepackage{parskip} % Space instead of indent between paragraphs."))
       (when (string= document-class "beamer")
         (latex-block 'verbatim
@@ -103,7 +103,7 @@
 
       (when (string= document-class "scrartcl")
         (latex-block 'verbatim
-                     "% Don't use a period and a colon in figure and table numbers even when using numbers=endperiod."
+                     "% Don't use a period and a colon in figure and table numbers even when using \\`numbers=endperiod'."
                      "\\renewcommand*{\\figureformat}{\\figurename~\\thefigure}"
                      "\\renewcommand*{\\tableformat}{\\tablename~\\thetable}"
                      "% The definitions are the default ones, except with \\autodot removed."
@@ -119,6 +119,11 @@
                    "\\usepackage{xstring} % For \\`IfInteger'."
                    "\\let\\oldmathbb\\mathbb"
                    "\\renewcommand{\\mathbb}[1]{\\IfInteger{#1}{\\mathds{#1}}{\\oldmathbb{#1}}}")
+      "% Additional math functions and operators."
+      (latex-block 'verbatim
+                   "\\usepackage[notrig]{physics} % \\`abs', \\`norm', \\`bra', \\`ket', etc."
+                   "\\DeclarePairedDelimiter\\ceil{\\lceil}{\\rceil}"
+                   "\\DeclarePairedDelimiter\\floor{\\lfloor}{\\rfloor}")
       "% Use bold instead of arrows for vectors."
       (latex-block 'smart-comment
                    "\\let\\oldvec\\vec"
