@@ -159,14 +159,14 @@
                    "")
 
       "% Drawings."
-      (latex-block 'verbatim
+      (latex-block 'smart-comment
                    "\\usepackage{tikz}"
                    "")
 
       "% Source code."
       (latex-block 'verbatim
-                   "\\usepackage{minted} % When using this, remember to pass \\`--shell-escape' to LaTeX (if using Emacs, set \\`TeX-command-extra-options')." ; Most advanced and actively maintained source highlighting package (as of 2017; see <https://tex.stackexchange.com/questions/102596/minted-vs-texments-vs-verbments> and <https://tex.stackexchange.com/questions/389191/minted-vs-listings-pros-and-cons>).
-                   "\\usemintedstyle{borland} % Try: vs, borland, default, bw."
+                   "%\\usepackage{minted} % When using this, remember to pass \\`--shell-escape' to LaTeX (if using Emacs, set \\`TeX-command-extra-options')." ; Most advanced and actively maintained source highlighting package (as of 2017; see <https://tex.stackexchange.com/questions/102596/minted-vs-texments-vs-verbments> and <https://tex.stackexchange.com/questions/389191/minted-vs-listings-pros-and-cons>).
+                   "%\\usemintedstyle{borland} % Try: vs, borland, default, bw."
                    "\\usepackage{fancyvrb} % More advanced \\`verbatim'. If you just want typewriter font, use \\texttt or \\ttfamily instead of verbatim environments."
                    "")
 
