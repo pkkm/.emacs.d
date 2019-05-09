@@ -148,6 +148,7 @@
                    "\\usepackage{placeins} % Provides \\FloatBarrier, which prevents floats before it from moving past it."
                    "\\usepackage{subcaption} % Provides the \\`subfigure' environment. For examples, see <https://tex.stackexchange.com/questions/333249/controlling-subfigure-captions-and-subfigure-placement>."
                    "\\usepackage{grffile} % Correctly handle complex file names."
+                   "\\usepackage[inkscapelatex=false]{svg} % Automatically convert SVGs with Inkscape; requires passing \\`--shell-escape' to LaTeX. Has to be loaded after \\`graphicx'. Avoid spaces and quotes in file names. Example: \\includesvg[width=0.5\\textwidth]{spiral}"
                    "\\graphicspath{{images/}}"
                    "\\newcommand{\\credit}[1]{\\par\\scriptsize\\textit{#1}} % Good sizes (smallest to largest): \\tiny, \\scriptsize, \\footnotesize."
                    (when (string= document-class "beamer")
@@ -342,7 +343,7 @@
 
       (latex-block 'verbatim
                    "% To install the requirements for compiling this file on Debian, execute:"
-                   "%   sudo apt-get install texlive texlive-latex-extra texlive-lang-polish texlive-xetex texlive-fonts-extra biber latexmk"
+                   "%   sudo apt-get install texlive texlive-latex-extra texlive-lang-polish texlive-xetex texlive-fonts-extra biber latexmk inkscape"
                    "% Compile with:"
                    "%   latexmk -xelatex -shell-escape -output-directory=build"
                    "")
