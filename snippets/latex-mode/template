@@ -72,6 +72,7 @@
       "\\usepackage{microtype} % Better typography." ; No longer needs to be loaded after fonts and babel (unless using "babel=true"). See <http://tex.stackexchange.com/questions/162137/loading-microtype-before-or-after-the-font>.
       (when (not (string= document-class "beamer")) ; Enumitem conflicts with beamer.
         "\\usepackage{enumitem} % Add features to \\`itemize' and \\`enumerate'.")
+      "\\usepackage{etoolbox} % Programming utilities, e.g. \\`ifstrempty' and boolean variables. Example: \\newtoggle{myVar} \\togglefalse{myVar} \\iftoggle{myVar}{Yes}{No}"
       ""
 
       "% Alternative fonts."
@@ -250,7 +251,6 @@
                    "\\setulcolor{red}"
                    "\\newcommand{\\fixme}[1]{\\ul{#1}} % For parts of the text which should be rewritten."
                    "\\newcommand{\\comment}[1]{\\ul{[#1]}}"
-                   "\\usepackage{etoolbox} % Also provides boolean variables. Example: \\newtoggle{myVar} \\togglefalse{myVar} \\iftoggle{myVar}{Yes}{No}"
                    "\\newcommand{\\todo}[1]{\\ifstrempty{#1}{\\comment{TODO}}{\\comment{TODO: #1}}} % \\`ul' has to be called inside \\`ifstrempty'; the reverse produces an error: \"Argument of \\ifstrempty has an extra }\"."
                    "% Block comments (also for calling attention to document areas)."
                    "\\usepackage{mdframed}"
@@ -275,15 +275,16 @@
                    "\\usepackage[noend]{algpseudocode} % \\`algorithmicx' with some predefined commands."
                    (when (string= document-class "beamer")
                      "\\newenvironment{algorithmBlock}{\\begin{block}{Algorytm}}{\\end{block}}")
-                   "% Translate \\`algorithm's strings."
-                   "\\floatname{algorithm}{Algorytm}"
-                   "\\renewcommand{\\listalgorithmname}{Spis algorytmów}"
                    "% Add a colon between algorithm number and name."
                    "\\usepackage{caption}"
                    "\\captionsetup[algorithm]{labelsep=colon}"
                    "% Continuation lines (usage: \\State \\begin{varwidth}[t]{\\linewidth} line1 \\continuationLine line2 ... \\end{varwidth})."
                    "\\usepackage{varwidth}"
                    "\\newcommand{\\continuationLine}{\\par\\hskip\\algorithmicindent}"
+                   "% Polish localization."
+                   "\\addto\\captionspolish{%"
+                   "  \\floatname{algorithm}{Algorytm}%"
+                   "  \\renewcommand{\\listalgorithmname}{Spis algorytmów}}"
                    "")
 
       (when (string= document-class "scrartcl")
