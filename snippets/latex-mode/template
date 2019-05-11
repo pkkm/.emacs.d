@@ -144,19 +144,19 @@
 
       "% Graphics."
       (latex-block 'verbatim
-                   "\\usepackage{graphicx} % See <https://www.sharelatex.com/learn/Inserting_Images>. Remember to place \\`label' last inside the \\`figure'. Example: \\begin{figure}[h] \\centering \\includegraphics[width=0.5\\textwidth]{spiral} \\caption{Spiral.} \\label{fig:spiral} \\end{figure}"
+                   "\\usepackage{graphicx} % See <https://www.sharelatex.com/learn/Inserting_Images>. Remember to place \\`label' last inside the \\`figure'. Example: \\begin{figure}[h] \\centering \\includegraphics[width=0.5\\columnwidth]{spiral} \\caption{Spiral.} \\label{fig:spiral} \\end{figure}"
                    "\\usepackage{float} % For the \\`H' positioning specifier."
                    "\\usepackage{placeins} % Provides \\FloatBarrier, which prevents floats before it from moving past it."
                    "\\usepackage{subcaption} % Provides the \\`subfigure' environment. For examples, see <https://tex.stackexchange.com/questions/333249/controlling-subfigure-captions-and-subfigure-placement>."
                    "\\usepackage{grffile} % Correctly handle complex file names."
-                   "\\usepackage[inkscapelatex=false]{svg} % Automatically convert SVGs with Inkscape; requires passing \\`--shell-escape' to LaTeX. Has to be loaded after \\`graphicx'. Avoid spaces and quotes in file names. Example: \\includesvg[width=0.5\\textwidth]{spiral}"
+                   "\\usepackage[inkscapelatex=false]{svg} % Automatically convert SVGs with Inkscape; requires passing \\`--shell-escape' to LaTeX. Has to be loaded after \\`graphicx'. Avoid spaces and quotes in file names. Example: \\includesvg[width=0.5\\columnwidth]{spiral}"
                    "\\graphicspath{{images/}}"
                    "\\newcommand{\\credit}[1]{\\par\\scriptsize\\textit{#1}} % Good sizes (smallest to largest): \\tiny, \\scriptsize, \\footnotesize."
                    (when (string= document-class "beamer")
                      (latex-block 'verbatim
                                   "\\captionsetup[figure]{labelformat=empty} % Disable \"Figure <number>\" prefixes."
                                   "\\newcommand{\\includegraphicsFullSlide}[2][]{% The order of arguments is significant, e.g. putting \\`angle=90' last will rotate after sizes are calculated."
-                                  "  \\includegraphics[#1,width=0.9\\textwidth,height=0.8\\textheight,keepaspectratio]{#2}}"))
+                                  "  \\includegraphics[#1,width=0.9\\columnwidth,height=0.8\\textheight,keepaspectratio]{#2}}"))
                    "")
 
       "% Drawings."
