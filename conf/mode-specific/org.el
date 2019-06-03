@@ -270,7 +270,7 @@
   :ensure t
   :init
 
-  (with-eval-after-load 'org-mode
+  (with-eval-after-load 'org
     (org-download-enable)) ; Add handlers for drag-and-drop.
 
   :config
