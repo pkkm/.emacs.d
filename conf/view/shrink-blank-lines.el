@@ -1,4 +1,5 @@
 ;;; Minor mode that decreases the height of blank lines. -*- lexical-binding: t -*-
+;; TODO: feature request for <https://github.com/cpitclaudel/compact-docstrings> to integrate this functionality.
 
 (defface shrink-blank-lines-face
   '((t :height 0.6))
