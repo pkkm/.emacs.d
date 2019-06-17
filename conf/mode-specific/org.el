@@ -123,6 +123,8 @@
                           '("jpg" "jpeg" "png" "gif" "tiff" "bmp")))
           (org-element-property :raw-link link)))))
 
+  ;; TODO: after Org 9.2+ becomes bundled with Emacs, restore Easy Templates (e.g. "<q" -> "#+BEGIN_QUOTE").
+
 
   ;;; Automatic link descriptions.
 
