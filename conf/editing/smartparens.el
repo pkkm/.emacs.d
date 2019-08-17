@@ -41,6 +41,16 @@
   (defvar my-sp-hybrid-sexp-modes '(c++-mode cc-mode ruby-mode java-mode scala-mode)
     "Modes in which to use hybrid sexp operations instead of normal ones.")
 
+  ;; Create a block when RET is pressed with the cursor between curly braces.
+  (require 'conf/utils/functions) ; Used: define-interactive-wrapper.
+  (define-interactive-wrapper my-smart-newline (&rest args) newline
+    (if (and (eq (char-before) ?{) (eq (char-after) ?}))
+        (progn (diw-apply-original-fun args)
+               (split-line)
+               (indent-for-tab-command))
+      (diw-apply-original-fun args)))
+  (bind-key [remap newline] #'my-smart-newline)
+
   ;; Keybindings.
   ;; Nice non-Smartparens binding: M-) -- insert a new sexp after the one we're in.
   (with-eval-after-load 'evil
