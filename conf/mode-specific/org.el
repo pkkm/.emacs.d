@@ -238,10 +238,27 @@
   (defun my-org-start-receiving-captures ()
     "Prepare for receiving remote captures with `org-protocol'."
     (interactive)
+
     (require 'server)
     (unless (server-running-p)
       (server-start))
-    (require 'org-protocol))
+    (require 'org-protocol)
+
+    ;; Ensure that org-protocol is registered in the desktop environment.
+    (when (eq window-system 'x)
+      (let ((desktop-file (expand-file-name "~/.local/share/applications/org-protocol.desktop")))
+        (unless (file-exists-p desktop-file)
+          (with-temp-file desktop-file
+            (insert "[Desktop Entry]\n"
+                    "Name=org-protocol\n"
+                    "Exec=emacsclient %u\n"
+                    "Type=Application\n"
+                    "Terminal=false\n"
+                    "Categories=System;\n"
+                    "MimeType=x-scheme-handler/org-protocol;\n"))
+          (start-process
+           "update-desktop-database" "*update-desktop-database*"
+           "update-desktop-database" (expand-file-name "~/.local/share/applications"))))))
 
   :config
 
