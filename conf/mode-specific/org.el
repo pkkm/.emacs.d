@@ -232,6 +232,8 @@
   (bind-key "C-c M-l" #'my-org-insert-link org-mode-map))
 
 
+;;; Capturing.
+
 (use-package org-capture
   :init
 
@@ -274,17 +276,25 @@
                (cons #'my-org-refile-target-files '(:maxlevel . 3)))
 
   ;; Capture template.
-  ;; It would be useful to process the captured string (replace weird characters like non-breaking space) and link (using my-org-link-description). This could be done with %-escapes inside %(sexp) expressions in `org-capture-templates', but they are handled with a string replacement rather than proper parsing so it would be buggy and a security risk (as of Org 9.1.1).
+  ;; It would be useful to process the captured string and link (using my-org-link-description). This could be done with %-escapes inside %(sexp) expressions in `org-capture-templates', but they are handled with a string replacement rather than proper parsing so it would be buggy and a security risk (as of Org 9.1.1).
   ;; TODO submit an Org bug report. When it's fixed, finish writing the processing functionality (see commit 45c083f2516c066fd58af6b0261faeb1f1c29ea1 in this repo).
   (setq org-default-notes-file "~/Documents/Inbox/Inbox.org")
   (add-to-list 'org-capture-templates
                `("n" "Quote in org-default-notes-file" plain
                  (file "")
                  ,(concat "#+BEGIN_QUOTE\n"
-                          "%i%?\n\n" ; %i -- initial content (see also %x -- X clipboard content); %? -- cursor position after inserting.
+                          "%:initial%?\n\n" ; %:initial -- initial content (alternative: %i); %? -- cursor position after inserting.
                           "-- %a [%<%Y-%m-%d>]\n" ; %a -- link with description.
                           "#+END_QUOTE")
                  :empty-lines 1)))
+
+;; Process captured HTML with Pandoc.
+;; See <https://github.com/alphapapa/org-protocol-capture-html> for the bookmarklet to use.
+(use-package org-protocol-capture-html ; Installed in `my-vendor-dir' (not on MELPA as of 2019-09).
+  :init
+  (with-eval-after-load 'org-protocol
+    (require 'org-protocol-capture-html)))
+
 
 (use-package org-download
   :ensure t
