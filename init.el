@@ -31,7 +31,9 @@
 ;; Directories of this Emacs distribution.
 (defvar main-dir user-emacs-directory
   "The root directory of my Emacs configuration.")
-(setq package-user-dir (expand-file-name "elpa" main-dir)) ; The directory for `package.el' packages.
+(setq package-user-dir (expand-file-name "elpa" main-dir))
+(defvar my-elpa-repo-dir (expand-file-name "repo" main-dir)
+  "The directory for my private ELPA mirror.")
 (defvar my-vendor-dir (expand-file-name "vendor" main-dir)
   "The directory for manually installed (non-`package.el') packages.")
 
@@ -62,15 +64,25 @@
 (package-initialize) ; This normally happens after loading the init file.
 (setq package-enable-at-startup nil) ; Don't load the packages the second time after the init file.
 
+;; Clone my private repo if it's not found and git is available.
+(when (and (not (file-exists-p my-elpa-repo-dir)) (executable-find "git"))
+  (message "Cloning my private ELPA...")
+  (call-process
+   "git" nil "*git clone output*" t
+   "clone" "https://github.com/pkkm/my-elpa" my-elpa-repo-dir))
+
 ;; Package archives.
 (let ((proto (if my-use-tls "https://" "http://")))
   (setq package-archives
         (list (cons "gnu" (concat proto "elpa.gnu.org/packages/"))
               (cons "melpa-stable" (concat proto "stable.melpa.org/packages/"))
               (cons "melpa" (concat proto "melpa.org/packages/")))))
-(setq package-archive-priorities ; Works only on Emacs 25.1+.
-      '(("gnu" . 10)
-        ("melpa-stable" . 5)
+(when (file-exists-p (expand-file-name "archive-contents" my-elpa-repo-dir))
+  (push (cons "my-elpa-repo" my-elpa-repo-dir) package-archives))
+(setq package-archive-priorities
+      '(("my-elpa-repo" . 3)
+        ("gnu" . 2)
+        ("melpa-stable" . 1)
         ("melpa" . 0)))
 
 ;; To update installed packages, use M-x package-list-packages RET U x.
@@ -129,15 +141,13 @@ If a PACKAGE (as a symbol) is older than MIN-VERSION, install its newest version
 (autoload 'bind-key "bind-key")
 
 ;; Configure packages in an elegant and performant way.
-(package-ensure-version 'use-package "20160226") ; Any version after `use-package-always-defer' was introduced.
+(package-ensure-installed 'use-package)
 (setq use-package-always-defer t) ; Assume `:defer t' by default.
 (eval-when-compile
   (require 'use-package))
 
 ;; Modern list library (used often in this config).
-(use-package dash
-  :ensure t
-  :demand t)
+(use-package dash :ensure t :demand t)
 
 
 ;;; Load the rest of the config.
@@ -147,10 +157,10 @@ If a PACKAGE (as a symbol) is older than MIN-VERSION, install its newest version
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file t)
 
-(use-package f :ensure t :commands (f-files f-no-ext f-relative f-ext?))
- (mapc (lambda (file)
-         (let ((feature-name (f-no-ext (f-relative file main-dir))))
-           (require (intern feature-name))))
-       (f-files (expand-file-name "conf" main-dir)
-                (lambda (file) (f-ext? file "el"))
-                t))
+(use-package f :ensure t :demand t)
+(mapc (lambda (file)
+        (let ((feature-name (f-no-ext (f-relative file main-dir))))
+          (require (intern feature-name))))
+      (f-files (expand-file-name "conf" main-dir)
+               (lambda (file) (f-ext? file "el"))
+               t))

@@ -1,8 +1,8 @@
 ;;; Version control interfaces. -*- lexical-binding: t -*-
 
 ;; Magit.
-(package-ensure-version 'magit "20170219")
 (use-package magit
+  :ensure t
   :bind ("C-c g" . magit-status)
   :init
 

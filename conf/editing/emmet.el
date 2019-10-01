@@ -1,8 +1,7 @@
 ;;; Emmet (formerly Zen Coding) -- expand abbreviations like "p>ul>li*5" into HTML/XML tags. -*- lexical-binding: t -*-
 
 (use-package emmet-mode
-  :preface
-  (package-ensure-version 'emmet-mode "20141222") ; First version in which I noticed that indentation was fixed and annoying overlays were removed.
+  :ensure t
   :config
 
   ;; Keybindings.
