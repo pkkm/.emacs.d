@@ -25,6 +25,10 @@
       (list start end)))
   (setq tls-program '("gnutls-cli --x509cafile %t -p %p %h")))
 
+;; Work around a TLS bug (see <https://old.reddit.com/r/emacs/comments/ct0h6m>).
+(when (version< emacs-version "26.3")
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
+
 
 ;;; Directories.
 
