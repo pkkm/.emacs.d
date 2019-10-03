@@ -7,3 +7,10 @@
 
 # Make nested headlines darker.
 #+HTML_HEAD: <style type="text/css">h4, h5, h6 { color: #1c5880 }</style>
+
+# Don't use a monospace font for timestamps (because it's too wide).
+#+HTML_HEAD: <style type="text/css">.timestamp { font-family: inherit; }</style>
+
+# Add a period after numbers in headlines.
+# TODO: feature request for ox-html.el to centralize the formatting of section numbers into one customizable function. (To see potential usages, search ox-html.el for ".", with the quotes.)
+#+HTML_HEAD: <style type="text/css">span[class^="section-number-"]::after { content: "."; }</span>
