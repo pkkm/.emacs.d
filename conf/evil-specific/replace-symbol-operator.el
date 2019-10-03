@@ -1,8 +1,8 @@
 ;;; An operator for replacing the symbol under point in an user-supplied part of buffer. -*- lexical-binding: t -*-
 ;; Especially useful with C-M-h (mark-defun).
 
-(require 'cl-lib)
 (with-eval-after-load 'evil
+  (require 'cl-lib) ; Used: cl-flet.
   (evil-define-operator evil-replace-symbol (beg end)
     "Build an Evil command for replacing a symbol in the supplied part of the buffer.
 When called without region and there's symbol at point, use it."
@@ -24,7 +24,7 @@ When called without region and there's symbol at point, use it."
             (ex-before-after (concat range "s/" (rx symbol-start))
                              (concat (rx symbol-end) "//g")))))))
 
-  (bind-key "Q" #'evil-replace-symbol evil-normal-state-map)
-  (bind-key "Q" #'evil-replace-symbol evil-visual-state-map))
+  (dolist (map (list evil-normal-state-map evil-visual-state-map))
+    (bind-key "Q" #'evil-replace-symbol map)))
 
 (provide 'conf/evil-specific/replace-symbol-operator)
