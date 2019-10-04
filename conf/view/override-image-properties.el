@@ -21,6 +21,7 @@ The special value `my-remove-entry' will cause the key to be removed from the re
 
 (defadvice create-image (around my-apply-override-properties activate)
   (when my-image-override-properties
+    ;; Revise this when Emacs 27 is released, since it will have support for image resizing without ImageMagick.
     (unless (fboundp 'imagemagick-types)
       (error "my-image-override-properties needs imagemagick support"))
     ;; Arguments of `create-image': (file-or-data &optional type data-p &rest props).
