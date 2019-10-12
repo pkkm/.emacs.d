@@ -20,13 +20,4 @@
 ;;   * semantic-ia-show-summary -- show type and some other information.
 ;;   * semantic-analyze-proto-impl-toggle -- toggle between declaration and implementation.
 
-;; Refactoring on C-c RET (Emacs 24.4+).
-(use-package srefactor
-  :ensure t
-  :init
-  (bind-key "C-c RET" #'srefactor-refactor-at-point)
-  :config
-  (with-eval-after-load 'evil
-    (evil-set-initial-state 'srefactor-ui-menu-mode 'emacs)))
-
 (provide 'conf/other/semantic)
