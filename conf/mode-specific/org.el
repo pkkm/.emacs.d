@@ -101,6 +101,9 @@
   ;; Completion.
   (setq org-completion-use-ido t)
 
+  ;; Increase the depth of headlines shown in imenu.
+  (setq org-imenu-depth 3)
+
   ;; Don't prepend "Function /" to top-level headlines in helm-imenu.
   ;; (The unwanted behavior is actually in `helm-imenu-transformer', but this way of disabling it is much less complex.)
   (defadvice helm-imenu--get-prop
