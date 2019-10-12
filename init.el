@@ -4,13 +4,17 @@
 (when (version< emacs-version "25.1")
   (error (concat "This config requires Emacs 25.1+. Current version: " emacs-version)))
 
-;; Optimization: don't do many small garbage collections during init.
-(let ((old-gc-cons-threshold gc-cons-threshold))
-  (setq gc-cons-threshold (* 128 1024 1024))
-  (defun restore-default-gc-settings ()
-    (garbage-collect)
-    (setq gc-cons-threshold old-gc-cons-threshold))
-  (add-hook 'emacs-startup-hook #'restore-default-gc-settings))
+;; Improve startup time by temporarily changing some settings.
+(let ((old-gc-cons-percentage gc-cons-percentage)
+      (old-file-name-handler-alist file-name-handler-alist))
+  (setq gc-cons-threshold most-positive-fixnum)
+  (setq gc-cons-percentage 1)
+  (setq file-name-handler-alist nil) ; Disable handling of compressed/encrypted/TRAMP files.
+  (defun restore-performance-settings ()
+    (setq gc-cons-threshold (* 32 1024 1024))
+    (setq gc-cons-percentage old-gc-cons-percentage)
+    (setq file-name-handler-alist old-file-name-handler-alist))
+  (add-hook 'emacs-startup-hook #'restore-performance-settings))
 
 ;; Don't try to use an external TLS program on Windows (it won't work).
 (setq my-use-tls (or (not (eq system-type 'windows-nt)) (gnutls-available-p)))
@@ -162,9 +166,8 @@ If a PACKAGE (as a symbol) is older than MIN-VERSION, install its newest version
 (load custom-file t)
 
 (use-package f :ensure t :demand t)
-(mapc (lambda (file)
-        (let ((feature-name (f-no-ext (f-relative file main-dir))))
-          (require (intern feature-name))))
-      (f-files (expand-file-name "conf" main-dir)
-               (lambda (file) (f-ext? file "el"))
-               t))
+(dolist (file (f-files (expand-file-name "conf" main-dir)
+                       (lambda (file) (f-ext? file "el"))
+                       t))
+  (let ((feature-name (f-no-ext (f-relative file main-dir))))
+    (require (intern feature-name))))
