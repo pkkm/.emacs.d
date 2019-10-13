@@ -137,6 +137,10 @@ If a PACKAGE (as a symbol) is older than MIN-VERSION, install its newest version
                  (unload-feature pkg-symbol)
                  (require pkg-symbol))))))
 
+;; Get `abbrev-mode' out of the way.
+(setq save-abbrevs 'silently) ; Don't ask whether to save abbrevs during package installation.
+(setq abbrev-file-name (locate-user-emacs-file "abbrev_defs")) ; Don't litter `.emacs.d'.
+
 
 ;;; Syntactic sugar.
 
