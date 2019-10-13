@@ -68,6 +68,9 @@
 
 ;;; Package system.
 
+;; To update installed packages, use M-x package-list-packages RET U x.
+;; Or delete the elpa/ directory and launch Emacs for it to be recreated.
+
 ;; Initialize packages now, instead of after init.
 (package-initialize) ; This normally happens after loading the init file.
 (setq package-enable-at-startup nil) ; Don't load the packages the second time after the init file.
@@ -76,7 +79,7 @@
 (when (and (not (file-exists-p my-elpa-repo-dir)) (executable-find "git"))
   (message "Cloning my private ELPA...")
   (call-process
-   "git" nil "*git clone output*" t
+   "git" nil "*git clone my-elpa output*" t
    "clone" "https://github.com/pkkm/my-elpa" my-elpa-repo-dir))
 
 ;; Package archives.
@@ -93,8 +96,13 @@
         ("melpa-stable" . 1)
         ("melpa" . 0)))
 
-;; To update installed packages, use M-x package-list-packages RET U x.
-;; Or delete the elpa/ directory and launch Emacs for it to be recreated.
+;; Make sure we're using current GNU ELPA signing keys.
+(when (version< emacs-version "26.3")
+  (let ((ts (expand-file-name "gnu-elpa.timestamp" package-gnupghome-dir))
+        (kr (expand-file-name "gnu-elpa.gpg-keyring" my-vendor-dir)))
+    (when (file-newer-than-file-p kr ts)
+      (package-import-keyring kr)
+      (write-region "" nil ts nil 'silent))))
 
 ;; First time that `package-install' is called in this session, refresh the package list (if it wasn't already refreshed).
 ;; A variable is used instead of removing the advice using `ad-remove-advice' and `ad-update' because on Emacs 24.3 and earlier, removing an advice while it's executing causes an error.
