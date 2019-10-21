@@ -7,6 +7,9 @@
     (elpy-enable))
   :config
 
+  ;; Don't change global modeline settings.
+  (setq elpy-remove-modeline-lighter nil)
+
   (setq elpy-rpc-python-command "python3")
   (setq elpy-rpc-backend "jedi") ; Better completion than Rope (as of 2015-05).
 
