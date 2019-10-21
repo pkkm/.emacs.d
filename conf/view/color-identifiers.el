@@ -6,7 +6,6 @@
   :defer 3 ; Load after 3 s of idle.
   :diminish color-identifiers-mode
   :config
-  (global-color-identifiers-mode)
-  (add-hook 'after-load-theme-hook #'color-identifiers:regenerate-colors))
+  (global-color-identifiers-mode))
 
 (provide 'conf/view/color-identifiers)
