@@ -1,4 +1,5 @@
 ;;; Completion. -*- lexical-binding: t -*-
+;; For information about the current backend and completions, use M-x company-diag.
 
 ;; Make TAB indent on the first press, and activate completion on the second.
 (setq tab-always-indent 'complete)
@@ -7,6 +8,7 @@
 
 (use-package company
   :ensure t
+  :diminish company-mode
   :init
   (global-company-mode)
   :config
