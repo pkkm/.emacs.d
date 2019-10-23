@@ -29,8 +29,8 @@
       (list start end)))
   (setq tls-program '("gnutls-cli --x509cafile %t -p %p %h")))
 
-;; Work around a TLS bug (see <https://old.reddit.com/r/emacs/comments/ct0h6m>).
-(when (version< emacs-version "26.3")
+;; Work around a TLS bug (see <https://old.reddit.com/r/emacs/comments/ct0h6m>, <https://github.com/magit/forge/issues/152>).
+(when (and (version< emacs-version "26.3") (>= libgnutls-version 30603))
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
 
@@ -98,7 +98,9 @@
 
 ;; Make sure we're using current GNU ELPA signing keys.
 (when (version< emacs-version "26.3")
-  (let ((ts (expand-file-name "gnu-elpa.timestamp" package-gnupghome-dir))
+  (let ((ts (expand-file-name "gnu-elpa.timestamp"
+                              (or (bound-and-true-p package-gnupghome-dir) ; Introduced in Emacs 26.1.
+                                  (expand-file-name "gnupg" package-user-dir))))
         (kr (expand-file-name "gnu-elpa.gpg-keyring" my-vendor-dir)))
     (when (file-newer-than-file-p kr ts)
       (package-import-keyring kr)
