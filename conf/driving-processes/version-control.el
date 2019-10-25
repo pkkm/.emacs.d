@@ -9,11 +9,11 @@
   ;; Keybindings for my `git-quick' script.
   (defun my-magit-quick-sync ()
     (interactive)
-    (magit-git-command "quick --sync" default-directory))
+    (magit-git-command "git quick --sync"))
   (bind-key "C-c s" #'my-magit-quick-sync)
   (defun my-magit-quick-commit-and-sync ()
     (interactive)
-    (magit-git-command "quick --add --commit --sync" default-directory))
+    (magit-git-command "git quick --add --commit --sync"))
   (bind-key "C-c S" #'my-magit-quick-commit-and-sync)
 
   :config
