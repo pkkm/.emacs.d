@@ -1,8 +1,11 @@
-;;; Undo the last modification in region. -*- lexical-binding: t -*-
-;;; Does not work at end of file!
+;;; Undo customizations. -*- lexical-binding: t -*-
+;; Undo in region does not work at end of file!
+
+;; Increase memory limits for undo history (see <https://old.reddit.com/r/emacs/comments/bx82j3>).
+(dolist (var '(undo-limit undo-strong-limit undo-outer-limit))
+  (set var (* 5 (symbol-value var))))
 
 ;; In visual state, use "u" for undoing instead of lowercasing ("g u").
-;; ("C-r" already redoes.)
 (with-eval-after-load 'evil
   (bind-key "u" #'undo-tree-undo evil-visual-state-map))
 
@@ -18,4 +21,4 @@
         (set-marker mark-before-undo nil))
     ad-do-it))
 
-(provide 'conf/editing/undo-in-region)
+(provide 'conf/editing/undo)
