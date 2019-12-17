@@ -23,7 +23,7 @@
                 ('replace (color-mix "blue" 0.2 original-background 0.8))
                 ('visual (color-mix "green" 0.2 original-background 0.8))))
       (setq my-modeline-other-evil-state-background
-            (color-mix "black" 0.45 original-background 0.55))))
+            (color-mix "black" 0.55 original-background 0.45))))
   (add-hook 'after-load-theme-hook #'calculate-mode-line-backgrounds)
   (calculate-mode-line-backgrounds)
 
