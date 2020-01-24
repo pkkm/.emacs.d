@@ -71,7 +71,7 @@
 
   ;; Normalize keymaps after init.
   ;; This is necessary for bindings defined using `evil-define-key' to be active before the first Evil state change.
-  ;; See <https://bitbucket.org/lyro/evil/issue/301/evil-define-key-for-minor-mode-does-not>.
+  ;; See <https://github.com/emacs-evil/evil/issues/301>.
   (add-hook 'after-init-hook #'evil-normalize-keymaps))
 
 (provide 'conf/evil)
