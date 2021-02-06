@@ -16,6 +16,11 @@
   (setq evil-cross-lines t) ; Allow "f" and similar motions to cross newlines.
   (setq evil-move-cursor-back nil) ; Allow cursor at end of line, don't move it back when exiting insert state.
 
+  ;; Use undo-tree (for the new version of Evil, which will also make the comment in :init obsolete).
+  (when (boundp 'evil-undo-system)
+    (setq evil-undo-system 'undo-tree)
+    (global-undo-tree-mode 1))
+
   ;; Search.
   (setq evil-regexp-search nil) ; Don't use regexes for / and ?.
   (setq evil-flash-delay 999999) ; Number of seconds to highlight matches for.
