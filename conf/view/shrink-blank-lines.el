@@ -6,7 +6,8 @@
   "Face applied to blank lines.")
 
 (defconst shrink-blank-lines--keywords
-  '(("^[ \t]*\n" 0 'shrink-blank-lines-face prepend)))
+  '(("^\n" 0 'shrink-blank-lines-face prepend)))
+;; We don't shrink lines that contain whitespace so that the point lines up with previous lines when adding indentation.
 
 (define-minor-mode shrink-blank-lines-mode
   "Shrink blank lines."
