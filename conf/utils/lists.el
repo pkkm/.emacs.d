@@ -12,11 +12,6 @@
   "Convert VECTOR to a list."
   (append vector '()))
 
-(defun interpose-nonempty (separator &rest parts)
-  "Return a list with nonempty (not nil or \"\") elements of PARTS separated with SEPARATOR."
-  (declare (indent defun))
-  (-interpose separator (delq nil (delete "" parts))))
-
 (use-package s :ensure t :commands s-join)
 (defun join-nonempty (separator &rest parts)
   "Return a string with nonempty (not nil or \"\") elements of PARTS joined with SEPARATOR."

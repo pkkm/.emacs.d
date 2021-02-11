@@ -1,75 +1,127 @@
-;;; Modeline with left, center and right aligned parts (using powerline). -*- lexical-binding: t -*-
+;;; Modeline format. -*- lexical-binding: t -*-
 
-(use-package powerline
-  :ensure t
-  :demand t
-  :config
 
-  ;; Separators. Nice ones: alternate, slant, rounded, contour.
-  (defalias 'ml-separator-left 'powerline-nil-right)
-  (defalias 'ml-separator-right 'powerline-nil-left)
-  (add-hook 'after-load-theme-hook #'powerline-reset t) ; Reset separator colors after a theme has been loaded.
+;;; Helper functions.
 
-  ;; "Helper" face for less important parts of the modeline.
-  (defface ml-shadow `((t ())) ; Foreground of `mode-line-inactive'.
-    "Face for de-emphasized parts of the modeline."
-    :group 'modeline)
-  (defun set-mode-line-helper-faces ()
-    "Calculate the modeline \"helper\" faces that depend on colors in other faces."
-    (set-face-foreground 'ml-shadow (face-foreground 'mode-line-inactive)))
-  (add-hook 'after-load-theme-hook #'set-mode-line-helper-faces)
-  (set-mode-line-helper-faces)
+(defun ml-shorten-path (path max-length)
+  "Shorten PATH to up to MAX-LENGTH characters."
+  (let ((reversed-path-list (reverse (split-string (abbreviate-file-name path) "/")))
+        (output "")
+        (prefix-when-shortened "…/"))
+    (when reversed-path-list
+      (when (equal "" (car reversed-path-list)) ; Ignore trailing slash.
+        (setq reversed-path-list (cdr reversed-path-list)))
+      (let ((new-path))
+        (while (and reversed-path-list
+                    (setq new-path (concat (car reversed-path-list) "/" output)) ; The return value doesn't matter (it's always non-nil).
+                    (<= (+ (length new-path) (length prefix-when-shortened))
+                        max-length))
+          (setq output new-path)
+          (setq reversed-path-list (cdr reversed-path-list))))
+      (when reversed-path-list
+        (setq output (concat prefix-when-shortened output))))
+    output))
 
-  (require 'conf/utils/paths) ; Used: shorten-path.
-  (require 'conf/utils/lists) ; Used: interpose-nonempty.
-  (defun ml-format ()
-    (let* ((shortened-dir
-            (when buffer-file-name ; If the buffer is visiting a file...
-              (propertize (shorten-path (abbreviate-file-name (file-name-directory buffer-file-name))
-                                        (/ (window-total-width) 3))
-                          'face 'ml-shadow)))
+(defun ml-concat-nonempty (separator &rest parts)
+  "Return string with nonempty (not nil or \"\") elements of PARTS separated with SEPARATOR."
+  (declare (indent defun))
+  (mapconcat #'identity (delq nil (delete "" parts)) separator))
 
-           (ml-coding
-            ;; Hide the encoding if it is or will be turned into utf-8-unix.
-            (unless (memq buffer-file-coding-system
-                          '(utf-8-unix prefer-utf-8-unix undecided-unix))
-              (symbol-name buffer-file-coding-system)))
 
-           (left (append
-                  (list " ") ; Spacing.
-                  (interpose-nonempty " "
-                    (concat (or shortened-dir "") "%b") ; Directory and buffer name.
-                    (when buffer-read-only (propertize "RO" 'face '(:weight bold))) ; Read only?
-                    (when (buffer-modified-p) (propertize "+" 'face 'warning)) ; Modified?
-                    (when (buffer-narrowed-p) (propertize "Narrow" 'face '(:underline t)))))) ; Narrowed?
+;;; Alignment.
+;; Fill functions are from <https://github.com/milkypostman/powerline>.
 
-           (center (interpose-nonempty " "
-                     (propertize "%[" 'face 'ml-shadow) ; Recursive edit braces.
-                     (format-mode-line '(""
-                                         mode-name
-                                         mode-line-process
-                                         minor-mode-alist))
-                     (format-mode-line global-mode-string) ; Used for example by `display-time'.
-                     (propertize "%]" 'face 'ml-shadow))) ; Recursive edit braces.
+(defvar ml-text-scale-factor 1.0
+  "Scale of mode-line font size to default text size, as a float.
+This is needed to make sure that text is properly aligned.")
 
-           (right (append
-                   (interpose-nonempty " "
-                     ml-coding ; Coding system (empty if utf-8-unix).
-                     "%p" ; Position (e.g. "56%" or "All").
-                     "%l:%c") ; Line and column.
-                   (list " ")))) ; Spacing.
+(defun ml-fill-to-center (reserve face)
+  "Return empty space to the center, leaving RESERVE space on the right."
+  (when ml-text-scale-factor
+    (setq reserve (* ml-text-scale-factor reserve)))
+  (propertize " "
+              'display `((space :align-to (- (+ center (.5 . right-margin))
+                                             ,reserve
+                                             (.5 . left-margin))))
+              'face face))
 
-      ;; Render the modeline.
-      (concat
-       (powerline-render left)
-       (powerline-fill-center nil (/ (powerline-width center) 2.0))
-       (powerline-render center)
-       (powerline-fill nil (powerline-width right))
-       (powerline-render right))))
+(defun ml-fill-to-right (reserve face)
+  "Return empty space, leaving RESERVE space on the right."
+  (when ml-text-scale-factor
+    (setq reserve (* ml-text-scale-factor reserve)))
+  (when (and window-system (eq 'right (get-scroll-bar-mode)))
+    (setq reserve (- reserve 3)))
+  (propertize " "
+              'display `((space :align-to (- (+ right right-fringe right-margin)
+                                             ,reserve)))
+              'face face))
 
-  (require 'conf/utils/ignore-messages) ; Used: ignore-specific-messages.
-  (setq-default mode-line-format
-                '((:eval (ignore-specific-messages '("pl/ generating new separator")
-                                                   (ml-format))))))
+(defun ml-render-2-part (left right &optional fill-face)
+  (concat left
+          (ml-fill-to-right (string-width (format-mode-line right)) fill-face)
+          right))
+
+(defun ml-render-3-part (left center right &optional fill-face)
+  (concat left
+          (ml-fill-to-center (/ (string-width (format-mode-line center)) 2.0) fill-face)
+          center
+          (ml-fill-to-right (string-width (format-mode-line right)) fill-face)
+          right))
+
+
+;;; The actual format.
+
+;; "Helper" face for less important parts of the modeline.
+(defface ml-shadow `((t ())) ; Foreground of `mode-line-inactive'.
+  "Face for de-emphasized parts of the modeline."
+  :group 'modeline)
+(defun set-mode-line-helper-faces ()
+  "Calculate the modeline \"helper\" faces that depend on colors in other faces."
+  (set-face-foreground 'ml-shadow (face-foreground 'mode-line-inactive)))
+(add-hook 'after-load-theme-hook #'set-mode-line-helper-faces)
+(set-mode-line-helper-faces)
+
+(defun ml-format ()
+  (let* ((shortened-dir
+          (when buffer-file-name ; If the buffer is visiting a file...
+            (propertize (ml-shorten-path (abbreviate-file-name (file-name-directory buffer-file-name))
+                                         (/ (window-total-width) 3))
+                        'face 'ml-shadow)))
+
+         (ml-coding ; Coding system (hide if utf-8-unix or equivalent).
+          (unless (memq buffer-file-coding-system
+                        '(utf-8-unix prefer-utf-8-unix undecided-unix))
+            (symbol-name buffer-file-coding-system))))
+
+    (ml-render-3-part
+
+     ;; Left.
+     (concat
+      " "
+      (ml-concat-nonempty " "
+        (concat (or shortened-dir "") "%b")
+        (when buffer-read-only (propertize "RO" 'face '(:weight bold)))
+        (when (buffer-modified-p) (propertize "+" 'face 'warning))
+        (when (buffer-narrowed-p) (propertize "Narrow" 'face '(:underline t)))))
+
+     ;; Center.
+     (ml-concat-nonempty " "
+       (propertize "%[" 'face 'ml-shadow) ; Recursive edit braces.
+       (format-mode-line '(""
+                           mode-name
+                           mode-line-process
+                           minor-mode-alist))
+       (format-mode-line global-mode-string) ; Used for example by `display-time'.
+       (propertize "%]" 'face 'ml-shadow))
+
+     ;; Right.
+     (concat
+      (ml-concat-nonempty " "
+        ml-coding
+        "%p" ; Position (e.g. "56%" or "All").
+        "%l:%c") ; Line and column.
+      " "))))
+
+(setq-default mode-line-format '((:eval (ml-format))))
 
 (provide 'conf/view/modeline/format)
