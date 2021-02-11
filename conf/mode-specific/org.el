@@ -126,6 +126,18 @@
                           '("jpg" "jpeg" "png" "gif" "tiff" "bmp")))
           (org-element-property :raw-link link)))))
 
+  ;; Variable to override timestamp format on export.
+  ;; Example usage: -*- my-org-export-timestamp-formats: ("%Y-%m-%d" . "%Y-%m-%d %H:%M") -*-
+  (defvar my-org-export-timestamp-formats nil
+    "The value of `org-time-stamp-custom-formats' to use during export.")
+  (make-variable-buffer-local 'my-org-export-timestamp-formats)
+  (defadvice org-export-as (around my-org-export-timestamp-formats activate)
+    (if my-org-export-timestamp-formats
+        (let ((org-display-custom-times t)
+              (org-time-stamp-custom-formats my-org-export-timestamp-formats))
+          ad-do-it)
+      ad-do-it))
+
   ;; TODO: after Org 9.2+ becomes bundled with Emacs, restore Easy Templates (e.g. "<q" -> "#+BEGIN_QUOTE").
 
 
