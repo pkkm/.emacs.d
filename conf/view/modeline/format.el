@@ -93,7 +93,7 @@ This is needed to make sure that text is properly aligned.")
                         '(utf-8-unix prefer-utf-8-unix undecided-unix))
             (symbol-name buffer-file-coding-system))))
 
-    (ml-render-3-part
+    (ml-render-2-part
 
      ;; Left.
      (concat
@@ -104,18 +104,16 @@ This is needed to make sure that text is properly aligned.")
         (when (buffer-modified-p) (propertize "+" 'face 'warning))
         (when (buffer-narrowed-p) (propertize "Narrow" 'face '(:underline t)))))
 
-     ;; Center.
-     (ml-concat-nonempty " "
-       (propertize "%[" 'face 'ml-shadow) ; Recursive edit braces.
-       (format-mode-line '(""
-                           mode-name
-                           mode-line-process
-                           minor-mode-alist))
-       (format-mode-line global-mode-string) ; Used for example by `display-time'.
-       (propertize "%]" 'face 'ml-shadow))
-
      ;; Right.
      (concat
+      (propertize "%[" 'face 'ml-shadow) ; Recursive edit braces.
+      (format-mode-line '(""
+                          mode-name
+                          mode-line-process
+                          minor-mode-alist))
+      (format-mode-line global-mode-string) ; Used for example by `display-time'.
+      (propertize "%]" 'face 'ml-shadow)
+      " ┃ " ; Alternative: (propertize " │ " 'face 'ml-shadow) (from <https://en.wikipedia.org/wiki/Box-drawing_character>).
       (ml-concat-nonempty " "
         ml-coding
         "%p" ; Position (e.g. "56%" or "All").
