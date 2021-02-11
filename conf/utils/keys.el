@@ -78,7 +78,7 @@ Doesn't see some variables!"
        (mapatoms (lambda (symbol)
                    (when (and (boundp symbol)
                               (eq (symbol-value symbol) ,value))
-                     (add-to-list ',return-value-var symbol))))
+                     (push symbol ,return-value-var))))
        ,return-value-var)))
 
 (defun keymaps-with-key (key &optional display-in-buffer-p)
