@@ -6,21 +6,21 @@
 (defun ml-shorten-path (path max-length)
   "Shorten PATH to up to MAX-LENGTH characters."
   (let ((reversed-path-list (reverse (split-string (abbreviate-file-name path) "/")))
-        (output "")
+        (result "")
         (prefix-when-shortened "…/"))
     (when reversed-path-list
       (when (equal "" (car reversed-path-list)) ; Ignore trailing slash.
         (setq reversed-path-list (cdr reversed-path-list)))
       (let ((new-path))
         (while (and reversed-path-list
-                    (setq new-path (concat (car reversed-path-list) "/" output)) ; The return value doesn't matter (it's always non-nil).
+                    (setq new-path (concat (car reversed-path-list) "/" result)) ; The return value doesn't matter (it's always non-nil).
                     (<= (+ (length new-path) (length prefix-when-shortened))
                         max-length))
-          (setq output new-path)
+          (setq result new-path)
           (setq reversed-path-list (cdr reversed-path-list))))
       (when reversed-path-list
-        (setq output (concat prefix-when-shortened output))))
-    output))
+        (setq result (concat prefix-when-shortened result))))
+    result))
 
 (defun ml-concat-nonempty (separator &rest parts)
   "Return string with nonempty (not nil or \"\") elements of PARTS separated with SEPARATOR."
@@ -32,7 +32,7 @@
 ;; Fill functions are from <https://github.com/milkypostman/powerline>.
 
 (defvar ml-text-scale-factor 1.0
-  "Scale of mode-line font size to default text size, as a float.
+  "Scale of mode-line font size to default font size, as a float.
 This is needed to make sure that text is properly aligned.")
 
 (defun ml-fill-to-center (reserve face)
@@ -50,7 +50,7 @@ This is needed to make sure that text is properly aligned.")
   (when ml-text-scale-factor
     (setq reserve (* ml-text-scale-factor reserve)))
   (when (and window-system (eq 'right (get-scroll-bar-mode)))
-    (setq reserve (- reserve 3)))
+    (setq reserve (- reserve 2))) ; Powerline uses 3 here, but my scrollbars are narrower.
   (propertize " "
               'display `((space :align-to (- (+ right right-fringe right-margin)
                                              ,reserve)))
@@ -107,11 +107,9 @@ This is needed to make sure that text is properly aligned.")
      ;; Right.
      (concat
       (propertize "%[" 'face 'ml-shadow) ; Recursive edit braces.
-      (format-mode-line '(""
-                          mode-name
-                          mode-line-process
-                          minor-mode-alist))
-      (format-mode-line global-mode-string) ; Used for example by `display-time'.
+      (ml-concat-nonempty " "
+        (format-mode-line '("" mode-name mode-line-process minor-mode-alist))
+        (format-mode-line global-mode-string)) ; Used for example by `display-time'.
       (propertize "%]" 'face 'ml-shadow)
       " ┃ " ; Alternative: (propertize " │ " 'face 'ml-shadow) (from <https://en.wikipedia.org/wiki/Box-drawing_character>).
       (ml-concat-nonempty " "
