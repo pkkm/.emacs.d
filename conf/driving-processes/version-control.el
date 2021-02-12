@@ -1,4 +1,4 @@
-;;; Version control interfaces. -*- lexical-binding: t -*-
+;;; Version control interface. -*- lexical-binding: t -*-
 
 ;; Magit.
 (use-package magit
@@ -24,8 +24,5 @@
   ;; Start writing commit message in insert mode.
   (with-eval-after-load 'evil
     (add-hook 'with-editor-mode-hook 'evil-insert-state)))
-
-;; Disable VC-mode (default Emacs interface for VCSes).
-(setq vc-handled-backends '())
 
 (provide 'conf/driving-processes/version-control)

@@ -111,7 +111,9 @@ This is needed to make sure that text is properly aligned.")
         (format-mode-line '("" mode-name mode-line-process minor-mode-alist))
         (format-mode-line global-mode-string)) ; Used for example by `display-time'.
       (propertize "%]" 'face 'ml-shadow)
-      " ┃ " ; Alternative: (propertize " │ " 'face 'ml-shadow) (from <https://en.wikipedia.org/wiki/Box-drawing_character>).
+      " ┃" ; Alternative: (propertize " │ " 'face 'ml-shadow) (from <https://en.wikipedia.org/wiki/Box-drawing_character>).
+      vc-mode
+      " "
       (ml-concat-nonempty " "
         ml-coding
         "%p" ; Position (e.g. "56%" or "All").
