@@ -22,19 +22,6 @@
             (f-delete file t))))
       (copy-directory temp-dir my-elpa-repo-dir nil t t)
       (delete-directory temp-dir t)
-      (message "Recreated repository in %s" my-elpa-repo-dir)))
-
-  :config
-
-  ;; Make the created tar archives more reproducible.
-  ;; TODO: submit pull request to `elpa-mirror' adding a variable for additional tar arguments (and improving shell quoting).
-  (require 'cl-lib) ; Used: cl-letf.
-  (defadvice elpamr-create-mirror-for-installed (around use-reproducible-tar-command activate)
-    (let ((original-shell-command (symbol-function 'shell-command)))
-      (cl-letf (((symbol-function 'shell-command)
-                 (lambda (cmd)
-                   (funcall original-shell-command
-                            (concat cmd " --mtime='1970-01-01 00:00:00 UTC' --sort=name")))))
-        ad-do-it))))
+      (message "Recreated repository in %s" my-elpa-repo-dir))))
 
 (provide 'conf/other/my-elpa-repo)
