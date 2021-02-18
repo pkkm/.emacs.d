@@ -112,7 +112,10 @@ This is needed to make sure that text is properly aligned.")
         (format-mode-line global-mode-string)) ; Used for example by `display-time'.
       (propertize "%]" 'face 'ml-shadow)
       " ┃" ; Alternative: (propertize " │ " 'face 'ml-shadow) (from <https://en.wikipedia.org/wiki/Box-drawing_character>).
-      vc-mode
+      (when vc-mode
+        (replace-regexp-in-string (format "^ %s" (vc-backend buffer-file-name))
+                                  " "
+                                  vc-mode))
       " "
       (ml-concat-nonempty " "
         ml-coding
