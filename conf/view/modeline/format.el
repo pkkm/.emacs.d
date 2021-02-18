@@ -116,8 +116,8 @@ This is needed to make sure that text is properly aligned.")
       " "
       (ml-concat-nonempty " "
         ml-coding
-        "%p" ; Position (e.g. "56%" or "All").
-        "%l:%c") ; Line and column.
+        (replace-regexp-in-string "%" "%%" (format-mode-line '(-3 "%p"))) ; Position, limited to 3 characters (e.g. "56%" or "Bot").
+        "%2l:%c") ; Line and column.
       " "))))
 
 (setq-default mode-line-format '((:eval (ml-format))))
