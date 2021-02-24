@@ -99,7 +99,7 @@ This is needed to make sure that text is properly aligned.")
      (concat
       " "
       (ml-concat-nonempty " "
-        (concat (or shortened-dir "") "%b")
+        (concat shortened-dir "%b")
         (when buffer-read-only (propertize "RO" 'face '(:weight bold)))
         (when (buffer-modified-p) (propertize "+" 'face 'warning))
         (when (buffer-narrowed-p) (propertize "Narrow" 'face '(:underline t)))))
