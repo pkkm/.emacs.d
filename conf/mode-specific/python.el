@@ -1,5 +1,11 @@
 ;;; Python. -*- lexical-binding: t -*-
 
+(use-package python
+  :config
+
+  ;; Don't add an extra empty line when filling docstrings.
+  (setq python-fill-docstring-style 'pep-257-nn))
+
 (use-package elpy
   :ensure t
   :init
