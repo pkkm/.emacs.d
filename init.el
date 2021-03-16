@@ -137,7 +137,8 @@ If a PACKAGE (as a symbol) is older than MIN-VERSION, install its newest version
              (when (or (null pkg-installed)
                        (version< (epl-package-version-string pkg-installed) min-version))
                (message "Upgrading package %s (required version: %s)." pkg-symbol min-version)
-               (package-refresh-contents)
+               (unless packages-refreshed-this-session-p
+                 (package-refresh-contents))
                (let ((pkg-available (car (epl-find-available-packages pkg-symbol))))
                  (unless pkg-available
                    (error "Package %s not available for installation" pkg-symbol))
