@@ -14,7 +14,8 @@
   (setq haskell-process-log t)
 
   ;; Use Emacs state for error buffers so that they can be quickly closed with "q".
-  (evil-set-initial-state 'haskell-error-mode 'emacs))
+  (with-eval-after-load 'evil
+    (evil-set-initial-state 'haskell-error-mode 'emacs)))
 
 ;; Auto-configure Flycheck.
 (use-package flycheck-haskell
