@@ -1,9 +1,16 @@
 ;;; Org-mode. -*- lexical-binding: t -*-
 
 (use-package org
-  :ensure t
-
   :preface
+
+  ;; Postponed until the release after 9.4.4 due to a bug: <https://www.mail-archive.com/emacs-orgmode@gnu.org/msg133604.html>.
+  ;; Ensure that we're using an external org version instead of the built-in one. (One of the workarounds from <https://github.com/jwiegley/use-package/issues/319>.)
+  ;; (unless (file-expand-wildcards
+  ;;          (concat (file-name-as-directory package-user-dir) "org-[0-9]*"))
+  ;;   (unless packages-refreshed-this-session-p ; Defined in `init.el'.
+  ;;     (package-refresh-contents))
+  ;;   (package-install (cadr (assoc 'org package-archive-contents)))) ; TODO Handle my pinned personal repo properly; check the link above for possible solutions.
+
   (setq org-export-backends '(ascii html icalendar latex odt md)) ; Default value (as of Org 9.1) with `md' added.
 
   :config
