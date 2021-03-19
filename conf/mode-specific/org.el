@@ -11,6 +11,22 @@
   ;;     (package-refresh-contents))
   ;;   (package-install (cadr (assoc 'org package-archive-contents)))) ; TODO Handle my pinned personal repo properly; check the link above for possible solutions.
 
+  ;; In the meantime...
+  ;; Disable fancy description list indentation (backport of org-mode commit 683df456a).
+  (with-eval-after-load 'org
+    (when (boundp 'org-list-description-max-indent)
+      (defun org-list-item-body-column (item)
+        "Return column at which body of ITEM should start."
+        (save-excursion
+          (goto-char item)
+          (looking-at "[ \t]*\\(\\S-+\\)")
+          (+ (progn (goto-char (match-end 1)) (current-column))
+             (if (and org-list-two-spaces-after-bullet-regexp
+                      (string-match-p org-list-two-spaces-after-bullet-regexp
+                                      (match-string 1)))
+                 2
+               1))))))
+
   (setq org-export-backends '(ascii html icalendar latex odt md)) ; Default value (as of Org 9.1) with `md' added.
 
   :config
