@@ -13,9 +13,6 @@
   (setq LaTeX-item-indent 0) ; Don't indent \item additionally (the `itemize' environment will already have its own indentation).
   (setq LaTeX-syntactic-comments nil) ; Don't touch the inside of comments when indenting.
 
-  ;; Use the XeTeX engine by default.
-  (setq-default TeX-engine 'xetex)
-
   ;; Auto-save before compiling.
   (setq TeX-save-query nil)
 
