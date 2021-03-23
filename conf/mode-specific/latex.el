@@ -9,17 +9,8 @@
   (autoload #'LaTeX-math-mode "latex" nil t) ; For use in other modes.
   :config
 
-  ;; Indentation: smart tabs.
-  (with-eval-after-load 'smart-tabs-mode
-    (smart-tabs-add-language-support LaTeX LaTeX-mode-hook
-      ((LaTeX-indent-line . LaTeX-indent-level)))
-    (smart-tabs-insinuate 'LaTeX)
-    (add-hook 'LaTeX-mode-hook #'enable-indent-tabs-mode))
-
-  ;; Indentation: other.
-  (defvaralias 'LaTeX-left-right-indent-level 'LaTeX-indent-level) ; Indent \left and \right normally.
+  ;; Indentation.
   (setq LaTeX-item-indent 0) ; Don't indent \item additionally (the `itemize' environment will already have its own indentation).
-  (setq LaTeX-document-regexp nil) ; Indent the `document' environment too.
   (setq LaTeX-syntactic-comments nil) ; Don't touch the inside of comments when indenting.
 
   ;; Use the XeTeX engine by default.
