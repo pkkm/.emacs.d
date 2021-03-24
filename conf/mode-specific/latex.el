@@ -71,7 +71,11 @@
   (defun my-cheatsheet-AUCTeX ()
     (interactive)
     (open-cheatsheet "https://ftp.gnu.org/gnu/auctex/11.88-extra/tex-ref.pdf")) ; From conf/other/cheatsheets.
-  (bind-key "C-c C" #'my-cheatsheet-AUCTeX TeX-mode-map))
+  (bind-key "C-c C" #'my-cheatsheet-AUCTeX TeX-mode-map)
+
+  ;; Add a command for running make.
+  (add-to-list 'TeX-expand-list '("%P" file "pdf" t)) ; E.g. "Main.pdf" if the TeX file is "Main.tex".
+  (add-to-list 'TeX-command-list '("Make PDF" "make %P" TeX-run-compile nil t)))
 
 ;; Latexmk support.
 (use-package auctex-latexmk
