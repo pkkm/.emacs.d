@@ -3,31 +3,14 @@
 (use-package org
   :preface
 
-  ;; Postponed until the release after 9.4.4 due to a bug: <https://www.mail-archive.com/emacs-orgmode@gnu.org/msg133604.html>.
   ;; Ensure that we're using an external org version instead of the built-in one. (One of the workarounds from <https://github.com/jwiegley/use-package/issues/319>.)
-  ;; (unless (file-expand-wildcards
-  ;;          (concat (file-name-as-directory package-user-dir) "org-[0-9]*"))
-  ;;   (unless packages-refreshed-this-session-p ; Defined in `init.el'.
-  ;;     (package-refresh-contents))
-  ;;   (package-install (cadr (assoc 'org package-archive-contents)))) ; TODO Handle my pinned personal repo properly; check the link above for possible solutions.
+  (unless (file-expand-wildcards
+           (concat (file-name-as-directory package-user-dir) "org-[0-9]*"))
+    (unless packages-refreshed-this-session-p ; Defined in `init.el'.
+      (package-refresh-contents))
+    (package-install (cadr (assoc 'org package-archive-contents)))) ; The lists of packages in `package-archive-contents' seem to be sorted according to which repo should be used for installation first, taking into account versions and archive priorities.
 
-  ;; In the meantime...
-  ;; Disable fancy description list indentation (backport of org-mode commit 683df456a).
-  (with-eval-after-load 'org
-    (when (boundp 'org-list-description-max-indent)
-      (defun org-list-item-body-column (item)
-        "Return column at which body of ITEM should start."
-        (save-excursion
-          (goto-char item)
-          (looking-at "[ \t]*\\(\\S-+\\)")
-          (+ (progn (goto-char (match-end 1)) (current-column))
-             (if (and org-list-two-spaces-after-bullet-regexp
-                      (string-match-p org-list-two-spaces-after-bullet-regexp
-                                      (match-string 1)))
-                 2
-               1))))))
-
-  (setq org-export-backends '(ascii html icalendar latex odt md)) ; Default value (as of Org 9.1) with `md' added.
+  (setq org-export-backends '(ascii html icalendar latex odt md)) ; Default value (as of Org 9.4) with `md' added.
 
   :config
 
@@ -87,9 +70,7 @@
   ;; Display.
   (setq org-startup-truncated nil) ; Wrap long lines instead of truncating them (toggle with `toggle-truncate-lines').
   (setq org-startup-folded nil) ; Start with all headlines expanded.
-  (setq org-src-fontify-natively t) ; Syntax-highlight code blocks.
   (setq org-hide-leading-stars t) ; Deemphasize leading stars of headlines.
-  (setq org-fontify-done-headline t) ; Mark the whole headline of a DONE task with a different face.
   (setq org-highlight-latex-and-related '(latex entities)) ; Highlight LaTeX fragments and symbols (e.g. \alpha).
 
   ;; Don't use additional indentation for code blocks.
@@ -100,12 +81,12 @@
   ;; To change loaded packages, modify `org-latex-packages-alist' or `org-latex-default-packages-alist'.
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.8)) ; Larger formulas.
   (when-let (dir (getenv "XDG_RUNTIME_DIR")) ; Store all previews in one place.
-    (setq org-latex-preview-ltxpng-directory (expand-file-name "emacs-org-ltxpng/" dir)))
+    (setq org-preview-latex-image-directory (expand-file-name "emacs-org-ltxpng/" dir)))
 
   ;; Ellipsis style for folded sections.
   (require 'conf/utils/colors) ; Used: color-mix.
   (defun set-org-ellipsis-style ()
-    "Calculate the modeline backgrounds for various Evil states."
+    "Calculate the face for ellipses in org-mode."
     (let* ((base-color "cyan")
            (color (color-mix base-color 0.4 (face-attribute 'default :foreground) 0.6))
            (box-color (color-mix base-color 0.15 (face-attribute 'default :background) 0.85)))
@@ -113,16 +94,10 @@
                      `((t (:foreground ,color :box (:line-width 1 :color ,box-color :style nil)))))))
   (add-hook 'after-load-theme-hook #'set-org-ellipsis-style)
   (set-org-ellipsis-style)
-  (setq org-ellipsis
-        (if (version< (org-version) "9.0") ; Backwards-incompatible change in Org.
-            'org-ellipsis
-          (propertize "..." 'face 'org-ellipsis)))
+  (setq org-ellipsis (propertize "..." 'face 'org-ellipsis))
 
   ;; Logging.
   (setq org-log-repeat nil) ; Don't log shifting forward the date of a repeating task.
-
-  ;; Completion.
-  (setq org-completion-use-ido t)
 
   ;; Increase the depth of headlines shown in imenu.
   (setq org-imenu-depth 3)
@@ -161,7 +136,8 @@
           ad-do-it)
       ad-do-it))
 
-  ;; TODO: after Org 9.2+ becomes bundled with Emacs, restore Easy Templates (e.g. "<q" -> "#+BEGIN_QUOTE").
+  ;; Enable Easy Templates (e.g. "<q" -> "#+begin_quote"). Alternative: C-c C-,
+  (require 'org-tempo)
 
 
   ;;; Automatic link descriptions.
@@ -334,6 +310,8 @@
     (require 'org-protocol-capture-html)))
 
 
+;;; Drag-and-drop image downloading.
+
 (use-package org-download
   :ensure t
   :init
@@ -389,5 +367,6 @@
       (remove-hook 'after-change-functions #'my-indent-changed-region)))
   (defun my-indent-changed-region (start end _)
     (indent-region start end)))
+
 
 (provide 'conf/mode-specific/org)
