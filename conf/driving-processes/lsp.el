@@ -27,13 +27,6 @@
         (set-face-attribute
          face nil :box (plist-put box :color new-color))))))
 
-(use-package company-lsp
-  :ensure t
-  :init
-  (with-eval-after-load 'company
-    (with-eval-after-load 'lsp-mode
-      (add-to-list 'company-backends #'company-lsp))))
-
 (use-package ccls
   :ensure t
   :init
