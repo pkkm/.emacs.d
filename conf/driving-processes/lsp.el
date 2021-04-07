@@ -34,18 +34,12 @@
     (with-eval-after-load 'lsp-mode
       (add-to-list 'company-backends #'company-lsp))))
 
-;; As of 2018-11, the Emacs package for cquery is more polished than ccls. (I tried both and ccls failed to work without any indication of what's wrong.)
-(use-package cquery
+(use-package ccls
   :ensure t
   :init
 
   ;; Needed for M-x lsp to work (as of 2019-07).
   (with-eval-after-load 'lsp-mode
-    (require 'cquery))
-
-  :config
-
-  ;; Store cache in one place instead of polluting project directories.
-  (setq cquery-cache-dir-function #'cquery-cache-dir-consolidated))
+    (require 'ccls)))
 
 (provide 'conf/driving-processes/lsp)
