@@ -9,6 +9,7 @@
   (run-hooks 'after-load-theme-hook))
 
 ;; TODO submit this upstream?
+(require 'conf/utils/functions) ; Used: define-interactive-wrapper.
 (define-interactive-wrapper change-theme (&rest args) load-theme
   "Like `load-theme', but disables all themes before loading the new one."
   (mapcar #'disable-theme custom-enabled-themes)
