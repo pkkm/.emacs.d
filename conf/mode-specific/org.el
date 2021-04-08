@@ -10,7 +10,7 @@
       (package-refresh-contents))
     (package-install (cadr (assoc 'org package-archive-contents)))) ; The lists of packages in `package-archive-contents' seem to be sorted according to which repo should be used for installation first, taking into account versions and archive priorities.
 
-  (setq org-export-backends '(ascii html icalendar latex odt md)) ; Default value (as of Org 9.4) with `md' added.
+  (setq org-export-backends '(ascii html icalendar latex odt md)) ; Default value (as of Org 9.1) with `md' added.
 
   :config
 
@@ -71,7 +71,8 @@
   (setq org-startup-truncated nil) ; Wrap long lines instead of truncating them (toggle with `toggle-truncate-lines').
   (setq org-startup-folded nil) ; Start with all headlines expanded.
   (setq org-hide-leading-stars t) ; Deemphasize leading stars of headlines.
-  (setq org-highlight-latex-and-related '(latex entities)) ; Highlight LaTeX fragments and symbols (e.g. \alpha).
+  (setq org-fontify-done-headline t) ; Mark the whole headline of a DONE task with a different face (default in Org 9.4+).
+  (setq org-highlight-latex-and-related '(latex entities)) ; Highlight LaTeX fragments and symbols (e.g. \alpha). May add a lot of typing lag in newer Org versions, see <https://stackoverflow.com/q/59990932>.
 
   ;; Don't use additional indentation for code blocks.
   (setq org-edit-src-content-indentation 0)
@@ -136,8 +137,22 @@
           ad-do-it)
       ad-do-it))
 
-  ;; Enable Easy Templates (e.g. "<q" -> "#+begin_quote"). Alternative: C-c C-,
-  (require 'org-tempo)
+  ;; Disable fancy description list indentation (backport of org-mode commit 683df456a).
+  (defun org-list-item-body-column (item)
+    "Return column at which body of ITEM should start."
+    (save-excursion
+      (goto-char item)
+      (looking-at "[ \t]*\\(\\S-+\\)")
+      (+ (progn (goto-char (match-end 1)) (current-column))
+         (if (and org-list-two-spaces-after-bullet-regexp
+                  (string-match-p org-list-two-spaces-after-bullet-regexp
+                                  (match-string 1)))
+             2
+           1))))
+
+  ;; Will be needed after Org 9.2:
+  ;; ;; Enable Easy Templates (e.g. "<q" -> "#+begin_quote"). Alternative: C-c C-,
+  ;; (require 'org-tempo)
 
 
   ;;; Automatic link descriptions.
