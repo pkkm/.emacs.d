@@ -216,7 +216,7 @@
 
        ;; Less Wrong.
        ((string-equal "lesswrong.com" (nth 1 domain-levels))
-        (let ((pure-title (s-chop-suffix " - LessWrong 2.0" title)))
+        (let ((pure-title (s-chop-suffix " - LessWrong" title)))
           (if-let ((comment-id (nth 1 (s-match "#\\([a-zA-Z0-9]+\\)$" url))))
               ;; Get author from GreaterWrong (a LessWrong viewer that uses plain HTML rather than a huge JavaScript blob).
               (let* ((gw-url (replace-regexp-in-string
