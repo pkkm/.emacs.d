@@ -39,7 +39,10 @@
   (with-eval-after-load 'evil
     (evil-define-key 'insert yas-minor-mode-map (kbd "C-s") #'yas-expand))
   (bind-key "C-s" #'yas-next-field yas-keymap)
-  (bind-key "C-y" #'yas-prev-field yas-minor-mode-map)) ; Even though navigating between fields makes sense only immediately after expanding a snippet (when `yas-keymap' is active), we place the binding in `yas-minor-mode-map' so that C-y errors out instead of starting isearch.
+  (bind-key "C-y" #'yas-prev-field yas-minor-mode-map) ; Even though navigating between fields makes sense only immediately after expanding a snippet (when `yas-keymap' is active), we place the binding in `yas-minor-mode-map' so that C-y errors out instead of starting isearch.
+
+  ;; Indent snippets to the current column instead of using `indent-according-to-mode'. See <https://github.com/joaotavora/yasnippet/issues/485>.
+  (setq yas-indent-line 'fixed))
 
 (provide 'conf/editing/snippets)
 
