@@ -21,7 +21,7 @@
   "Set `indent-tabs-mode' to t in the current buffer."
   (setq indent-tabs-mode t))
 (defun disable-indent-tabs-mode ()
-  "Set `indent-tabs-mode' to t in the current buffer."
+  "Set `indent-tabs-mode' to nil in the current buffer."
   (setq indent-tabs-mode nil))
 
 ;; Don't convert tabs to spaces on backspace.
