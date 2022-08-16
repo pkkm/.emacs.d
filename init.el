@@ -37,6 +37,13 @@
 (when (and (version< emacs-version "26.3") (>= libgnutls-version 30603))
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
+;; Silence the warning "Package cl is deprecated" (Emacs 27+).
+;; This is intented to affect `do-after-load-evaluation' in `subr'.
+(when (version<= "27.1" emacs-version)
+  (defadvice byte-compile-warning-enabled-p (after disable-obsolete-cl-warning activate)
+    (when (equal (ad-get-args 0) '(obsolete cl))
+      (setq ad-return-value nil))))
+
 
 ;;; Directories.
 
