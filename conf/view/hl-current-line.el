@@ -15,7 +15,10 @@
       ad-do-it))
 
   ;; Don't allow themes to change other properties than the background.
-  (defface my-hl-line-face `((t)) "My face for hl-line." :group 'hl-line)
+  (defface my-hl-line-face
+    `((t ,@(when (version<= "27.1" emacs-version) '(:extend t))))
+    "My face for hl-line."
+    :group 'hl-line)
   (defun my-hl-line-update-background ()
     (set-face-background 'my-hl-line-face (face-background 'hl-line nil t)))
   (my-hl-line-update-background)
