@@ -4,6 +4,10 @@
 (when (version< emacs-version "25.1")
   (error (concat "This config requires Emacs 25.1+. Current version: " emacs-version)))
 
+;; Load `early-init.el' on Emacs 27+.
+(when (version<= "27.1" emacs-version)
+  (load (expand-file-name "early-init" user-emacs-directory)))
+
 ;; Improve startup time by temporarily changing some settings.
 (let ((old-gc-cons-percentage gc-cons-percentage)
       (old-file-name-handler-alist file-name-handler-alist))
@@ -72,8 +76,8 @@
 ;; Or delete the elpa/ directory and launch Emacs for it to be recreated.
 
 ;; Initialize packages now, instead of after init.
-(package-initialize) ; This normally happens after loading the init file.
-(setq package-enable-at-startup nil) ; Don't load the packages the second time after the init file.
+;; Automatic initialization is disabled in `early-init.el'.
+(package-initialize)
 
 ;; Clone my private repo if it's not found and git is available.
 (when (and (not (file-exists-p my-elpa-repo-dir)) (executable-find "git"))
