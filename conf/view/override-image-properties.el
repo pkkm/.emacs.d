@@ -1,7 +1,7 @@
 ;;; A mechanism for overriding the properties of all images in the buffer. -*- lexical-binding: t -*-
 
 (defvar my-image-override-properties nil
-  "Plist of properties to override on all images in buffer. Requires imagemagick support.
+  "Plist of properties to override on all images in buffer. Requires imagemagick support on Emacs <27.
 Example: '(:width my-remove-entry :max-width 640 :max-height 480)")
 (make-variable-buffer-local 'my-image-override-properties)
 
@@ -21,11 +21,14 @@ The special value `my-remove-entry' will cause the key to be removed from the re
 
 (defadvice create-image (around my-apply-override-properties activate)
   (when my-image-override-properties
-    ;; Revise this when Emacs 27 is released, since it will have support for image resizing without ImageMagick.
-    (unless (fboundp 'imagemagick-types)
-      (error "my-image-override-properties needs imagemagick support"))
-    ;; Arguments of `create-image': (file-or-data &optional type data-p &rest props).
-    (ad-set-arg 1 'imagemagick)
+    ;; Set arguments of `create-image': (file-or-data &optional type data-p &rest props).
+    (if (version< emacs-version "27.1")
+        (progn
+          (unless (fboundp 'imagemagick-types)
+            (error "my-image-override-properties needs imagemagick support on Emacs <27"))
+          (ad-set-arg 1 'imagemagick))
+      (when (and (not (eq (ad-get-arg 0) 'imagemagick)) (not (image-transforms-p)))
+        (error "my-image-override properties needs image transforms to be supported")))
     (ad-set-args 3 (my-plist-merge (ad-get-args 3) my-image-override-properties)))
   ;; Useful for debugging:
   ;; (message "my-apply-override-properties: create-image %s" (ad-get-args 0))
