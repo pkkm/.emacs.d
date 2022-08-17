@@ -37,8 +37,12 @@
 (when (and (version< emacs-version "26.3") (>= libgnutls-version 30603))
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
+;; Read process output in 128 kB chunks instead of the default 4 kB.
+(when (version<= "27.1" emacs-version)
+  (setq read-process-output-max (* 128 1024)))
+
 ;; Silence the warning "Package cl is deprecated" (Emacs 27+).
-;; This is intented to affect `do-after-load-evaluation' in `subr'.
+;; This is intented to affect `do-after-load-evaluation' in `subr.el'.
 (when (version<= "27.1" emacs-version)
   (defadvice byte-compile-warning-enabled-p (after disable-obsolete-cl-warning activate)
     (when (equal (ad-get-args 0) '(obsolete cl))
