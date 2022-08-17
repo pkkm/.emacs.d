@@ -2,7 +2,7 @@
 
 ;; Ensure we're on Emacs 25.1 or newer.
 (when (version< emacs-version "25.1")
-  (error (concat "This config requires Emacs 25.1+. Current version: " emacs-version)))
+  (error "This config requires Emacs 25.1+. Current version: %s" emacs-version))
 
 ;; Load `early-init.el' on Emacs 27+.
 (when (version<= "27.1" emacs-version)
