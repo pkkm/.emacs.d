@@ -1,0 +1,38 @@
+# -*- mode: python -*-
+# key: template
+# name: Template for a basic Python program
+# type: snippet
+# --
+#!/usr/bin/env python3
+# pylint: disable=missing-docstring,too-few-public-methods
+
+import argparse
+import csv
+import dataclasses
+import datetime
+import enum
+import json
+import os
+import re
+import subprocess
+import shutil
+import sys
+import textwrap
+import time
+import typing as t
+
+from beeprint import pp
+import requests
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    return parser.parse_args()
+
+def main():
+    args = parse_args()$0
+
+if __name__ == "__main__":
+    main()
