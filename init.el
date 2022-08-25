@@ -86,9 +86,45 @@
 ;; To update installed packages, use M-x package-list-packages RET U x.
 ;; Or delete the elpa/ directory and launch Emacs for it to be recreated.
 
+;; Disable the built-in org package.
+(require 'finder-inf)
+(assq-delete-all 'org package--builtins)
+(assq-delete-all 'org package--builtin-versions)
+(require 'cl-lib)
+(setq load-path
+      (cl-delete-if
+       (lambda (path)
+         (string-match-p "\\`/usr/share/emacs/[0-9\\.]+/lisp/org\\'" path))
+       load-path))
+
+;; Unload org.
+;; This is needed because Emacs is dumped with a `loaddefs.el' that includes org's autoloads (see <https://emacs.stackexchange.com/q/46042>).
+;; We define a function and byte-compile it because this makes this code take 11 ms while just using the code directly takes 35 ms.
+(defun my-unload-org ()
+  (save-match-data
+    (mapatoms
+     (lambda (symbol)
+       (let ((name (symbol-name symbol)))
+         (when (and (eq (aref name 0) ?o) ; Slight optimization.
+                    (string-match "\\`\\(org\\|ob\\|ox\\)\\(-.*\\)?\\'" name))
+           (setplist symbol nil)
+           (when (eq 'autoload (car-safe symbol))
+             (unintern symbol nil))))))))
+(byte-compile #'my-unload-org)
+(my-unload-org)
+
 ;; Initialize packages now, instead of after init.
 ;; Automatic initialization is disabled in `early-init.el'.
 (package-initialize)
+
+;; Fix paths in org 9.1.9 from ELPA (it uses a `lisp' directory instead of having Lisp files directly in the package).
+(let ((package-descs (alist-get 'org package-alist)))
+  (dolist (package-desc package-descs)
+    (when (equal (package-desc-version package-desc) '(9 1 9))
+      (let ((lisp-dir (expand-file-name "lisp" (package-desc-dir package-desc))))
+        (add-to-list 'load-path lisp-dir)
+        ;; (load (expand-file-name "org-loaddefs" lisp-dir))
+        (require 'org-loaddefs)))))
 
 ;; Clone my private repo if it's not found and git is available.
 (when (and (not (file-exists-p my-elpa-repo-dir)) (executable-find "git"))
