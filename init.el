@@ -113,7 +113,7 @@
 (byte-compile #'my-unload-org)
 (my-unload-org)
 
-;; Initialize packages now, instead of after init.
+;; Initialize packages.
 ;; Automatic initialization is disabled in `early-init.el'.
 (package-initialize)
 
