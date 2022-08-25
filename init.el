@@ -4,8 +4,8 @@
 (when (version< emacs-version "25.1")
   (error "This config requires Emacs 25.1+. Current version: %s" emacs-version))
 
-;; Load `early-init.el' on Emacs 27+.
-(when (version<= "27.1" emacs-version)
+;; Load `early-init.el' on Emacs <27.
+(when (version< emacs-version "27.1")
   (load (expand-file-name "early-init" user-emacs-directory)))
 
 ;; Improve startup time by temporarily changing some settings.
