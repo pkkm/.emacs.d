@@ -48,6 +48,11 @@
     (when (equal (ad-get-args 0) '(obsolete cl))
       (setq ad-return-value nil))))
 
+;; Don't resize the frame to preserve the number of displayed columns and lines when the font is changed or an UI element is shown/hidden.
+;; This reduces startup time by ~0.7 s and prevents visual glitches on startup in tiling WMs.
+;; The setting is here instead of `conf/view' to ensure that it's set before any visual changes.
+(setq frame-inhibit-implied-resize t)
+
 
 ;;; Directories.
 
