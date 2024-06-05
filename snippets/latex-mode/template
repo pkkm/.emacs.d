@@ -249,7 +249,7 @@
                    "% Use \\`$ ... $' instead of \\`\\\\( ... \\\\)' with these commands. For other things that don't work, see the \\`soul' package's manual."
                    (unless (string= document-class "beamer") ; Because beamer loads color and xcolor.
                      "\\usepackage{color}")
-                   "\\usepackage{soul}"
+                   "\\usepackage{soulutf8} % Alternative version of \\`soul' that supports UTF-8 characters. Regular \\`soul' errors out with \"Argument of \\UTFviii@two@octets@combine has an extra }\". Not necessary starting from \\`soul' version 3.0 (Feb 2023)."
                    "\\setulcolor{red}"
                    "\\newcommand{\\fixme}[1]{\\ul{#1}} % For parts of the text which should be rewritten."
                    "\\newcommand{\\comment}[1]{\\ul{[#1]}}"
