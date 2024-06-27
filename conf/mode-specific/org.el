@@ -168,7 +168,10 @@
            (html-buffer (url-retrieve-synchronously url))
            (dom (with-current-buffer html-buffer
                   (libxml-parse-html-region (point-min) (point-max) url t)))
-           (title (s-trim (dom-text (car (dom-by-tag dom 'title)))))
+
+           (raw-title (dom-text (car (dom-by-tag dom 'title))))
+           (title (s-trim (replace-regexp-in-string "[[:blank:]\n]+" " " raw-title t t)))
+
            (parsed-url (url-generic-parse-url url))
            (host (url-host parsed-url))
            (domain-levels ; E.g. '("com" "ycombinator.com" "news.ycombinator.com")
@@ -179,68 +182,68 @@
                                  new-part)
                                accum))
                        nil (s-split "\\." host))))
-           (path (url-filename parsed-url))
-           match-1 match-2)
-      (cond
+           (path (url-filename parsed-url)))
+
+      (or
 
        ;; Reddit wiki.
-       ((and (string-equal "reddit.com" (nth 1 domain-levels))
-             (setq match-1 (s-match "^/r/\\([^/]+\\)/wiki\\(/\\|$\\)" path))
-             (setq match-2 (s-match "^\\(.+\\) - \\([^ ]+\\)$" title)))
-        (let ((wiki-page-title (nth 1 match-2))
-              (subreddit (nth 2 match-2)))
-          (concat "Reddit /r/" subreddit " wiki: " wiki-page-title)))
+       (when-let (((string-equal "reddit.com" (nth 1 domain-levels)))
+                  (match-title (s-match "^/r/\\([^/]+\\)/wiki\\(/\\|$\\)" path))
+                  (match-subreddit (s-match "^\\(.+\\) - \\([^ ]+\\)$" title)))
+         (let ((wiki-page-title (nth 1 match-title))
+               (subreddit (nth 2 match-subreddit)))
+           (concat "Reddit /r/" subreddit " wiki: " wiki-page-title)))
 
        ;; Reddit comment thread.
-       ((and (string-equal "reddit.com" (nth 1 domain-levels))
-             (setq match-1 (s-match "^/r/\\([^/]+\\)/comments/" path))
-             (setq match-2 (s-match "^\\([^ ]+\\) comments on \\(.+\\)$" title)))
-        (let ((subreddit (nth 1 match-1))
-              (commenter (nth 1 match-2))
-              (top-level-title (nth 2 match-2)))
-          (concat "Reddit /r/" subreddit ": " commenter " on " top-level-title)))
+       (when-let (((string-equal "reddit.com" (nth 1 domain-levels)))
+                  (match-subreddit (s-match "^/r/\\([^/]+\\)/comments/" path))
+                  (match-user-title (s-match "^\\([^ ]+\\) comments on \\(.+\\)$" title)))
+         (let ((subreddit (nth 1 match-subreddit))
+               (commenter (nth 1 match-user-title))
+               (top-level-title (nth 2 match-user-title)))
+           (concat "Reddit /r/" subreddit ": " commenter " on " top-level-title)))
 
        ;; Reddit top-level post.
-       ((and (string-equal "reddit.com" (nth 1 domain-levels))
-             (s-contains? " : " title))
-        (cl-destructuring-bind (_ rest subreddit)
-            (s-match "^\\(.*\\) : \\([^ :]+\\)$" title)
-          (concat "Reddit /r/" subreddit ": " rest)))
+       (when (and (string-equal "reddit.com" (nth 1 domain-levels))
+                  (s-contains? " : " title))
+         (cl-destructuring-bind (_ rest subreddit)
+             (s-match "^\\(.*\\) : \\([^ :]+\\)$" title)
+           (concat "Reddit /r/" subreddit ": " rest)))
 
        ;; Hacker News comment thread.
-       ((and (string-equal "news.ycombinator.com" (nth 2 domain-levels))
-         (setq match-1 (dom-by-tag (dom-by-class dom "storyon") 'a)))
-        (let ((parent-title (dom-text (car match-1)))
-              (user (dom-text (car (dom-by-class dom "hnuser")))))
-          (concat "Hacker News: " user " on " parent-title)))
+       (when-let (((string-equal "news.ycombinator.com" (nth 2 domain-levels)))
+                  (match-parent (dom-by-tag (dom-by-class dom "storyon") 'a)))
+         (let ((parent-title (dom-text (car match-parent)))
+               (user (dom-text (car (dom-by-class dom "hnuser")))))
+           (concat "Hacker News: " user " on " parent-title)))
 
        ;; Less Wrong.
-       ((string-equal "lesswrong.com" (nth 1 domain-levels))
-        (let ((pure-title (s-chop-suffix " - LessWrong" title)))
-          (if-let ((comment-id (nth 1 (s-match "#\\([a-zA-Z0-9]+\\)$" url))))
-              ;; Get author from GreaterWrong (a LessWrong viewer that uses plain HTML rather than a huge JavaScript blob).
-              (let* ((gw-url (replace-regexp-in-string
-                              "\\(lesswrong.com\\).*\\'" "greaterwrong.com" url nil nil 1))
-                     (gw-dom (with-current-buffer (url-retrieve-synchronously gw-url)
-                               (libxml-parse-html-region (point-min) (point-max) url t)))
-                     (comment-author (-> gw-dom
-                                         (dom-by-id (regexp-quote comment-id))
-                                         (dom-by-class "author")
-                                         (car)
-                                         (dom-text))))
-                (concat "Less Wrong: " comment-author " on " pure-title))
-            (concat "Less Wrong: " pure-title))))
+       (when (string-equal "lesswrong.com" (nth 1 domain-levels))
+         (let ((pure-title (s-chop-suffix " - LessWrong" title)))
+           (if-let ((comment-id (nth 1 (s-match "#\\([a-zA-Z0-9]+\\)$" url))))
+               ;; Get author from GreaterWrong (a LessWrong viewer that uses plain HTML rather than a huge JavaScript blob).
+               (let* ((gw-url (replace-regexp-in-string
+                               "\\(lesswrong.com\\).*\\'" "greaterwrong.com" url nil nil 1))
+                      (gw-dom (with-current-buffer (url-retrieve-synchronously gw-url)
+                                (libxml-parse-html-region (point-min) (point-max) url t)))
+                      (comment-author (-> gw-dom
+                                          (dom-by-id (regexp-quote comment-id))
+                                          (dom-by-class "author")
+                                          (car)
+                                          (dom-text))))
+                 (concat "Less Wrong: " comment-author " on " pure-title))
+             (concat "Less Wrong: " pure-title))))
 
        ;; Pages whose title probably contains the website's name.
-       ((setq match-1 (s-match "^\\(.*\\) [-–|:•#·»←] \\(.*\\)$" title))
-        (cl-destructuring-bind (_ first-part second-part) match-1
-          (let* ((first-longer-p (>= (length first-part) (length second-part)))
-                 (longer (if first-longer-p first-part second-part))
-                 (shorter (if first-longer-p second-part first-part)))
-            (concat shorter ": " longer))))
+       (when-let ((match (s-match "^\\(.*\\) [-–|:•#·»←] \\(.*\\)$" title)))
+         (cl-destructuring-bind (_ first-part second-part) match
+           (let* ((first-longer-p (>= (length first-part) (length second-part)))
+                  (longer (if first-longer-p first-part second-part))
+                  (shorter (if first-longer-p second-part first-part)))
+             (concat shorter ": " longer))))
 
        ;; Others.
-       (t title))))
+       title)))
 
   (defun my-org-toggle-auto-link-description ()
     "Toggle automatically downloading link descriptions."
