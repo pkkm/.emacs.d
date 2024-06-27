@@ -212,7 +212,7 @@
 
        ;; Hacker News comment thread.
        (when-let (((string-equal "news.ycombinator.com" (nth 2 domain-levels)))
-                  (match-parent (dom-by-tag (dom-by-class dom "storyon") 'a)))
+                  (match-parent (dom-by-tag (dom-by-class dom "onstory") 'a)))
          (let ((parent-title (dom-text (car match-parent)))
                (user (dom-text (car (dom-by-class dom "hnuser")))))
            (concat "Hacker News: " user " on " parent-title)))
