@@ -45,8 +45,3 @@
   (setq yas-indent-line 'fixed))
 
 (provide 'conf/editing/snippets)
-
-
-
-
-
