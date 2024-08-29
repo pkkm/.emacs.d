@@ -234,6 +234,18 @@
                  (concat "Less Wrong: " comment-author " on " pure-title))
              (concat "Less Wrong: " pure-title))))
 
+       ;; YouTube (using yt-dlp is simpler than trying to parse YouTube's complex HTML).
+       ;; We don't actually need the downloaded webpage for this, so it's a bit inefficient, but it's simpler.
+       (when (and (string-match-p "\\`https?://\\(www\\.\\)?youtube\\.com/watch\\?v=[^\"&?/\s]+" url)
+                  (functionp 'json-parse-string) ; Emacs 27+.
+                  (executable-find "yt-dlp"))
+         ;; We go through JSON because `yt-dlp --print filename -o ...' inevitably messes with the title, for example by replacing `?' with a weird Unicode character that looks like a question mark.
+         (let ((parsed-json (json-parse-string
+                             (car (process-lines "yt-dlp" "--no-warnings" "--dump-json" "--" url)))))
+           (format "YouTube: %s: %s"
+                   (gethash "uploader" parsed-json)
+                   (gethash "title" parsed-json))))
+
        ;; Pages whose title probably contains the website's name.
        (when-let ((match (s-match "^\\(.*\\) [-–|:•#·»←] \\(.*\\)$" title)))
          (cl-destructuring-bind (_ first-part second-part) match
