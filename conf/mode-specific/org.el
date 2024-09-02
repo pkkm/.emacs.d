@@ -273,7 +273,92 @@
     (let ((org-make-link-description-function #'my-org-link-description))
       (call-interactively #'org-insert-link))
     (insert (format-time-string " [%Y-%m-%d]")))
-  (bind-key "C-c M-l" #'my-org-insert-link org-mode-map))
+  (bind-key "C-c M-l" #'my-org-insert-link org-mode-map)
+
+
+  ;; File downloading.
+
+  (defun my-org-download-destination (url &optional ext)
+    "Prompt the user and return the path that URL should be saved to. If EXT is non-nil, override the extension."
+    (let* ((parsed-url (url-generic-parse-url url))
+
+           (filename-from-url (file-name-nondirectory
+                               (car (url-path-and-query parsed-url))))
+           (filename
+            (if ext ; If we were provided an extension, use it.
+                (format "%s.%s"
+                        (file-name-sans-extension filename-from-url)
+                        (file-name-extension filename-from-url))
+              filename-from-url))
+
+           (dir-for-all-hosts ; Directory that contains per-host directories.
+            (or (and (not (local-variable-p 'org-download-image-dir))
+                     (eq major-mode 'org-mode)
+                     (buffer-file-name)
+                     (expand-file-name
+                      (file-name-nondirectory (buffer-file-name))
+                      "./assets"))
+                (and (boundp 'org-download-image-dir) org-download-image-dir)
+                (user-error "Can't determine destination for the URL")))
+           (host (url-host parsed-url))
+           (dir ; Directory for this host.
+            (expand-file-name
+             (cond
+              ((string= host "i.imgur.com") "imgur.com")
+              (t (string-remove-prefix "www." host)))
+             dir-for-all-hosts))
+
+           (use-file-dialog nil) ; Don't use a GUI dialog (less flexible).
+           (result ; Let the user edit the name.
+            (expand-file-name ; So that we always return an absolute path, for consistency.
+             (read-file-name "Download to: "
+                             (concat dir "/")
+                             nil nil filename))))
+
+      (make-directory (file-name-directory result) t)
+      result))
+
+  (defun my-org-download-and-link (url)
+    (interactive "*sURL to download: ")
+    (let* ((destination (my-org-download-destination url))
+           (this-dir (when (buffer-file-name) (file-name-directory (buffer-file-name))))
+           (destination-relative
+            (if (and this-dir (f-ancestor-of-p this-dir destination))
+                (concat "./" (file-relative-name destination this-dir))
+              destination)))
+      (url-copy-file url destination)
+      (org-insert-link nil destination-relative))))
+
+
+;;; Drag-and-drop image downloading.
+
+(use-package org-download
+  :ensure t
+  :init
+
+  (with-eval-after-load 'org
+    (org-download-enable)) ; Add handlers for drag-and-drop.
+
+  :config
+
+  ;; Don't add a "#+DOWNLOADED" annotation above the image.
+  ;; TODO: feature request to avoid inserting "\n" when this is empty (maybe move the "\n" into this function).
+  (setq org-download-annotate-function (lambda (&rest _) ""))
+
+  ;; Use my custom directory structure for downloaded images (e.g. https://i.imgur.com/jiu2vmm.png -> ./assets/Programming.org/imgur.com/jiu2vmm.png).
+  (defun org-download--fullname (link &optional ext)
+    "Return the file name LINK will be saved to."
+    (my-org-download-destination link ext))
+
+  ;; Indent text inserted by org-download.
+  ;; TODO: feature request for a customizable option for this.
+  (defadvice org-download-insert-link (around my-org-download-indent activate)
+    (add-hook 'after-change-functions #'my-indent-changed-region)
+    (unwind-protect
+        (progn ad-do-it)
+      (remove-hook 'after-change-functions #'my-indent-changed-region)))
+  (defun my-indent-changed-region (start end _)
+    (indent-region start end)))
 
 
 ;;; Capturing.
@@ -338,65 +423,6 @@
   :init
   (with-eval-after-load 'org-protocol
     (require 'org-protocol-capture-html)))
-
-
-;;; Drag-and-drop image downloading.
-
-(use-package org-download
-  :ensure t
-  :init
-
-  (with-eval-after-load 'org
-    (org-download-enable)) ; Add handlers for drag-and-drop.
-
-  :config
-
-  ;; Don't add a "#+DOWNLOADED" annotation above the image.
-  ;; TODO: feature request to avoid inserting "\n" when this is empty (maybe move the "\n" into this function).
-  (setq org-download-annotate-function (lambda (&rest _) ""))
-
-  ;; Use my custom directory structure for downloaded images (e.g. https://i.imgur.com/jiu2vmm.png -> ./assets/Programming.org/imgur.com/jiu2vmm.png).
-  (defun org-download--fullname (link &optional ext)
-    "Return the file name LINK will be saved to."
-    (let* ((parsed-url (url-generic-parse-url link))
-           (filename-from-url (file-name-nondirectory
-                               (car (url-path-and-query parsed-url))))
-           (filename ; If org-download provided a file extension, use it.
-            (format "%s.%s"
-                    (file-name-sans-extension filename-from-url)
-                    (or ext (file-name-extension filename-from-url))))
-           (dir-for-all-hosts ; Directory that contains per-host directories.
-            (or (and (eq major-mode 'org-mode)
-                     (not (local-variable-p 'org-download-image-dir))
-                     (buffer-file-name)
-                     (expand-file-name
-                      (file-name-nondirectory (buffer-file-name))
-                      "./assets"))
-                org-download-image-dir))
-           (host (url-host parsed-url))
-           (dir ; Directory for this host.
-            (expand-file-name
-             (cond
-              ((string= host "i.imgur.com") "imgur.com")
-              (t host))
-             dir-for-all-hosts))
-           (use-file-dialog nil) ; Don't use a GUI dialog (less flexible).
-           (result ; Let the user edit the name.
-            (read-file-name "Save image as: "
-                            (concat (expand-file-name dir) "/")
-                            nil nil filename)))
-      (make-directory (file-name-directory result) t)
-      result))
-
-  ;; Indent text inserted by org-download.
-  ;; TODO: feature request for a customizable option for this.
-  (defadvice org-download-insert-link (around my-org-download-indent activate)
-    (add-hook 'after-change-functions #'my-indent-changed-region)
-    (unwind-protect
-        (progn ad-do-it)
-      (remove-hook 'after-change-functions #'my-indent-changed-region)))
-  (defun my-indent-changed-region (start end _)
-    (indent-region start end)))
 
 
 (provide 'conf/mode-specific/org)
