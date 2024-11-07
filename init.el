@@ -183,26 +183,22 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
 (package-ensure-installed 'epl)
 (require 'epl)
 (eval-when-compile (require 'cl-lib))
-(defun package-ensure-version (&rest package-version-plist)
-  "(package-ensure-version [PACKAGE MIN-VERSION]...)
-If a PACKAGE (as a symbol) is older than MIN-VERSION, install its newest version."
-  (cl-loop for (pkg-symbol min-version)
-           on package-version-plist by #'cddr
-           do
-           (let ((pkg-installed (car (epl-find-installed-packages pkg-symbol))))
-             (when (or (null pkg-installed)
-                       (version< (epl-package-version-string pkg-installed) min-version))
-               (message "Upgrading package %s (required version: %s)." pkg-symbol min-version)
-               (unless packages-refreshed-this-session-p
-                 (package-refresh-contents))
-               (let ((pkg-available (car (epl-find-available-packages pkg-symbol))))
-                 (unless pkg-available
-                   (error "Package %s not available for installation" pkg-symbol))
-                 (epl-package-install pkg-available))
-               ;; Reload package if loaded.
-               (when (featurep pkg-symbol)
-                 (unload-feature pkg-symbol)
-                 (require pkg-symbol))))))
+(defun package-ensure-version (package min-version &optional no-reload)
+  "If a PACKAGE (as a symbol) is older than MIN-VERSION, install its newest version."
+  (let ((pkg-installed (car (epl-find-installed-packages package))))
+    (when (or (null pkg-installed)
+              (version< (epl-package-version-string pkg-installed) min-version))
+      (message "Upgrading package %s (required version: %s)." package min-version)
+      (unless packages-refreshed-this-session-p
+        (package-refresh-contents))
+      (let ((pkg-available (car (epl-find-available-packages package))))
+        (unless pkg-available
+          (error "Package %s not available for installation" package))
+        (epl-package-install pkg-available))
+      ;; Reload package if loaded.
+      (when (and (featurep package) (not no-reload))
+        (unload-feature package)
+        (require package)))))
 
 ;; Get `abbrev-mode' out of the way.
 (setq save-abbrevs 'silently) ; Don't ask whether to save abbrevs during package installation.
