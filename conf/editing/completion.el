@@ -22,8 +22,9 @@
   ;; Don't downcase abbrev candidates. (See also `company-dabbrev-ignore-case'.)
   (setq company-dabbrev-downcase nil)
 
-  ;; Bindings.
+  ;; Move the binding for "show definition" from C-w to M-.
   (bind-key "C-w" nil company-active-map)
+  (bind-key "M-." #'company-show-location company-active-map)
 
   ;; Activate the completion popup when TAB is pressed on an already indented line.
   (define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common))
