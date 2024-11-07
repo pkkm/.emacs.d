@@ -4,5 +4,5 @@
 (setq native-comp-deferred-compilation nil)
 (setq native-comp-speed -1)
 
-;; Don't automatically call `package-initialize' before (Emacs 27+) or after (Emacs <27) `init.el'.
+;; Don't automatically call `package-initialize' before `init.el'.
 (setq package-enable-at-startup nil)

@@ -22,13 +22,8 @@ The special value `my-remove-entry' will cause the key to be removed from the re
 (defadvice create-image (around my-apply-override-properties activate)
   (when my-image-override-properties
     ;; Set arguments of `create-image': (file-or-data &optional type data-p &rest props).
-    (if (version< emacs-version "27.1")
-        (progn
-          (unless (fboundp 'imagemagick-types)
-            (error "my-image-override-properties needs imagemagick support on Emacs <27"))
-          (ad-set-arg 1 'imagemagick))
-      (when (and (not (eq (ad-get-arg 0) 'imagemagick)) (not (image-transforms-p)))
-        (error "my-image-override properties needs image transforms to be supported")))
+    (when (and (not (eq (ad-get-arg 0) 'imagemagick)) (not (image-transforms-p)))
+      (error "my-image-override properties needs image transforms to be supported"))
     (ad-set-args 3 (my-plist-merge (ad-get-args 3) my-image-override-properties)))
   ;; Useful for debugging:
   ;; (message "my-apply-override-properties: create-image %s" (ad-get-args 0))

@@ -1,12 +1,8 @@
 ;;; Main file of this Emacs config. -*- lexical-binding: t -*-
 
 ;; Ensure we're on Emacs 25.1 or newer.
-(when (version< emacs-version "25.1")
-  (error "This config requires Emacs 25.1+. Current version: %s" emacs-version))
-
-;; Load `early-init.el' on Emacs <27.
-(when (version< emacs-version "27.1")
-  (load (expand-file-name "early-init" user-emacs-directory)))
+(when (version< emacs-version "28.1")
+  (error "This config requires Emacs 28.1+. Current version: %s" emacs-version))
 
 ;; Improve startup time by temporarily changing some settings.
 (let ((old-gc-cons-percentage gc-cons-percentage)
@@ -26,27 +22,14 @@
 ;; Increase TLS security. To test this, run `test-https-verification' from `conf/utils/https'. See <https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html>.
 (setq network-security-level 'high)
 
-;; Work around security issues (see <https://git.savannah.gnu.org/cgit/emacs.git/tree/etc/NEWS?h=emacs-25>).
-(when (version< emacs-version "25.3")
-  (with-eval-after-load "enriched"
-    (defun enriched-decode-display-prop (start end &optional param)
-      (list start end)))
-  (setq tls-program '("gnutls-cli --x509cafile %t -p %p %h")))
+;; Read process output in 1 MB chunks (values above 64 kB are only taken into account on Emacs 29.1+, see <https://debbugs.gnu.org/cgi/bugreport.cgi?bug=55737>).
+(setq read-process-output-max (* 1024 1024))
 
-;; Work around a TLS bug (see <https://old.reddit.com/r/emacs/comments/ct0h6m>, <https://github.com/magit/forge/issues/152>).
-(when (and (version< emacs-version "26.3") (>= libgnutls-version 30603))
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
-
-;; Read process output in 128 kB chunks instead of the default 4 kB.
-(when (version<= "27.1" emacs-version)
-  (setq read-process-output-max (* 128 1024)))
-
-;; Silence the warning "Package cl is deprecated" (Emacs 27+).
+;; Silence the warning "Package cl is deprecated".
 ;; This is intented to affect `do-after-load-evaluation' in `subr.el'.
-(when (version<= "27.1" emacs-version)
-  (defadvice byte-compile-warning-enabled-p (after disable-obsolete-cl-warning activate)
-    (when (equal (ad-get-args 0) '(obsolete cl))
-      (setq ad-return-value nil))))
+(defadvice byte-compile-warning-enabled-p (after disable-obsolete-cl-warning activate)
+  (when (equal (ad-get-args 0) '(obsolete cl))
+    (setq ad-return-value nil)))
 
 ;; Don't resize the frame to preserve the number of displayed columns and lines when the font is changed or an UI element is shown/hidden.
 ;; This reduces startup time by ~0.7 s and prevents visual glitches on startup in tiling WMs.
@@ -152,18 +135,7 @@
         ("melpa-stable" . 1)
         ("melpa" . 0)))
 
-;; Make sure we're using current GNU ELPA signing keys.
-(when (version< emacs-version "26.3")
-  (let ((ts (expand-file-name "gnu-elpa.timestamp"
-                              (or (bound-and-true-p package-gnupghome-dir) ; Introduced in Emacs 26.1.
-                                  (expand-file-name "gnupg" package-user-dir))))
-        (kr (expand-file-name "gnu-elpa.gpg-keyring" my-vendor-dir)))
-    (when (file-newer-than-file-p kr ts)
-      (package-import-keyring kr)
-      (write-region "" nil ts nil 'silent))))
-
 ;; First time that `package-install' is called in this session, refresh the package list (if it wasn't already refreshed).
-;; A variable is used instead of removing the advice using `ad-remove-advice' and `ad-update' because on Emacs 24.3 and earlier, removing an advice while it's executing causes an error.
 (defvar packages-refreshed-this-session-p nil
   "Was the package list refreshed in this session?")
 (defadvice package-install (before refresh-before-install activate)

@@ -1,8 +1,7 @@
 ;;; Tiny tweaks that don't deserve their own file.
 
 ;; Show character names in `C-x =`.
-(when (version<= "27.1" emacs-version)
-  (setq what-cursor-show-names t))
+(setq what-cursor-show-names t)
 
 ;; Enable commands that new users often find confusing.
 (put 'narrow-to-region 'disabled nil)
