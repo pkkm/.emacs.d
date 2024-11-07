@@ -11,7 +11,7 @@
 (defadvice iconify-frame (around disable-iconifying activate)
   (message "Not minimizing frame."))
 
-;; An alternative way of endering modified keys unavailable in terminals, e.g. C-}.
+;; An alternative way of entering modified keys unavailable in terminals, e.g. C-}.
 (bind-key "M-c" nil) ; Otherwise it would be shadowed by `capitalize-word'.
 (bind-key "M-c" #'event-apply-control-modifier function-key-map)
 
