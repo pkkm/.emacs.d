@@ -1,5 +1,9 @@
 ;;; Version control interface. -*- lexical-binding: t -*-
 
+;; Solve error: "Magit requires `seq' >= 2.24, but due to bad defaults, Emacs’ package manager refuses to upgrade this and other built-in packages to higher releases from GNU Elpa".
+(let ((package-install-upgrade-built-in t))
+  (package-ensure-version 'seq "2.24" t))
+
 ;; Magit.
 (use-package magit
   :ensure t
@@ -20,8 +24,9 @@
 
   ;; Make `magit-status' take up the whole screen. When exiting it, restore the closed windows.
   (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+  (setq magit-bury-buffer-function #'magit-restore-window-configuration)
 
-  ;; Start writing commit message in insert mode.
+  ;; Start writing commit messages in insert mode.
   (with-eval-after-load 'evil
     (add-hook 'with-editor-mode-hook 'evil-insert-state)))
 
