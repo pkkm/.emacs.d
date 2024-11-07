@@ -30,10 +30,6 @@
   ;; (Configuration is in conf/view/eldoc.el.)
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
 
-  ;; Fix completion (the default `company-capf' backend is broken in lisp-interaction-mode as of 2019-03).
-  (with-eval-after-load 'company
-    (add-to-list 'company-backends 'company-elisp))
-
   ;; Evaluation bindings.
   (defun evil-eval-region (region-start region-end)
     "Evaluate region and exit Evil's visual state."
