@@ -16,24 +16,10 @@
   ;; Be less verbose.
   (setq yas-verbosity 1)
 
-  ;; Make `completion-at-point' try to expand a snippet before attempting any other completions.
-  (defun yas-expand-if-active () ; If this function name is changed, also change it in the code for YASnippet integration in conf/editing/completion.el.
-    "Call `yas-expand' if YASnippet minor mode is active."
-    (when yas-minor-mode
-      (yas-expand)))
-  (setq yas-fallback-behavior 'return-nil) ; So that `completion-at-point' tries the next function instead of stopping.
-  (defun add-yas-expand-to-completion-at-point ()
-    (add-to-list 'completion-at-point-functions #'yas-expand-if-active))
-  (add-hook 'yas-minor-mode-hook #'add-yas-expand-to-completion-at-point)
-
-  ;; Remove YASnippet's bindings for expanding snippets.
-  (bind-key "TAB" nil yas-minor-mode-map)
-  (bind-key "<tab>" nil yas-minor-mode-map)
-
-  ;; Don't use TAB to cycle a snippet's fields.
+  ;; Remove bindings that could conflict with completion.
   ;; (YASnippet uses `yas-minor-mode-map' at all times, and `yas-keymap' immediately after expanding a snippet.)
-  (bind-key "TAB" nil yas-keymap)
-  (bind-key "<tab>" nil yas-keymap)
+  (dolist (keymap (list yas-minor-mode-map yas-keymap))
+    (bind-key "TAB" nil keymap))
 
   ;; Use C-y and C-s to navigate between fields. When no snippet is active, expand a snippet with C-s.
   (with-eval-after-load 'evil
