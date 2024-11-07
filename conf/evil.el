@@ -1,32 +1,33 @@
 ;;; Evil (Extensible VI Layer). -*- lexical-binding: t -*-
 
-(use-package evil
+(use-package undo-tree
   :ensure t
-  :preface
-  (setq undo-tree-enable-undo-in-region nil) ; Should make "primitive-undo: Unrecognized entry in undo list undo-tree-canary" errors less frequent.
   :diminish undo-tree-mode
   :init
+  (setq undo-tree-enable-undo-in-region nil) ; Should make "primitive-undo: Unrecognized entry in undo list undo-tree-canary" errors less frequent.
+  (setq undo-tree-auto-save-history nil)) ; Don't litter directories with `*.~undo-tree~' files.
 
+(use-package evil
+  :ensure t
+
+  :preface
   (setq evil-want-Y-yank-to-eol t) ; Yank from cursor to end instead of whole line (for consistency with C and D).
+  (setq evil-undo-system 'undo-tree)
 
-  (add-hook 'after-init-hook #'evil-mode) ; Enable evil-mode after init rather than immediately because it enables undo-tree, which hooks deeply into Emacs and can slow down init or even cause weird errors during the initial batch package installation.
+  :init
+  (evil-mode)
 
   :config
 
-  (setq evil-cross-lines t) ; Allow "f" and similar motions to cross newlines.
-  (setq evil-move-cursor-back nil) ; Allow cursor at end of line, don't move it back when exiting insert state.
-
-  ;; Use undo-tree (for the new version of Evil, which will also make the comment in :init obsolete).
-  (when (boundp 'evil-undo-system)
-    (setq evil-undo-system 'undo-tree)
-    (global-undo-tree-mode 1))
+  (global-undo-tree-mode 1)
 
   ;; Search.
   (setq evil-regexp-search nil) ; Don't use regexes for / and ?.
   (setq evil-flash-delay 999999) ; Number of seconds to highlight matches for.
 
+  (setq evil-cross-lines t) ; Allow "f" and similar motions to cross newlines.
+  (setq evil-move-cursor-back nil) ; Allow cursor at end of line, don't move it back when exiting insert state.
   (setq evil-echo-state nil) ; Don't echo state in the echo area (minibuffer).
-
   (setq evil-shift-round nil) ; When using < or >, don't round indentation to `evil-shift-width'.
 
 
