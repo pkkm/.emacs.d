@@ -7,6 +7,10 @@
 ;; 4. M-x my-elpa-repo-recreate
 ;; 5. cd ~/.emacs.d/repo && git add . && git commit -m "Update" && git push
 
+;; Packages I'm currently holding back:
+;; - org
+;; - elpa-mirror
+
 (use-package elpa-mirror
   :ensure t
   :init

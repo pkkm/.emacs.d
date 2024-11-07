@@ -6,6 +6,7 @@ Example: '(:width my-remove-entry :max-width 640 :max-height 480)")
 (make-variable-buffer-local 'my-image-override-properties)
 
 (require 'cl-lib) ; Used: cl-loop.
+(require 'conf/mode-specific/org) ; To ensure that the line below works.
 (require 'org-macs) ; Used: org-plist-delete.
 (defun my-plist-merge (first &rest rest)
   "Merge plists, with ones to the right overriding the ones to the left.

@@ -8,7 +8,8 @@
            (concat (file-name-as-directory package-user-dir) "org-[0-9]*"))
     (unless packages-refreshed-this-session-p ; Defined in `init.el'.
       (package-refresh-contents))
-    (package-install (cadr (assoc 'org package-archive-contents)))) ; The lists of packages in `package-archive-contents' seem to be sorted according to which repo should be used for installation first, taking into account versions and archive priorities.
+    (package-install (cadr (assoc 'org package-archive-contents))) ; The lists of packages in `package-archive-contents' seem to be sorted according to which repo should be used for installation first, taking into account versions and archive priorities.
+    (my-fix-org-package-paths))
 
   (setq org-export-backends '(ascii html icalendar latex odt md)) ; Default value (as of Org 9.1) with `md' added.
 

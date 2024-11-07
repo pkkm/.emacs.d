@@ -106,13 +106,15 @@
 (package-initialize)
 
 ;; Fix paths in org 9.1.9 from ELPA (it uses a `lisp' directory instead of having Lisp files directly in the package).
-(let ((package-descs (alist-get 'org package-alist)))
-  (dolist (package-desc package-descs)
-    (when (equal (package-desc-version package-desc) '(9 1 9))
-      (let ((lisp-dir (expand-file-name "lisp" (package-desc-dir package-desc))))
-        (add-to-list 'load-path lisp-dir)
-        ;; (load (expand-file-name "org-loaddefs" lisp-dir))
-        (require 'org-loaddefs)))))
+(defun my-fix-org-package-paths ()
+  (let ((package-descs (alist-get 'org package-alist)))
+    (dolist (package-desc package-descs)
+      (when (equal (package-desc-version package-desc) '(9 1 9))
+        (let ((lisp-dir (expand-file-name "lisp" (package-desc-dir package-desc))))
+          (add-to-list 'load-path lisp-dir)
+          ;; (load (expand-file-name "org-loaddefs" lisp-dir))
+          (require 'org-loaddefs))))))
+(my-fix-org-package-paths)
 
 ;; Clone my private repo if it's not found and git is available.
 (when (and (not (file-exists-p my-elpa-repo-dir)) (executable-find "git"))
@@ -175,6 +177,25 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
 ;; Get `abbrev-mode' out of the way.
 (setq save-abbrevs 'silently) ; Don't ask whether to save abbrevs during package installation.
 (setq abbrev-file-name (locate-user-emacs-file "abbrev_defs")) ; Don't litter `.emacs.d'.
+
+
+;;; Prevent errors when loading my old version of org.
+;; There's been a backwards-incompatible change in Emacs, see <https://github.com/doomemacs/doomemacs/issues/4534>. The current versions of all packages I use have been updated, but this fix is needed because I prefer an old version of org.
+
+(defmacro define-obsolete-variable-alias (obsolete-name current-name &optional when docstring)
+  (declare (advertised-calling-convention
+            (obsolete-name current-name when &optional docstring) "23.1"))
+  `(progn
+     (defvaralias ,obsolete-name ,current-name ,docstring)
+     (dolist (prop '(saved-value saved-variable-comment))
+       (and (get ,obsolete-name prop)
+            (null (get ,current-name prop))
+            (put ,current-name prop (get ,obsolete-name prop))))
+     (make-obsolete-variable ,obsolete-name ,current-name ,when)))
+
+(defmacro define-obsolete-function-alias (obsolete-name current-name &optional when docstring)
+  `(progn (defalias ,obsolete-name ,current-name ,docstring)
+          (make-obsolete ,obsolete-name ,current-name ,when)))
 
 
 ;;; Syntactic sugar.
