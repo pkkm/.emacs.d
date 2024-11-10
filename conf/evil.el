@@ -27,7 +27,7 @@
 
   (setq evil-start-of-line t) ; Make "gg" go to the start of first line instead of preserving cursor position. See <https://github.com/emacs-evil/evil/issues/1535>.
   (setq evil-cross-lines t) ; Allow "f" and similar motions to cross newlines.
-  (setq evil-move-cursor-back nil) ; Allow cursor at end of line, don't move it back when exiting insert state.
+  (setq evil-move-cursor-back nil) ; Don't move the cursor back when exiting insert state. To also allow it at the end of the line in normal state, change `evil-move-beyond-eol'.
   (setq evil-echo-state nil) ; Don't echo state in the echo area (minibuffer).
   (setq evil-shift-round nil) ; When using < or >, don't round indentation to `evil-shift-width'.
 
