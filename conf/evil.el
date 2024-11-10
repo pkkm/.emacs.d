@@ -25,6 +25,7 @@
   (setq evil-regexp-search nil) ; Don't use regexes for / and ?.
   (setq evil-flash-delay 999999) ; Number of seconds to highlight matches for.
 
+  (setq evil-start-of-line t) ; Make "gg" go to the start of first line instead of preserving cursor position. See <https://github.com/emacs-evil/evil/issues/1535>.
   (setq evil-cross-lines t) ; Allow "f" and similar motions to cross newlines.
   (setq evil-move-cursor-back nil) ; Allow cursor at end of line, don't move it back when exiting insert state.
   (setq evil-echo-state nil) ; Don't echo state in the echo area (minibuffer).
