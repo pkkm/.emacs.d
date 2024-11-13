@@ -7,7 +7,10 @@
 ;; Magit.
 (use-package magit
   :ensure t
-  :bind ("C-c g" . magit-status)
+  :preface
+  (setq magit-define-global-key-bindings nil) ; Disable default global bindings.
+  :bind (("C-c g" . magit-status)
+         ("C-c f" . magit-file-dispatch))
   :init
 
   ;; Keybindings for my `git-quick' script.
