@@ -1,5 +1,7 @@
 ;;; Support for the Language Server Protocol. -*- lexical-binding: t -*-
 ;; To enable, invoke M-x lsp (the server will be selected automatically).
+;; For working with Dockerized language servers, see <https://github.com/emacs-lsp/lsp-docker/>.
+;; Docs are shown automatically when hovering a symbol with the mouse. To show them with the keyboard, press M-l h g.
 
 (use-package lsp-mode
   :ensure t)
