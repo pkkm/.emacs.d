@@ -2,9 +2,7 @@
 ;; To enable, invoke M-x lsp (the server will be selected automatically).
 
 (use-package lsp-mode
-  :ensure t
-  :config
-  (setq lsp-prefer-flymake nil)) ; Prefer Flycheck to Flymake.
+  :ensure t)
 
 (use-package lsp-ui
   :ensure t
