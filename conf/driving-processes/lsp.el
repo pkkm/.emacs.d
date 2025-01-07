@@ -8,23 +8,7 @@
 
 ;; lsp-mode activates lsp-ui by default unless `lsp-auto-configure' is set to nil.
 (use-package lsp-ui
-  :ensure t
-  :config
-
-  ;; Don't display the symbol name a second time on the right side.
-  (setq lsp-ui-sideline-show-symbol nil)
-
-  ;; Make the sideline colors dimmer.
-  (dolist (face '(lsp-ui-sideline-code-action
-                  lsp-ui-sideline-current-symbol
-                  lsp-ui-sideline-symbol
-                  lsp-ui-sideline-symbol-info))
-    (let* ((new-color "#7F7F7F")
-           (box (face-attribute face :box nil t)))
-      (set-face-foreground face new-color)
-      (when (and box (plist-get box :color))
-        (set-face-attribute
-         face nil :box (plist-put box :color new-color))))))
+  :ensure t)
 
 (use-package ccls
   :ensure t
