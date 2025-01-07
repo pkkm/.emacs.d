@@ -9,6 +9,15 @@
   (which-key-setup-side-window-right-bottom) ; Show on right if there's enough space, on bottom otherwise.
   (setq which-key-idle-delay 0.5))
 
+(use-package helpful
+  :ensure t
+  :init
+  ;; Replace built-in keybindings.
+  (global-set-key (kbd "C-h f") #'helpful-callable)
+  (global-set-key (kbd "C-h v") #'helpful-variable)
+  (global-set-key (kbd "C-h k") #'helpful-key)
+  (global-set-key (kbd "C-h x") #'helpful-command))
+
 ;; C-h C-m -- show documentation for major mode commands (nicer than C-h m).
 (use-package discover-my-major
   :ensure t
