@@ -4,7 +4,13 @@
 ;; Docs are shown automatically when hovering a symbol with the mouse. To show them with the keyboard, press M-l h g.
 
 (use-package lsp-mode
-  :ensure t)
+  :ensure t
+  :init
+  (setq lsp-keymap-prefix "M-l")
+
+  :config
+  (lsp-enable-which-key-integration t) ; Enable integration for all major modes.
+  (setq lsp-auto-execute-action nil)) ; Don't skip the code action prompt when there's a single action.
 
 ;; lsp-mode activates lsp-ui by default unless `lsp-auto-configure' is set to nil.
 (use-package lsp-ui
