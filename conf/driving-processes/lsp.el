@@ -9,6 +9,7 @@
   (setq lsp-keymap-prefix "M-l")
 
   :config
+  (setq lsp-headerline-breadcrumb-enable nil) ; I didn't find the header line useful.
   (lsp-enable-which-key-integration t) ; Enable integration for all major modes.
   (setq lsp-auto-execute-action nil)) ; Don't skip the code action prompt when there's a single action.
 
