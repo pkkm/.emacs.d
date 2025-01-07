@@ -6,10 +6,9 @@
 (use-package lsp-mode
   :ensure t)
 
+;; lsp-mode activates lsp-ui by default unless `lsp-auto-configure' is set to nil.
 (use-package lsp-ui
   :ensure t
-  :init
-  (add-hook 'lsp-mode-hook #'lsp-ui-mode)
   :config
 
   ;; Don't display the symbol name a second time on the right side.
