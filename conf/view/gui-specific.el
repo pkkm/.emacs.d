@@ -17,7 +17,7 @@
   (setq frame-title-format
         '("Emacs: %b " (:eval (when (buffer-modified-p) "+ "))
           "[" default-directory "]"))
-  (setq icon-title-format frame-title-format)) ; Don't change the title when minimized.
+  (setq icon-title-format frame-title-format) ; Don't change the title when minimized.
 
 
   ;;; Fringe.
@@ -39,8 +39,10 @@
     (-if-let (font (first-available-font fonts))
         (set-face-font face font)))
 
+  ;; Try also: Roboto Mono (the winning font when I tried <https://www.codingfont.com/> in 2025-01).
+
   (set-first-available-font 'default '("DejaVu Sans Mono-10" "Consolas-10.5" "Courier New-10"))
-  (set-first-available-font 'variable-pitch '("DejaVu Sans-10" "Verdana-10" "Helvetica-10" "Arial-10")) ; Causes segfault in `emacs -nw'.
+  (set-first-available-font 'variable-pitch '("DejaVu Sans-10" "Verdana-10" "Helvetica-10" "Arial-10")))
 
 
 (provide 'conf/view/gui-specific)
