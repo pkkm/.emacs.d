@@ -14,13 +14,21 @@
                 (memq major-mode hl-line-disable-in-modes))
       ad-do-it))
 
-  ;; Don't allow themes to change other properties than the background.
+  ;; Don't allow themes to change properties other than the background. Apply theme-specific color tweaks.
+  (require 'conf/utils/colors) ; Used: color-mix.
   (defface my-hl-line-face
     '((t :extend t))
     "My face for hl-line."
     :group 'hl-line)
   (defun my-hl-line-update-background ()
-    (set-face-background 'my-hl-line-face (face-background 'hl-line nil t)))
+    (set-face-background
+     'my-hl-line-face
+     (cond
+      ((memq 'sanityinc-tomorrow-bright custom-enabled-themes)
+       (color-mix (face-background 'hl-line nil t) 0.5 "black" 0.5))
+      ((memq 'sanityinc-tomorrow-night custom-enabled-themes)
+       (color-mix (face-background 'hl-line nil t) 0.85 "black" 0.15))
+      (t (face-background 'hl-line nil t)))))
   (my-hl-line-update-background)
   (add-hook 'after-load-theme-hook #'my-hl-line-update-background)
   (setq hl-line-face 'my-hl-line-face))

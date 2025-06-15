@@ -46,13 +46,31 @@
   (use-package color-theme-sanityinc-tomorrow
     :ensure t
     :init
-    (load-theme 'sanityinc-tomorrow-night t)
-    ;; Disable italics.
+    (load-theme 'sanityinc-tomorrow-night t))
+
+  ;; Theme customizations below. We do them that way so that they work even if the theme is changed manually.
+
+  ;; Make the background of Tomorrow Night a bit darker.
+  (require 'conf/utils/colors) ; Used: color-mix.
+  (defun my-tomorrow-night-darker-background ()
+    (when (memq 'sanityinc-tomorrow-night custom-enabled-themes)
+      (set-face-background 'default (color-mix (face-background 'default nil t) 0.85
+                                               "black" 0.15))
+      ;; Work around a bug where leading stars hidden by org-mode are in the old color.
+      (with-eval-after-load 'org
+        (set-face-background 'org-hide nil))))
+  (my-tomorrow-night-darker-background)
+  (add-hook 'after-load-theme-hook #'my-tomorrow-night-darker-background)
+
+  ;; Disable italics in color themes, e.g. the Tomorrow ones.
+  (defun my-disable-italics-in-color-themes ()
     (dolist (face '(font-lock-comment-delimiter-face
                     font-lock-comment-face mode-line-emphasis))
       (set-face-attribute face nil :slant 'normal))
     (with-eval-after-load 'rhtml-fonts
-      (set-face-attribute 'erb-comment-face nil :slant 'normal))))
+      (set-face-attribute 'erb-comment-face nil :slant 'normal)))
+  (my-disable-italics-in-color-themes)
+  (add-hook 'after-load-theme-hook #'my-disable-italics-in-color-themes))
 
 ;; Don't let Evil set the cursor color.
 (with-eval-after-load 'evil
