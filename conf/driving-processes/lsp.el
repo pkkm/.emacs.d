@@ -17,12 +17,4 @@
 (use-package lsp-ui
   :ensure t)
 
-(use-package ccls
-  :ensure t
-  :init
-
-  ;; Needed for M-x lsp to work (as of 2019-07).
-  (with-eval-after-load 'lsp-mode
-    (require 'ccls)))
-
 (provide 'conf/driving-processes/lsp)
