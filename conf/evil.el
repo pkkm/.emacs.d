@@ -55,7 +55,7 @@
   (bind-key "C-p" nil evil-insert-state-map)
 
   ;; Vim bindings in the ":" prompt (inconsistent with bindings in other prompts).
-  (dolist (key '("C-a" "C-b" "C-c" "C-d" "C-k" "C-l" "C-r" "C-u" "C-v" "C-w"))
+  (dolist (key '("C-a" "C-b" "C-c" "C-d" "C-k" "C-l" "C-r" "C-u" "C-v" "C-w" "C-f"))
     (bind-key key nil evil-ex-completion-map))
 
 
