@@ -9,8 +9,8 @@
 ;;     ((c-indent-line . c-basic-offset)
 ;;      (c-indent-region . c-basic-offset)))
 (use-package smart-tabs-mode
-  :ensure t
   :demand t) ; Load immediately, so that we can use (with-eval-after-load 'smart-tabs-mode) in mode-specific indentation settings.
+;; I'm using a vendored version with the patch from <https://github.com/jcsalomon/smarttabs/pull/54> applied. As of 2025-10, the current ELPA version errors out on Emacs 30.
 
 ;; By default, indent with 4 spaces.
 (setq-default indent-tabs-mode nil)
