@@ -1,8 +1,9 @@
 ;;; Version control interface. -*- lexical-binding: t -*-
 
 ;; Solve error: "Magit requires `seq' >= 2.24, but due to bad defaults, Emacs’ package manager refuses to upgrade this and other built-in packages to higher releases from GNU Elpa".
-(let ((package-install-upgrade-built-in t))
-  (package-ensure-version 'seq "2.24" t))
+(when (version< emacs-version "30.1") ; The code below causes a reinstall on every launch under Emacs 30.
+  (let ((package-install-upgrade-built-in t))
+    (package-ensure-version 'seq "2.24" t)))
 
 ;; Magit.
 (use-package magit
