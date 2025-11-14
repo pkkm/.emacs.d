@@ -1,5 +1,8 @@
 ;;; Python. -*- lexical-binding: t -*-
 
+;; Use the built-in python-mode. See
+;; <https://old.reddit.com/r/emacs/comments/sshhdi/difference_between_inbuild_python_and_pythonmode/>
+;; for a comparison with other Python modes.
 (use-package python
   :config
 
