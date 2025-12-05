@@ -1,8 +1,8 @@
 ;;; Main file of this Emacs config. -*- lexical-binding: t -*-
 
-;; Ensure we're on Emacs 25.1 or newer.
-(when (version< emacs-version "28.1")
-  (error "This config requires Emacs 28.1+. Current version: %s" emacs-version))
+;; Check the Emacs version.
+(when (version< emacs-version "30.1")
+  (error "This config requires Emacs 30.1+. Current version: %s" emacs-version))
 
 ;; Improve startup time by temporarily changing some settings.
 (let ((old-gc-cons-percentage gc-cons-percentage)

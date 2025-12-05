@@ -1,7 +1,7 @@
 ;;; A mechanism for overriding the properties of all images in the buffer. -*- lexical-binding: t -*-
 
 (defvar my-image-override-properties nil
-  "Plist of properties to override on all images in buffer. Requires imagemagick support on Emacs <27.
+  "Plist of properties to override on all images in buffer.
 Example: '(:width my-remove-entry :max-width 640 :max-height 480)")
 (make-variable-buffer-local 'my-image-override-properties)
 

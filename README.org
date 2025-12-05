@@ -6,7 +6,7 @@
 
 ** Compatibility
 
-   Requires *Emacs 28.1* or newer.
+   Requires *Emacs 30.1* or newer.
 
 ** Installation
 
