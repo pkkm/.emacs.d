@@ -26,7 +26,6 @@
 
   ;; For some keys, use commands that operate either on sexps or hybrid-sexps, depending on mode.
   ;; TODO feature request for similar functionality in Smartparens?
-  (require 'conf/utils/modes) ; Used: derived-mode-hierarchy.
   (defmacro my-sp-maybe-hybrid-sexp-command (normal-command hybrid-sexp-command)
     "Define a command named my-NORMAL-COMMAND that calls NORMAL-COMMAND or HYBRID-SEXP-COMMAND."
     `(defun ,(intern (concat "my-" (symbol-name normal-command))) ()
@@ -34,8 +33,7 @@
                 " if the current mode (or one of its parents) is in `my-sp-hybrid-sexp-modes', "
                 "`" (symbol-name normal-command) "' otherwise.")
        (interactive)
-       (if (-any-p (lambda (mode) (memq mode my-sp-hybrid-sexp-modes))
-                   (derived-mode-hierarchy major-mode))
+       (if (derived-mode-p my-sp-hybrid-sexp-modes)
            (call-interactively #',hybrid-sexp-command)
          (call-interactively #',normal-command))))
   (defvar my-sp-hybrid-sexp-modes '(c++-mode cc-mode ruby-mode java-mode scala-mode)
