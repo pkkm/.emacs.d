@@ -31,9 +31,11 @@
         (user-error "Not visiting a file")
       (when (or no-confirmation
                 (yes-or-no-p (format "Delete %s?" filename)))
-        (delete-file filename t) ; t -- move to thrash (when on Windows).
+        (delete-file filename t) ; t -- move to thrash if `delete-by-moving-to-trash' is non-nil.
         (unless (file-exists-p filename)
           (kill-buffer))))))
 (bind-key "C-c d" #'delete-this-buffer-and-file)
+
+(setq delete-by-moving-to-trash t)
 
 (provide 'conf/opening-saving/move-delete)
