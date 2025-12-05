@@ -10,6 +10,9 @@
   ;; Some default settings (e.g. mode-specific pairs for Lisp, HTML, LaTeX).
   (require 'smartparens-config)
 
+  ;; Disable in the minibuffer.
+  (add-to-list 'sp-ignore-modes-list 'minibuffer-mode)
+
   ;; Highlight matching pairs (like show-paren-mode, but with user-defined pairs).
   (show-smartparens-global-mode 1)
   (setq sp-show-pair-from-inside t) ; Point can be on any side of the delimiter.
