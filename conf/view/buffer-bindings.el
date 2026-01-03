@@ -18,7 +18,7 @@
 (bind-key "-" #'switch-to-other-buffer my-buffer-map)
 
 ;; Delete (close/kill).
-(bind-key "c" #'kill-this-buffer my-buffer-map)
+(bind-key "c" #'kill-current-buffer my-buffer-map)
 
 ;; IBuffer -- advanced buffer switcher (bundled with Emacs). Useful for batch operations.
 ;; Marking:
