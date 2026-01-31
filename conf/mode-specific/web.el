@@ -5,7 +5,7 @@
   :init
 
   ;; Use web-mode for HTML files.
-  (dolist (extension '("htm" "html")) ; This used to contain "php" too, but I use php-mode now.
+  (dolist (extension '("htm" "html" "html.twig")) ; This used to contain "php" too, but I use php-mode now.
     (add-to-list 'auto-mode-alist
                  (cons (concat "\\." extension "\\'") 'web-mode)))
 
