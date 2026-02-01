@@ -10,7 +10,8 @@
 
   :config
   (setq lsp-headerline-breadcrumb-enable nil) ; I didn't find the header line useful.
-  (lsp-enable-which-key-integration t) ; Enable integration for all major modes.
+  (with-eval-after-load 'which-key
+    (lsp-enable-which-key-integration t)) ; Enable which-key integration in all major modes.
   (setq lsp-auto-execute-action nil)) ; Don't skip the code action prompt when there's a single action.
 
 ;; lsp-mode activates lsp-ui by default unless `lsp-auto-configure' is set to nil.
