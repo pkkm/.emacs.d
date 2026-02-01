@@ -11,7 +11,7 @@
 ;; WGrep integration.
 ;; Use `wgrep-change-to-wgrep-mode' in an Ag buffer to make the buffer editable.
 ;; To confirm changes, use C-x C-s (this will make changes to buffers but won't save them).
-(use-package wgrep-ag
+(use-package wgrep ; The package contains integrations for multiple grep-like programs, including ag.
   :ensure t)
 
 (provide 'conf/driving-processes/ag)
