@@ -21,6 +21,9 @@
 ;; Break line at point. If we're in a comment, continue it.
 (bind-key "<C-return>" #'indent-new-comment-line) ; Works both in GUI and xterm.
 
+;; Make M-< go to the end of the prompt instead of the actual beginning of the minibuffer.
+(setq minibuffer-beginning-of-buffer-movement t)
+
 ;; Default line wrapping width.
 (setq-default fill-column 80)
 
