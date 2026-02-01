@@ -20,9 +20,8 @@ Mode hooks can't be used for this purpose, since they run before file-local vari
 (add-hook 'hack-local-variables-hook #'set-compile-run-clean-commands-for-mode)
 
 ;; Variable for additional compiler arguments (for use in compile command setters of major modes).
-(defvar my-additional-compile-args ""
+(defvar-local my-additional-compile-args ""
   "Additional arguments to pass to the compiler.")
-(make-variable-buffer-local 'my-additional-compile-args)
 
 
 ;; Define a `run' command to run the current program using `compile'.
@@ -85,7 +84,7 @@ Interactively, prompts for the command if the variable `clean-read-command' is n
 ;; Disable scroll margin in compilation buffers (because `next-error' and `previous-error' show which error we're currently at by scrolling to it).
 (defun disable-scroll-margin-in-buffer ()
   (interactive)
-  (set (make-local-variable 'scroll-margin) 0))
+  (setq-local scroll-margin 0))
 (add-hook 'compilation-mode-hook #'disable-scroll-margin-in-buffer)
 
 (provide 'conf/driving-processes/compiling)

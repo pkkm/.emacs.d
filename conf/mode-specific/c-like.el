@@ -65,23 +65,24 @@
              (standard (if (eq major-mode 'c++-mode) "c++11" "c99")))
         ;; Set the variables if they're not already set for this buffer.
         (when (not (local-variable-p 'compile-command))
-          (set (make-local-variable 'compile-command)
-               ;; Compile command optimized for correctness rather than speed.
-               (join-nonempty " "
-                 compiler input-file-name-quoted "-o" output-file-name-quoted
-                 my-additional-compile-args
-                 (concat "--std=" standard)
-                 "-O2" ; May make the compiler perform more static checks, but makes the output of a debugger less clear.
-                 "-g"
-                 "-Wall -Wextra"
-                 "-Werror=implicit-function-declaration" ; Calling an undefined function should be an error.
-                 (concat "-fsanitize=address,leak,undefined" (when (string= compiler "clang") ",memory"))))) ; Insert runtime checks for common programming errors. Each sanitizer will ~double memory usage and running time. When not using this (e.g. in release builds), use -D_FORTIFY_SOURCE=1 instead for less comprehensive checks with little overhead.
+          (setq-local
+           compile-command
+           ;; Compile command optimized for correctness rather than speed.
+           (join-nonempty " "
+             compiler input-file-name-quoted "-o" output-file-name-quoted
+             my-additional-compile-args
+             (concat "--std=" standard)
+             "-O2" ; May make the compiler perform more static checks, but makes the output of a debugger less clear.
+             "-g"
+             "-Wall -Wextra"
+             "-Werror=implicit-function-declaration" ; Calling an undefined function should be an error.
+             (concat "-fsanitize=address,leak,undefined" (when (string= compiler "clang") ",memory"))))) ; Insert runtime checks for common programming errors. Each sanitizer will ~double memory usage and running time. When not using this (e.g. in release builds), use -D_FORTIFY_SOURCE=1 instead for less comprehensive checks with little overhead.
         (when (not (local-variable-p 'run-command))
-          (set (make-local-variable 'run-command)
-               (concat "./" output-file-name-quoted)))
+          (setq-local run-command
+                      (concat "./" output-file-name-quoted)))
         (when (not (local-variable-p 'clean-command))
-          (set (make-local-variable 'clean-command)
-               (concat "rm " output-file-name-quoted))))))
+          (setq-local clean-command
+                      (concat "rm " output-file-name-quoted))))))
   (dolist (mode '(c-mode c++-mode))
     (add-to-list 'compile-run-clean-command-setter-alist (cons mode #'set-c-or-c++-commands))))
 

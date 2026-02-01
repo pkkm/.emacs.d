@@ -128,9 +128,8 @@
 
   ;; Variable to override timestamp format on export.
   ;; Example usage: -*- my-org-export-timestamp-formats: ("%Y-%m-%d" . "%Y-%m-%d %H:%M") -*-
-  (defvar my-org-export-timestamp-formats nil
+  (defvar-local my-org-export-timestamp-formats nil
     "The value of `org-time-stamp-custom-formats' to use during export.")
-  (make-variable-buffer-local 'my-org-export-timestamp-formats)
   (defadvice org-export-as (around my-org-export-timestamp-formats activate)
     (if my-org-export-timestamp-formats
         (let ((org-display-custom-times t)
