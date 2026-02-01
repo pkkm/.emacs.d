@@ -18,13 +18,8 @@ The terminal will be in line mode: edit a line at a time and then send it with `
         (evil-insert-state)
         (kill-buffer buffer-for-display)
         (setq term-buffer (current-buffer)))
-      (if (fboundp 'isend-associate)
-          (progn
-            (isend-associate (buffer-name term-buffer))
-            (message "Use M-RET (`isend-send') to send a line or region to the REPL."))
-        (message (concat "Use M-x isend-associate RET %s RET and then "
-                         "M-RET (`isend-send') to send lines/regions to the REPL.")
-                 (buffer-name term-buffer)))))
+      (isend-associate (buffer-name term-buffer))
+      (message "Use M-RET (`isend-send') to send a line or region to the REPL.")))
 
   :config
 
