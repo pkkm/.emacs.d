@@ -11,7 +11,6 @@
     (setq comment-column 0)))
 (add-hook 'after-change-major-mode-hook #'my-dont-indent-right-margin-comments)
 
-(package-ensure-installed 'evil-nerd-commenter) ; So that it's installed even if Evil isn't enabled at the moment.
 (with-eval-after-load 'evil
   ;; Undefine the "z" and "Z" prefixes; I never use them anyway (C-l is sufficient for scrolling).
   (dolist (keymap (list evil-normal-state-map evil-motion-state-map evil-visual-state-map))
@@ -27,17 +26,19 @@
       (unless (evil-insert-state-p)
         (evil-insert-state)))
     (call-interactively #'comment-dwim))
-  (bind-key "z" #'evil-comment-dwim evil-normal-state-map)
+  (bind-key "z" #'evil-comment-dwim evil-normal-state-map))
 
-  ;; Z -- Evil operator to comment/uncomment a piece of text (works with region too).
-  (use-package evil-nerd-commenter
-    :commands evilnc-comment-operator
-    :init
+;; Z -- Evil operator to comment/uncomment a piece of text (works with region too).
+(use-package evil-nerd-commenter
+  :ensure t
+  :commands evilnc-comment-operator
+  :init
 
-    ;; This package has to be supplied with a key to bind to the operator. (TODO submit a bug report?)
-    (setq evilnc-hotkey-comment-operator (kbd "Z"))
+  ;; This package has to be supplied with a key to bind to the operator. (TODO submit a bug report?)
+  (setq evilnc-hotkey-comment-operator (kbd "Z"))
 
-    ;; We define the keys even though `evil-nerd-commenter' does it, so that they are defined before loading it.
+  ;; We define the keys even though `evil-nerd-commenter' does it, so that they are defined before loading it.
+  (with-eval-after-load 'evil
     (dolist (keymap (list evil-normal-state-map evil-visual-state-map))
       (bind-key "Z" #'evilnc-comment-operator keymap))))
 
