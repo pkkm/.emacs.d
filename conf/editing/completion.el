@@ -29,23 +29,14 @@
   ;; Activate the completion popup when TAB is pressed on an already indented line.
   (define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common))
 
-;; Documentation popups.
-(use-package company-quickhelp
-  ;; Use the git version because there's a company-tng compatibility fix that hasn't been released yet: <https://github.com/company-mode/company-quickhelp/commit/9505fb09d064581da142d75c139d48b5cf695bd5>.
-  :preface
-  (package-ensure-version 'company-quickhelp "20231026.1714")
-
-  ;; Make colors match the theme. Done here because these variables don't always take effect immediately.
-  (defun my-set-company-quickhelp-colors ()
-    (setq company-quickhelp-color-foreground (face-foreground 'default))
-    (setq company-quickhelp-color-background (face-background 'default)))
-  (add-hook 'after-load-theme-hook #'my-set-company-quickhelp-colors)
-  (my-set-company-quickhelp-colors)
-
+;; A better frontend that uses child frames and includes documentation popups.
+;; It doesn't mess with text properties in the buffer, but also doesn't work in the terminal.
+(use-package company-box
+  :ensure t
+  :diminish company-box-mode
   :init
-  (with-eval-after-load 'company
-    (company-quickhelp-mode))
+  (add-hook 'company-mode-hook #'company-box-mode)
   :config
-  (setq company-quickhelp-delay 1))
+  (setq company-box-doc-delay 0.8))
 
 (provide 'conf/editing/completion)
