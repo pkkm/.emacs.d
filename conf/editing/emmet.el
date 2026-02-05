@@ -8,7 +8,7 @@
   (defun my-emmet-expand-yas-or-line ()
     "Expand Emmet abbreviation. Use YASnippet if enabled, Emmet's own code otherwise."
     (interactive)
-    (if (and (boundp 'yas-minor-mode) yas-minor-mode)
+    (if (bound-and-true-p yas-minor-mode)
         (call-interactively #'emmet-expand-yas)
       (call-interactively #'emmet-expand-line)))
   (require 'conf/utils/keys) ; Used: clear-keymap.

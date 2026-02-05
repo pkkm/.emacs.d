@@ -6,6 +6,6 @@
   (if (use-region-p)
       (call-interactively #'kill-region)
     (backward-kill-word arg)))
-(global-set-key (kbd "C-w") #'kill-region-or-word)
+(bind-key "C-w" #'kill-region-or-word)
 
 (provide 'conf/editing/kill-word-with-C-w)
