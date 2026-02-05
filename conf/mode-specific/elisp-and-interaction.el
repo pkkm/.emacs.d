@@ -71,4 +71,13 @@
          (-uniq)
          (setq-default flycheck-disabled-checkers))))
 
+;; This refactoring package is only worthwhile for Emacs Lisp. For other languages, it has very few refactorings; use LSP instead.
+(use-package emr
+  :ensure t
+  :init
+  (bind-key "C-c \\" #'emr-show-refactor-menu emacs-lisp-mode-map)
+  (bind-key "C-c \\" #'emr-show-refactor-menu lisp-interaction-mode-map)
+  (add-hook 'emacs-lisp-mode-hook #'emr-initialize)
+  (add-hook 'lisp-interaction-mode-hook #'emr-initialize))
+
 (provide 'conf/mode-specific/elisp-and-interaction)

@@ -23,13 +23,4 @@
   :init
   (skewer-setup)) ; Integrate with js2-mode, html-mode and css-mode. (Don't worry about performance, this function is in a separate file.)
 
-;; Refactoring (and many common operations, e.g. kill expression).
-;; Integrates nicely with `emacs-refactor' (select some code before invoking it).
-(use-package js2-refactor
-  :ensure t
-  :init
-  (add-hook 'js2-mode-hook #'js2-refactor-mode)
-  :config
-  (js2r-add-keybindings-with-prefix "C-c C-m"))
-
 (provide 'conf/mode-specific/javascript)
