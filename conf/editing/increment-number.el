@@ -5,6 +5,6 @@
   :ensure t
   :init
   (with-eval-after-load 'evil
-    (bind-key "C-a" #'evil-numbers/inc-at-pt evil-normal-state-map)))
+    (evil-define-key 'normal 'global (kbd "C-a") #'evil-numbers/inc-at-pt)))
 
 (provide 'conf/editing/increment-number)

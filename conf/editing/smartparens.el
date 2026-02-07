@@ -64,8 +64,7 @@
     ;;   double prefix -- operate on the enclosing expression.
 
     ;; Move by sexps, cursor at the beginning (like w/b).
-    (bind-key "C-y" nil evil-motion-state-map) ; Deleted binding: scroll up.
-    (bind-key "C-y" nil evil-insert-state-map) ; Deleted binding: copy from above.
+    (evil-define-key '(motion insert) 'global (kbd "C-y") nil) ; Deleted bindings: scroll up, copy from above.
     (evil-define-key 'motion sp-keymap (kbd "C-s") #'sp-next-sexp)
     (evil-define-key 'motion sp-keymap (kbd "C-y") #'sp-backward-sexp)
 
@@ -76,9 +75,8 @@
     ;; Beginning/end of sexp.
     ;; With non-numeric prefix, beginning/end of enclosing sexp.
     ;; With prefix ARG, beginning/end of ARGth next sexp (ARG can be negative).
-    (dolist (keymap (list evil-motion-state-map evil-normal-state-map)) ; I didn't use movement by sections anyway.
-      (bind-key "[" nil keymap)
-      (bind-key "]" nil keymap))
+    (evil-define-key '(motion normal) 'global (kbd "[") nil) ; I didn't use movement by sections anyway.
+    (evil-define-key '(motion normal) 'global (kbd "]") nil)
     (evil-define-key 'motion sp-keymap (kbd "[") #'sp-beginning-of-sexp)
     (evil-define-key 'motion sp-keymap (kbd "]") #'sp-end-of-sexp)
 

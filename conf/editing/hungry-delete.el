@@ -4,8 +4,7 @@
   :ensure t
   :init
   (with-eval-after-load 'evil
-    (dolist (keymap (list evil-normal-state-map evil-insert-state-map))
-      (bind-key "M-<backspace>" #'hungry-delete-backward keymap)
-      (bind-key "M-DEL" #'hungry-delete-backward keymap))))
+    (evil-define-key '(normal insert) 'global (kbd "M-<backspace>") #'hungry-delete-backward)
+    (evil-define-key '(normal insert) 'global (kbd "M-DEL") #'hungry-delete-backward)))
 
 (provide 'conf/editing/hungry-delete)

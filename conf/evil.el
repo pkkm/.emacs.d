@@ -31,23 +31,23 @@
   ;;; Tweak Vim bindings.
 
   ;; First non-blank/last character of the line: H/L (previously: first/last visible line in the window).
-  (bind-key "H" #'evil-first-non-blank evil-motion-state-map)
-  (bind-key "L" #'evil-end-of-line evil-motion-state-map)
+  (evil-define-key 'motion 'global (kbd "H") #'evil-first-non-blank)
+  (evil-define-key 'motion 'global (kbd "L") #'evil-end-of-line)
 
 
   ;;; Unset Vim bindings I don't find useful.
 
-  (bind-key "C-a" nil evil-insert-state-map)
-  (bind-key "C-e" nil evil-insert-state-map)
-  (bind-key "RET" nil evil-motion-state-map)
+  (evil-define-key 'insert 'global (kbd "C-a") nil)
+  (evil-define-key 'insert 'global (kbd "C-e") nil)
+  (evil-define-key 'motion 'global (kbd "RET") nil)
 
   ;; Manual indentation in insert state (I usually use automatic indentation).
-  (bind-key "C-t" nil evil-insert-state-map)
-  (bind-key "C-d" nil evil-insert-state-map)
+  (evil-define-key 'insert 'global (kbd "C-t") nil)
+  (evil-define-key 'insert 'global (kbd "C-d") nil)
 
   ;; Completion (I use another package for that).
-  (bind-key "C-n" nil evil-insert-state-map)
-  (bind-key "C-p" nil evil-insert-state-map)
+  (evil-define-key 'insert 'global (kbd "C-n") nil)
+  (evil-define-key 'insert 'global (kbd "C-p") nil)
 
   ;; Vim bindings in the ":" prompt (inconsistent with bindings in other prompts).
   (dolist (key '("C-a" "C-b" "C-c" "C-d" "C-k" "C-l" "C-r" "C-u" "C-v" "C-w" "C-f"))

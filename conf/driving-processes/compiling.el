@@ -78,8 +78,8 @@ Interactively, prompts for the command if the variable `clean-read-command' is n
 ;; Keybindings for repeating compilation/running.
 ;; TODO unify with the above bindings using something like "Compile Do What I Mean" from <www.emacswiki.org/emacs/CompileCommand>.
 (with-eval-after-load 'evil
-  (bind-key "g c" #'recompile evil-motion-state-map)
-  (bind-key "g r" #'rerun evil-motion-state-map))
+  (evil-define-key 'motion 'global (kbd "g c") #'recompile)
+  (evil-define-key 'motion 'global (kbd "g r") #'rerun))
 
 ;; Disable scroll margin in compilation buffers (because `next-error' and `previous-error' show which error we're currently at by scrolling to it).
 (defun disable-scroll-margin-in-buffer ()

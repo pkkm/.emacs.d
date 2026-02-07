@@ -10,6 +10,6 @@ If point is between the beginning of line and the first non-whitespace character
       (when (>= (point) prev-pos)
         (beginning-of-line))
       (kill-region (point) prev-pos)))
-  (bind-key "C-u" #'my-kill-back-to-indentation evil-insert-state-map))
+  (evil-define-key 'insert 'global (kbd "C-u") #'my-kill-back-to-indentation))
 
 (provide 'conf/evil-specific/kill-back-to-indentation)

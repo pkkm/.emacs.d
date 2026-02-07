@@ -3,11 +3,11 @@
 
 (with-eval-after-load 'evil
   ;; ' -- go to a mark (instead of the mark's line).
-  (bind-key "'" #'evil-goto-mark evil-motion-state-map)
+  (evil-define-key 'motion 'global (kbd "'") #'evil-goto-mark)
 
   ;; M -- store the point position in an Emacs register
   ;; ` -- jump to a register.
-  (bind-key "M" #'point-to-register evil-motion-state-map)
-  (bind-key "`" #'jump-to-register evil-motion-state-map))
+  (evil-define-key 'motion 'global (kbd "M") #'point-to-register)
+  (evil-define-key 'motion 'global (kbd "`") #'jump-to-register))
 
 (provide 'conf/evil-specific/marks-registers)

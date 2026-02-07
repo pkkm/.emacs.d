@@ -8,7 +8,6 @@
     (evil-delete beg end type register yank-handler)
     (insert "(...)" (if (looking-at-p "[\\.,;[:space:]]") "" " ")))
 
-  (dolist (map (list evil-normal-state-map evil-visual-state-map))
-    (bind-key "g ." #'evil-replace-with-ellipsis map)))
+  (evil-define-key '(normal visual) 'global (kbd "g .") #'evil-replace-with-ellipsis))
 
 (provide 'conf/evil-specific/replace-with-ellipsis-operator)

@@ -7,12 +7,12 @@
     (interactive "p")
     (dotimes (_ count)
       (evil-insert-newline-below)))
-  (bind-key "g o" #'my-insert-line-below evil-normal-state-map)
+  (evil-define-key 'normal 'global (kbd "g o") #'my-insert-line-below)
 
   (defun my-insert-line-above (count)
     (interactive "p")
     (dotimes (_ count)
       (evil-insert-newline-above)))
-  (bind-key "g O" #'my-insert-line-above evil-normal-state-map))
+  (evil-define-key 'normal 'global (kbd "g O") #'my-insert-line-above))
 
 (provide 'conf/evil-specific/insert-newline)

@@ -2,8 +2,7 @@
 
 (with-eval-after-load 'evil
   (dolist (key (list "C-SPC" "C-@"))
-    (bind-key key #'evil-normal-state evil-insert-state-map)
-    (bind-key key #'evil-normal-state evil-replace-state-map)
-    (bind-key key #'evil-exit-visual-state evil-visual-state-map)))
+    (evil-define-key '(insert replace) 'global (kbd key) #'evil-normal-state)
+    (evil-define-key 'visual 'global (kbd key) #'evil-exit-visual-state)))
 
 (provide 'conf/evil-specific/C-SPC-exits-insert-and-visual)

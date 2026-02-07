@@ -13,7 +13,7 @@
 
 ;; In visual state, use "u" for undoing instead of lowercasing ("g u").
 (with-eval-after-load 'evil
-  (bind-key "u" #'undo-tree-undo evil-visual-state-map))
+  (evil-define-key 'visual 'global (kbd "u") #'undo-tree-undo))
 
 ;; Preserve region when undoing.
 (defun my-keep-region-when-undoing (orig-fun &rest args)

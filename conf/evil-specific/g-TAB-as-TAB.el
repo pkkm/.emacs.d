@@ -8,6 +8,6 @@
            (lookup-key (current-local-map) (kbd "TAB"))))
       (when major-mode-TAB-binding
         (call-interactively major-mode-TAB-binding))))
-  (bind-key "g TAB" #'current-major-mode-TAB evil-motion-state-map))
+  (evil-define-key 'motion 'global (kbd "g TAB") #'current-major-mode-TAB))
 
 (provide 'conf/evil-specific/g-TAB-as-TAB)

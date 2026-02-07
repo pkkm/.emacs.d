@@ -4,7 +4,7 @@
   "Keymap for buffer-related commands.")
 (define-prefix-command 'my-buffer-map)
 (with-eval-after-load 'evil
-  (bind-key "-" 'my-buffer-map evil-motion-state-map))
+  (evil-define-key 'motion 'global (kbd "-") 'my-buffer-map))
 
 ;; Switch.
 ;; C-k -- kill the highlighted buffer.

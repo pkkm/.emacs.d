@@ -25,7 +25,6 @@ When called without region and there's symbol at point, use it."
           (my-evil-ex-before-after (concat range "s/" (rx symbol-start))
                                    (concat (rx symbol-end) "//gI"))))))
 
-  (dolist (map (list evil-normal-state-map evil-visual-state-map))
-    (bind-key "Q" #'evil-replace-symbol map)))
+  (evil-define-key '(normal visual) 'global (kbd "Q") #'evil-replace-symbol))
 
 (provide 'conf/evil-specific/replace-symbol-operator)

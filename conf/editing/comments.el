@@ -13,9 +13,8 @@
 
 (with-eval-after-load 'evil
   ;; Undefine the "z" and "Z" prefixes; I never use them anyway (C-l is sufficient for scrolling).
-  (dolist (keymap (list evil-normal-state-map evil-motion-state-map evil-visual-state-map))
-    (bind-key "z" nil keymap))
-  (bind-key "Z" nil evil-normal-state-map)
+  (evil-define-key '(normal motion visual) 'global (kbd "z") nil)
+  (evil-define-key 'normal 'global (kbd "Z") nil)
 
   ;; z -- my Evil-compatible version of comment-dwim.
   ;; If region is active, comment/uncomment it. Otherwise, insert a right-margin comment.
@@ -26,7 +25,7 @@
       (unless (evil-insert-state-p)
         (evil-insert-state)))
     (call-interactively #'comment-dwim))
-  (bind-key "z" #'evil-comment-dwim evil-normal-state-map))
+  (evil-define-key 'normal 'global (kbd "z") #'evil-comment-dwim))
 
 ;; Z -- Evil operator to comment/uncomment a piece of text (works with region too).
 (use-package evil-nerd-commenter
@@ -39,7 +38,6 @@
 
   ;; We define the keys even though `evil-nerd-commenter' does it, so that they are defined before loading it.
   (with-eval-after-load 'evil
-    (dolist (keymap (list evil-normal-state-map evil-visual-state-map))
-      (bind-key "Z" #'evilnc-comment-operator keymap))))
+    (evil-define-key '(normal visual) 'global (kbd "Z") #'evilnc-comment-operator)))
 
 (provide 'conf/editing/comments)
