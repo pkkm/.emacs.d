@@ -40,18 +40,18 @@
     ;; C-u -- delete to the beginning of input.
     (if (memq ido-cur-item '(file dir))
         (bind-key "C-u" #'ido-delete-backward-line-updir ido-completion-map)
-      (bind-key "C-u" #'backward-kill-line ido-completion-map)))
+      (bind-key "C-u" #'my-backward-kill-line ido-completion-map)))
   (add-hook 'ido-setup-hook #'my-ido-bindings) ; Run on every completion after keymaps have been set up.
 
   ;; Function for C-u.
-  (defun backward-kill-line ()
+  (defun my-backward-kill-line ()
     (interactive)
     (kill-line 0))
   (defun ido-delete-backward-line-updir ()
     (interactive)
     (if (= (minibuffer-prompt-end) (point))
         (ido-up-directory t)
-      (backward-kill-line))))
+      (my-backward-kill-line))))
 
 
 ;; Display completions vertically.
