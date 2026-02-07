@@ -1,11 +1,6 @@
 ;;; Evil (Extensible VI Layer). -*- lexical-binding: t -*-
 
-(use-package undo-tree
-  :ensure t
-  :diminish undo-tree-mode
-  :init
-  (setq undo-tree-enable-undo-in-region nil) ; Should make "primitive-undo: Unrecognized entry in undo list undo-tree-canary" errors less frequent.
-  (setq undo-tree-auto-save-history nil)) ; Don't litter directories with `*.~undo-tree~' files.
+(require 'conf/editing/undo) ; Make sure that undo-tree is ready.
 
 (use-package evil
   :ensure t

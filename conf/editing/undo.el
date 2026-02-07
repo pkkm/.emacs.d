@@ -1,5 +1,11 @@
 ;;; Undo customizations. -*- lexical-binding: t -*-
-;; Undo in region does not work at end of file!
+
+(use-package undo-tree
+  :ensure t
+  :diminish undo-tree-mode
+  :init
+  (setq undo-tree-enable-undo-in-region nil) ; Should make "primitive-undo: Unrecognized entry in undo list undo-tree-canary" errors less frequent.
+  (setq undo-tree-auto-save-history nil)) ; Don't litter directories with `*.~undo-tree~' files.
 
 ;; Increase memory limits for undo history (see <https://old.reddit.com/r/emacs/comments/bx82j3>).
 (dolist (var '(undo-limit undo-strong-limit undo-outer-limit))
@@ -10,15 +16,17 @@
   (bind-key "u" #'undo-tree-undo evil-visual-state-map))
 
 ;; Preserve region when undoing.
-(defadvice undo-tree-undo (around keep-region activate)
+(defun my-keep-region-when-undoing (orig-fun &rest args)
   (if (use-region-p)
-      (let ((mark-before-undo (set-marker (make-marker) (mark)))
-            (point-before-undo (set-marker (make-marker) (point))))
-        ad-do-it
-        (goto-char point-before-undo)
-        (set-mark mark-before-undo)
-        (set-marker point-before-undo nil)
-        (set-marker mark-before-undo nil))
-    ad-do-it))
+      (let ((mark-before-undo (copy-marker (mark) t))
+            (point-before-undo (copy-marker (point) t)))
+        (prog1
+            (apply orig-fun args)
+          (goto-char point-before-undo)
+          (set-mark mark-before-undo)
+          (set-marker point-before-undo nil)
+          (set-marker mark-before-undo nil)))
+    (apply orig-fun args)))
+(advice-add #'undo-tree-undo :around #'my-keep-region-when-undoing)
 
 (provide 'conf/editing/undo)
