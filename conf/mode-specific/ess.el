@@ -10,8 +10,6 @@
 ;;   , (in REPL) -- open a menu with some handy commands, e.g. installing a package.
 
 (use-package ess
-  :ensure t
-  :config
-  (setq ess-smart-S-assign-key nil)) ; Don't replace "_" with " <- ".
+  :ensure t)
 
 (provide 'conf/mode-specific/ess)
