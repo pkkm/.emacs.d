@@ -1,7 +1,7 @@
 ;;; Confirmations. -*- lexical-binding: t -*-
 
 ;; Prompt for "y" or "n" instead of "yes" or "no".
-(defalias 'yes-or-no-p 'y-or-n-p)
+(setq use-short-answers t)
 
 ;; Don't ask for confirmation when visiting a nonexistent file or buffer.
 (setq ido-create-new-buffer 'always)
