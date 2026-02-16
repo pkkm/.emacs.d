@@ -71,6 +71,9 @@ This is needed to make sure that text is properly aligned.")
 
 ;;; The actual format.
 
+;; Don't display the version control system name (e.g. "Git") in the modeline.
+(setq vc-display-status 'no-backend)
+
 ;; "Helper" face for less important parts of the modeline.
 (defface ml-shadow `((t ())) ; Foreground of `mode-line-inactive'.
   "Face for de-emphasized parts of the modeline."
@@ -112,14 +115,11 @@ This is needed to make sure that text is properly aligned.")
         (format-mode-line global-mode-string)) ; Used for example by `display-time'.
       (propertize "%]" 'face 'ml-shadow)
       " ┃" ; Alternative: (propertize " │ " 'face 'ml-shadow) (from <https://en.wikipedia.org/wiki/Box-drawing_character>).
-      (when vc-mode
-        (replace-regexp-in-string (format "^ %s" (vc-backend buffer-file-name))
-                                  " "
-                                  vc-mode))
+      vc-mode
       " "
       (ml-concat-nonempty " "
         ml-coding
-        (replace-regexp-in-string "%" "%%" (format-mode-line '(-3 "%p"))) ; Position, limited to 3 characters (e.g. "56%" or "Bot").
+        (string-replace "%" "%%" (format-mode-line '(-3 "%p"))) ; Position, limited to 3 characters (e.g. "56%" or "Bot").
         "%2l:%c") ; Line and column.
       " "))))
 
