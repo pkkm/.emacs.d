@@ -84,7 +84,7 @@
      (lambda (symbol)
        (let ((name (symbol-name symbol)))
          (when (and (eq (aref name 0) ?o) ; Slight optimization.
-                    (string-match "\\`\\(org\\|ob\\|ox\\)\\(-.*\\)?\\'" name))
+                    (string-match "\\`\\(org\\|ob\\|ox\\)\\(-\\|\\'\\)" name))
            (setplist symbol nil)
            (when (eq 'autoload (car-safe symbol))
              (unintern symbol nil))))))))
