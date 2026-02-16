@@ -8,30 +8,25 @@
 (with-eval-after-load 'evil
   (require 'conf/utils/keys) ; Used: map-bindings-between-keymaps.
   (require 'conf/utils/lists) ; Used: list-to-vector.
-  (require 'conf/utils/events) ; Used: event-with-modifier, event-without-modifier, event-inverted-modifier.
+  (require 'conf/utils/events) ; Used: event-with-modifier, event-without-modifier, event-toggle-modifier
   (require 'cl-lib) ; Used: cl-set-difference.
 
   (defun my-make-key-more-convenient (key)
     "Make the key vector KEY more convenient to hit after a prefix starting with a non-modified keypress.
-Do that by inverting the state of Control on some events (all C-letter except C-h (help), C-m (RET), C-i (TAB))."
+Do that by inverting the state of Control on some events (all C-letter except C-h, C-m (RET), C-i (TAB), and C-g)."
     (let ((first-event-of-key (car (vector-to-list key)))
-          ;; Invert Control on all C-letters except C-h (help), C-m (RET), C-i (TAB), C-g (quit).
-          (control-inverted-events (cl-set-difference (number-sequence ?a ?z)
-                                                      '(?h ?m ?i ?g))))
-      (cond
-       ;; If KEY starts with C-`char' or `char', with `char' in `control-inverted-events',
-       ;; invert Control state on all events in KEY that are in `control-inverted-events'.
-       ((or (memq first-event-of-key control-inverted-events)
-            (memq (event-inverted-modifier 'control first-event-of-key) control-inverted-events))
-        (list-to-vector
-         (mapcar (lambda (event)
-                   (if (or (memq event control-inverted-events)
-                           (memq (event-inverted-modifier 'control event) control-inverted-events))
-                       (event-inverted-modifier 'control event)
-                     event))
-                 key)))
-       ;; Otherwise, do nothing.
-       (t key))))
+          (control-inverted-letters (cl-set-difference (number-sequence ?a ?z) '(?h ?m ?i ?g))))
+      ;; If KEY starts with C-`char' or `char', with `char' in `control-inverted-letters',
+      ;; invert Control state on all events in KEY that are in `control-inverted-letters'.
+      (if (memq (event-without-modifier 'control first-event-of-key) control-inverted-letters)
+          (list-to-vector
+           (mapcar (lambda (event)
+                     (if (memq (event-without-modifier 'control event) control-inverted-letters)
+                         (event-toggle-modifier 'control event)
+                       event))
+                   key))
+        ;; Otherwise, do nothing.
+        key)))
 
   ;; Make "e" a prefix for "C-x" commands, and "C-e" the former "e" (end of word).
   (defun rebind-C-x-to-e ()
