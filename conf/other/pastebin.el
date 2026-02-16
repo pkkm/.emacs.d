@@ -2,6 +2,8 @@
 
 (use-package debpaste
   :ensure t
+  :bind (("C-c P i" . debpaste-display-posted-info-in-buffer) ; Display info about last paste.
+         ("C-c P d" . debpaste-delete-paste)) ; Delete paste with a given hash (default: hash at point).
   :init
 
   (defun my-debpaste-region-or-buffer ()
@@ -11,9 +13,6 @@
         (call-interactively #'debpaste-paste-region)
       (call-interactively #'debpaste-paste-buffer)))
   (bind-key "C-c P p" #'my-debpaste-region-or-buffer)
-
-  :bind (("C-c P i" . debpaste-display-posted-info-in-buffer) ; Display info about last paste.
-         ("C-c P d" . debpaste-delete-paste)) ; Delete paste with a given hash (default: hash at point).
 
   :config
 
