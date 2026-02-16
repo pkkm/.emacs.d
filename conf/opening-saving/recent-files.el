@@ -9,14 +9,7 @@
 
   (recentf-mode 1)
 
-  (with-eval-after-load 'ido
-    (defun ido-recentf-open ()
-      "Use `ido-completing-read' to open a recent file."
-      (interactive)
-      (if (find-file (ido-completing-read "Find recent file: " recentf-list))
-          (message "Opening file...")
-        (message "Abort")))
-    (bind-key "C-c r" #'ido-recentf-open)))
+  (bind-key "C-c r" #'recentf-open))
 
 ;; Sync the recent file list between Emacs instances (by default, the last-closed instance overwrites other ones).
 (use-package sync-recentf
