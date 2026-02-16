@@ -1,11 +1,3 @@
-* Performance
-
-  If Emacs is slow, use the profiler to find out why:
-
-  1. ~M-x profiler-start RET RET~.
-  2. Use Emacs for a while.
-  3. ~M-x profiler-report~.
-
 * Features to use more
 
   - M-) :: Add a sexp at the current level.

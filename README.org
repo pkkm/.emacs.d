@@ -11,13 +11,3 @@
 ** Installation
 
    Just clone this repository into =~/.emacs.d=. On the first launch, Emacs will download and install all the necessary packages into =~/.emacs.d/elpa=.
-
-** Some of the packages used
-
-   - =evil= :: Most comprehensive Vim emulation I've ever seen.
-   - =ido=, =ido-completing-read+=, =smex=, =flx-ido= :: Fuzzy completion in the minibuffer.
-   - =smartparens= :: Manipulating entire s-expressions at once. Useful for more languages than =paredit=.
-   - =company-mode= :: Completion.
-   - =flycheck=, =flyspell= :: On-the-fly checking of syntax/spelling.
-   - =magit= :: An efficient Git interface.
-   - =use-package= :: Syntactic sugar that simplifies package configuration.
