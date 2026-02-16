@@ -8,8 +8,8 @@
   :init
   (defun ansible-mode-maybe-enable ()
     (when (and (stringp (buffer-file-name))
-               (string-match "\\(site\.yml\\|roles/.+\.yml\\|group_vars/.+\\|host_vars/.+\\)"
-                             (buffer-file-name)))
+               (string-match-p "\\(site\.yml\\|roles/.+\.yml\\|group_vars/.+\\|host_vars/.+\\)"
+                               (buffer-file-name)))
       (ansible 1)))
   (with-eval-after-load 'yaml-mode
     (add-hook 'yaml-mode-hook #'ansible-mode-maybe-enable)))
