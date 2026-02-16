@@ -70,7 +70,7 @@
   ;; Cheatsheet.
   (defun my-cheatsheet-AUCTeX ()
     (interactive)
-    (open-cheatsheet "https://ftp.gnu.org/gnu/auctex/11.88-extra/tex-ref.pdf")) ; From conf/other/cheatsheets.
+    (my-cheatsheet "https://ftp.gnu.org/gnu/auctex/11.88-extra/tex-ref.pdf")) ; From conf/other/cheatsheets.
   (bind-key "C-c C" #'my-cheatsheet-AUCTeX TeX-mode-map)
 
   ;; Add a command for running make.

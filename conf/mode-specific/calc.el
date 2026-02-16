@@ -15,7 +15,7 @@
   ;; Cheatsheet.
   (defun my-cheatsheet-calc ()
     (interactive)
-    (open-cheatsheet "https://www.gnu.org/software/emacs/refcards/pdf/calccard.pdf")) ; From conf/other/cheatsheets.
+    (my-cheatsheet "https://www.gnu.org/software/emacs/refcards/pdf/calccard.pdf")) ; From conf/other/cheatsheets.
   (bind-key "C-c C" #'my-cheatsheet-calc calc-mode-map))
 
 (provide 'conf/mode-specific/calc)
