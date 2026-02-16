@@ -3,9 +3,9 @@
 (require 'color) ; Used: color-rgb-to-hex, color-name-to-rgb, color-defined-p.
 (require 'cl-lib) ; Used: cl-destructuring-bind.
 
-(defun color-mix (&rest colors-weights-list)
+(defun my-color-mix (&rest colors-weights-list)
   "Mix colors in the given proportions.
-Example: (color-mix \"#ffffff\" 0.6 \"#ff0000\" 0.4) => \"#ff9999\".
+Example: (my-color-mix \"#ffffff\" 0.6 \"#ff0000\" 0.4) => \"#ff9999\".
 If the sum of weights (proportions) is larger than 1.0, the result will be brighter.
 If one of the colors is unspecified (cannot be displayed), return 'unspecified."
   (let* ((color-weight-pairs (-partition 2 colors-weights-list)) ; '((color weight) ...)

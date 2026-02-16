@@ -16,7 +16,7 @@
   (advice-add 'global-hl-line-highlight :around #'my-global-hl-line-highlight-maybe)
 
   ;; Don't allow themes to change properties other than the background. Apply theme-specific color tweaks.
-  (require 'conf/utils/colors) ; Used: color-mix.
+  (require 'conf/utils/colors) ; Used: my-color-mix.
   (defface my-hl-line-face
     '((t :extend t))
     "My face for hl-line."
@@ -26,9 +26,9 @@
      'my-hl-line-face
      (cond
       ((memq 'sanityinc-tomorrow-bright custom-enabled-themes)
-       (color-mix (face-background 'hl-line nil t) 0.5 "black" 0.5))
+       (my-color-mix (face-background 'hl-line nil t) 0.5 "black" 0.5))
       ((memq 'sanityinc-tomorrow-night custom-enabled-themes)
-       (color-mix (face-background 'hl-line nil t) 0.85 "black" 0.15))
+       (my-color-mix (face-background 'hl-line nil t) 0.85 "black" 0.15))
       (t (face-background 'hl-line nil t)))))
   (my-hl-line-update-background)
   (add-hook 'after-load-theme-hook #'my-hl-line-update-background)

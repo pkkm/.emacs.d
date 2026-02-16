@@ -4,7 +4,7 @@
 
 (with-eval-after-load 'evil
   (require 'ht)
-  (require 'conf/utils/colors) ; Used: color-mix.
+  (require 'conf/utils/colors) ; Used: my-color-mix.
 
   (defvar my-modeline-evil-state-to-background (ht)
     "A hash-table maping Evil state to modeline background color, e.g. (ht ('normal \"#373b41\") ('insert \"#2e325d\"))")
@@ -19,11 +19,11 @@
             (ht ('normal original-background)
                 ('motion original-background)
                 ('operator original-background)
-                ('insert (color-mix "blue" 0.2 original-background 0.8))
-                ('replace (color-mix "blue" 0.2 original-background 0.8))
-                ('visual (color-mix "green" 0.2 original-background 0.8))))
+                ('insert (my-color-mix "blue" 0.2 original-background 0.8))
+                ('replace (my-color-mix "blue" 0.2 original-background 0.8))
+                ('visual (my-color-mix "green" 0.2 original-background 0.8))))
       (setq my-modeline-other-evil-state-background
-            (color-mix "black" 0.55 original-background 0.45))))
+            (my-color-mix "black" 0.55 original-background 0.45))))
   (add-hook 'after-load-theme-hook #'calculate-mode-line-backgrounds)
   (calculate-mode-line-backgrounds)
 

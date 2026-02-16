@@ -1,6 +1,6 @@
 ;;; Indentation guides. -*- lexical-binding: t -*-
 
-(require 'conf/utils/colors) ; Used: color-mix.
+(require 'conf/utils/colors) ; Used: my-color-mix.
 
 (use-package indent-guide
   :ensure t
@@ -11,8 +11,8 @@
   (face-spec-set 'indent-guide-face `((t)) 'face-defface-spec)
   (defun update-indent-guide-face ()
     (set-face-foreground 'indent-guide-face
-                         (color-mix (face-foreground 'shadow nil t) 0.4
-                                    (face-background 'default nil t) 0.6)))
+                         (my-color-mix (face-foreground 'shadow nil t) 0.4
+                                       (face-background 'default nil t) 0.6)))
   (add-hook 'after-load-theme-hook #'update-indent-guide-face)
   (update-indent-guide-face)
 

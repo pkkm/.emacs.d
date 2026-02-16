@@ -52,11 +52,11 @@
   ;; Theme customizations below. We do them that way so that they work even if the theme is changed manually.
 
   ;; Make the background of Tomorrow Night a bit darker.
-  (require 'conf/utils/colors) ; Used: color-mix.
+  (require 'conf/utils/colors) ; Used: my-color-mix.
   (defun my-tomorrow-night-darker-background ()
     (when (memq 'sanityinc-tomorrow-night custom-enabled-themes)
-      (set-face-background 'default (color-mix (face-background 'default nil t) 0.85
-                                               "black" 0.15))
+      (set-face-background 'default (my-color-mix (face-background 'default nil t) 0.85
+                                                  "black" 0.15))
       ;; Work around a bug where leading stars hidden by org-mode are in the old color.
       (with-eval-after-load 'org
         (set-face-background 'org-hide nil))))
