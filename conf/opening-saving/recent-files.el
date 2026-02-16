@@ -4,8 +4,8 @@
   :init
 
   ;; Has to be set before loading `recentf'.
-  (setq recentf-auto-cleanup 120) ; Clean nonexistent files after 2 min of idle. Trigger manually with `recentf-cleanup'.
-  (setq recentf-max-saved-items 1000)
+  (setq recentf-auto-cleanup 600) ; Clean nonexistent files after 10 min of idle. Trigger manually with `recentf-cleanup'.
+  (setq recentf-max-saved-items 5000)
 
   (recentf-mode 1)
 
