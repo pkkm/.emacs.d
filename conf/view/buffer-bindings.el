@@ -1,8 +1,8 @@
 ;;; Keys for buffers. -*- lexical-binding: t -*-
 
-(defvar my-buffer-map (make-sparse-keymap)
-  "Keymap for buffer-related commands.")
-(define-prefix-command 'my-buffer-map)
+(defvar-keymap my-buffer-map
+  :doc "Keymap for buffer-related commands."
+  :prefix 'my-buffer-map)
 (with-eval-after-load 'evil
   (evil-define-key 'motion 'global (kbd "-") 'my-buffer-map))
 
