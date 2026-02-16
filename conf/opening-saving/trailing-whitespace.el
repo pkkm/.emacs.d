@@ -12,15 +12,13 @@
 
 (setq-default show-trailing-whitespace nil)
 
-(defun my-set-show-trailing-whitespace ()
-  "Show trailing whitespace iff visiting a file (unless overridden via a file local variable).
-Returns nil so that it can be added to hooks which terminate when a function returns t, e.g. `find-file-functions'."
+(defun my-show-trailing-whitespace-iff-visiting-file ()
+  "Show trailing whitespace iff visiting a file, unless overridden via a file local variable."
   (unless (assq 'show-trailing-whitespace file-local-variables-alist)
-    (setq show-trailing-whitespace (not (not buffer-file-name))))
-  nil)
+    (setq show-trailing-whitespace (not (not (buffer-file-name))))))
 
 (require 'conf/utils/hooks) ; Used: add-hooks.
-(add-hooks '(find-file-hook write-file-functions)
-           #'my-set-show-trailing-whitespace)
+(add-hooks '(find-file-hook after-set-visited-file-name-hook)
+           #'my-show-trailing-whitespace-iff-visiting-file)
 
 (provide 'conf/opening-saving/trailing-whitespace)
