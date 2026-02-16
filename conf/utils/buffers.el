@@ -1,6 +1,6 @@
 ;;; Buffer utilities. -*- lexical-binding: t -*-
 
-(defun buffers-opened-in-windows ()
+(defun my-buffers-visible-in-windows ()
   "A list of all buffers that are opened in a window."
   (let ((buffers (list)))
     (walk-windows (lambda (window)

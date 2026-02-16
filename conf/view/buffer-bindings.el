@@ -12,10 +12,10 @@
 (bind-key "SPC" #'ido-switch-buffer my-buffer-map)
 
 ;; Switch to the most recently used buffer.
-(defun switch-to-other-buffer ()
+(defun my-switch-to-other-buffer ()
   (interactive)
   (switch-to-buffer (other-buffer)))
-(bind-key "-" #'switch-to-other-buffer my-buffer-map)
+(bind-key "-" #'my-switch-to-other-buffer my-buffer-map)
 
 ;; Delete (close/kill).
 (bind-key "c" #'kill-current-buffer my-buffer-map)
@@ -48,12 +48,12 @@
 (bind-key "b" #'ibuffer my-buffer-map)
 
 ;; Display all buffers that are visiting a file.
-(bind-key "a" #'display-all-file-buffers-in-windows my-buffer-map)
+(bind-key "a" #'my-display-all-file-buffers my-buffer-map)
 (require 'conf/utils/buffers) ; Used: buffers-opened-in-windows.
-(defun display-all-file-buffers-in-windows ()
+(defun my-display-all-file-buffers ()
   "Display all buffers that are visiting a file."
   (interactive)
-  (->> (-difference (buffer-list) (buffers-opened-in-windows))
+  (->> (-difference (buffer-list) (my-buffers-visible-in-windows))
        (-filter #'buffer-file-name) ; Only buffers that are visiting a file.
        (-map (lambda (buffer)
                (display-buffer-pop-up-window buffer '((allow-no-window . t))))))

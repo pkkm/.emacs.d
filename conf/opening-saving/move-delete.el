@@ -1,6 +1,7 @@
 ;;; Move/delete file. -*- lexical-binding: t -*-
 
-(defun move-this-buffer-and-file ()
+;; Just like the built-in `rename-visited-file', but uses the current name as the initial value in the prompt.
+(defun my-rename-this-buffer-and-file ()
   "Moves (renames) the current buffer and the file it is visiting (after saving it)."
   (interactive)
   (save-buffer)
@@ -21,9 +22,9 @@
       (rename-buffer new-name t) ; t -- if the name is taken, pick an unique one.
       (set-visited-file-name new-name)))
   (set-buffer-modified-p nil))
-(bind-key "C-c m" #'move-this-buffer-and-file)
+(bind-key "C-c m" #'my-rename-this-buffer-and-file)
 
-(defun delete-this-buffer-and-file (no-confirmation)
+(defun my-delete-this-buffer-and-file (no-confirmation)
   "Removes the file visited by the current buffer and kills the buffer."
   (interactive "P")
   (let ((filename (buffer-file-name)))
@@ -34,7 +35,7 @@
         (delete-file filename t) ; t -- move to thrash if `delete-by-moving-to-trash' is non-nil.
         (unless (file-exists-p filename)
           (kill-buffer))))))
-(bind-key "C-c d" #'delete-this-buffer-and-file)
+(bind-key "C-c d" #'my-delete-this-buffer-and-file)
 
 (setq delete-by-moving-to-trash t)
 

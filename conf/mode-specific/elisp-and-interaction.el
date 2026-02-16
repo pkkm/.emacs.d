@@ -31,7 +31,7 @@
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
 
   ;; Evaluation bindings.
-  (defun evil-eval-region (region-start region-end)
+  (defun my-evil-eval-region (region-start region-end)
     "Evaluate region and exit Evil's visual state."
     (interactive "r") ; Needs a region.
     (eval-region region-start region-end)
@@ -42,7 +42,7 @@
       (bind-key "C-c C-i" #'eval-print-last-sexp map) ; Insert value at point.
 
       (with-eval-after-load 'evil
-        (bind-key "C-c C-r" #'evil-eval-region map)) ; Depends on `lexical-binding' (for `map' to be available).
+        (bind-key "C-c C-r" #'my-evil-eval-region map)) ; Depends on `lexical-binding' (for `map' to be available).
       (bind-key "C-c C-b" #'eval-buffer map)
       (bind-key "C-c C-d" #'eval-defun map) ; Eval the top-level form containing point (or after point)))).
 
