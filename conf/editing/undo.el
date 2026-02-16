@@ -27,6 +27,6 @@
           (set-marker point-before-undo nil)
           (set-marker mark-before-undo nil)))
     (apply orig-fun args)))
-(advice-add #'undo-tree-undo :around #'my-keep-region-when-undoing)
+(advice-add 'undo-tree-undo :around #'my-keep-region-when-undoing)
 
 (provide 'conf/editing/undo)

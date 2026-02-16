@@ -4,9 +4,10 @@
 ;; TODO submit this upstream?
 (defvar after-load-theme-hook nil
   "Hook run after a color theme is loaded using `load-theme'.")
-(defadvice load-theme (after run-after-load-theme-hook activate)
+(defun my-load-theme-advice-run-hook (&rest _args)
   "Run `after-load-theme-hook'."
   (run-hooks 'after-load-theme-hook))
+(advice-add 'load-theme :after #'my-load-theme-advice-run-hook)
 
 ;; TODO submit this upstream?
 (require 'conf/utils/functions) ; Used: define-interactive-wrapper.

@@ -11,6 +11,6 @@
   (bind-key "C-c i" #'helm-insert-latex-math)
   (defun my-require-auctex-for-helm-insert-latex-math (&rest _args)
     (require 'latex)) ; Require the needed part of AUCTeX (otherwise the function will error out).
-  (advice-add #'helm-insert-latex-math :before #'my-require-auctex-for-helm-insert-latex-math))
+  (advice-add 'helm-insert-latex-math :before #'my-require-auctex-for-helm-insert-latex-math))
 
 (provide 'conf/minibuffer/helm)

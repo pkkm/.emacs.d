@@ -9,10 +9,11 @@
   ;; Disable in some modes and when region is active.
   (defvar hl-line-disable-in-modes '(term-mode)
     "Modes in which the current line should not be highlighted.")
-  (defadvice global-hl-line-highlight (around disable-in-modes-or-region activate)
+  (defun my-global-hl-line-highlight-maybe (orig-fun &rest args)
     (unless (or (region-active-p)
                 (memq major-mode hl-line-disable-in-modes))
-      ad-do-it))
+      (apply orig-fun args)))
+  (advice-add 'global-hl-line-highlight :around #'my-global-hl-line-highlight-maybe)
 
   ;; Don't allow themes to change properties other than the background. Apply theme-specific color tweaks.
   (require 'conf/utils/colors) ; Used: color-mix.

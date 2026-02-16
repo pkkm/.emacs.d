@@ -1,13 +1,14 @@
 ;;; Messages that are displayed when Emacs starts up. -*- lexical-binding: t -*-
 
 ;; Suppress the warning about .emacs.d being in `load-path'.
-(defadvice display-warning
-    (around no-warn-.emacs.d-in-load-path (type message &rest unused) activate)
-  "Ignore the warning about the `.emacs.d' directory being in `load-path'."
+;; TODO: Is this still needed?
+(defun my-suppress-load-path-warning (orig-fun type message &rest args)
+  "Silence the warning about the `.emacs.d' directory being in `load-path'."
   (unless (and (eq type 'initialization)
                (string-prefix-p "Your `load-path' seems to contain\nyour `.emacs.d' directory"
                                 message t))
-    ad-do-it))
+    (apply orig-fun type message args)))
+(advice-add 'display-warning :around #'my-suppress-load-path-warning)
 
 ;; Start with an empty *scratch* buffer.
 (setq initial-scratch-message nil)

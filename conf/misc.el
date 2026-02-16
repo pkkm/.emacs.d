@@ -10,7 +10,7 @@
 ;; Every time I did this, it was by accident, and it led to lost windows (i3 hides minimized windows with no way to restore them).
 (defun my-disable-iconify-frame (orig-fun &rest args)
   (message "Frame minimization is disabled."))
-(advice-add #'iconify-frame :around #'my-disable-iconify-frame)
+(advice-add 'iconify-frame :around #'my-disable-iconify-frame)
 
 ;; An alternative way of entering modified keys unavailable in terminals, e.g. C-}.
 (bind-key "M-c" nil) ; Otherwise it would be shadowed by `capitalize-word'.

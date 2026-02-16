@@ -3,8 +3,10 @@
 ;; Track the most recently created window.
 (defvar most-recently-created-window nil
   "The window that was most recently created.")
-(defadvice split-window-internal (after record-window activate)
-  (setq most-recently-created-window ad-return-value))
+(defun my-record-window-advice (window)
+  (setq most-recently-created-window window)
+  window)
+(advice-add 'split-window-internal :filter-return #'my-record-window-advice)
 
 (defun delete-most-recently-created-window ()
   "Delete the most recently created window."

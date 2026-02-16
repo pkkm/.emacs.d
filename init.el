@@ -27,9 +27,11 @@
 
 ;; Silence the warning "Package cl is deprecated".
 ;; This is intented to affect `do-after-load-evaluation' in `subr.el'.
-(defadvice byte-compile-warning-enabled-p (after disable-obsolete-cl-warning activate)
-  (when (equal (ad-get-args 0) '(obsolete cl))
-    (setq ad-return-value nil)))
+(defun my-byte-compile-warning-enabled-p-advice-cl (orig-fun warning &optional symbol)
+  (if (and (eq warning 'obsolete) (eq symbol 'cl))
+      nil
+    (funcall orig-fun warning symbol)))
+(advice-add #'byte-compile-warning-enabled-p :around #'my-byte-compile-warning-enabled-p-advice-cl)
 
 ;; Don't resize the frame to preserve the number of displayed columns and lines when the font is changed or an UI element is shown/hidden.
 ;; This reduces startup time by ~0.7 s and prevents visual glitches on startup in tiling WMs.
@@ -138,16 +140,17 @@
         ("melpa" . 0)))
 
 ;; First time that `package-install' is called in this session, refresh the package list (if it wasn't already refreshed).
-(defvar packages-refreshed-this-session-p nil
+(defvar my-packages-refreshed-this-session-p nil
   "Was the package list refreshed in this session?")
-(defadvice package-install (before refresh-before-install activate)
-  "Refresh the package list before installing a new package, if `packages-refreshed-this-session-p' is nil.
-This will happen at most once per session, as `packages-refreshed-this-session-p' is set by an advice to `package-refresh-contents'."
-  (unless packages-refreshed-this-session-p
+(defun my-package-install-advice-refresh-contents (&rest args)
+  "Refresh the package list before installing a new package, if `my-packages-refreshed-this-session-p' is nil.
+This will happen at most once per session, as `my-packages-refreshed-this-session-p' is set by an advice to `package-refresh-contents'."
+  (unless my-packages-refreshed-this-session-p
     (package-refresh-contents)))
-(defadvice package-refresh-contents (before set-packages-refreshed activate)
-  "Set `packages-refreshed-this-session-p' to t."
-  (setq packages-refreshed-this-session-p t))
+(advice-add #'package-install :before #'my-package-install-advice-refresh-contents)
+(defun my-package-refresh-contents-advice-set-flag (&rest args)
+  (setq my-packages-refreshed-this-session-p t))
+(advice-add #'package-refresh-contents :before #'my-package-refresh-contents-advice-set-flag)
 
 (defun package-ensure-installed (package)
   "Ensure the ELPA package PACKAGE is installed."
@@ -163,7 +166,7 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
     (when (or (null pkg-installed)
               (version< (epl-package-version-string pkg-installed) min-version))
       (message "Upgrading package %s (required version: %s)." package min-version)
-      (unless packages-refreshed-this-session-p
+      (unless my-packages-refreshed-this-session-p
         (package-refresh-contents))
       (let ((pkg-available (car (epl-find-available-packages package))))
         (unless pkg-available

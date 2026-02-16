@@ -106,11 +106,13 @@
 
   ;; Don't prepend "Function /" to top-level headlines in helm-imenu.
   ;; (The unwanted behavior is actually in `helm-imenu-transformer', but this way of disabling it is much less complex.)
-  (defadvice helm-imenu--get-prop
-      (after return-bare-item-in-org-mode (item) activate)
-    (when (and (eq (buffer-local-value 'major-mode helm-current-buffer) 'org-mode)
-               (null ad-return-value))
-      (setq ad-return-value (list item))))
+  (defun my-helm-imenu--get-prop-advice (orig-fun item)
+    (let ((result (funcall orig-fun item)))
+      (if (and (eq (buffer-local-value 'major-mode helm-current-buffer) 'org-mode)
+               (null result))
+          (list item)
+        result)))
+  (advice-add 'helm-imenu--get-prop :around #'my-helm-imenu--get-prop-advice)
 
   ;; Function to list remote inline images. Useful when downloading images so that the document works without an Internet connection.
   (defun my-org-remote-inline-images-in-buffer ()
@@ -130,12 +132,13 @@
   ;; Example usage: -*- my-org-export-timestamp-formats: ("%Y-%m-%d" . "%Y-%m-%d %H:%M") -*-
   (defvar-local my-org-export-timestamp-formats nil
     "The value of `org-time-stamp-custom-formats' to use during export.")
-  (defadvice org-export-as (around my-org-export-timestamp-formats activate)
+  (defun my-org-export-use-timestamp-formats (orig-fun &rest args)
     (if my-org-export-timestamp-formats
         (let ((org-display-custom-times t)
               (org-time-stamp-custom-formats my-org-export-timestamp-formats))
-          ad-do-it)
-      ad-do-it))
+          (apply orig-fun args))
+      (apply orig-fun args)))
+  (advice-add 'org-export-as :around #'my-org-export-use-timestamp-formats)
 
   ;; Disable fancy description list indentation (backport of org-mode commit 683df456a).
   (defun org-list-item-body-column (item)
@@ -351,11 +354,12 @@
 
   ;; Indent text inserted by org-download.
   ;; TODO: feature request for a customizable option for this.
-  (defadvice org-download-insert-link (around my-org-download-indent activate)
+  (defun my-org-download-indent-after-inserting (orig-fun &rest args)
     (add-hook 'after-change-functions #'my-indent-changed-region)
     (unwind-protect
-        (progn ad-do-it)
+        (apply orig-fun args)
       (remove-hook 'after-change-functions #'my-indent-changed-region)))
+  (advice-add 'org-download-insert-link :around #'my-org-download-indent-after-inserting)
   (defun my-indent-changed-region (start end _)
     (indent-region start end)))
 

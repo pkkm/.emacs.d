@@ -19,14 +19,15 @@ The special value `my-remove-entry' will cause the key to be removed from the re
                           (plist-put result key value)))))
     result))
 
-(defadvice create-image (around my-apply-override-properties activate)
-  (when my-image-override-properties
-    ;; Set arguments of `create-image': (file-or-data &optional type data-p &rest props).
-    (when (and (not (eq (ad-get-arg 0) 'imagemagick)) (not (image-transforms-p)))
-      (error "my-image-override properties needs image transforms to be supported"))
-    (ad-set-args 3 (my-plist-merge (ad-get-args 3) my-image-override-properties)))
-  ;; Useful for debugging:
-  ;; (message "my-apply-override-properties: create-image %s" (ad-get-args 0))
-  ad-do-it)
+(defun my-create-image-advice-apply-override (orig-fun file-or-data &optional type data-p &rest props)
+  (if my-image-override-properties
+      (progn
+        (when (and (not (eq type 'imagemagick))
+                   (not (image-transforms-p)))
+          (error "my-image-override properties needs image transforms support"))
+        (let ((merged-props (my-plist-merge props my-image-override-properties)))
+          (apply orig-fun file-or-data type data-p merged-props)))
+    (apply orig-fun file-or-data type data-p props)))
+(advice-add 'create-image :around #'my-create-image-advice-apply-override)
 
 (provide 'conf/view/override-image-properties)
