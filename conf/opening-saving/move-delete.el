@@ -19,7 +19,6 @@
                 (file-symlink-p new-name))
         (user-error "File already exists: %s" new-name))
       (rename-file filename new-name)
-      (rename-buffer new-name t) ; t -- if the name is taken, pick an unique one.
       (set-visited-file-name new-name)))
   (set-buffer-modified-p nil))
 (bind-key "C-c m" #'my-rename-this-buffer-and-file)
@@ -28,13 +27,13 @@
   "Removes the file visited by the current buffer and kills the buffer."
   (interactive "P")
   (let ((filename (buffer-file-name)))
-    (if (not (and filename (file-exists-p filename)))
-        (user-error "Not visiting a file")
-      (when (or no-confirmation
-                (yes-or-no-p (format "Delete %s?" filename)))
-        (delete-file filename t) ; t -- move to thrash if `delete-by-moving-to-trash' is non-nil.
-        (unless (file-exists-p filename)
-          (kill-buffer))))))
+    (unless (and filename (file-exists-p filename))
+      (user-error "Not visiting a file"))
+    (when (or no-confirmation
+              (yes-or-no-p (format "Delete %s?" filename)))
+      (delete-file filename t) ; t -- move to thrash if `delete-by-moving-to-trash' is non-nil.
+      (unless (file-exists-p filename)
+        (kill-buffer)))))
 (bind-key "C-c d" #'my-delete-this-buffer-and-file)
 
 (setq delete-by-moving-to-trash t)

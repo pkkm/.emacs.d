@@ -18,8 +18,7 @@
   (defun my-elpa-repo-recreate ()
     "Recreate the ELPA repository in `my-elpa-repo-dir' from installed packages."
     (interactive)
-    (unless (file-exists-p my-elpa-repo-dir)
-      (make-directory my-elpa-repo-dir))
+    (make-directory my-elpa-repo-dir t)
     (dolist (file (directory-files my-elpa-repo-dir t))
       (unless (member (file-name-nondirectory file) '("." ".." ".git"))
         (f-delete file t)))

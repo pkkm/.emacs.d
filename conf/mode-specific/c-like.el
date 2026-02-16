@@ -57,8 +57,9 @@
     (when (and (memq major-mode '(c-mode c++-mode))
                (buffer-file-name)) ; Visiting a file.
       (let* ((input-file-name (file-name-nondirectory (buffer-file-name)))
-             (output-file-name (concat (file-name-sans-extension input-file-name)
-                                       (when (eq window-system 'w32) ".exe")))
+             (output-file-name (if (eq window-system 'w32)
+                                   (file-name-with-extension input-file-name ".exe")
+                                 (file-name-sans-extension input-file-name)))
              (input-file-name-quoted (shell-quote-argument input-file-name))
              (output-file-name-quoted (shell-quote-argument output-file-name))
              (compiler (if (eq major-mode 'c++-mode) "g++" "gcc"))

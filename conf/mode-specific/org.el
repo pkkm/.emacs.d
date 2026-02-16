@@ -288,9 +288,7 @@
                                (car (url-path-and-query parsed-url))))
            (filename
             (if ext ; If we were provided an extension, use it.
-                (format "%s.%s"
-                        (file-name-sans-extension filename-from-url)
-                        (file-name-extension filename-from-url))
+                (file-name-with-extension filename-from-url ext)
               filename-from-url))
 
            (dir-for-all-hosts ; Directory that contains per-host directories.

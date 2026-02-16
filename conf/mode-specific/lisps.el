@@ -15,6 +15,6 @@
 
   ;; Indent guides.
   (require 'conf/view/indent-guides)
-  (add-hooks '(lisp-mode-hook emacs-lisp-mode-hook) #'indent-guide-mode))
+  (add-hook 'lisp-data-mode-hook #'indent-guide-mode))
 
 (provide 'conf/mode-specific/lisps)
