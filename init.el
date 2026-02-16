@@ -10,7 +10,7 @@
 ;; Increase TLS security. To test this, run `test-https-verification' from `conf/utils/https'. See <https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html>.
 (setq network-security-level 'high)
 
-;; Read process output in 1 MB chunks (values above 64 kB are only taken into account on Emacs 29.1+, see <https://debbugs.gnu.org/cgi/bugreport.cgi?bug=55737>).
+;; Read process output in 1 MB chunks.
 (setq read-process-output-max (* 1024 1024))
 
 ;; Silence the warning "Package cl is deprecated".
