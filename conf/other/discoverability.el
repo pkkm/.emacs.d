@@ -12,16 +12,9 @@
   :ensure t
   :init
   ;; Replace built-in keybindings.
-  (global-set-key (kbd "C-h f") #'helpful-callable)
-  (global-set-key (kbd "C-h v") #'helpful-variable)
-  (global-set-key (kbd "C-h k") #'helpful-key)
-  (global-set-key (kbd "C-h x") #'helpful-command))
-
-;; C-h C-m -- show documentation for major mode commands (nicer than C-h m).
-(use-package discover-my-major
-  :ensure t
-  :bind ("C-h C-m" . discover-my-major))
-
-;; I tried to use discover.el but it was too intrusive (e.g. bound M-s to its own command in every major mode's map) and I haven't found a way to override its bindings.
+  (bind-key "C-h f" #'helpful-callable)
+  (bind-key "C-h v" #'helpful-variable)
+  (bind-key "C-h k" #'helpful-key)
+  (bind-key "C-h x" #'helpful-command))
 
 (provide 'conf/other/discoverability)
