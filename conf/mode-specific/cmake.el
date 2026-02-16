@@ -1,4 +1,5 @@
 ;;; Support for editing CMakeLists.txt files. -*- lexical-binding: t -*-
+;; TODO: Is this still necessary now that we have `cmake-ts-mode' in Emacs 29+?
 
 (use-package cmake-mode
   :ensure t)

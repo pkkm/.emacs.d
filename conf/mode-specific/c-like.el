@@ -35,7 +35,7 @@
   (dolist (keymap (list c-mode-map c++-mode-map))
     (bind-key "M-o" #'ff-find-other-file keymap))
 
-  ;; Unbind C-c . to make space for my binding for Semantic's go-to-definiton.
+  ;; Unbind C-c . to make space for my binding for go-to-definiton.
   (bind-key "C-c ." nil c-mode-base-map)
 
   ;; Flycheck: use C99 and C++11.

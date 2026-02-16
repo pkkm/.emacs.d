@@ -15,12 +15,14 @@
   (add-hook 'emacs-lisp-mode-hook #'elisp-slime-nav-mode)
   :config
 
-  ;; `C-c .', `C-c ,' -- go to definition of symbol at point, go back.
-  ;; `C-c t' -- describe thing at point.
   (require 'conf/utils/keys) ; Used: clear-keymap.
   (clear-keymap elisp-slime-nav-mode-map)
+
+  ;; These do the same as the built-in xref functionality. We could remove them.
   (bind-key "C-c ." #'elisp-slime-nav-find-elisp-thing-at-point elisp-slime-nav-mode-map)
   (bind-key "C-c ," #'pop-tag-mark elisp-slime-nav-mode-map)
+
+  ;; On the other hand, this one has no full-featured replacement.
   (bind-key "C-c C-t" #'elisp-slime-nav-describe-elisp-thing-at-point elisp-slime-nav-mode-map))
 
 (use-package lisp-mode ; Bundled with Emacs; contains lisp-mode, emacs-lisp-mode and lisp-interaction-mode.
