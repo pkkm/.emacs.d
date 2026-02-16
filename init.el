@@ -4,18 +4,6 @@
 (when (version< emacs-version "30.1")
   (error "This config requires Emacs 30.1+. Current version: %s" emacs-version))
 
-;; Improve startup time by temporarily changing some settings.
-(let ((old-gc-cons-percentage gc-cons-percentage)
-      (old-file-name-handler-alist file-name-handler-alist))
-  (setq gc-cons-threshold most-positive-fixnum)
-  (setq gc-cons-percentage 1)
-  (setq file-name-handler-alist nil) ; Disable handling of compressed/encrypted/TRAMP files.
-  (defun restore-performance-settings ()
-    (setq gc-cons-threshold (* 32 1024 1024))
-    (setq gc-cons-percentage old-gc-cons-percentage)
-    (setq file-name-handler-alist old-file-name-handler-alist))
-  (add-hook 'emacs-startup-hook #'restore-performance-settings))
-
 ;; Don't try to use an external TLS program on Windows (it won't work).
 (setq my-use-tls (or (not (eq system-type 'windows-nt)) (gnutls-available-p)))
 
