@@ -1,19 +1,16 @@
 ;;; Utilities for handling file modification times. -*- lexical-binding: t -*-
 
-(defun file-modtime (file)
+(defun my-file-modtime (file)
   "Get the last modification time of FILE.
 If FILE cannot be read, return nil."
-  (let ((attributes (file-attributes file)))
-    (if attributes
-        (nth 5 attributes)
-      nil)))
+  (file-attribute-modification-time (file-attributes file)))
 
-(use-package f :ensure t :commands f-files)
-(defun files-newer-than-time (directory time)
+(defun my-files-newer-than-time (directory time)
   "Return a list of files in DIRECTORY modified after TIME."
-  (f-files directory
-           (lambda (file)
-             (time-less-p time (file-modtime file)))
-           t))
+  (seq-filter
+   (lambda (file)
+     (let ((mtime (my-file-modtime file)))
+       (and mtime (time-less-p time mtime))))
+   (directory-files-recursively directory "")))
 
 (provide 'conf/utils/file-modtime)
