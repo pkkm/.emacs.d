@@ -8,13 +8,13 @@
 
   (defvar my-modeline-evil-state-to-background (ht)
     "A hash-table maping Evil state to modeline background color, e.g. (ht ('normal \"#373b41\") ('insert \"#2e325d\"))")
-  (defvar my-modeline-other-evil-state-background (face-background 'mode-line nil t)
+  (defvar my-modeline-other-evil-state-background (face-background 'mode-line-active nil t)
     "Modeline background color for Evil states that aren't in `my-modeline-evil-state-to-background'.")
 
   ;; Calculate backgrounds for various states depending on color theme.
   (defun calculate-mode-line-backgrounds ()
     "Calculate the modeline backgrounds for various Evil states."
-    (let ((original-background (face-background 'mode-line nil t)))
+    (let ((original-background (face-background 'mode-line-active nil t)))
       (setq my-modeline-evil-state-to-background
             (ht ('normal original-background)
                 ('motion original-background)
@@ -30,7 +30,7 @@
   ;; Set the background when Evil state changes.
   (defun set-mode-line-background ()
     "Set the modeline background according to the current Evil state."
-    (set-face-background 'mode-line
+    (set-face-background 'mode-line-active
                          (ht-get my-modeline-evil-state-to-background
                                  evil-state
                                  my-modeline-other-evil-state-background)))
