@@ -203,16 +203,8 @@ This will happen at most once per session, as `packages-refreshed-this-session-p
 ;; Easily disable showing certain modes in the modeline.
 (package-ensure-installed 'diminish)
 
-;; Easily define personal keybindings.
-;; Use `describe-personal-keybindings' to show all bindings defined using `bind-key'.
-(package-ensure-installed 'bind-key)
-(autoload 'bind-key "bind-key")
-
-;; Configure packages in an elegant and performant way.
-(package-ensure-installed 'use-package)
+;; use-package: assume `:defer t' by default.
 (setq use-package-always-defer t) ; Assume `:defer t' by default.
-(eval-when-compile
-  (require 'use-package))
 
 ;; Modern list library (used often in this config).
 (use-package dash :ensure t :demand t)

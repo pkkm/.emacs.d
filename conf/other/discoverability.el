@@ -1,7 +1,6 @@
 ;;; Discoverability features. -*- lexical-binding: t -*-
 
-(use-package which-key
-  :ensure t
+(use-package which-key ; Bundled with Emacs 30+.
   :diminish which-key-mode
   :init
   (which-key-mode)
