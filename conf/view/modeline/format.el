@@ -78,11 +78,11 @@ This is needed to make sure that text is properly aligned.")
 (defface ml-shadow `((t ())) ; Foreground of `mode-line-inactive'.
   "Face for de-emphasized parts of the modeline."
   :group 'modeline)
-(defun set-mode-line-helper-faces ()
+(defun my-update-mode-line-colors (&rest _)
   "Calculate the modeline \"helper\" faces that depend on colors in other faces."
   (set-face-foreground 'ml-shadow (face-foreground 'mode-line-inactive)))
-(add-hook 'after-load-theme-hook #'set-mode-line-helper-faces)
-(set-mode-line-helper-faces)
+(add-hook 'enable-theme-functions #'my-update-mode-line-colors)
+(my-update-mode-line-colors)
 
 (defun ml-format ()
   (let* ((shortened-dir

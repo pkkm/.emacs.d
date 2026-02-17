@@ -1,14 +1,5 @@
 ;;; Color theme. -*- lexical-binding: t -*-
 
-;; Create `after-load-theme-hook'.
-;; TODO submit this upstream?
-(defvar after-load-theme-hook nil
-  "Hook run after a color theme is loaded using `load-theme'.")
-(defun my-load-theme-advice-run-hook (&rest _args)
-  "Run `after-load-theme-hook'."
-  (run-hooks 'after-load-theme-hook))
-(advice-add 'load-theme :after #'my-load-theme-advice-run-hook)
-
 ;; TODO submit this upstream?
 (require 'conf/utils/functions) ; Used: define-interactive-wrapper.
 (define-interactive-wrapper change-theme (&rest args) load-theme
@@ -53,7 +44,7 @@
 
   ;; Make the background of Tomorrow Night a bit darker.
   (require 'conf/utils/colors) ; Used: my-color-mix.
-  (defun my-tomorrow-night-darker-background ()
+  (defun my-tomorrow-night-darker-background (&rest _)
     (when (memq 'sanityinc-tomorrow-night custom-enabled-themes)
       (set-face-background 'default (my-color-mix (face-background 'default nil t) 0.85
                                                   "black" 0.15))
@@ -61,17 +52,17 @@
       (with-eval-after-load 'org
         (set-face-background 'org-hide nil))))
   (my-tomorrow-night-darker-background)
-  (add-hook 'after-load-theme-hook #'my-tomorrow-night-darker-background)
+  (add-hook 'enable-theme-functions #'my-tomorrow-night-darker-background)
 
   ;; Disable italics in color themes, e.g. the Tomorrow ones.
-  (defun my-disable-italics-in-color-themes ()
+  (defun my-disable-italics-in-color-themes (&rest _)
     (dolist (face '(font-lock-comment-delimiter-face
                     font-lock-comment-face mode-line-emphasis))
       (set-face-attribute face nil :slant 'normal))
     (with-eval-after-load 'rhtml-fonts
       (set-face-attribute 'erb-comment-face nil :slant 'normal)))
   (my-disable-italics-in-color-themes)
-  (add-hook 'after-load-theme-hook #'my-disable-italics-in-color-themes))
+  (add-hook 'enable-theme-functions #'my-disable-italics-in-color-themes))
 
 ;; Don't let Evil set the cursor color.
 (with-eval-after-load 'evil

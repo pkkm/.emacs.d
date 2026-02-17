@@ -9,12 +9,12 @@
 
   ;; Use a color close to the background.
   (face-spec-set 'indent-guide-face `((t)) 'face-defface-spec)
-  (defun update-indent-guide-face ()
+  (defun my-update-indent-guide-color (&rest _)
     (set-face-foreground 'indent-guide-face
                          (my-color-mix (face-foreground 'shadow nil t) 0.4
                                        (face-background 'default nil t) 0.6)))
-  (add-hook 'after-load-theme-hook #'update-indent-guide-face)
-  (update-indent-guide-face)
+  (add-hook 'enable-theme-functions #'my-update-indent-guide-color)
+  (my-update-indent-guide-color)
 
   (setq indent-guide-char "│")) ; Useful characters: ·│┆┊╎
 

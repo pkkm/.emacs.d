@@ -87,15 +87,15 @@
 
   ;; Ellipsis style for folded sections.
   (require 'conf/utils/colors) ; Used: my-color-mix.
-  (defun set-org-ellipsis-style ()
+  (defun my-update-org-ellipsis-color (&rest _)
     "Calculate the face for ellipses in org-mode."
     (let* ((base-color "cyan")
            (color (my-color-mix base-color 0.4 (face-attribute 'default :foreground) 0.6))
            (box-color (my-color-mix base-color 0.15 (face-attribute 'default :background) 0.85)))
       (face-spec-set 'org-ellipsis
                      `((t (:foreground ,color :box (:line-width 1 :color ,box-color :style nil)))))))
-  (add-hook 'after-load-theme-hook #'set-org-ellipsis-style)
-  (set-org-ellipsis-style)
+  (add-hook 'enable-theme-functions #'my-update-org-ellipsis-color)
+  (my-update-org-ellipsis-color)
   (setq org-ellipsis (propertize "..." 'face 'org-ellipsis))
 
   ;; Logging.

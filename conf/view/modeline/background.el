@@ -12,7 +12,7 @@
     "Modeline background color for Evil states that aren't in `my-modeline-evil-state-to-background'.")
 
   ;; Calculate backgrounds for various states depending on color theme.
-  (defun calculate-mode-line-backgrounds ()
+  (defun my-update-mode-line-backgrounds (&rest _)
     "Calculate the modeline backgrounds for various Evil states."
     (let ((original-background (face-background 'mode-line-active nil t)))
       (setq my-modeline-evil-state-to-background
@@ -24,17 +24,17 @@
                 ('visual (my-color-mix "green" 0.2 original-background 0.8))))
       (setq my-modeline-other-evil-state-background
             (my-color-mix "black" 0.55 original-background 0.45))))
-  (add-hook 'after-load-theme-hook #'calculate-mode-line-backgrounds)
-  (calculate-mode-line-backgrounds)
+  (add-hook 'enable-theme-functions #'my-update-mode-line-backgrounds)
+  (my-update-mode-line-backgrounds)
 
   ;; Set the background when Evil state changes.
-  (defun set-mode-line-background ()
+  (defun my-set-mode-line-background (&rest _)
     "Set the modeline background according to the current Evil state."
     (set-face-background 'mode-line-active
                          (ht-get my-modeline-evil-state-to-background
                                  evil-state
                                  my-modeline-other-evil-state-background)))
-  (add-hook 'post-command-hook #'set-mode-line-background) ; Not ideal, but usually works.
-  (add-hook 'after-load-theme-hook #'set-mode-line-background t)) ; Append so that we run after `calculate-mode-line-backgrounds'.
+  (add-hook 'post-command-hook #'my-set-mode-line-background) ; Not ideal, but usually works.
+  (add-hook 'enable-theme-functions #'my-set-mode-line-background t)) ; Append so that we run after `my-update-mode-line-backgrounds'.
 
 (provide 'conf/view/modeline/background)

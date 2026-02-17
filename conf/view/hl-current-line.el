@@ -21,7 +21,7 @@
     '((t :extend t))
     "My face for hl-line."
     :group 'hl-line)
-  (defun my-hl-line-update-background ()
+  (defun my-hl-line-update-background (&rest _)
     (set-face-background
      'my-hl-line-face
      (cond
@@ -31,7 +31,7 @@
        (my-color-mix (face-background 'hl-line nil t) 0.85 "black" 0.15))
       (t (face-background 'hl-line nil t)))))
   (my-hl-line-update-background)
-  (add-hook 'after-load-theme-hook #'my-hl-line-update-background)
+  (add-hook 'enable-theme-functions #'my-hl-line-update-background)
   (setq hl-line-face 'my-hl-line-face))
 
 (provide 'conf/view/hl-current-line)
