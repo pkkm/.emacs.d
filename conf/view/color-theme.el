@@ -46,8 +46,7 @@
   (require 'conf/utils/colors) ; Used: my-color-mix.
   (defun my-tomorrow-night-darker-background (&rest _)
     (when (memq 'sanityinc-tomorrow-night custom-enabled-themes)
-      (set-face-background 'default (my-color-mix (face-background 'default nil t) 0.85
-                                                  "black" 0.15))
+      (set-face-background 'default (color-darken-name (face-background 'default nil t) 15))
       ;; Work around a bug where leading stars hidden by org-mode are in the old color.
       (with-eval-after-load 'org
         (set-face-background 'org-hide nil))))
