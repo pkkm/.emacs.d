@@ -53,10 +53,14 @@
 (defun my-display-all-file-buffers ()
   "Display all buffers that are visiting a file."
   (interactive)
-  (->> (-difference (buffer-list) (my-buffers-visible-in-windows))
-       (-filter #'buffer-file-name) ; Only buffers that are visiting a file.
-       (-map (lambda (buffer)
-               (display-buffer-pop-up-window buffer '((allow-no-window . t))))))
-  (balance-windows))
+  (let* ((visible-buffers (mapcar #'window-buffer (window-list)))
+         (buffers-to-show (seq-filter (lambda (buf)
+                                        (and (buffer-file-name buf)
+                                             (not (memq buf visible-buffers))))
+                                      (buffer-list))))
+    (dolist (buf buffers-to-show)
+      (display-buffer buf '((display-buffer-pop-up-window)
+                            (inhibit-same-window . t))))
+    (balance-windows)))
 
 (provide 'conf/view/buffer-bindings)
