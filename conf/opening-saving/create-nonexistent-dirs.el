@@ -5,7 +5,8 @@
   (let ((parent-dir (file-name-directory buffer-file-name)))
     (when (and (not (file-exists-p parent-dir))
                (y-or-n-p (format "Directory `%s' does not exist! Create?" parent-dir)))
-      (make-directory parent-dir t))))
+      (make-directory parent-dir t)
+      nil))) ; Call further entries in `find-file-not-found-functions'.
 
 (add-to-list 'find-file-not-found-functions #'my-create-non-existent-dir)
 
