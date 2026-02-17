@@ -14,12 +14,12 @@
   (defun my-make-key-more-convenient (key)
     "Make the key vector KEY more convenient to hit after a prefix starting with a non-modified keypress.
 Do that by inverting the state of Control on some events (all C-letter except C-h, C-m (RET), C-i (TAB), and C-g)."
-    (let ((first-event-of-key (car (vector-to-list key)))
+    (let ((first-event-of-key (seq-first key))
           (control-inverted-letters (cl-set-difference (number-sequence ?a ?z) '(?h ?m ?i ?g))))
       ;; If KEY starts with C-`char' or `char', with `char' in `control-inverted-letters',
       ;; invert Control state on all events in KEY that are in `control-inverted-letters'.
       (if (memq (event-without-modifier 'control first-event-of-key) control-inverted-letters)
-          (list-to-vector
+          (vconcat
            (mapcar (lambda (event)
                      (if (memq (event-without-modifier 'control event) control-inverted-letters)
                          (event-toggle-modifier 'control event)
@@ -51,7 +51,7 @@ Omit \"C-c [a-zA-Z]\" bindings, since they are not major-mode bindings, but user
     (map-key-sequences-in-keymap (key-binding (kbd "C-c"))
                                  (lambda (key binding)
                                    ;; Ignore the binding if KEY starts with a character from [a-zA-Z].
-                                   (unless (memq (car (vector-to-list key))
+                                   (unless (memq (seq-first key)
                                                  (append (number-sequence ?a ?z) (number-sequence ?A ?Z)))
                                      (define-key evil-motion-state-local-map
                                        (concat-keys (kbd "SPC") (my-make-key-more-convenient key))
