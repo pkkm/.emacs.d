@@ -30,19 +30,19 @@
 
   ;;; Font.
 
-  (defun first-available-font (fonts)
+  (defun my-find-available-font (fonts)
     "Return the first available font among the font names in FONTS."
-    (--first (find-font (font-spec :name it)) fonts))
+    (seq-find (lambda (font) (find-font (font-spec :name font))) fonts))
 
-  (defun set-first-available-font (face fonts)
+  (defun my-set-available-font (face fonts)
     "Set FACE's font to the first available of FONTS. If none is available, do nothing."
-    (-if-let (font (first-available-font fonts))
-        (set-face-font face font)))
+    (when-let ((font (my-find-available-font fonts)))
+      (set-face-font face font)))
 
   ;; Try also: Roboto Mono (the winning font when I tried <https://www.codingfont.com/> in 2025-01).
 
-  (set-first-available-font 'default '("DejaVu Sans Mono-10" "Consolas-10.5" "Courier New-10"))
-  (set-first-available-font 'variable-pitch '("DejaVu Sans-10" "Verdana-10" "Helvetica-10" "Arial-10")))
+  (my-set-available-font 'default '("DejaVu Sans Mono-10" "Consolas-10.5" "Courier New-10"))
+  (my-set-available-font 'variable-pitch '("DejaVu Sans-10" "Verdana-10" "Helvetica-10" "Arial-10")))
 
 
 (provide 'conf/view/gui-specific)
