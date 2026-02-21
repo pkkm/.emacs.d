@@ -5,4 +5,7 @@
 (setq auto-save-list-file-prefix
       (locate-user-emacs-file "auto-save-file-list/"))
 
+;; When killing a buffer and there's an auto-save file, offer to delete it.
+(setq kill-buffer-delete-auto-save-files t)
+
 (provide 'conf/opening-saving/auto-save)
