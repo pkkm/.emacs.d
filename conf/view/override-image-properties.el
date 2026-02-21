@@ -1,12 +1,13 @@
 ;;; A mechanism for overriding the properties of all images in the buffer. -*- lexical-binding: t -*-
 
+;; TODO: Emacs feature request to introduce a variable for this. E.g. `inline-image-max-size', a cons cell of two numbers for max width and height, with a number <= 1 being a percentage of window size and larger number being pixels. For example, `(1 . 0.5)' would let inline images use the full width of the window but only half the height. Also, does `image-auto-resize' only work when opening image files, or does it affect inline images too?
+
 (defvar-local my-image-override-properties nil
   "Plist of properties to override on all images in buffer.
 Example: '(:width my-remove-entry :max-width 640 :max-height 480)")
 
 (require 'cl-lib) ; Used: cl-loop.
-(require 'conf/mode-specific/org) ; To ensure that the line below works.
-(require 'org-macs) ; Used: org-plist-delete.
+(require 'map) ; Used: map-delete.
 (defun my-plist-merge (first &rest rest)
   "Merge plists, with ones to the right overriding the ones to the left.
 The special value `my-remove-entry' will cause the key to be removed from the result."
@@ -15,7 +16,7 @@ The special value `my-remove-entry' will cause the key to be removed from the re
       (cl-loop for (key value) on new-plist by 'cddr
                do (setq result
                         (if (eq value 'my-remove-entry)
-                            (org-plist-delete result key)
+                            (map-delete result key)
                           (plist-put result key value)))))
     result))
 
