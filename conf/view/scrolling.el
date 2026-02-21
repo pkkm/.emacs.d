@@ -3,8 +3,7 @@
 ;; Keep 3 lines visible around the point.
 (setq-default scroll-margin 3)
 
-;; Scroll by 10% of the window.
-(setq-default scroll-up-aggressively 0.1
-              scroll-down-aggressively 0.1)
+;; When the point would move into the margin, scroll one line at a time instead of by percentage.
+(setq scroll-conservatively 101)
 
 (provide 'conf/view/scrolling)
