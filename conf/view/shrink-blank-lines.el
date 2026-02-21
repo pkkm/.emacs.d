@@ -15,6 +15,6 @@
   (if shrink-blank-lines-mode
       (font-lock-add-keywords nil shrink-blank-lines--keywords 'append)
     (font-lock-remove-keywords nil shrink-blank-lines--keywords))
-  (font-lock-flush))
+  (font-lock-update))
 
 (provide 'conf/view/shrink-blank-lines)
