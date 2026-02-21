@@ -1,7 +1,6 @@
 ;;; Messages that are displayed when Emacs starts up. -*- lexical-binding: t -*-
 
 ;; Suppress the warning about .emacs.d being in `load-path'.
-;; TODO: Is this still needed?
 (defun my-suppress-load-path-warning (orig-fun type message &rest args)
   "Silence the warning about the `.emacs.d' directory being in `load-path'."
   (unless (and (eq type 'initialization)
@@ -15,11 +14,9 @@
 
 ;; Show init time in the minibuffer instead of the default message.
 (defun startup-echo-area-message ()
-  (format "Init time: %.2f seconds."
-          ;; Similar to `emacs-init-time'.
-          (float-time (time-subtract after-init-time before-init-time))))
+  (emacs-init-time "Init time: %.2f seconds."))
 
 ;; Don't display the startup screen.
-(setq inhibit-startup-message t)
+(setq inhibit-startup-screen t)
 
 (provide 'conf/view/initial-messages)
