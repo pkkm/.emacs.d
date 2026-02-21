@@ -1,31 +1,19 @@
 ;;; Windows. -*- lexical-binding: t -*-
 
-;; Track the most recently created window.
-(defvar most-recently-created-window nil
-  "The window that was most recently created.")
-(defun my-record-window-advice (window)
-  (setq most-recently-created-window window)
-  window)
-(advice-add 'split-window-internal :filter-return #'my-record-window-advice)
-
-(defun delete-most-recently-created-window ()
-  "Delete the most recently created window."
-  (interactive)
-  (delete-window most-recently-created-window))
-
-;; Split window, focus it and display the next buffer in it.
-(defun my-split-window-right ()
-  (interactive)
-  (call-interactively #'evil-window-vsplit)
-  (select-window most-recently-created-window)
-  (switch-to-buffer (other-buffer)))
-(defun my-split-window-below ()
-  (interactive)
-  (call-interactively #'evil-window-split)
-  (select-window most-recently-created-window)
-  (switch-to-buffer (other-buffer)))
-
 (with-eval-after-load 'evil
+  (setq evil-split-window-below t)
+  (setq evil-vsplit-window-right t)
+
+  ;; Split window and display the next buffer.
+  (defun my-split-window-right ()
+    (interactive)
+    (call-interactively #'evil-window-vsplit)
+    (switch-to-buffer (other-buffer)))
+  (defun my-split-window-below ()
+    (interactive)
+    (call-interactively #'evil-window-split)
+    (switch-to-buffer (other-buffer)))
+
   (evil-define-key 'motion 'global (kbd "TAB") 'evil-window-map)
   (evil-define-key 'motion 'global (kbd "<tab>") 'evil-window-map) ; Needed so that Org (and maybe other modes) doesn't override this.
 
@@ -35,7 +23,6 @@
 
   ;; Close.
   (bind-key "K" #'evil-delete-buffer evil-window-map) ; Kill buffer and window.
-  (bind-key "C" #'delete-most-recently-created-window evil-window-map)
 
   ;; Next, previous.
   (bind-key "TAB" #'evil-window-next evil-window-map)
