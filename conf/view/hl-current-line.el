@@ -6,14 +6,15 @@
   (global-hl-line-mode 1)
   :config
 
-  ;; Disable in some modes and when region is active.
-  (defvar hl-line-disable-in-modes '(term-mode)
-    "Modes in which the current line should not be highlighted.")
-  (defun my-global-hl-line-highlight-maybe (orig-fun &rest args)
-    (unless (or (region-active-p)
-                (memq major-mode hl-line-disable-in-modes))
-      (apply orig-fun args)))
-  (advice-add 'global-hl-line-highlight :around #'my-global-hl-line-highlight-maybe)
+  ;; Disable in terminal mode.
+  (setq global-hl-line-modes '(not term-mode))
+
+  ;; Disable when the region is active.
+  (setq hl-line-range-function
+        (lambda ()
+          (unless (region-active-p)
+            (cons (line-beginning-position)
+                  (line-beginning-position 2)))))
 
   ;; Don't allow themes to change properties other than the background. Apply theme-specific color tweaks.
   (require 'conf/utils/colors) ; Used: my-color-mix.
@@ -22,14 +23,15 @@
     "My face for hl-line."
     :group 'hl-line)
   (defun my-hl-line-update-background (&rest _)
-    (set-face-background
-     'my-hl-line-face
-     (cond
-      ((memq 'sanityinc-tomorrow-bright custom-enabled-themes)
-       (my-color-mix (face-background 'hl-line nil t) 0.5 "black" 0.5))
-      ((memq 'sanityinc-tomorrow-night custom-enabled-themes)
-       (my-color-mix (face-background 'hl-line nil t) 0.85 "black" 0.15))
-      (t (face-background 'hl-line nil t)))))
+    (let ((base-bg (face-background 'hl-line nil t)))
+      (set-face-background
+       'my-hl-line-face
+       (cond
+        ((memq 'sanityinc-tomorrow-bright custom-enabled-themes)
+         (color-darken-name base-bg 50))
+        ((memq 'sanityinc-tomorrow-night custom-enabled-themes)
+         (color-darken-name base-bg 15))
+        (t base-bg)))))
   (my-hl-line-update-background)
   (add-hook 'enable-theme-functions #'my-hl-line-update-background)
   (setq hl-line-face 'my-hl-line-face))
