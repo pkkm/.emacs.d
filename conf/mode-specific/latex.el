@@ -60,9 +60,8 @@
   (defun my-tex-flyspell-word-predicate ()
     (and (or my-flyspell-check-tex-comments (not (nth 4 (syntax-ppss))))
          (tex-mode-flyspell-verify)))
-  (defun my-tex-set-flyspell-word-predicate ()
-    (setq flyspell-generic-check-word-predicate #'my-tex-flyspell-word-predicate))
-  (add-hook 'TeX-mode-hook #'my-tex-set-flyspell-word-predicate)
+  (put 'TeX-mode 'flyspell-mode-predicate #'my-tex-flyspell-word-predicate)
+  (put 'LaTeX-mode 'flyspell-mode-predicate #'my-tex-flyspell-word-predicate)
 
   ;; Parse files automatically after opening.
   (setq TeX-parse-self t)
