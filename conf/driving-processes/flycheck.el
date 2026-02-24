@@ -6,13 +6,21 @@
   :init
   (global-flycheck-mode 1))
 
-;; Display error messages in a tooltip at point.
-(use-package flycheck-pos-tip
+;; Display error messages in a child frame when point is on them.
+(use-package flycheck-posframe
   :ensure t
   :init
-  (with-eval-after-load 'flycheck
-    (flycheck-pos-tip-mode))
+  (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode)
   :config
-  (setq flycheck-pos-tip-timeout most-positive-fixnum))
+
+  (setq flycheck-posframe-border-width 3)
+
+  (defun my-flycheck-posframe-set-color (&rest args)
+    (set-face-background 'flycheck-posframe-background-face
+                         (if (eq (frame-parameter nil 'background-mode) 'dark)
+                             "black"
+                           "white")))
+  (my-flycheck-posframe-set-color)
+  (add-hook 'enable-theme-functions #'my-flycheck-posframe-set-color))
 
 (provide 'conf/driving-processes/flycheck)
