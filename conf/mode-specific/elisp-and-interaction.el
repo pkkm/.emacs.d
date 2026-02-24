@@ -22,14 +22,6 @@
     (eval-region region-start region-end)
     (evil-exit-visual-state))
 
-  (defun my-describe-symbol-at-point ()
-    "Show help for symbol at point."
-    (interactive)
-    (let ((symbol (symbol-at-point)))
-      (if symbol
-          (describe-symbol symbol)
-        (message "No symbol at point"))))
-
   (dolist (keymap (list lisp-interaction-mode-map emacs-lisp-mode-map))
     (bind-key "C-c C-e" #'pp-eval-last-sexp keymap)
     (bind-key "C-c C-i" #'eval-print-last-sexp keymap) ; Insert value at point.
@@ -41,7 +33,7 @@
 
     (bind-key "C-c C-p" #'pp-eval-expression keymap) ; Prompt for an expression to eval.
 
-    (bind-key "C-c C-t" #'my-describe-symbol-at-point keymap))
+    (bind-key "C-c C-t" #'helpful-at-point keymap))
 
   ;; Delete elc file when saving an el file.
   (defun my-remove-elc-if-exists ()
