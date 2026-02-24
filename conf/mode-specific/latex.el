@@ -20,10 +20,10 @@
   (setq TeX-clean-confirm nil)
 
   ;; Use zathura for viewing PDF files.
-  (add-to-list 'TeX-view-program-list
-               '("zathura"
-                 ("zathura" (mode-io-correlate "--page %(outpage)") " %o")))
-  (add-to-list 'TeX-view-program-selection '(output-pdf "zathura"))
+  (add-to-list 'TeX-view-program-selection '(output-pdf "Zathura"))
+
+  ;; Enable SyncTeX.
+  (TeX-source-correlate-mode 1)
 
   ;; Make RET also indent.
   (with-eval-after-load 'evil
