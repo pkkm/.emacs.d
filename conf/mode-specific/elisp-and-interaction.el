@@ -47,8 +47,7 @@
           (message "Deleted compiled file: %s" elc-file-name)))))
   (defun my-remove-elc-on-save ()
     "When saving an .el file, remove the associated .elc file."
-    (make-local-variable 'after-save-hook)
-    (add-hook 'after-save-hook #'my-remove-elc-if-exists))
+    (add-hook 'after-save-hook #'my-remove-elc-if-exists nil t))
   (add-hook 'emacs-lisp-mode-hook #'my-remove-elc-on-save)
 
   ;; Disable Flycheck (on typical Emacs configs, produces far more false positives than useful warnings).
