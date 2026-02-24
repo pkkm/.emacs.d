@@ -4,13 +4,10 @@
   :diminish "FlyS" ; Default: "Fly".
   :config
 
-  ;; Make a correct flyspell-mode hook (`flyspell-mode-hook' runs on both enable and disable; TODO bug report?).
-  (defun run-my-flyspell-mode-hook ()
-    (when flyspell-mode
-      (run-hooks 'my-flyspell-mode-hook)))
-  (add-hook 'flyspell-mode-hook #'run-my-flyspell-mode-hook)
-
   ;; Check whole buffer after turning Flyspell on.
-  (add-hook 'my-flyspell-mode-hook #'flyspell-buffer))
+  (defun my-flyspell-check-buffer-on-enable ()
+    (when flyspell-mode
+      (flyspell-buffer)))
+  (add-hook 'flyspell-mode-hook #'my-flyspell-check-buffer-on-enable))
 
 (provide 'conf/driving-processes/spell-check)
