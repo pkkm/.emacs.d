@@ -7,24 +7,6 @@
   :init
   (add-hook 'emacs-lisp-mode-hook #'highlight-defined-mode))
 
-;; SLIME-like navigation in Elisp.
-(use-package elisp-slime-nav
-  :ensure t
-  :diminish elisp-slime-nav-mode
-  :init
-  (add-hook 'emacs-lisp-mode-hook #'elisp-slime-nav-mode)
-  :config
-
-  (require 'conf/utils/keys) ; Used: clear-keymap.
-  (clear-keymap elisp-slime-nav-mode-map)
-
-  ;; These do the same as the built-in xref functionality. We could remove them.
-  (bind-key "C-c ." #'elisp-slime-nav-find-elisp-thing-at-point elisp-slime-nav-mode-map)
-  (bind-key "C-c ," #'pop-tag-mark elisp-slime-nav-mode-map)
-
-  ;; On the other hand, this one has no full-featured replacement.
-  (bind-key "C-c C-t" #'elisp-slime-nav-describe-elisp-thing-at-point elisp-slime-nav-mode-map))
-
 (use-package lisp-mode ; Bundled with Emacs; contains lisp-mode, emacs-lisp-mode and lisp-interaction-mode.
   :config
 
@@ -32,23 +14,34 @@
   ;; (Configuration is in conf/view/eldoc.el.)
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
 
-  ;; Evaluation bindings.
+  ;; Bindings.
+
   (defun my-evil-eval-region (region-start region-end)
     "Evaluate region and exit Evil's visual state."
     (interactive "r") ; Needs a region.
     (eval-region region-start region-end)
     (evil-exit-visual-state))
+
+  (defun my-describe-symbol-at-point ()
+    "Show help for symbol at point."
+    (interactive)
+    (let ((symbol (symbol-at-point)))
+      (if symbol
+          (describe-symbol symbol)
+        (message "No symbol at point"))))
+
   (dolist (keymap (list lisp-interaction-mode-map emacs-lisp-mode-map))
-    (let ((map keymap))
-      (bind-key "C-c C-e" #'pp-eval-last-sexp map)
-      (bind-key "C-c C-i" #'eval-print-last-sexp map) ; Insert value at point.
+    (bind-key "C-c C-e" #'pp-eval-last-sexp keymap)
+    (bind-key "C-c C-i" #'eval-print-last-sexp keymap) ; Insert value at point.
 
-      (with-eval-after-load 'evil
-        (bind-key "C-c C-r" #'my-evil-eval-region map)) ; Depends on `lexical-binding' (for `map' to be available).
-      (bind-key "C-c C-b" #'eval-buffer map)
-      (bind-key "C-c C-d" #'eval-defun map) ; Eval the top-level form containing point (or after point)))).
+    (with-eval-after-load 'evil
+      (bind-key "C-c C-r" #'my-evil-eval-region keymap))
+    (bind-key "C-c C-b" #'eval-buffer keymap)
+    (bind-key "C-c C-d" #'eval-defun keymap) ; Eval the top-level form containing point (or after point)))).
 
-      (bind-key "C-c C-p" #'pp-eval-expression map))) ; Prompt for an expression to eval.
+    (bind-key "C-c C-p" #'pp-eval-expression keymap) ; Prompt for an expression to eval.
+
+    (bind-key "C-c C-t" #'my-describe-symbol-at-point keymap))
 
   ;; Delete elc file when saving an el file.
   (defun my-remove-elc-if-exists ()
