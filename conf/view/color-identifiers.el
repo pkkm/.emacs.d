@@ -2,7 +2,7 @@
 
 (use-package color-identifiers-mode
   :ensure t
-  :if (>= (display-color-cells) 256)
+  :if (display-graphic-p)
   :defer 3 ; Load after 3 s of idle.
   :diminish color-identifiers-mode
   :config
