@@ -1,20 +1,16 @@
 ;;; Evil (Extensible VI Layer). -*- lexical-binding: t -*-
 
-(require 'conf/editing/undo) ; Make sure that undo-tree is ready.
-
 (use-package evil
   :ensure t
 
   :preface
   (setq evil-want-Y-yank-to-eol t) ; Yank from cursor to end instead of whole line (for consistency with C and D).
-  (setq evil-undo-system 'undo-tree)
+  (setq evil-undo-system 'undo-fu)
 
   :init
   (evil-mode)
 
   :config
-
-  (global-undo-tree-mode 1)
 
   ;; Search.
   (setq evil-regexp-search nil) ; Don't use regexes for / and ?.
