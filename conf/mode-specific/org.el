@@ -120,13 +120,12 @@
     ;; Inspired by <https://emacs.stackexchange.com/a/26638>.
     (org-element-map (org-element-parse-buffer) 'link
       (lambda (link)
-        (when (and (member (org-element-property :type link) '("http" "https"))
-                   (null (org-element-property :contents-begin link))
-                   (--any (string-suffix-p (concat "." it)
-                                           (org-element-property :raw-link link)
-                                           t)
-                          '("jpg" "jpeg" "png" "gif" "tiff" "bmp")))
-          (org-element-property :raw-link link)))))
+        (let ((raw (org-element-property :raw-link link)))
+          (when (and (member (org-element-property :type link) '("http" "https"))
+                     (null (org-element-property :contents-begin link))
+                     (seq-some (lambda (ext) (string-suffix-p (concat "." ext) raw t))
+                               '("jpg" "jpeg" "png" "gif" "tiff" "bmp")))
+            raw)))))
 
   ;; Variable to override timestamp format on export.
   ;; Example usage: -*- my-org-export-timestamp-formats: ("%Y-%m-%d" . "%Y-%m-%d %H:%M") -*-
@@ -160,7 +159,7 @@
 
   ;;; Automatic link descriptions.
 
-  (use-package s :ensure t)
+  (use-package s :ensure t :commands s-match)
 
   (defun my-org-link-description (url &rest _)
     "Return link description for URL in the format I use in my notes."
@@ -173,7 +172,7 @@
                   (libxml-parse-html-region (point-min) (point-max) url t)))
 
            (raw-title (dom-text (car (dom-by-tag dom 'title))))
-           (title (s-trim (replace-regexp-in-string "[[:blank:]\n]+" " " raw-title t t)))
+           (title (string-trim (replace-regexp-in-string "[[:blank:]\n]+" " " raw-title t t)))
 
            (parsed-url (url-generic-parse-url url))
            (host (url-host parsed-url))
@@ -184,7 +183,7 @@
                                    (concat new-part "." (car accum))
                                  new-part)
                                accum))
-                       nil (s-split "\\." host))))
+                       nil (string-split host "\\."))))
            (path (url-filename parsed-url)))
 
       (or
@@ -208,7 +207,7 @@
 
        ;; Reddit top-level post.
        (when (and (string-equal "reddit.com" (nth 1 domain-levels))
-                  (s-contains? " : " title))
+                  (string-search " : " title))
          (cl-destructuring-bind (_ rest subreddit)
              (s-match "^\\(.*\\) : \\([^ :]+\\)$" title)
            (concat "Reddit /r/" subreddit ": " rest)))
@@ -222,7 +221,7 @@
 
        ;; Less Wrong.
        (when (string-equal "lesswrong.com" (nth 1 domain-levels))
-         (let ((pure-title (s-chop-suffix " - LessWrong" title)))
+         (let ((pure-title (string-remove-suffix " - LessWrong" title)))
            (if-let ((comment-id (nth 1 (s-match "#\\([a-zA-Z0-9]+\\)$" url))))
                ;; Get author from GreaterWrong (a LessWrong viewer that uses plain HTML rather than a huge JavaScript blob).
                (let* ((gw-url (replace-regexp-in-string
