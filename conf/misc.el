@@ -31,6 +31,9 @@
 ;;; Use X's PRIMARY selection in addition to CLIPBOARD.
 (setq x-select-enable-primary t)
 
+;; Highlight the currently jumped to message in error/grep/compilation buffers.
+(setq next-error-message-highlight t)
+
 ;; When reading a password, don't reveal it with TAB (too easy to press by accident).
 (bind-key "TAB" 'ignore read-passwd-map)
 
