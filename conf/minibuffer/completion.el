@@ -1,5 +1,4 @@
-;;; Ido (Interactively DO) mode -- powerful completion in the minibuffer. -*- lexical-binding: t -*-
-;;; This file is for general Ido settings -- for buffer, etc.-specific, see the respective files.
+;;; Minibuffer completion. -*- lexical-binding: t -*-
 
 ;; Useful ido-mode default keybindings:
 ;;   * C-k -- delete current match (works for buffers, files, ...)
@@ -13,9 +12,6 @@
   (setq ido-enable-flex-matching t)
   (setq ido-use-filename-at-point 'guess) ; If there's a filename at point, start with it filled in.
   (setq ido-auto-merge-work-directories-length -1) ; Don't automaticaly search other directories for the typed file name.
-
-
-  ;;; Keybindings.
 
   ;; Ido provides the keymaps `ido-common-completion-map', `ido-file-dir-completion-map', `ido-file-completion-map', `ido-buffer-completion-map' for various kinds of completions.
   ;; However, it recreates them every time `ido-completing-read' is called, so we need to define custom keys every time too.
@@ -53,7 +49,6 @@
         (ido-up-directory t)
       (my-backward-kill-line))))
 
-
 ;; Display completions vertically.
 (use-package ido-vertical-mode
   :ensure t
@@ -86,4 +81,25 @@
   :config
   (setq ido-sort-mtime-tramp-files-at-end t))
 
-(provide 'conf/minibuffer/ido)
+;; Extended Ido for M-x.
+;; Interesting command: amx-show-unbound-commands -- show frequently called commands that are unbound.
+(use-package amx
+  :ensure t
+  :bind (("M-x" . amx)
+         ("C-x SPC" . amx)))
+
+;; Helm -- an alternative to ido-mode with more features, but no flx matching.
+(use-package helm
+  :ensure t
+  :init
+
+  ;; Go to some function/variable definition (works with a lot of modes).
+  (bind-key "C-x g" #'helm-semantic-or-imenu)
+
+  ;; Insert LaTeX math symbol.
+  (bind-key "C-c i" #'helm-insert-latex-math)
+  (defun my-require-auctex-for-helm-insert-latex-math (&rest _args)
+    (require 'latex)) ; Require the needed part of AUCTeX (otherwise the function will error out).
+  (advice-add 'helm-insert-latex-math :before #'my-require-auctex-for-helm-insert-latex-math))
+
+(provide 'conf/minibuffer/completion)
