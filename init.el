@@ -4,9 +4,6 @@
 (when (version< emacs-version "30.1")
   (error "This config requires Emacs 30.1+. Current version: %s" emacs-version))
 
-;; Don't try to use an external TLS program on Windows (it won't work).
-(setq my-use-tls (or (not (eq system-type 'windows-nt)) (gnutls-available-p)))
-
 ;; Increase TLS security. To test this, run `test-https-verification' from `conf/utils/https'. See <https://lists.gnu.org/archive/html/emacs-devel/2018-06/msg00718.html>.
 (setq network-security-level 'high)
 
@@ -114,11 +111,10 @@
    "clone" "https://github.com/pkkm/my-elpa" my-elpa-repo-dir))
 
 ;; Package archives.
-(let ((proto (if my-use-tls "https://" "http://")))
-  (setq package-archives
-        (list (cons "gnu" (concat proto "elpa.gnu.org/packages/"))
-              (cons "melpa-stable" (concat proto "stable.melpa.org/packages/"))
-              (cons "melpa" (concat proto "melpa.org/packages/")))))
+(setq package-archives
+      (list (cons "gnu" "https://elpa.gnu.org/packages/")
+            (cons "melpa-stable" "https://stable.melpa.org/packages/")
+            (cons "melpa" "https://melpa.org/packages/")))
 (when (file-exists-p (expand-file-name "archive-contents" my-elpa-repo-dir))
   (push (cons "my-elpa-repo" my-elpa-repo-dir) package-archives))
 (setq package-archive-priorities
