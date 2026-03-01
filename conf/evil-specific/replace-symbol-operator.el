@@ -12,7 +12,7 @@ When called without region and there's symbol at point, use it."
     :type line ; Takes whole lines. Evil's ":s" command works on whole lines anyway.
     :move-point nil ; Don't go to `beg' before executing (this would mess with `thing-at-point').
     (let ((symbol (thing-at-point 'symbol t)))
-      (if (and symbol (not (use-region-p)))
+      (if (and symbol (not (evil-visual-state-p)))
           ;; When we were called as an operator with a symbol at point, insert the symbol as the text to replace.
           (my-evil-ex-before-after
            (format "%d,%ds/%s/"
@@ -21,7 +21,7 @@ When called without region and there's symbol at point, use it."
                    (concat (rx symbol-start) (regexp-quote symbol) (rx symbol-end)))
            "/gI") ; I -- turn off case insensitivity.
         ;; When we were called in visual state or there's no symbol at point, insert an empty place for a symbol.
-        (let ((range (if (use-region-p) "'<,'>" "")))
+        (let ((range (if (evil-visual-state-p) "'<,'>" "")))
           (my-evil-ex-before-after (concat range "s/" (rx symbol-start))
                                    (concat (rx symbol-end) "//gI"))))))
 
