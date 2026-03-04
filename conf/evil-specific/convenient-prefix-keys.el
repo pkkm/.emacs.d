@@ -6,16 +6,29 @@
 ;;   * Other punctuation: minor mode (or sometimes major mode).
 
 (with-eval-after-load 'evil
-  (require 'conf/utils/keys) ; Used: map-bindings-between-keymaps.
-  (require 'conf/utils/lists) ; Used: list-to-vector.
   (require 'conf/utils/events) ; Used: event-with-modifier, event-without-modifier, event-toggle-modifier
-  (require 'cl-lib) ; Used: cl-set-difference.
+
+  (defun my-for-each-key-sequence-internal (keymap function prefix)
+    (map-keymap
+     (lambda (event binding)
+       (let ((key (vconcat prefix (vector event))))
+         (if (keymapp binding)
+             (my-for-each-key-sequence-internal binding function key)
+           (funcall function key binding))))
+     keymap))
+
+  (defun my-for-each-key-sequence (keymap function)
+    "Execute FUNCTION for each non-prefix binding in KEYMAP, passing the whole key and the function bound to it."
+    (my-for-each-key-sequence-internal
+     (keymap-canonicalize keymap) ; Canonicalize the keymap, so that when a binding shadows another, only the one in effect is used.
+     function
+     (vector)))
 
   (defun my-make-key-more-convenient (key)
     "Make the key vector KEY more convenient to hit after a prefix starting with a non-modified keypress.
 Do that by inverting the state of Control on some events (all C-letter except C-h, C-m (RET), C-i (TAB), and C-g)."
     (let ((first-event-of-key (seq-first key))
-          (control-inverted-letters (cl-set-difference (number-sequence ?a ?z) '(?h ?m ?i ?g))))
+          (control-inverted-letters (seq-difference (number-sequence ?a ?z) '(?h ?m ?i ?g))))
       ;; If KEY starts with C-`char' or `char', with `char' in `control-inverted-letters',
       ;; invert Control state on all events in KEY that are in `control-inverted-letters'.
       (if (memq (event-without-modifier 'control first-event-of-key) control-inverted-letters)
@@ -33,11 +46,11 @@ Do that by inverting the state of Control on some events (all C-letter except C-
     "Bind all \"C-x\" bindings in the \"e\" prefix (in `evil-motion-state-map'), with the `my-make-key-more-convenient' transformation."
     (interactive)
     (bind-key "e" nil evil-motion-state-map)
-    (map-key-sequences-in-keymap (key-binding (kbd "C-x"))
-                                 (lambda (key binding)
-                                   (define-key evil-motion-state-map
-                                     (concat-keys (kbd "e") (my-make-key-more-convenient key))
-                                     binding))))
+    (my-for-each-key-sequence (key-binding (kbd "C-x"))
+                              (lambda (key binding)
+                                (define-key evil-motion-state-map
+                                            (vconcat (kbd "e") (my-make-key-more-convenient key))
+                                            binding))))
   (bind-key "C-e" #'evil-forward-word-end evil-motion-state-map)
   (add-hook 'emacs-startup-hook #'rebind-C-x-to-e)
 
@@ -48,14 +61,14 @@ Omit \"C-c [a-zA-Z]\" bindings, since they are not major-mode bindings, but user
     (interactive)
     (bind-key "SPC" nil evil-motion-state-map)
     (bind-key "SPC" nil evil-motion-state-local-map)
-    (map-key-sequences-in-keymap (key-binding (kbd "C-c"))
-                                 (lambda (key binding)
-                                   ;; Ignore the binding if KEY starts with a character from [a-zA-Z].
-                                   (unless (memq (seq-first key)
-                                                 (append (number-sequence ?a ?z) (number-sequence ?A ?Z)))
-                                     (define-key evil-motion-state-local-map
-                                       (concat-keys (kbd "SPC") (my-make-key-more-convenient key))
-                                       binding)))))
+    (my-for-each-key-sequence (key-binding (kbd "C-c"))
+                              (lambda (key binding)
+                                ;; Ignore the binding if KEY starts with a character from [a-zA-Z].
+                                (unless (memq (seq-first key)
+                                              (append (number-sequence ?a ?z) (number-sequence ?A ?Z)))
+                                  (define-key evil-motion-state-local-map
+                                              (vconcat (kbd "SPC") (my-make-key-more-convenient key))
+                                              binding)))))
   (add-hook 'after-change-major-mode-hook #'rebind-C-c-to-SPC t)
   (add-hook 'emacs-startup-hook #'rebind-C-c-to-SPC))
 
