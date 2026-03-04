@@ -16,7 +16,7 @@
                   (line-beginning-position 2)))))
 
   ;; Don't allow themes to change properties other than the background. Apply theme-specific color tweaks.
-  (require 'conf/utils/colors) ; Used: my-color-mix.
+  (require 'conf/utils) ; Used: my-color-mix.
   (defface my-hl-line-face
     '((t :extend t))
     "My face for hl-line."

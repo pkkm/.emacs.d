@@ -17,7 +17,7 @@
   (unless (assq 'show-trailing-whitespace file-local-variables-alist)
     (setq show-trailing-whitespace (not (not (buffer-file-name))))))
 
-(require 'conf/utils/hooks) ; Used: add-hooks.
+(require 'conf/utils) ; Used: add-hooks.
 (add-hooks '(find-file-hook after-set-visited-file-name-hook)
            #'my-show-trailing-whitespace-iff-visiting-file)
 

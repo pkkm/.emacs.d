@@ -1,6 +1,6 @@
 ;;; Indentation guides. -*- lexical-binding: t -*-
 
-(require 'conf/utils/colors) ; Used: my-color-mix.
+(require 'conf/utils) ; Used: my-color-mix.
 
 (use-package indent-guide
   :ensure t

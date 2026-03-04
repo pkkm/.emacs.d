@@ -6,7 +6,7 @@
 ;;   * Other punctuation: minor mode (or sometimes major mode).
 
 (with-eval-after-load 'evil
-  (require 'conf/utils/events) ; Used: event-with-modifier, event-without-modifier, event-toggle-modifier
+  (require 'conf/utils) ; Used: event-with-modifier, event-without-modifier, event-toggle-modifier
 
   (defun my-for-each-key-sequence-internal (keymap function prefix)
     (map-keymap

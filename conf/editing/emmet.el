@@ -11,7 +11,7 @@
     (if (bound-and-true-p yas-minor-mode)
         (call-interactively #'emmet-expand-yas)
       (call-interactively #'emmet-expand-line)))
-  (require 'conf/utils/keys) ; Used: clear-keymap.
+  (require 'conf/utils) ; Used: clear-keymap.
   (clear-keymap emmet-mode-keymap)
   (bind-key "C-j" #'my-emmet-expand-yas-or-line emmet-mode-keymap)
   (bind-key "C-c %" #'emmet-wrap-with-markup)) ; Default: C-c w.

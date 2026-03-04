@@ -1,7 +1,7 @@
 ;;; Change the background of the modeline according to Evil state. -*- lexical-binding: t -*-
 
 (with-eval-after-load 'evil
-  (require 'conf/utils/colors) ; Used: my-color-mix.
+  (require 'conf/utils) ; Used: my-color-mix.
 
   (defvar my-evil-state-modeline-colors '()
     "An alist maping Evil state to modeline background color, e.g. '((normal \"#373b41\") (insert \"#2e325d\"))")

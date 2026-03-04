@@ -43,7 +43,7 @@
     "Modes in which to use hybrid sexp operations instead of normal ones.")
 
   ;; Create a block when RET is pressed with the cursor between curly braces.
-  (require 'conf/utils/functions) ; Used: define-interactive-wrapper.
+  (require 'conf/utils) ; Used: define-interactive-wrapper.
   (define-interactive-wrapper my-smart-newline (&rest args) newline
     (if (and (eq (char-before) ?{) (eq (char-after) ?}))
         (progn (diw-apply-original-fun args)

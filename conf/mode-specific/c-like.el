@@ -4,7 +4,7 @@
   :config
 
   ;; Indentation (Smart Tabs).
-  (require 'conf/utils/hooks) ; Used: add-hooks.
+  (require 'conf/utils) ; Used: add-hooks.
   (with-eval-after-load 'smart-tabs-mode
     (smart-tabs-insinuate 'c 'c++)
     (add-hooks '(c-mode-hook c++-mode-hook) #'enable-indent-tabs-mode))
@@ -49,7 +49,7 @@
   (add-hook 'c++-mode-hook #'set-flycheck-c++-standard)
 
   ;; Default compilation, execution and cleaning commands.
-  (require 'conf/utils/lists) ; Used: join-nonempty.
+  (require 'conf/utils) ; Used: join-nonempty.
   (require 'conf/driving-processes/compiling) ; Used: my-additional-compile-args, compile-run-clean-command-setter-alist.
   (defun set-c-or-c++-commands ()
     "If we're in C or C++ mode, set the appropriate compilation, running and cleaning commands."

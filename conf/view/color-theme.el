@@ -1,7 +1,7 @@
 ;;; Color theme. -*- lexical-binding: t -*-
 
 ;; TODO submit this upstream?
-(require 'conf/utils/functions) ; Used: define-interactive-wrapper.
+(require 'conf/utils) ; Used: define-interactive-wrapper.
 (define-interactive-wrapper change-theme (&rest args) load-theme
   "Like `load-theme', but disables all themes before loading the new one."
   (mapcar #'disable-theme custom-enabled-themes)
@@ -42,7 +42,7 @@
 ;; Theme customizations below. We do them that way so that they work even if the theme is changed manually.
 
 ;; Make the background of Tomorrow Night a bit darker.
-(require 'conf/utils/colors) ; Used: my-color-mix.
+(require 'conf/utils) ; Used: my-color-mix.
 (defun my-tomorrow-night-darker-background (&rest _)
   (when (memq 'sanityinc-tomorrow-night custom-enabled-themes)
     (set-face-background 'default (color-darken-name (face-background 'default nil t) 15))

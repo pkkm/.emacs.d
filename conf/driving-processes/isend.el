@@ -25,7 +25,7 @@ The terminal will be in line mode: edit a line at a time and then send it with `
 
   ;; M-RET -- send the current line (or region) to the associated REPL.
   ;; Use "M-x isend-associate RET *repl-name* RET" to associate the current buffer with *repl-name*.
-  (require 'conf/utils/keys) ; Used: clear-keymap.
+  (require 'conf/utils) ; Used: clear-keymap.
   (clear-keymap isend-mode-map)
   (bind-key "M-RET" #'isend-send isend-mode-map)
 

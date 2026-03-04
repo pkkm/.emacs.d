@@ -86,7 +86,7 @@
     (setq org-preview-latex-image-directory (expand-file-name "emacs-org-ltxpng/" dir)))
 
   ;; Ellipsis style for folded sections.
-  (require 'conf/utils/colors) ; Used: my-color-mix.
+  (require 'conf/utils) ; Used: my-color-mix.
   (defun my-update-org-ellipsis-color (&rest _)
     "Calculate the face for ellipses in org-mode."
     (let* ((base-color "cyan")

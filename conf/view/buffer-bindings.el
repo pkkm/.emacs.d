@@ -49,7 +49,7 @@
 
 ;; Display all buffers that are visiting a file.
 (bind-key "a" #'my-display-all-file-buffers my-buffer-map)
-(require 'conf/utils/buffers) ; Used: buffers-opened-in-windows.
+(require 'conf/utils) ; Used: my-buffers-visible-in-windows.
 (defun my-display-all-file-buffers ()
   "Display all buffers that are visiting a file."
   (interactive)
