@@ -1,105 +1,104 @@
 ;;; Minibuffer completion. -*- lexical-binding: t -*-
 
-;; Useful ido-mode default keybindings:
-;;   * C-k -- delete current match (works for buffers, files, ...)
-;;   * C-SPC -- search in the current set of results
+;; Useful Ivy keybindings:
+;;   * C-c C-k -- delete current match (e.g. kill buffer)
+;;   * S-SPC -- search in the current set of results
 
-(use-package ido ; Bundled with Emacs.
+(use-package ivy
+  :ensure t
+  :diminish ivy-mode
   :init
-  (ido-mode 1)
+  (ivy-mode 1)
+
   :config
 
-  (setq ido-enable-flex-matching t)
-  (setq ido-use-filename-at-point 'guess) ; If there's a filename at point, start with it filled in.
-  (setq ido-auto-merge-work-directories-length -1) ; Don't automaticaly search other directories for the typed file name.
+  ;; Only move home after "~/" rather than a bare "~".
+  (setq ivy-magic-tilde nil)
 
-  ;; Ido provides the keymaps `ido-common-completion-map', `ido-file-dir-completion-map', `ido-file-completion-map', `ido-buffer-completion-map' for various kinds of completions.
-  ;; However, it recreates them every time `ido-completing-read' is called, so we need to define custom keys every time too.
-  (defun my-ido-bindings ()
-    ;; `ido-completion-map' -- the current completion keymap.
-    ;; `ido-cur-item' -- the type of item that is being read: file, dir, buffer or list.
+  ;; Don't add "." and ".." to the file list.
+  (setq ivy-extra-directories nil)
 
-    ;; Don't complete on SPC.
-    (bind-key "SPC" nil ido-completion-map)
+  ;; Make RET enter a directory instead of opening it in Dired.
+  (bind-key "RET" #'ivy-alt-done ivy-minibuffer-map)
 
-    ;; C-n, C-p -- cycle matches.
-    (bind-key "C-n" #'ido-next-match ido-completion-map)
-    (bind-key "C-p" #'ido-prev-match ido-completion-map)
+  ;; Highlight the entire line with the selection instead of just the text.
+  (setq ivy-format-functions-alist '((t . ivy-format-function-arrow-line)))
 
-    ;; C-w, C-backspace -- delete the word before point.
-    (if (memq ido-cur-item '(file dir))
-        (progn
-          (bind-key "C-w" #'ido-delete-backward-word-updir ido-completion-map)
-          (bind-key "<C-backspace>" #'ido-delete-backward-word-updir ido-completion-map))
-      (bind-key "C-w" #'backward-kill-word ido-completion-map))
+  (setq ivy-count-format "")
 
-    ;; C-u -- delete to the beginning of input.
-    (if (memq ido-cur-item '(file dir))
-        (bind-key "C-u" #'ido-delete-backward-line-updir ido-completion-map)
-      (bind-key "C-u" #'my-backward-kill-line ido-completion-map)))
-  (add-hook 'ido-setup-hook #'my-ido-bindings) ; Run on every completion after keymaps have been set up.
+  (setq ivy-sort-max-size 100000)
 
-  ;; Function for C-u.
-  (defun my-backward-kill-line ()
-    (interactive)
-    (kill-line 0))
-  (defun ido-delete-backward-line-updir ()
+  ;; C-u -- delete to the beginning of input, or go up a directory if at the end of the prompt.
+  (defun my-ivy-backward-kill-line ()
     (interactive)
     (if (= (minibuffer-prompt-end) (point))
-        (ido-up-directory t)
-      (my-backward-kill-line))))
+        (ivy-backward-kill-word) ; Goes up a directory in Ivy file completion.
+      (delete-region (minibuffer-prompt-end) (point))))
+  (bind-key "C-u" #'my-ivy-backward-kill-line ivy-minibuffer-map)
 
-;; Display completions vertically.
-(use-package ido-vertical-mode
+  ;; C-w, C-backspace -- delete the word before point, or go up a directory.
+  (bind-key "C-w" #'ivy-backward-kill-word ivy-minibuffer-map)
+  (bind-key "<C-backspace>" #'ivy-backward-kill-word ivy-minibuffer-map)
+
+  ;; Sort Ivy's file list by modification time.
+  (defun my-ivy-compare-files-by-mtime (a b)
+    "Sort files by modification time. Put remote files at the end without checking their modification time."
+    (let* ((dir (or ivy--directory default-directory))
+           ;; Use `concat' instead of `expand-file-name' so that Emacs doesn't try to access the remote file system.
+           (a-is-remote (string-match-p tramp-file-name-regexp (concat dir a)))
+           (b-is-remote (string-match-p tramp-file-name-regexp (concat dir b))))
+      (cond
+       ((and a-is-remote b-is-remote) (string< a b))
+       (a-is-remote nil)
+       (b-is-remote t)
+       (t (file-newer-than-file-p (expand-file-name a dir) (expand-file-name b dir))))))
+  (add-to-list 'ivy-sort-functions-alist '(read-file-name-internal . my-ivy-compare-files-by-mtime))
+
+  ;; Insert LaTeX math symbol.
+  (defun my-ivy-insert-latex-math ()
+    "Insert LaTeX math symbol using Ivy."
+    (interactive)
+    (require 'latex)
+    (let* ((math-list (append LaTeX-math-list LaTeX-math-default))
+           (candidates (mapcar (lambda (item)
+                                 (let ((char (nth 0 item))
+                                       (sym (nth 1 item)))
+                                   (cons (if (listp sym) (nth 1 sym) sym) sym)))
+                               math-list)))
+      (ivy-read "LaTeX math: " (mapcar #'car candidates)
+                :require-match t
+                :action (lambda (x) (insert "\\" x)))))
+  (bind-key "C-c i" #'my-ivy-insert-latex-math))
+
+;; Better but slower flex matching.
+(use-package flx
   :ensure t
   :init
-  (with-eval-after-load 'ido
-    (ido-vertical-mode)))
+  (with-eval-after-load 'ivy
+    (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))))
 
-;; Use Ido almost everywhere.
-(use-package ido-completing-read+
+;; Enable ubiquitous Ivy integration.
+(use-package counsel
   :ensure t
+  :diminish counsel-mode
   :init
-  (with-eval-after-load 'ido
-    (ido-ubiquitous-mode 1))
-  :config
-  (setq ido-cr+-max-items 100000)) ; Default is 30k, insert-char needs about 40k.
+  (counsel-mode 1)
 
-;; Better, more memory-hungry flex matching.
-(use-package flx-ido
-  :ensure t
-  :init
-  (with-eval-after-load 'ido
-    (flx-ido-mode 1)))
+  ;; Go to function/variable/heading.
+  (bind-key "C-x g" #'counsel-imenu))
 
-;; Sort Ido's file list by modification time.
-(use-package ido-sort-mtime
-  :ensure t
-  :init
-  (with-eval-after-load 'ido
-    (ido-sort-mtime-mode 1))
-  :config
-  (setq ido-sort-mtime-tramp-files-at-end t))
-
-;; Extended Ido for M-x.
+;; Some extra features for M-x.
 ;; Interesting command: amx-show-unbound-commands -- show frequently called commands that are unbound.
 (use-package amx
   :ensure t
   :bind (("M-x" . amx)
          ("C-x SPC" . amx)))
 
-;; Helm -- an alternative to ido-mode with more features, but no flx matching.
-(use-package helm
+;; Add extra information for some commands, e.g. buffer switching.
+(use-package ivy-rich
   :ensure t
   :init
-
-  ;; Go to some function/variable definition (works with a lot of modes).
-  (bind-key "C-x g" #'helm-semantic-or-imenu)
-
-  ;; Insert LaTeX math symbol.
-  (bind-key "C-c i" #'helm-insert-latex-math)
-  (defun my-require-auctex-for-helm-insert-latex-math (&rest _args)
-    (require 'latex)) ; Require the needed part of AUCTeX (otherwise the function will error out).
-  (advice-add 'helm-insert-latex-math :before #'my-require-auctex-for-helm-insert-latex-math))
+  (with-eval-after-load 'counsel
+    (ivy-rich-mode 1)))
 
 (provide 'conf/minibuffer/completion)

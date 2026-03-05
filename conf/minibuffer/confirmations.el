@@ -4,7 +4,6 @@
 (setq use-short-answers t)
 
 ;; Don't ask for confirmation when visiting a nonexistent file or buffer.
-(setq ido-create-new-buffer 'always)
 (setq confirm-nonexistent-file-or-buffer nil)
 
 ;; Don't ask for confirmation when killing a buffer with a running process.
