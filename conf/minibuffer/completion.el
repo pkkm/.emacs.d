@@ -21,7 +21,7 @@
   ;; Make RET enter a directory instead of opening it in Dired.
   (bind-key "RET" #'ivy-alt-done ivy-minibuffer-map)
 
-  ;; Highlight the entire line with the selection instead of just the text.
+  ;; Highlight the entire line with the selection and add an arrow.
   (setq ivy-format-functions-alist '((t . ivy-format-function-arrow-line)))
 
   (setq ivy-count-format "")
