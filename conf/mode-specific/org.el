@@ -352,13 +352,13 @@
   ;; Indent text inserted by org-download.
   ;; TODO: feature request for a customizable option for this.
   (defun my-org-download-indent-after-inserting (orig-fun &rest args)
-    (add-hook 'after-change-functions #'my-indent-changed-region)
-    (unwind-protect
-        (apply orig-fun args)
-      (remove-hook 'after-change-functions #'my-indent-changed-region)))
-  (advice-add 'org-download-insert-link :around #'my-org-download-indent-after-inserting)
-  (defun my-indent-changed-region (start end _)
-    (indent-region start end)))
+    (let ((start (point-marker)))
+      (unwind-protect
+          (progn
+            (apply orig-fun args)
+            (indent-region start (point)))
+        (set-marker start nil))))
+  (advice-add 'org-download-insert-link :around #'my-org-download-indent-after-inserting))
 
 
 ;;; Capturing.
