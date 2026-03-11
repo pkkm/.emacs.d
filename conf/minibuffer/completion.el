@@ -1,104 +1,122 @@
 ;;; Minibuffer completion. -*- lexical-binding: t -*-
 
-;; Useful Ivy keybindings:
-;;   * C-c C-k -- delete current match (e.g. kill buffer)
-;;   * S-SPC -- search in the current set of results
-
-(use-package ivy
+;; Fuzzy completion in the minibuffer. Uses `flx' by default, but can be configured to use the faster `flx-rs'.
+(use-package fussy
   :ensure t
-  :diminish ivy-mode
   :init
-  (ivy-mode 1)
+  (defun my-use-fussy-completion-in-minibuffer ()
+    "Enable fussy completion in the minibuffer only."
+    (setq-local completion-styles '(fussy)))
+  (add-hook 'minibuffer-setup-hook #'my-use-fussy-completion-in-minibuffer)
+  :config
+  (setq fussy-use-cache t)) ; Reduce flicker when typing with lots of candidates.
 
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode 1)
   :config
 
-  ;; Only move home after "~/" rather than a bare "~".
-  (setq ivy-magic-tilde nil)
+  ;; Hide the item count.
+  (setq vertico-count-format nil)
 
-  ;; Don't add "." and ".." to the file list.
-  (setq ivy-extra-directories nil)
+  ;; Preselect the first candidate instead of the prompt. (You can always go back to the prompt by pressing C-p.)
+  (setq vertico-preselect 'first)
 
-  ;; Make RET enter a directory instead of opening it in Dired.
-  (bind-key "RET" #'ivy-alt-done ivy-minibuffer-map)
+  ;; Define a special keymap for directory browsing.
+  (require 'vertico-directory)
 
-  ;; Highlight the entire line with the selection and add an arrow.
-  (setq ivy-format-functions-alist '((t . ivy-format-function-arrow-line)))
-
-  (setq ivy-count-format "")
-
-  (setq ivy-sort-max-size 100000)
-
-  ;; C-u -- delete to the beginning of input, or go up a directory if at the end of the prompt.
-  (defun my-ivy-backward-kill-line ()
+  ;; C-u -- delete to the beginning of input, or go up a directory.
+  (defun my-vertico-backward-kill-line ()
     (interactive)
     (if (= (minibuffer-prompt-end) (point))
-        (ivy-backward-kill-word) ; Goes up a directory in Ivy file completion.
+        (vertico-directory-up)
       (delete-region (minibuffer-prompt-end) (point))))
-  (bind-key "C-u" #'my-ivy-backward-kill-line ivy-minibuffer-map)
+  (bind-key "C-u" #'my-vertico-backward-kill-line vertico-directory-map)
 
-  ;; C-w, C-backspace -- delete the word before point, or go up a directory.
-  (bind-key "C-w" #'ivy-backward-kill-word ivy-minibuffer-map)
-  (bind-key "<C-backspace>" #'ivy-backward-kill-word ivy-minibuffer-map)
+  ;; Ivy-like RET behavior for directories.
+  (bind-key "RET" #'vertico-directory-enter vertico-directory-map)
 
-  ;; Sort Ivy's file list by modification time.
-  (defun my-ivy-compare-files-by-mtime (a b)
-    "Sort files by modification time. Put remote files at the end without checking their modification time."
-    (let* ((dir (or ivy--directory default-directory))
-           ;; Use `concat' instead of `expand-file-name' so that Emacs doesn't try to access the remote file system.
-           (a-is-remote (string-match-p tramp-file-name-regexp (concat dir a)))
-           (b-is-remote (string-match-p tramp-file-name-regexp (concat dir b))))
-      (cond
-       ((and a-is-remote b-is-remote) (string< a b))
-       (a-is-remote nil)
-       (b-is-remote t)
-       (t (file-newer-than-file-p (expand-file-name a dir) (expand-file-name b dir))))))
-  (add-to-list 'ivy-sort-functions-alist '(read-file-name-internal . my-ivy-compare-files-by-mtime))
-
-  ;; Insert LaTeX math symbol.
-  (defun my-ivy-insert-latex-math ()
-    "Insert LaTeX math symbol using Ivy."
+  ;; Ivy-like / behavior for directories (binding / straight to `vertico-directory-enter' would interfere with typing absolute paths and "~/".)
+  (defun my-vertico-smart-slash ()
+    "A wrapper for `vertico-directory-enter' that doesn't interfere with typing / or ~/."
     (interactive)
-    (require 'latex)
-    (let* ((math-list (append LaTeX-math-list LaTeX-math-default))
-           (candidates (mapcar (lambda (item)
-                                 (let ((char (nth 0 item))
-                                       (sym (nth 1 item)))
-                                   (cons (if (listp sym) (nth 1 sym) sym) sym)))
-                               math-list)))
-      (ivy-read "LaTeX math: " (mapcar #'car candidates)
-                :require-match t
-                :action (lambda (x) (insert "\\" x)))))
-  (bind-key "C-c i" #'my-ivy-insert-latex-math))
+    (if (string-match-p "\\(?:^\\|/\\)~?$" (minibuffer-contents)) ;TODO: string-suffix-p "/" or "/~" maybe?
+        (insert "/")
+      (vertico-directory-enter)))
+  (bind-key "/" #'my-vertico-smart-slash vertico-directory-map)
 
-;; Better but slower flex matching.
-(use-package flx
+  ;; C-w, C-backspace -- delete the word/path before point
+  (bind-key "C-w" #'vertico-directory-delete-word vertico-directory-map)
+  (bind-key "<C-backspace>" #'vertico-directory-delete-word vertico-directory-map)
+
+  ;; Clean up redundant path segments automatically, like Ivy.
+  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
+
+  (defun my-vertico-sort-files-by-mtime (files)
+    "Sort files by modification time."
+    (let ((dir default-directory))
+      (if (file-remote-p dir)
+          ;; Don't check mtime for remote files (too slow).
+          (sort files #'string<)
+        (let ((mtimes (make-hash-table :test 'equal)))
+          ;; Precompute mtimes to reduce disk accesses.
+          (dolist (file files)
+            (puthash file (file-attribute-modification-time
+                           (file-attributes (expand-file-name file dir)))
+                     mtimes))
+          (sort files (lambda (a b)
+                        (time-less-p (gethash b mtimes)
+                                     (gethash a mtimes))))))))
+
+  (vertico-multiform-mode 1)
+  (setq vertico-multiform-categories
+        ;; Files: sort by mtime, filter via fussy.
+        '((file (styles fussy)
+                (vertico-sort-override-function . my-vertico-sort-files-by-mtime)
+                (:keymap . vertico-directory-map)))))
+
+;; Show extra information next to completions.
+(use-package marginalia
   :ensure t
   :init
-  (with-eval-after-load 'ivy
-    (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))))
+  (marginalia-mode 1))
 
-;; Enable ubiquitous Ivy integration.
-(use-package counsel
+;; Enable ubiquitous Vertico integration.
+(use-package consult
   :ensure t
-  :diminish counsel-mode
   :init
-  (counsel-mode 1)
 
   ;; Go to function/variable/heading.
-  (bind-key "C-x g" #'counsel-imenu))
+  (bind-key "C-x g" #'consult-imenu))
 
-;; Some extra features for M-x.
-;; Interesting command: amx-show-unbound-commands -- show frequently called commands that are unbound.
-(use-package amx
-  :ensure t
-  :bind (("M-x" . amx)
-         ("C-x SPC" . amx)))
-
-;; Add extra information for some commands, e.g. buffer switching.
-(use-package ivy-rich
+;; Embark - actions on minibuffer candidates.
+(use-package embark
   :ensure t
   :init
-  (with-eval-after-load 'counsel
-    (ivy-rich-mode 1)))
+  (with-eval-after-load 'vertico
+    (bind-key "C-o" #'embark-act vertico-map))
+  (setq prefix-help-command #'embark-prefix-help-command))
+
+;; Better integration of Embark with Consult.
+(use-package embark-consult
+  :ensure t) ; We only need to install it. Embark will find it automatically.
+
+;; Vertico's M-x relies on Emacs' native savehist-mode to sort by history and frequency.
+(savehist-mode 1)
+
+;; Insert LaTeX math symbol.
+(defun my-insert-latex-math ()
+  "Insert LaTeX math symbol."
+  (interactive)
+  (require 'latex)
+  (let* ((math-list (append LaTeX-math-list LaTeX-math-default))
+         (candidates (mapcar (lambda (item)
+                               (let ((char (nth 0 item))
+                                     (sym (nth 1 item)))
+                                 (cons (if (listp sym) (nth 1 sym) sym) sym)))
+                             math-list)))
+    (insert "\\" (completing-read "LaTeX math: " candidates nil t))))
+(bind-key "C-c i" #'my-insert-latex-math)
 
 (provide 'conf/minibuffer/completion)

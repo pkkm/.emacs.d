@@ -7,9 +7,7 @@
   (evil-define-key 'motion 'global (kbd "-") 'my-buffer-map))
 
 ;; Switch.
-;; C-k -- kill the highlighted buffer.
-;; C-a -- toggle showing all buffers.
-(bind-key "SPC" #'counsel-switch-buffer my-buffer-map)
+(bind-key "SPC" #'consult-buffer my-buffer-map)
 
 ;; Switch to the most recently used buffer.
 (defun my-switch-to-other-buffer ()

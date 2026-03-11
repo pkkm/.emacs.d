@@ -37,4 +37,7 @@
 ;; When reading a password, don't reveal it with TAB (too easy to press by accident).
 (bind-key "TAB" 'ignore read-passwd-map)
 
+;; Alternative to M-x.
+(bind-key "C-x SPC" #'execute-extended-command)
+
 (provide 'conf/misc)
