@@ -41,7 +41,7 @@
   (defun my-vertico-smart-slash ()
     "A wrapper for `vertico-directory-enter' that doesn't interfere with typing / or ~/."
     (interactive)
-    (if (string-match-p "\\(?:^\\|/\\)~?$" (minibuffer-contents)) ;TODO: string-suffix-p "/" or "/~" maybe?
+    (if (string-match-p "\\(?:^\\|/\\)~?$" (minibuffer-contents))
         (insert "/")
       (vertico-directory-enter)))
   (bind-key "/" #'my-vertico-smart-slash vertico-directory-map)
@@ -80,7 +80,20 @@
 (use-package marginalia
   :ensure t
   :init
-  (marginalia-mode 1))
+  (marginalia-mode 1)
+  :config
+
+  ;; Color directories differently than files.
+  (defun my-marginalia-color-directories (orig-fn metadata annotator cands)
+    (mapcar (lambda (item)
+              (let ((cand (nth 0 item))
+                    (prefix (nth 1 item))
+                    (suffix (nth 2 item)))
+                (if (string-suffix-p "/" cand)
+                    (list (propertize cand 'face 'font-lock-builtin-face) prefix suffix)
+                  item)))
+            (funcall orig-fn metadata annotator cands)))
+  (advice-add 'marginalia--affixate :around #'my-marginalia-color-directories))
 
 ;; Enable ubiquitous Vertico integration.
 (use-package consult
