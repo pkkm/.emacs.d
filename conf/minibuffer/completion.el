@@ -37,11 +37,12 @@
   ;; Ivy-like RET behavior for directories.
   (bind-key "RET" #'vertico-directory-enter vertico-directory-map)
 
-  ;; Ivy-like / behavior for directories (binding / straight to `vertico-directory-enter' would interfere with typing absolute paths and "~/".)
+  ;; Ivy-like "/" behavior for directories.
   (defun my-vertico-smart-slash ()
     "A wrapper for `vertico-directory-enter' that doesn't interfere with typing / or ~/."
     (interactive)
-    (if (string-match-p "\\(?:^\\|/\\)~?$" (minibuffer-contents))
+    (if (or (string-match-p "\\(?:^\\|/\\)~?$" (minibuffer-contents))
+            (zerop vertico--total)) ; For opening files in nonexistent directories.
         (insert "/")
       (vertico-directory-enter)))
   (bind-key "/" #'my-vertico-smart-slash vertico-directory-map)
