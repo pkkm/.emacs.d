@@ -74,6 +74,6 @@
 
       "%2l:%c")) ; Line and column.
 
-  " "))
+  "  "))
 
 (provide 'conf/view/modeline/format)

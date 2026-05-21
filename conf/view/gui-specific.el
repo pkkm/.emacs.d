@@ -21,11 +21,14 @@
 
 
   ;;; Fringe.
-  (set-fringe-mode '(0 . 0)) ; Disable both left and right fringes.
 
-  ;; Same color as the background.
-  ;;(face-spec-reset-face 'fringe)
-  ;;(set-face-attribute 'fringe nil :inherit 'default)
+  (set-fringe-mode '(8 . 0)) ; Disable right fringe.
+
+  ;; Same color as the mode line.
+  (defun my-update-fringe-color (&rest _)
+    (set-face-background 'fringe (face-background 'mode-line-active nil t)))
+  (add-hook 'enable-theme-functions #'my-update-fringe-color)
+  (my-update-fringe-color)
 
 
   ;;; Font.

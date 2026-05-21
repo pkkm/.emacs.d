@@ -29,4 +29,26 @@
   (with-eval-after-load 'evil
     (add-hook 'git-commit-setup-hook 'evil-insert-state)))
 
+(use-package diff-hl
+  :ensure t
+  :init
+
+  (global-diff-hl-mode)
+  (diff-hl-flydiff-mode)
+
+  :config
+
+  (setq diff-hl-update-async (if (> emacs-major-version 30) t 'thread))
+  (setq diff-hl-show-staged-changes nil)
+
+  ;; Refresh on Magit refresh and insert state exit.
+  (with-eval-after-load 'magit
+    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh))
+  (with-eval-after-load 'evil
+    (defun my-diff-hl-enable-updating-on-insert-state-exit ()
+      (if diff-hl-flydiff-mode
+          (add-hook 'evil-insert-state-exit-hook #'diff-hl-flydiff-update)
+        (remove-hook 'evil-insert-state-exit-hook #'diff-hl-flydiff-update)))
+    (add-hook 'diff-hl-flydiff-mode-hook #'my-diff-hl-enable-updating-on-insert-state-exit)))
+
 (provide 'conf/driving-processes/version-control)
