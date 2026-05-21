@@ -6,7 +6,7 @@
   ;; Ensure that we're using an external org version instead of the built-in one. (One of the workarounds from <https://github.com/jwiegley/use-package/issues/319>.)
   (unless (file-expand-wildcards
            (concat (file-name-as-directory package-user-dir) "org-[0-9]*"))
-    (unless packages-refreshed-this-session-p ; Defined in `init.el'.
+    (unless my-packages-refreshed-this-session-p ; Defined in `init.el'.
       (package-refresh-contents))
     (package-install (cadr (assoc 'org package-archive-contents))) ; The lists of packages in `package-archive-contents' seem to be sorted according to which repo should be used for installation first, taking into account versions and archive priorities.
     (my-fix-org-package-paths))
