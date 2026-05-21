@@ -152,6 +152,11 @@
              2
            1))))
 
+  ;; Disable a Flycheck checker that keeps erroring out.
+  (with-eval-after-load 'flycheck
+    (setq-default flycheck-disabled-checkers
+                  (append (default-value 'flycheck-disabled-checkers) '(org-lint))))
+
   ;; Will be needed after Org 9.2:
   ;; ;; Enable Easy Templates (e.g. "<q" -> "#+begin_quote"). Alternative: C-c C-,
   ;; (require 'org-tempo)
