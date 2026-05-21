@@ -98,7 +98,13 @@
                     (prefix (nth 1 item))
                     (suffix (nth 2 item)))
                 (if (string-suffix-p "/" cand)
-                    (list (propertize cand 'face 'font-lock-builtin-face) prefix suffix)
+                    (let ((new-cand (copy-sequence cand))) ; Copy to avoid mutating Emacs's internal completion cache.
+                      (add-face-text-property 0
+                                              (length new-cand)
+                                              'font-lock-builtin-face
+                                              t ; Append below any existing faces to keep fuzzy matches on top.
+                                              new-cand)
+                      (list new-cand prefix suffix))
                   item)))
             (funcall orig-fn metadata annotator cands)))
   (advice-add 'marginalia--affixate :around #'my-marginalia-color-directories))
