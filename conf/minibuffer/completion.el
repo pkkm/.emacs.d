@@ -54,6 +54,13 @@
   ;; Clean up redundant path segments automatically, like Ivy.
   (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
 
+  ;; Prevent match highlights from getting copied into the input area when navigating into a directory.
+  (defun my-vertico-strip-lingering-highlights (&rest _)
+    (when (minibufferp)
+      (remove-list-of-text-properties (minibuffer-prompt-end) (point-max)
+                                      '(face font-lock-face))))
+  (advice-add 'vertico-directory-enter :after #'my-vertico-strip-lingering-highlights)
+
   (defun my-vertico-sort-files-by-mtime (files)
     "Sort files by modification time."
     (let ((dir default-directory))
