@@ -185,6 +185,12 @@ This will happen at most once per session, as `my-packages-refreshed-this-sessio
           (make-obsolete ,obsolete-name ,current-name ,when)))
 
 
+;;; Ensure that the latest `compat' is present before installing other packages.
+;; Emacs byte-compiles packages during installation, baking macro expansions into .elc files. `compat' consists of macros. Therefore, if an outdated version of `compat' is loaded during installation, the package will end up broken - the regular dependency mechanism fails here. This happened to me with `transient' and `marginalia'.
+
+(package-ensure-version 'compat "31.0")
+
+
 ;;; Syntactic sugar.
 
 ;; Easily disable showing certain modes in the modeline.
