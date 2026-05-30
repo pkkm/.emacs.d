@@ -30,3 +30,10 @@
 
    - C-,
    - C-;
+
+* Packages held back
+
+  - org
+  - elpa-mirror
+
+  Everything else should be updated to the latest version periodically.
